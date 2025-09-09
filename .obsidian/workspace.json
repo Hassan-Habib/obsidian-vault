@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Untitled.md",
+                "file": "Bug bounty/Hello from the other side.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "Hello from the other side"
             }
           }
         ]
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.md",
+                "file": "Bug bounty/Hello from the other side.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Untitled"
+              "title": "Outgoing links from Hello from the other side"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.md",
+                "file": "Bug bounty/Hello from the other side.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Untitled"
+              "title": "Outline of Hello from the other side"
             }
           },
           {
@@ -180,9 +180,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ebdc312f7a5a532b",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
-    "Untitled.md",
+    "Bug bounty/Hello from the other side.md",
     "Bug bounty/HuGE TeST.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
