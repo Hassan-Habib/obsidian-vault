@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bug bounty/Welcome.md",
+                "file": "Ripio.com.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Welcome"
+              "title": "Outgoing links from Ripio.com"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bug bounty/Welcome.md",
+                "file": "Ripio.com.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Welcome"
+              "title": "Outline of Ripio.com"
             }
           },
           {
@@ -180,7 +180,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "03e1c87359139e63",
+  "active": "7c12f508d19af712",
   "lastOpenFiles": [
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Ripio.com.md",
