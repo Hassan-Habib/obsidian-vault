@@ -11,10 +11,14 @@
             "id": "ebdc312f7a5a532b",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Bug bounty/Untitled.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Untitled"
             }
           }
         ]
@@ -109,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Bug bounty/Untitled.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Untitled"
             }
           },
           {
@@ -137,12 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Bug bounty/Untitled.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Untitled"
             }
           },
           {
@@ -176,6 +182,7 @@
   },
   "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "Bug bounty/Untitled.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
