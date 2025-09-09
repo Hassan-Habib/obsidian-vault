@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "43a537bdb8c1871d",
+        "id": "e2c1685ee4b73c15",
         "type": "tabs",
         "children": [
           {
-            "id": "03e1c87359139e63",
+            "id": "ebdc312f7a5a532b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "🔍 XXE Exploitation Guide"
+              "title": "New tab"
             }
           }
         ]
@@ -113,12 +109,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from 🔍 XXE Exploitation Guide"
+              "title": "Outgoing links"
             }
           },
           {
@@ -142,13 +137,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 🔍 XXE Exploitation Guide"
+              "title": "Outline"
             }
           },
           {
@@ -182,9 +176,9 @@
   },
   "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
-    "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
