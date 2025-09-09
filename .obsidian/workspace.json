@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/Untitled.md",
+                "file": "Bug bounty/HuGE TeST.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "HuGE TeST"
             }
           }
         ]
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bug bounty/Untitled.md",
+                "file": "Bug bounty/HuGE TeST.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Untitled"
+              "title": "Outgoing links from HuGE TeST"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bug bounty/Untitled.md",
+                "file": "Bug bounty/HuGE TeST.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Untitled"
+              "title": "Outline of HuGE TeST"
             }
           },
           {
@@ -180,9 +180,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "7c12f508d19af712",
   "lastOpenFiles": [
-    "Bug bounty/Untitled.md",
+    "Bug bounty/HuGE TeST.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
