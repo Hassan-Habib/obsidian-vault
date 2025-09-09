@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Ripio.com.md",
+                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Ripio.com"
+              "title": "🔍 XXE Exploitation Guide"
             }
           }
         ]
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Ripio.com.md",
+                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Ripio.com"
+              "title": "Outgoing links from 🔍 XXE Exploitation Guide"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Ripio.com.md",
+                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Ripio.com"
+              "title": "Outline of 🔍 XXE Exploitation Guide"
             }
           },
           {
@@ -180,10 +180,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "7c12f508d19af712",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
-    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Ripio.com.md",
+    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
