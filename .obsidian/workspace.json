@@ -11,14 +11,10 @@
             "id": "ebdc312f7a5a532b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/Hello from the other side.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Hello from the other side"
+              "title": "New tab"
             }
           }
         ]
