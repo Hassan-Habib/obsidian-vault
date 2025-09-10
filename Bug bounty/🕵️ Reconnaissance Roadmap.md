@@ -117,35 +117,45 @@ naabu [options] -host <target>
 ---
 
 ### Reveal hidden elements by using console
-
-```bash
-	function removeHiddenText(node) {
-	  if (node.nodeType === Node.TEXT_NODE) {
-	    node.textContent = node.textContent.replace(/hidden/gi, '');
-	  } else {
-	    node.childNodes.forEach(child => removeHiddenText(child));
-	  }
-	}
-	removeHiddenText(document.body);
-	// Remove display: none; from inline styles
-	document.querySelectorAll('[style*="display: none"]').forEach(element => {
-	  element.style.display = ''; // Reset to default or inherited display
-	});
-
-// Remove display: none; from CSS stylesheets
-Array.from(document.styleSheets).forEach(sheet => {
-  try {
-    Array.from(sheet.cssRules).forEach(rule => {
-      if (rule.style && rule.style.display === 'none') {
-        rule.style.display = ''; // Reset to default or inherited display
-      }
-    });
-  } catch (e) {
-    // Skip cross-origin stylesheets
-  }
-});
 ```
+function unhideElement(el) {
+  if (!(el instanceof HTMLElement)) return;
 
+  // Reset common hiding styles
+  el.style.display = 'block';
+  el.style.visibility = 'visible';
+  el.style.opacity = '1';
+  el.style.height = 'auto';
+  el.style.width = 'auto';
+  el.style.overflow = 'visible';
+  el.style.clipPath = 'none';
+  el.style.position = 'static';
+  el.style.zIndex = '9999';
+
+  // Highlight with red border
+  el.style.border = '2px solid red';
+}
+
+function unhideSequentially(delay = 200) {
+  const elements = Array.from(document.querySelectorAll('*')).filter(el => {
+    if (!(el instanceof HTMLElement)) return false;
+    const style = window.getComputedStyle(el);
+    return (
+      style.display === 'none' ||
+      style.visibility === 'hidden' ||
+      style.opacity === '0'
+    );
+  });
+
+  elements.forEach((el, i) => {
+    setTimeout(() => unhideElement(el), i * delay);
+  });
+}
+
+// Run it
+unhideSequentially(200); // 200ms between each
+
+```
 ---
 
 shodan commands
