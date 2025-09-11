@@ -54,6 +54,41 @@ subfinder -d example.com -recursive -all
 
 🔹 **Amass (Passive & Active Recon) (Still under study)**
 
+🔹 **Favicon Search**
+
+> **What is a favicon?** The image/icon shown on the left-hand side of a tab is called as **favicon.ico**
+
+
+1. View source of the website page
+    
+2. Search for favicon.ico
+    
+3. download it from the link you got from source code
+    
+4. Calculate the hash using python3
+    
+
+5. ```
+    import hashlib
+    
+    def calculate_favicon_hash(file_path):
+        with open(file_path, 'rb') as file:
+            favicon_data = file.read()
+            favicon_hash = hashlib.md5(favicon_data).hexdigest()
+        return favicon_hash
+    
+    favicon_path = '/path/to/favicon.ico'
+    favicon_hash = calculate_favicon_hash(favicon_path)
+    print(favicon_hash)
+    ```
+    
+6. Shodan Search `http.favicon.hash:[Favicon hash here]`
+    
+
+> **Hint**: Generally the favicon hash of any spring boot application is `116323821`**.** So we can use this shodan filter ****`http.favicon.hash:116323821`, You can use different favicon hashes for different services.
+
+
+[](https://sallam.gitbook.io/sec-88/web-appsec/web-app-security#automation)
 🔹 **Check Live Domains**
 
 ```bash
