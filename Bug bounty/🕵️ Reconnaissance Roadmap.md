@@ -12,7 +12,7 @@
 
 🔍 **Google/Baidu/BING Dorking**
 
-[Google Dorking](https://www.notion.so/Google-Dorking-166631d704958097aab1f9bfd4035023?pvs=21)
+[Google Dorking](obsidian://open?vault=obsidian-vault&file=Bug%20bounty%2FGoogle%20Dorking)
 
 🔍 **Intel Techniques**
 
