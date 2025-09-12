@@ -13,7 +13,17 @@
     ```
     {
     "username": "carlos",
-    "password": ["password","password2"]
+    "password": ["Hh123123","Hh123123"]
+    }
+    
+    {
+    "username": "carlos",
+    "password[password]": "Hh123123"
+    }
+    
+    {
+    "username": "carlos",
+    "password": {"password":"Hh123123"}
     }
     ```
     

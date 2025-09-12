@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Italki.md",
+                "file": "Bug bounty/🛡️ Authentication Testing Checklist.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Italki"
+              "title": "🛡️ Authentication Testing Checklist"
             }
           }
         ],
@@ -212,12 +212,12 @@
   },
   "active": "149c67cdb0eacc48",
   "lastOpenFiles": [
+    "Italki.md",
     "Ripio.com.md",
     "Screenshot from 2025-09-11 04-52-40.png",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
-    "Italki.md",
     "home/hassan/Desktop/obsidian-vault/Bug.md",
     "home/hassan/Desktop/obsidian-vault",
     "home/hassan/Desktop",
