@@ -78,14 +78,29 @@
 
 ## **⚙️ Parameter Manipulation & Edge Cases**
 
-### ✅ **Manipulate Login Parameters One by One**
+### ✅ Token refresh
 
-- **Empty string (`""`)** as the value.
-- **Remove the parameter** completely.
-- **Use strings instead of numbers** where applicable.
-- **Duplicate parameters** in the request.
-- **Try different encodings** (URL encoding, Base64, Unicode, etc.).
-- **Test case sensitivity** of credentials.
+
+Refresh Token Endpoint Misconfiguration Leads to ATO
+
+- **vuln Explain**
+    
+    In this case, once a user logged into the application with valid credentials, it created a `Bearer Authentication token` used elsewhere in the application.
+    
+    This auth token expired after some time. Just before expiration, the application sent a request to the back-end server within the endpoint `/*refresh/tokenlogin*` containing the `valid auth token` in the headers and `username parameter` on the HTTP body section.
+    
+    Further testing revealed that deleting `_Authorization header_` on the request and changing the `_username_` parameter on the HTTP body created a new valid token for the supplied `username`. Using this exploit, an attacker with an anonymous profile could generate an authentication token for any user by just supplying their username.
+    
+
+Steps
+
+1. Find Refresh Token Endpoint
+    
+2. Remove Bearer Header
+    
+3. change username
+    
+4. Get the token for any user in response
 
 ### ✅ **Replay Authentication Requests**
 
