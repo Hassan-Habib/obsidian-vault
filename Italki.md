@@ -11,3 +11,4 @@ Hh456456
 https://www.italki.cn/de/prompt/1
 https://xsentry.italki.com/auth/login/italki/
 https://ofs-cdn.italki.cn/sitemap.xml
+https://grafana.italki.com/login
