@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "app.clockify.me.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "app.clockify.me"
             }
           }
         ],
@@ -282,27 +282,27 @@
   },
   "active": "1b3f393d2774ee82",
   "lastOpenFiles": [
-    "IDOR.md",
-    "navan.md",
-    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
-    "Screenshot from 2025-09-11 04-52-40.png",
-    "Access to Deleted Posts via API and Public Endpoints.md",
-    "app.clockify.me.md",
-    "Bug bounty/🛡️ Authentication Testing Checklist.md",
-    "CSRF  (Account deletion via GET).md",
     "Italki.md",
-    "Bug bounty/🛡️ Access Control Pentesting Guide.md",
+    "CSRF  (Account deletion via GET).md",
+    "IDOR.md",
+    "Screenshot from 2025-09-11 04-52-40.png",
     "Ripio.com.md",
+    "navan.md",
+    "app.clockify.me.md",
     "Bug bounty/Google Dorking.md",
+    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
+    "Bug bounty/🛡️ CSRF Tips & Tricks.md",
+    "Bug bounty/🛡️ Authentication Testing Checklist.md",
+    "Bug bounty/🛡️ Access Control Pentesting Guide.md",
+    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
+    "Access to Deleted Posts via API and Public Endpoints.md",
     "home/hassan/Desktop/obsidian-vault/Bug.md",
     "home/hassan/Desktop/obsidian-vault",
     "home/hassan/Desktop",
     "home/hassan",
     "home",
     "Bug bounty/Hello from the other side.md",
-    "Bug bounty/HuGE TeST.md",
-    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
-    "Bug bounty/🛡️ CSRF Tips & Tricks.md"
+    "Bug bounty/HuGE TeST.md"
   ]
 }
