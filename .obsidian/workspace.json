@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "app.clockify.me.md",
+                "file": "Italki.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "app.clockify.me"
+              "title": "Italki"
             }
           }
         ],
@@ -282,13 +282,13 @@
   },
   "active": "1b3f393d2774ee82",
   "lastOpenFiles": [
+    "app.clockify.me.md",
     "Italki.md",
     "CSRF  (Account deletion via GET).md",
     "IDOR.md",
     "Screenshot from 2025-09-11 04-52-40.png",
     "Ripio.com.md",
     "navan.md",
-    "app.clockify.me.md",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
