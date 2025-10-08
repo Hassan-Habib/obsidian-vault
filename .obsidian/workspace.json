@@ -139,12 +139,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Race condition allows reopening closed boards to exceed 10-board limit in Free Trello workspace.md",
+                "file": "Trello.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Race condition allows reopening closed boards to exceed 10-board limit in Free Trello workspace"
+              "title": "Trello"
             }
           }
         ],
@@ -310,17 +310,17 @@
   },
   "active": "d940438e7cf16d34",
   "lastOpenFiles": [
+    "app.clockify.me.md",
+    "Screenshot from 2025-09-11 04-52-40.png",
+    "Trello.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
-    "Race condition allows reopening closed boards to exceed 10-board limit in Free Trello workspace.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "navan.md",
     "Ripio.com.md",
     "STUDY.md",
     "Italki.md",
-    "app.clockify.me.md",
     "CSRF  (Account deletion via GET).md",
     "IDOR.md",
-    "Screenshot from 2025-09-11 04-52-40.png",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
