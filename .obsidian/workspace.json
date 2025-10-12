@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "Bug ReportInviting arbitrary emails exposes full.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "Bug ReportInviting arbitrary emails exposes full"
+            }
+          },
+          {
+            "id": "c4a9b4a2d4f64efb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -181,11 +196,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "915588ad80795656",
+  "active": "c4a9b4a2d4f64efb",
   "lastOpenFiles": [
     "Bug ReportInviting arbitrary emails exposes full.md",
-    "app.clockify.me.md",
+    "Untitled.md",
     "navan.md",
+    "app.clockify.me.md",
     "Trello.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Italki.md",
