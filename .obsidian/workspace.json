@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Trello.md",
+                "file": "navan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Trello"
+              "title": "navan"
             }
           }
         ]
@@ -183,12 +183,12 @@
   },
   "active": "915588ad80795656",
   "lastOpenFiles": [
+    "Trello.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Italki.md",
     "navan.md",
     "app.clockify.me.md",
     "Ripio.com.md",
-    "Trello.md",
     "Screenshot from 2025-09-11 04-52-40.png",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "STUDY.md",
