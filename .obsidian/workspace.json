@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "Untitled"
             }
           }
         ],
@@ -198,9 +198,9 @@
   },
   "active": "c4a9b4a2d4f64efb",
   "lastOpenFiles": [
+    "navan.md",
     "Untitled.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
-    "navan.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "app.clockify.me.md",
     "Trello.md",

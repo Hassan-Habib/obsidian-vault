@@ -1,91 +1,198 @@
+## Executive Summary
 
+A critical security vulnerability has been identified that allows authenticated administrators to access sensitive Personally Identifiable Information (PII) of any user by manipulating the `travellerUuid` parameter during trip creation. This vulnerability exposes comprehensive user data including personal contact information, company details, and system permissions.
 
-**Target:** `staging-prime.navan.com`
+## Vulnerability Details
 
-**Report date:** 2025-10-12
+**Severity:** Critical  
+**CVSS Score:** 8.5 (High)  
+**Impact:** Confidentiality compromise leading to PII exposure
 
-**Reported by:** Hassan Habib (provided PoC)
+### Technical Description
 
----
+The `/api/admin/trips` endpoint improperly authorizes access to user PII when creating trips. By substituting the legitimate user UUID with any victim's UUID in the `travellerUuid` parameter, an attacker can retrieve complete user profile information without proper authorization checks.
 
+### Vulnerable Request
 
+http
 
-## 1 — Executive summary
+POST /api/admin/trips HTTP/2
+Host: staging-prime.navan.com
+Authorization: TripActions <JWT_TOKEN>
+Content-Type: application/json
+{
+  "name": "Kuwait Trip",
+  "startDate": "2025-11-12",
+  "endDate": "2025-11-26",
+  "travellerUuid": "9d201ba2-04d3-4d7f-8d57-5e45dcda952b", // Victim UUID
+  "category": "BUSINESS_ONLY",
+  ...
+}
 
-An unauthenticated or insufficiently authorized feature in the support assistant / chat-analysis functionality allows an attacker to request and download large volumes of customer-support conversation data (bulk “fetch all chats”). The returned data includes personally identifiable information (names, corporate email addresses), ticket numbers, travel/booking details, and references to financial/refund actions. This is a high-impact data-exposure issue with regulatory and reputational risk.
+## Exposed PII Data
 
----
+The vulnerability exposes the following sensitive information:
 
-## 2 — Impact
+### Personal Information
 
-- **Confidentiality:** **High.** Full chat transcripts can expose PII (names, emails), financial dispute details, booking IDs, internal ticket numbers, and internal operational details.
+- **Email addresses**: Primary and alternate emails
     
-- **Integrity:** **Low.** The issue primarily leaks data; there is no evidence that the attacker can modify stored records via the same path.
+- **Phone numbers**: Personal and work contacts
     
-- **Availability:** **None** from the observed behavior.
+- **Full names**: Given name, family name, preferred name
     
-- **Business / Legal:** Potential GDPR/CCPA exposure, regulatory notifications, customer trust damage, and internal process leakage (support procedures, internal ticketing).
-    
-- **Operational:** Staging data appears to contain production-like customer data — this increases the blast radius.
+- **Account details**: Password status, enabled status
     
 
----
+### Company Information
 
-## 3 — Reproduction (safe, high-level)
-
-> **Note:** do not include real transcripts, credentials, or production identifiers in public reports. Steps below are intentionally high-level so they may be shared safely.
-
-1. Access the support assistant UI and choose the **Chat Analysis** feature in the staging environment.
+- **Company UUID and name**
     
-2. Trigger the **export/fetch** action (e.g., “fetch all chats” or equivalent).
+- **Department and title**
     
-3. Observe that the response returns full chat transcripts (including PII, emails, ticket numbers, and transaction/refund details) without requiring privileged authentication / role checks or with insufficient authorization.
+- **Employee ID**
     
-4. (Optional) Repeat for a time range (last 2 days) and note bulk data download of hundreds of chats.
+- **Manager relationships**
+    
+- **Policy levels and permissions**
     
 
-**Observed result:** Bulk chat data returned containing user full names, corporate emails, booking/ticket numbers, and financial dispute messages. No role-based gate or MFA was required to perform the export.
+### System Access Information
 
----
+- **User roles** (ADMIN, etc.)
+    
+- **Administrative privileges**
+    
+- **System permissions**
+    
+- **Agency associations**
+    
 
-## 4 — Proof-of-concept (redacted)
+### Additional Sensitive Data
 
-Below is a **redacted** conversation excerpt safe to include in reports. All personal identifiers, emails, booking IDs, ticket numbers, and URLs have been replaced with `[REDACTED]` or generic placeholders.
+- **Locale and country information**
+    
+- **Onboarding dates**
+    
+- **Marketing preferences**
+    
+- **Travel preferences and policies**
+    
 
-**Redacted Chat Excerpt (safe):**
-```
+## Attack Vectors
 
-navan support: Hi [USER]
-navan support: How can I help you?
-user: Hello — I need help modifying my travel trip.
-navan support: Could you please provide the booking dates?
-user: This is the flight and hotel — [REDACTED] to [REDACTED] — there is an earthquake warning and I’ve been advised not to travel there.
-navan support: Do you know the booking ID?
-user: [REDACTED]
-navan support: Does the booking belong to someone else in your company?
-user: Booked via company — it’s a business trip.
-agent: Hi, [USER]! This is [AGENT] from Navan. I’m here to assist you in changing your flight.
-user: Thank you — Booking ID [REDACTED] — I’m safe.
-agent: After checking, your ticket is refundable with a fee of [REDACTED]. Shall we proceed?
-user: Yes, please cancel.
-agent: Cancellation processed. Approx. refund [REDACTED].
-agent: Hotel policy shows non-refundable; I will request an exception via our third-party team.
-user: Thank you. Please email me the update.
-agent: I will send an update via email. Is there anything else?
-user: No, thanks.
-```
+### 1. UUID Enumeration Methods
 
+Based on the report, UUIDs can be obtained through:
 
+1. **Guest Travel Invitations**
+    
+    - Inviting users to guest travel reveals their UUIDs
+        
+2. **Group Travel Invitations**
+    
+    - Adding users to group travel exposes UUIDs
+        
+3. **Mass Email Enumeration**
+    
+    - Previously reported vulnerability allows bulk email-to-UUID mapping
+        
 
-❯ ping www.google.com
-ping: www.google.com: Temporary failure in name resolution
-# Secure Connection Failed
+### 2. Attack Scenarios
 
-An error occurred during a connection to www.google.com. SSL received a record that exceeded the maximum permissible length.
+- **Internal Threat**: Malicious administrator harvesting user data
+    
+- **Privilege Escalation**: Lower-privileged users accessing admin data
+    
+- **Data Exfiltration**: Systematic collection of organizational user data
+    
 
-Error code: SSL_ERROR_RX_RECORD_TOO_LONG
+## Impact Assessment
 
-- The page you are trying to view cannot be shown because the authenticity of the received data could not be verified.
-- Please contact the website owners to inform them of this problem.
+### Business Impact
 
-[Learn more…](https://support.mozilla.org/1/firefox/143.0.4/Linux/en-US/connection-not-secure)
+- **Privacy Violation**: Exposure of employee PII
+    
+- **Compliance Risks**: Potential GDPR/HIPAA violations
+    
+- **Reputation Damage**: Loss of customer trust
+    
+- **Security Breach**: Unauthorized access to sensitive data
+    
+
+### Technical Impact
+
+- **Information Disclosure**: Complete user profiles accessible
+    
+- **Lateral Movement**: UUIDs can be used for further attacks
+    
+- **Data Mining**: Bulk collection of organizational data
+    
+
+## Proof of Concept
+
+The vulnerability was successfully exploited by:
+
+1. Obtaining a victim UUID through known enumeration methods
+    
+2. Replacing the `travellerUuid` parameter in trip creation request
+    
+3. Receiving complete user PII in the response without authorization checks
+    
+
+## Recommendations
+
+### Immediate Actions
+
+1. **Input Validation**: Implement strict authorization checks for UUID access
+    
+2. **Principle of Least Privilege**: Ensure users can only access data they explicitly need
+    
+3. **Audit Logging**: Monitor all UUID access attempts
+    
+
+### Technical Fixes
+
+javascript
+
+// Pseudocode for proper authorization check
+function createTrip(request) {
+    const userUuid = request.travellerUuid;
+    const requesterUuid = getRequesterUuidFromToken(request.auth);
+    
+    // Validate requester has permission to access target user
+    if (!hasUserAccess(requesterUuid, userUuid)) {
+        throw new AuthorizationError("Access denied to user data");
+    }
+    
+    // Proceed with trip creation
+    return tripService.create(request);
+}
+
+### Long-term Security Measures
+
+1. **API Security Review**: Comprehensive audit of all user data access endpoints
+    
+2. **UUID Obfuscation**: Implement non-sequential UUID generation
+    
+3. **Rate Limiting**: Prevent bulk UUID enumeration
+    
+4. **Regular Security Testing**: Continuous vulnerability assessment
+    
+
+## Evidence
+
+The provided HTTP request and response demonstrate successful exploitation, returning full user PII including:
+
+- Email: `bold-wood-9978@bugcrowdninja-125.com`
+    
+- Phone: `+16465724561`
+    
+- Alternate email: `habibhassad@gmail.com`
+    
+- Complete company and role information
+    
+
+## Conclusion
+
+This vulnerability represents a significant security risk that could lead to mass PII exposure. Immediate remediation is required to prevent unauthorized access to sensitive user information and maintain compliance with data protection regulations.
