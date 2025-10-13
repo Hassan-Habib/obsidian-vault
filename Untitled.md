@@ -74,3 +74,18 @@ user: Thank you. Please email me the update.
 agent: I will send an update via email. Is there anything else?
 user: No, thanks.
 ```
+
+
+
+❯ ping www.google.com
+ping: www.google.com: Temporary failure in name resolution
+# Secure Connection Failed
+
+An error occurred during a connection to www.google.com. SSL received a record that exceeded the maximum permissible length.
+
+Error code: SSL_ERROR_RX_RECORD_TOO_LONG
+
+- The page you are trying to view cannot be shown because the authenticity of the received data could not be verified.
+- Please contact the website owners to inform them of this problem.
+
+[Learn more…](https://support.mozilla.org/1/firefox/143.0.4/Linux/en-US/connection-not-secure)
