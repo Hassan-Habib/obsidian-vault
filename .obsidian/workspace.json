@@ -89,7 +89,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -196,7 +197,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c4a9b4a2d4f64efb",
+  "active": "bc1ac6c881241a45",
   "lastOpenFiles": [
     "Untitled.md",
     "navan.md",
