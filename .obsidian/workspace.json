@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "Bug bounty/🕵️ Reconnaissance Roadmap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "🕵️ Reconnaissance Roadmap"
             }
           }
         ],
@@ -89,8 +89,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -197,10 +196,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "bc1ac6c881241a45",
+  "active": "c4a9b4a2d4f64efb",
   "lastOpenFiles": [
-    "Untitled.md",
     "navan.md",
+    "Untitled.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "app.clockify.me.md",
