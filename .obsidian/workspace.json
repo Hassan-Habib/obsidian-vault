@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Reconnaissance Roadmap.md",
+                "file": "Italki.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Reconnaissance Roadmap"
+              "title": "Italki"
             }
           }
         ],
@@ -199,13 +199,13 @@
   "active": "c4a9b4a2d4f64efb",
   "lastOpenFiles": [
     "navan.md",
+    "Ripio.com.md",
+    "Trello.md",
     "Untitled.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "app.clockify.me.md",
-    "Trello.md",
     "Italki.md",
-    "Ripio.com.md",
     "Screenshot from 2025-09-11 04-52-40.png",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "CSRF  (Account deletion via GET).md",
