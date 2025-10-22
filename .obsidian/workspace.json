@@ -27,16 +27,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "🔍 XXE Exploitation Guide"
+            }
+          },
+          {
+            "id": "47998b796beb04d0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Bug bounty/Graphql.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Graphql"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -196,10 +210,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c4a9b4a2d4f64efb",
+  "active": "47998b796beb04d0",
   "lastOpenFiles": [
-    "Untitled.md",
+    "Bug bounty/🔍 XXE Exploitation Guide.md",
+    "Bug bounty/Graphql.md",
     "navan.md",
+    "Untitled.md",
     "Italki.md",
     "Ripio.com.md",
     "Trello.md",
@@ -214,7 +230,6 @@
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
-    "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Access to Deleted Posts via API and Public Endpoints.md",
     "home/hassan/Desktop/obsidian-vault/Bug.md",
     "home/hassan/Desktop/obsidian-vault",
