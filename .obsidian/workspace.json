@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/Graphql.md",
+                "file": "navan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Graphql"
+              "title": "navan"
             }
           }
         ],
@@ -212,8 +212,8 @@
   },
   "active": "47998b796beb04d0",
   "lastOpenFiles": [
-    "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/Graphql.md",
+    "Bug bounty/🔍 XXE Exploitation Guide.md",
     "navan.md",
     "Untitled.md",
     "Italki.md",
