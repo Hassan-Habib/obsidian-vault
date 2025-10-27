@@ -36,3 +36,5 @@ query {
     pastes{title @aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@aa@}}
 ```
 
+5- in case of disabled introspection, you can use clairvoyance to get the fields and objects, ( you can either use the WL in Seclists or create one using cewl )
+`clairvoyance http://example.com/graphql -w wordlist.txt -o output.json`
