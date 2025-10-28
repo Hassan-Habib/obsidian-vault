@@ -1,4 +1,4 @@
-bold-wood-9978@bugcrowdninja-124.com
+bold-wood-9978@bugcrowdninja-124.com(**==VICTIM==**)
 Hh123123
 0172ca2b-3cf7-4c0e-8cc6-23b05e43c36c
 
@@ -13,6 +13,6 @@ bold-wood-9978@bugcrowdninja-125.com
 Hh147147
 
 
-other organization (**==VICTIM==**)
+other organization
 db8df368-36e4-49be-9a39-be123484b1e3
 habibhassan293@gmail.com
