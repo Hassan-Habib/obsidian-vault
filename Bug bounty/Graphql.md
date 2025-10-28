@@ -37,4 +37,7 @@ query {
 ```
 
 5- in case of disabled introspection, you can use clairvoyance to get the fields and objects, ( you can either use the WL in Seclists or create one using cewl )
+--provide clairvoyance with graphql endpoint--
 `clairvoyance http://example.com/graphql -w wordlist.txt -o output.json`
+provide cewl with the domain and the output 
+`cewl http://192.168.1.112:5013 -w wordlist.txt`
