@@ -198,8 +198,9 @@
   },
   "active": "6077fabab4cc936d",
   "lastOpenFiles": [
-    "Bug bounty/Graphql.md",
+    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "navan.md",
+    "Bug bounty/Graphql.md",
     "مدارس.md",
     "Untitled.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
@@ -214,7 +215,6 @@
     "CSRF  (Account deletion via GET).md",
     "IDOR.md",
     "Bug bounty/Google Dorking.md",
-    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "Access to Deleted Posts via API and Public Endpoints.md",
