@@ -22,3 +22,7 @@ i can check other people conv at
 https://staging-prime.navan.com/api/mlflow/runner/snapshot/8ce7ed08-ce59-4be0-b266-b33782ac57a9
 
 we need to find  a way to get conv runId or a way to start conv on behalf of victim
+
+XSS => 0 click ATO at scheduler
+BAC => scheduler
+Info disclosure => hourly
