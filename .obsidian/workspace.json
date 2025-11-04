@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "مدارس.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "مدارس"
             }
           }
         ]
@@ -183,8 +183,8 @@
   },
   "active": "6077fabab4cc936d",
   "lastOpenFiles": [
-    "Untitled.md",
     "navan.md",
+    "Untitled.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "مدارس.md",
     "Trello.md",
