@@ -29,3 +29,5 @@ Info disclosure => hourly
 
 "sql_query_key":"62ac0404"
 https://staging-prime.navan.com/app/travelops/login
+
+sql queries at https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Fnutty-nati%2Fanalysis%2Fnutty-nati.json
