@@ -23,9 +23,7 @@ https://staging-prime.navan.com/api/mlflow/runner/snapshot/8ce7ed08-ce59-4be0-b2
 
 we need to find  a way to get conv runId or a way to start conv on behalf of victim
 
-XSS => 0 click ATO at scheduler
-BAC => scheduler
-Info disclosure => hourly
+
 
 "sql_query_key":"62ac0404"
 https://staging-prime.navan.com/app/travelops/login
@@ -33,3 +31,9 @@ https://staging-prime.navan.com/app/travelops/login
 sql queries at https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Fnutty-nati%2Fanalysis%2Fnutty-nati.json
 
 test this again: frontapp/assist.json
+
+***Reports***
+chat leaks in **agent-policies-procedures.json**
+XSS in **scheduler.json**
+chat leaks in **chat analyze.json**
+
