@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NAVAN.md",
+                "file": "navan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NAVAN"
+              "title": "navan"
             }
           }
         ]
@@ -183,8 +183,8 @@
   },
   "active": "6077fabab4cc936d",
   "lastOpenFiles": [
-    "navan.md",
     "NAVAN.md",
+    "navan.md",
     "Untitled.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Trello.md",
