@@ -1,38 +1,53 @@
-## Steps to Reproduce
+**Steps to Reproduce:**
 
-### Prerequisites
+1. **Account Creation & Initial Access**
+    
+    - Create a user account on the staging environment
+        
+    - Navigate to: `https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Fandrey-faq%2Fanalysis%2Fandrey-faq.json`
+        
+    - Ensure you're accessing the `andrey-faq` branch and `andrey-faq.json` AI agent
+        
+2. **Initiate Conversation**
+    
+    - Start a conversation with the AI agent
+        
+    - Let the initial interaction complete normally
+        
+3. **Intercept and Modify Request**
+    
+    - Open Burp Suite and configure your browser to route traffic through it
+        
+    - Capture the HTTP request that is sent when the AI agent processes your query
+        
+    - In Burp, find the relevant request containing the chat/data parameters
+        
+    - Locate the body parameter `logs` (currently set to `false`)
+        
+    - Modify the value from `false` to `true`
+        
+    - Forward the modified request
+        
+4. **Observe Information Disclosure**
+    
+    - The initial response will show: `"User requested chat data; {number} results returned"`
+        
+    - Wait approximately 1 minute for the full data processing
+        
+    - Observe that the response now includes other customers' chat conversations with support
+        
+    - Note that sensitive customer data and support interactions are exposed
+        
 
-- Burp Suite or similar proxy tool configured
-- Valid account credentials
-- Access to staging environment
+**Expected Result:**
 
-### Reproduction Steps
+- The `logs` parameter should not enable access to other users' chat data
+    
+- User should only see their own conversation history
+    
 
-1. **Initial Setup**
-    - Create an account on the platform
-    - Navigate to: `https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Filan-tools%2Fanalysis%2Fandrei.json`
+**Actual Result:**
 
-2. **Trigger the Analysis**
-    - When prompted, select **"Redundant Chats"** from the 3 available options
-    - Enter the following parameters when asked:
-        - Date range: `August 1, 2025` to `October 30, 2025`
-        - Number of chats: `500`
-
-3. **Complete Initial Load**
-    - Wait approximately 1 minute for processing
-    - When prompted, type `go` to load the results
-    - Observe the output: "Analyzing 500 chats... then Found 8 redundant chats"
-
-4. **Exploit the Vulnerability**
-    - Enable Burp Suite interception
-    - Click on any current chat to trigger a new request
-    - Capture the request in Burp Suite
-    - Send the captured request to Repeater
-
-5. **Manipulate the Request**
-    - In Burp Repeater, remove **all query parameters** from the URL
-    - Send the modified request
-
-6. **Observe the Result**
-    - Notice that **all 500 support chats** are now loaded and accessible
-    - This bypasses the filter that should only show 8 redundant chats
+- Modifying `logs: false` to `logs: true` exposes other customers' private chat conversations
+    
+- Significant information disclosure vulnerability allowing access to sensitive support interactions
