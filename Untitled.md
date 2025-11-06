@@ -1,3 +1,6 @@
+**Summary**
+Ai Agent leaks random customer chats after initiating a conversation with it
+
 **Steps to Reproduce:**
 
 1. **Account Creation & Initial Access**
@@ -10,21 +13,15 @@
         
 2. **Initiate Conversation**
     
-    - Start a conversation with the AI agent
-        
-    - Let the initial interaction complete normally
+    - Start a conversation with the AI agent ( while intercept is on)
+
+for some reason the POC video aint uploading , so ill upload it in comments 
         
 3. **Intercept and Modify Request**
     
-    - Open Burp Suite and configure your browser to route traffic through it
+    - Open Burp Suite and send the request to repeater
         
-    - Capture the HTTP request that is sent when the AI agent processes your query
-        
-    - In Burp, find the relevant request containing the chat/data parameters
-        
-    - Locate the body parameter `logs` (currently set to `false`)
-        
-    - Modify the value from `false` to `true`
+    - Modify the body param value from `false` to `true`
         
     - Forward the modified request
         
@@ -39,15 +36,9 @@
     - Note that sensitive customer data and support interactions are exposed
         
 
-**Expected Result:**
 
-- The `logs` parameter should not enable access to other users' chat data
     
-- User should only see their own conversation history
-    
+**Notice**
+the site is blocking me through cloudflare for some reason so the POC will be via burp requests
 
-**Actual Result:**
-
-- Modifying `logs: false` to `logs: true` exposes other customers' private chat conversations
-    
-- Significant information disclosure vulnerability allowing access to sensitive support interactions
+**For some reason i cant upload the POC video in the report , so ill upload it in the comments**
