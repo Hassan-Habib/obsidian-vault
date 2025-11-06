@@ -39,3 +39,7 @@ chat leaks in **chat analyze.json**
 chat leaks in **andrei.json**
 chat leaks in **andrey-faq.json**
 chat leaks in **analysis/schedules/ava-conversation-eval.json**  4ofha tany
+
+Findings
+-"projectId":"git://analysis/support-qa.json","branch":"691-fix-template-invoice-and-charges" is leaking bookings uuids etc
+-Idor that leaks other people chat by knowing the uuid
