@@ -1,58 +1,52 @@
-## Steps to Reproduce
+## Reproduction Steps
 
-### Method 1: Via Browser
+### Method 1: Via Browser (Probably won't work as Navan blocked browser access to the AI agent)
+
+**Steps:**
 
 1. **Initial Setup**
-    
-    - Create a user account on `https://staging-prime.navan.com`
-        
-    - Navigate to: `https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2FAVA-489_Try-to-route-non-answered-questions-back-to-main-loop%2Fchat-quality%2Fschedules.json`
-        
-2. **Trigger Conversation**
-    
-    - Start a new conversation in the chat interface
-        
-    - Wait for approximately 1 minute for the conversation to be processed
-        
-3. **Intercept and Modify Request**
-    
-    - Click on the chat again to generate a new request
-        
-    - Intercept the request using browser developer tools or proxy tool
-        
+    - Create an account on Navan staging environment
+    - Navigate to: `https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Fmario-project%2Fchat-quality%2Fschedules.json`
+2. **Initiate Conversation**
+    - Start a new conversation with the AI assistant
+    - Wait approximately 1 minute for the conversation to process
+3. **Intercept API Request**
+    - Click on the conversation again and intercept the request using Burp Suite
+4. **Exploit the Vulnerability**
     - Remove all query parameters from the intercepted request
-        
-4. **Verify Data Leakage**
-    
-    - Forward the modified request
-        
-    - Examine the response to observe leaked chat conversations from other customers
-        
+    - Resend the modified request
+    - Observe the leaked call transcript in the response
 
-### Method 2: Via Burp Suite
+**Expected Result:** Call transcripts should NOT be accessible without proper authorization.
 
-1. **Authentication**
-    
-    - Use the provided raw request file
-        
-    - Insert your valid JWT token into the authorization header
-        
-    - Send the request to the AI agents endpoint
-        
+**Actual Result:** Call transcripts are exposed when query parameters are removed.
+
+---
+
+### Method 2: Via Burp Requests
+
+**Prerequisites:**
+
+- Burp Suite or similar HTTP proxy tool
+- Valid JWT authentication token
+- Access to the provided request files
+
+**Steps:**
+
+1. **Start Conversation**
+    - Open the `start conversation.txt` file in Burp Suite
+    - Add your JWT token to the request headers
+    - Send the request to initiate a conversation
 2. **Extract Run ID**
-    
-    - Observe the unusually large response
-        
-    - Copy the `runId` UUID value from the response
-        
-3. **Query Chat Data**
-    
-    - Use the provided "check response" raw request template
-        
-    - Insert the extracted `runId` into the request query parameters
-        
+    - Copy the `runId` value from the API response
+3. **Retrieve Conversation Data**
+    - Open the `check conversation.txt` file in Burp Suite
+    - Add the `runId` to the URL endpoint
     - Send the request
-        
-4. **Confirm Data Leakage**
-    
-    - Review the response containing leaked chat conversations from multiple customers
+4. **Verify Data Exposure**
+    - Examine the API response
+    - Notice the call transcript is exposed in the response body
+
+**Expected Result:** Call transcripts should require proper authorization and should only be accessible to authorized users.
+
+**Actual Result:** Call transcripts are fully exposed in the API response using only the runId.
