@@ -1,52 +1,9 @@
-## Reproduction Steps
+Hello,
 
-### Method 1: Via Browser (Probably won't work as Navan blocked browser access to the AI agent)
+I can provide the raw HTTP request as an attachment. However, please note that the section became inaccessible after my first vulnerability was triaged, and all vulnerabilities in that area appear to have been patched.
 
-**Steps:**
+The raw request will show the endpoint and parameters I used, but the vulnerability is now fixed so it won't be reproducible. The POC videos I submitted demonstrate that the vulnerability was valid and exploitable at the time of testing.
 
-1. **Initial Setup**
-    - Create an account on Navan staging environment
-    - Navigate to: `https://staging-prime.navan.com/app/assist/?projectId=git%3A%2F%2Fmario-project%2Fchat-quality%2Fschedules.json`
-2. **Initiate Conversation**
-    - Start a new conversation with the AI assistant
-    - Wait approximately 1 minute for the conversation to process
-3. **Intercept API Request**
-    - Click on the conversation again and intercept the request using Burp Suite
-4. **Exploit the Vulnerability**
-    - Remove all query parameters from the intercepted request
-    - Resend the modified request
-    - Observe the leaked call transcript in the response
+I'll attach the raw request for your review.
 
-**Expected Result:** Call transcripts should NOT be accessible without proper authorization.
-
-**Actual Result:** Call transcripts are exposed when query parameters are removed.
-
----
-
-### Method 2: Via Burp Requests
-
-**Prerequisites:**
-
-- Burp Suite or similar HTTP proxy tool
-- Valid JWT authentication token
-- Access to the provided request files
-
-**Steps:**
-
-1. **Start Conversation**
-    - Open the `start conversation.txt` file in Burp Suite
-    - Add your JWT token to the request headers
-    - Send the request to initiate a conversation
-2. **Extract Run ID**
-    - Copy the `runId` value from the API response
-3. **Retrieve Conversation Data**
-    - Open the `check conversation.txt` file in Burp Suite
-    - Add the `runId` to the URL endpoint
-    - Send the request
-4. **Verify Data Exposure**
-    - Examine the API response
-    - Notice the call transcript is exposed in the response body
-
-**Expected Result:** Call transcripts should require proper authorization and should only be accessible to authorized users.
-
-**Actual Result:** Call transcripts are fully exposed in the API response using only the runId.
+Thank you.

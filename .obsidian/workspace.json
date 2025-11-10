@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "navan.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "navan"
+              "title": "Untitled"
             }
           }
         ]
@@ -183,8 +183,8 @@
   },
   "active": "6077fabab4cc936d",
   "lastOpenFiles": [
-    "Untitled.md",
     "navan.md",
+    "Untitled.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "NAVAN.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
