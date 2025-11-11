@@ -222,3 +222,6 @@ sqlmap -r filter.txt --dbs --batch --risk=2 --level=3 --tamper=space2comment,bet
 test for DNS zone transfer via 
 dnsenum domain 
 or dig axfr @{Nameserver} domain
+
+virtual host discovery
+fuf -w SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "HOST:FUZZ.domain" -u domain
