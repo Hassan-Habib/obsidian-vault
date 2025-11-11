@@ -216,3 +216,9 @@ virustotal commands
 [https://www.virustotal.com/vtapi/v2/domain/report?apikey=317db3a5286f8ae6ba724f4a9bbc5ade3a55d2cf581b72aa3f872b3e56f88bb1&domain=i](https://www.virustotal.com/vtapi/v2/domain/report?apikey=317db3a5286f8ae6ba724f4a9bbc5ade3a55d2cf581b72aa3f872b3e56f88bb1&domain=i)
 
 sqlmap -r filter.txt --dbs --batch --risk=2 --level=3 --tamper=space2comment,between,charencode --random-agent --delay=1 --retries=5 --timeout=15 --threads=1 --flush-session --hex
+
+
+
+test for DNS zone transfer via 
+dnsenum domain 
+or dig axfr @{Nameserver} domain
