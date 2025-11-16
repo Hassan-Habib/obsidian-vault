@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Reconnaissance Roadmap.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Reconnaissance Roadmap"
+              "title": "Untitled"
             }
           }
         ]
@@ -183,11 +183,11 @@
   },
   "active": "6077fabab4cc936d",
   "lastOpenFiles": [
+    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Untitled.md",
     "navan.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "NAVAN.md",
-    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Trello.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/Graphql.md",

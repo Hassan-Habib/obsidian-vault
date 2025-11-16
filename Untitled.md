@@ -1,9 +1,55 @@
-Hello,
+# Proof of Concept - Method 2
 
-I can provide the raw HTTP request as an attachment. However, please note that the section became inaccessible after my first vulnerability was triaged, and all vulnerabilities in that area appear to have been patched.
+## Overview
 
-The raw request will show the endpoint and parameters I used, but the vulnerability is now fixed so it won't be reproducible. The POC videos I submitted demonstrate that the vulnerability was valid and exploitable at the time of testing.
+Since the site blocks browser access, use **Method 2** with the provided RAW request files.
 
-I'll attach the raw request for your review.
+---
 
-Thank you.
+## Prerequisites
+
+- Two RAW request files:
+    - `Start-conversation`
+    - `check-conversation`
+- Valid JWT token
+
+---
+
+## Steps to Reproduce
+
+### Step 1: Prepare Request Files
+
+Add your JWT token to **both** request files:
+
+- `Start-conversation`
+- `check-conversation`
+
+### Step 2: Initiate Conversation
+
+Send the request using the `Start-conversation` file.
+
+- This starts a conversation with the AI
+
+### Step 3: Extract Run ID
+
+From the response:
+
+- Copy the `runId` UUID
+
+### Step 4: Retrieve Transcript
+
+1. Paste the `runId` into the URL parameter in the `check-conversation` request file
+2. Send the request
+
+### Step 5: Review Results
+
+- The response will contain the **call transcript**
+- **Tip**: Use AI to parse and format the transcript for better readability
+
+---
+
+## Notes
+
+- Both request files require authentication via JWT
+- The `runId` is essential for linking the conversation check to the initiated session
+- AI processing can help structure the leaked conversation data into a more readable format
