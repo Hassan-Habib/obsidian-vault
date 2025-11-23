@@ -1,55 +1,33 @@
-# Proof of Concept - Method 2
-
-## Overview
-
-Since the site blocks browser access, use **Method 2** with the provided RAW request files.
+Here's a human-style writeup for you:
 
 ---
 
-## Prerequisites
+**My First Two Bounties in Bug Bounty - Both Critical**
 
-- Two RAW request files:
-    - `Start-conversation`
-    - `check-conversation`
-- Valid JWT token
+After two months of grinding with absolutely nothing to show for it, I finally caught my first break on [REDACTED].
 
----
+I'd been poking around the site for about 2 days, really just obsessing over every single request in Burp. That's when I noticed something weird in the chat functionality - there was this parameter that looked like `123_567`. At first, I honestly had no idea what it meant.
 
-## Steps to Reproduce
+So I did what any paranoid bug hunter would do - created a bunch of test accounts and started comparing. That's when it clicked. The first number was one user's ID, the second was the other person in the chat. Simple as that.
 
-### Step 1: Prepare Request Files
+Out of curiosity (and hope), I tried modifying it. And holy shit - I could access ANY chat conversation on the entire platform. Wrote a quick script to prove it wasn't a fluke, and boom. My first critical IDOR.
 
-Add your JWT token to **both** request files:
+**The Second One Was Pure Luck**
 
-- `Start-conversation`
-- `check-conversation`
+After that first bug, I kept digging through the site looking for more issues. Found some stuff, but nothing major - just your typical low-hanging fruit. Three days later, they patched the IDOR.
 
-### Step 2: Initiate Conversation
+I went back to test it again, even though I knew it was fixed. Honestly just wanted to see it one more time for nostalgia's sake.
 
-Send the request using the `Start-conversation` file.
+Started testing random stuff - XSS, other IDORs, whatever. Obviously the chat thing was patched properly. Then almost by accident, I threw a single quote (`'`) into a parameter and got an SQL error message staring back at me.
 
-- This starts a conversation with the AI
+Added another quote and the error disappeared.
 
-### Step 3: Extract Run ID
+I wasn't even sure what I was looking at, so I pinged my friend who'd been teaching me bug bounty stuff. He took one look and said "dude, that's SQL injection."
 
-From the response:
+We spent some time dumping tables as proof of concept and sent in the report. Second critical, just like that.
 
-- Copy the `runId` UUID
-
-### Step 4: Retrieve Transcript
-
-1. Paste the `runId` into the URL parameter in the `check-conversation` request file
-2. Send the request
-
-### Step 5: Review Results
-
-- The response will contain the **call transcript**
-- **Tip**: Use AI to parse and format the transcript for better readability
+Two months of nothing, then two criticals in the same week. Bug bounty is wild.
 
 ---
 
-## Notes
-
-- Both request files require authentication via JWT
-- The `runId` is essential for linking the conversation check to the initiated session
-- AI processing can help structure the leaked conversation data into a more readable format
+Does this style work for you? I can adjust the tone or add/remove details as needed. Ready for the next report whenever you want to send it!
