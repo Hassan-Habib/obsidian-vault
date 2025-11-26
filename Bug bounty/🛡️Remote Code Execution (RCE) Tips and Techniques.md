@@ -1,6 +1,6 @@
 **1. General Tips for RCE Exploitation**
 
-- **Characters for Command Injection** : Use characters like `;`, `|`, `&`, `&&`, `||`, `\\n` (newline), and others to chain or separate commands.
+- **Characters for Command Injection** : Use characters like `;`, `|`, `&`, `&&`, `||`, `\n`,$() (newline), and others to chain or separate commands.
     - Example: `; whoami`
     - Example: `&& whoami`
     - Example: `| whoami`
