@@ -50,6 +50,18 @@
             }
           },
           {
+            "id": "434e0bf4b192909f",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "diagram.png"
+              },
+              "icon": "lucide-image",
+              "title": "diagram"
+            }
+          },
+          {
             "id": "38c188a02fb50592",
             "type": "leaf",
             "state": {
