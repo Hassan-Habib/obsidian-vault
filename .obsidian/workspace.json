@@ -50,31 +50,21 @@
             }
           },
           {
-            "id": "434e0bf4b192909f",
+            "id": "bbccacf27de90ab8",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "diagram.png"
+                "file": "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "diagram"
-            }
-          },
-          {
-            "id": "38c188a02fb50592",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "diagram.png"
-              },
-              "icon": "lucide-image",
-              "title": "diagram"
+              "icon": "lucide-file",
+              "title": "📂 PATH TRAVERSAL TIPS & TRICKS  (1"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -234,11 +224,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8175d9ee5be1502f",
+  "active": "bbccacf27de90ab8",
   "lastOpenFiles": [
-    "Bug bounty/File Uploads.md",
-    "Bug bounty/Template injection.md",
     "diagram.png",
+    "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
+    "Bug bounty/🛡️ Cross Site Scripting.md",
+    "Bug bounty/🛡️ Authentication Testing Checklist.md",
+    "Bug bounty/Template injection.md",
+    "Bug bounty/File Uploads.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
@@ -249,7 +242,6 @@
     "Untitled.md",
     "navan.md",
     "NAVAN.md",
-    "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Trello.md",
     "Bug bounty/Graphql.md",
     "Italki.md",
@@ -262,11 +254,9 @@
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "Access to Deleted Posts via API and Public Endpoints.md",
-    "home/hassan/Desktop/obsidian-vault/Bug.md",
     "home/hassan/Desktop/obsidian-vault",
     "home/hassan/Desktop",
     "home/hassan",
-    "home",
-    "Bug bounty/Hello from the other side.md"
+    "home"
   ]
 }
