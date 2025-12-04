@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/File Uploads.md",
+                "file": "Bug bounty/Template injection.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "File Uploads"
+              "title": "Template injection"
             }
           },
           {
@@ -236,11 +236,11 @@
   },
   "active": "8175d9ee5be1502f",
   "lastOpenFiles": [
+    "Bug bounty/File Uploads.md",
     "Bug bounty/Template injection.md",
     "diagram.png",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/sqlmap.md",
-    "Bug bounty/File Uploads.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
