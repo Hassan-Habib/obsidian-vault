@@ -76,9 +76,23 @@
               "icon": "lucide-file",
               "title": "🛡️Remote Code Execution (RCE) Tips and Techniques"
             }
+          },
+          {
+            "id": "65fc6ac9ec53fa8b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "RFI.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "RFI"
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -238,8 +252,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b75ce89c05b8f678",
+  "active": "65fc6ac9ec53fa8b",
   "lastOpenFiles": [
+    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
+    "RFI.md",
     "navan.md",
     "diagram.png",
     "Bug bounty/Template injection.md",
@@ -249,7 +265,6 @@
     "Bug bounty/🛡️ Cross Site Scripting.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Bug bounty/File Uploads.md",
-    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/SQLI.md",
