@@ -55,16 +55,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
+                "file": "Bug bounty/Template injection.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "📂 PATH TRAVERSAL TIPS & TRICKS  (1"
+              "title": "Template injection"
+            }
+          },
+          {
+            "id": "b75ce89c05b8f678",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "🛡️Remote Code Execution (RCE) Tips and Techniques"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -224,13 +238,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "bbccacf27de90ab8",
+  "active": "b75ce89c05b8f678",
   "lastOpenFiles": [
+    "navan.md",
     "diagram.png",
+    "Bug bounty/Template injection.md",
     "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
+    "Ripio.com.md",
+    "NAVAN.md",
     "Bug bounty/🛡️ Cross Site Scripting.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
-    "Bug bounty/Template injection.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/sqlmap.md",
@@ -240,12 +257,9 @@
     "Untitled",
     "Bug bounty/Google Dorking.md",
     "Untitled.md",
-    "navan.md",
-    "NAVAN.md",
     "Trello.md",
     "Bug bounty/Graphql.md",
     "Italki.md",
-    "Ripio.com.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "app.clockify.me.md",
     "Screenshot from 2025-09-11 04-52-40.png",
