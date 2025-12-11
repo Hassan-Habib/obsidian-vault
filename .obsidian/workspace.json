@@ -97,12 +97,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/sqlmap.md",
+                "file": "Bug bounty/Graphql.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sqlmap"
+              "title": "Graphql"
             }
           }
         ],
@@ -268,8 +268,10 @@
   },
   "active": "3502c9f9f01dff46",
   "lastOpenFiles": [
-    "Bug bounty/SQLI.md",
+    "navan.md",
+    "RFI.md",
     "Bug bounty/sqlmap.md",
+    "Bug bounty/SQLI.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/File Uploads.md",
@@ -285,8 +287,6 @@
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/Template injection.md",
-    "RFI.md",
-    "navan.md",
     "diagram.png",
     "Ripio.com.md",
     "NAVAN.md",
