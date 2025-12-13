@@ -14,7 +14,7 @@ SITE INFO
 -site is running on WordPress version5.8
 -installed theme is transport gravity
 -server apache 2.4.41
--Plugins: contact-form-7/ mail masta
+-Plugins: contact-form-7=>/ mail masta=>1.0.0/ wp sitemap page=>1.6.4/wpDiscuz=>7.0.4
 
 
 SUS: 
