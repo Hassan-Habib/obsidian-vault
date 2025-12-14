@@ -8,7 +8,7 @@ SCOPE
 
 
 
-
+**blog.inlanefreight.local**
 
 SITE INFO
 -site is running on WordPress version5.8
@@ -57,4 +57,6 @@ SUS:
 - 
 
 -
+
+**app.inlanefreight.local**
 

@@ -184,6 +184,7 @@
   "active": "eb8c876fd9086bc7",
   "lastOpenFiles": [
     "TEST.md",
+    "Bug bounty/sqlmap.md",
     "HTB.md",
     "Trello.md",
     "navan.md",
@@ -193,7 +194,6 @@
     "Bug bounty/🌐 File Inclusion Vulnerabilities LFI & RCE Quick Reference.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/File Uploads.md",
-    "Bug bounty/sqlmap.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/Graphql.md",
