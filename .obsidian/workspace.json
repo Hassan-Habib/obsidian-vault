@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB.md",
+                "file": "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HTB"
+              "title": "🛡️Remote Code Execution (RCE) Tips and Techniques"
             }
           }
         ]
@@ -183,9 +183,9 @@
   },
   "active": "eb8c876fd9086bc7",
   "lastOpenFiles": [
+    "HTB.md",
     "TEST.md",
     "Bug bounty/sqlmap.md",
-    "HTB.md",
     "Trello.md",
     "navan.md",
     "NAVAN.md",
