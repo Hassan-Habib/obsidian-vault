@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
+                "file": "HTB.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️Remote Code Execution (RCE) Tips and Techniques"
+              "title": "HTB"
             }
           }
         ]
@@ -183,6 +183,8 @@
   },
   "active": "eb8c876fd9086bc7",
   "lastOpenFiles": [
+    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
+    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "HTB.md",
     "TEST.md",
     "Bug bounty/sqlmap.md",
@@ -192,7 +194,6 @@
     "Bug bounty/diagram.png",
     "Bug bounty/💻 Local File Inclusion (LFI) Payloads.md",
     "Bug bounty/🌐 File Inclusion Vulnerabilities LFI & RCE Quick Reference.md",
-    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/SQLI.md",
@@ -203,7 +204,6 @@
     "Bug bounty/🛡️ Cross Site Scripting.md",
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
-    "Bug bounty/🛡️Remote Code Execution (RCE) Tips and Techniques.md",
     "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
