@@ -48,9 +48,21 @@
               "icon": "lucide-file",
               "title": "🛡️ Authentication Testing Checklist"
             }
+          },
+          {
+            "id": "078005c71c9dcfdb",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Bug bounty/diagram.png"
+              },
+              "icon": "lucide-image",
+              "title": "diagram"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -210,8 +222,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "856d9cd30dc7179c",
+  "active": "078005c71c9dcfdb",
   "lastOpenFiles": [
+    "Bug bounty/JWT,OAUTH,SSO.md",
+    "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Bug bounty/NOSQLI.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/sqlmap.md",
@@ -238,9 +252,7 @@
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Ripio.com.md",
-    "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Untitled",
-    "Italki.md",
     "Screenshot from 2025-09-11 04-52-40.png",
     "home/hassan/Desktop/obsidian-vault",
     "home/hassan/Desktop",
