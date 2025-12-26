@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/NOSQLI.md",
+                "file": "Bug bounty/🛡️ Authentication Testing Checklist.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NOSQLI"
+              "title": "🛡️ Authentication Testing Checklist"
             }
           }
         ],
@@ -210,10 +210,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "856d9cd30dc7179c",
   "lastOpenFiles": [
-    "Bug bounty/Template injection.md",
     "Bug bounty/NOSQLI.md",
+    "Bug bounty/Template injection.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/Google Dorking.md",
