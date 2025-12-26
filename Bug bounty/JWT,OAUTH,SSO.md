@@ -64,7 +64,7 @@
     python3 jwt_forgery.py 'JWT_1' 'JWT_2' 'JWT_3'
     ```
     
-- **Sign:** Take the resulting `.pem` and use **CyberChef (JWT Sign)** to sign your forged payload.
+- **Sign:** Take the resulting `*509.pem` and use **CyberChef (JWT Sign)** to sign your forged payload.
     
 
 ---
