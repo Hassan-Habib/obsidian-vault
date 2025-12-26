@@ -53,12 +53,14 @@
             "id": "078005c71c9dcfdb",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Bug bounty/diagram.png"
+                "file": "Bug bounty/JWT,OAUTH,SSO.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "diagram"
+              "icon": "lucide-file",
+              "title": "JWT,OAUTH,SSO"
             }
           }
         ],
@@ -224,6 +226,7 @@
   },
   "active": "078005c71c9dcfdb",
   "lastOpenFiles": [
+    "Bug bounty/diagram.png",
     "Bug bounty/JWT,OAUTH,SSO.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Bug bounty/NOSQLI.md",
@@ -231,7 +234,6 @@
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/Google Dorking.md",
-    "Bug bounty/diagram.png",
     "Bug bounty/🟢 XPath Injection.md",
     "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
@@ -251,7 +253,6 @@
     "Bug bounty/🛡️ Access Control Pentesting Guide.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
-    "Ripio.com.md",
     "Untitled",
     "Screenshot from 2025-09-11 04-52-40.png",
     "home/hassan/Desktop/obsidian-vault",

