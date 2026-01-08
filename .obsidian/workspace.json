@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Reconnaissance Roadmap.md",
+                "file": "Bug bounty/🛡️ Authentication Testing Checklist.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Reconnaissance Roadmap"
+              "title": "🛡️ Authentication Testing Checklist"
             }
           }
         ],
@@ -226,6 +226,7 @@
   },
   "active": "078005c71c9dcfdb",
   "lastOpenFiles": [
+    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
@@ -243,7 +244,6 @@
     "Bug bounty/SQLI.md",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/🟢 XPath Injection.md",
-    "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "HTB.md",
     "Trello.md",
     "navan.md",
