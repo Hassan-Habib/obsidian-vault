@@ -21,11 +21,11 @@ Exploits discrepancies between Frontend (FE) and Backend (BE) boundary detection
 
 ### **Core HRS Types**
 
-|**Type**|**FE Logic**|**BE Logic**|**Exploit**|
-|---|---|---|---|
-|**CL.TE**|`Content-Length`|`Transfer-Encoding`|BE stops at `0` chunk; rest is smuggled.|
-|**TE.CL**|`Transfer-Encoding`|`Content-Length`|BE reads X bytes; rest is smuggled.|
-|**TE.TE**|`Transfer-Encoding`|`Transfer-Encoding`|Obfuscate TE header so one server ignores it.|
+| **Type**  | **FE Logic**        | **BE Logic**        | **Exploit**                                   |
+| --------- | ------------------- | ------------------- | --------------------------------------------- |
+| **CL.TE** | `Content-Length`    | `Transfer-Encoding` | Server stops at `0` chunk; rest is smuggled.  |
+| **TE.CL** | `Transfer-Encoding` | `Content-Length`    | Server reads X bytes; rest is smuggled.       |
+| **TE.TE** | `Transfer-Encoding` | `Transfer-Encoding` | Obfuscate TE header so one server ignores it. |
 
 ### **TE.TE Obfuscation Bypasses**
 
