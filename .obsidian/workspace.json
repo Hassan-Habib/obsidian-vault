@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/sqlmap.md",
+                "file": "Bug bounty/🔍 XXE Exploitation Guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sqlmap"
+              "title": "🔍 XXE Exploitation Guide"
             }
           }
         ],
@@ -240,8 +240,8 @@
   },
   "active": "1c90073a42c4d897",
   "lastOpenFiles": [
-    "Bug bounty/SQLI.md",
     "Bug bounty/sqlmap.md",
+    "Bug bounty/SQLI.md",
     "Bug bounty/🛡️  CRLF & Smuggling Cheat Sheet.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
