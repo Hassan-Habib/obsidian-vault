@@ -97,12 +97,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SSRF.md",
+                "file": "sophos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SSRF"
+              "title": "sophos"
             }
           }
         ],
@@ -268,8 +268,8 @@
   },
   "active": "060cd61a6516b615",
   "lastOpenFiles": [
-    "Bug bounty/💻 LFI.md",
     "SSRF.md",
+    "Bug bounty/💻 LFI.md",
     "Bug bounty/📂 PATH.md",
     "Bug bounty/🔍 XXE.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
@@ -292,7 +292,7 @@
     "White pentest.md",
     "HTB.md",
     "Italki.md",
-    "TEST.md",
+    "sophos.md",
     "Trello.md",
     "navan.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
