@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "White pentest.md",
+                "file": "Bug bounty/JWT,OAUTH,SSO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "White pentest"
+              "title": "JWT,OAUTH,SSO"
             }
           }
         ],
@@ -124,7 +124,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "127.1",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -145,7 +145,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -252,10 +253,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e5f10f0f5476926f",
+  "active": "bc1ac6c881241a45",
   "lastOpenFiles": [
-    "HTB.md",
+    "Bug bounty/Template injection.md",
+    "Bug bounty/🟢 XPath Injection.md",
     "White pentest.md",
+    "HTB.md",
     "Bug bounty/🔍 XXE Exploitation Guide.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
@@ -264,7 +267,6 @@
     "Bug bounty/🛡️ Authentication Testing Checklist.md",
     "Bug bounty/🕵️ Reconnaissance Roadmap.md",
     "Bug bounty/📂 PATH TRAVERSAL TIPS & TRICKS  (1.md",
-    "Bug bounty/Template injection.md",
     "Bug bounty/NOSQLI.md",
     "Bug bounty/JWT,OAUTH,SSO.md",
     "Bug bounty/File Uploads.md",
@@ -274,7 +276,6 @@
     "TEST.md",
     "Bug bounty/diagram.png",
     "Bug bounty/Google Dorking.md",
-    "Bug bounty/🟢 XPath Injection.md",
     "Trello.md",
     "navan.md",
     "NAVAN.md",
