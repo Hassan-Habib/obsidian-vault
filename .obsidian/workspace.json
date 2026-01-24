@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/File Uploads.md",
+                "file": "Italki.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "File Uploads"
+              "title": "Italki"
             }
           }
         ],
@@ -282,6 +282,7 @@
   },
   "active": "df0fd01e3739d4c5",
   "lastOpenFiles": [
+    "Bug bounty/File Uploads.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/🛡️  CRLF.md",
     "KOMOJU.md",
@@ -305,7 +306,6 @@
     "Bug bounty/JWT,OAUTH,SSO.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/Google Dorking.md",
-    "Bug bounty/File Uploads.md",
     "Bug bounty/diagram.png",
     "White pentest.md",
     "HTB.md",
