@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Recon Roadmap.md",
+                "file": "Bug bounty/File Uploads.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Recon Roadmap"
+              "title": "File Uploads"
             }
           }
         ],
@@ -282,6 +282,7 @@
   },
   "active": "df0fd01e3739d4c5",
   "lastOpenFiles": [
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/🛡️  CRLF.md",
     "KOMOJU.md",
     "Bug bounty/📂 PATH.md",
@@ -293,7 +294,6 @@
     "Bug bounty/🛡️ XSS.md",
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/🛡️ Authentication.md",
-    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/🔍 XXE.md",
     "navan.md",
     "NAVAN.md",
