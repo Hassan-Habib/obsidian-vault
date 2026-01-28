@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Recon Roadmap.md",
+                "file": "Bug bounty/Template injection.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Recon Roadmap"
+              "title": "Template injection"
             }
           }
         ],
@@ -282,15 +282,15 @@
   },
   "active": "df0fd01e3739d4c5",
   "lastOpenFiles": [
+    "Bug bounty/SSRF.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/Template injection.md",
     "Italki.md",
     "Bug bounty/File Uploads.md",
-    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/🛡️  CRLF.md",
     "KOMOJU.md",
     "Bug bounty/📂 PATH.md",
     "Bug bounty/💻 LFI.md",
-    "Bug bounty/SSRF.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️ XSS.md",
