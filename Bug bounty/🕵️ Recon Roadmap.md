@@ -224,4 +224,4 @@ dnsenum domain
 or dig axfr @{Nameserver} domain
 
 virtual host discovery
-fuf -w SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "HOST:FUZZ.domain" -u domain
+ffuf -w SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "HOST:FUZZ.domain" -u domain
