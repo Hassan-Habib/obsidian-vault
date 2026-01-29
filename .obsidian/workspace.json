@@ -139,16 +139,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/📂 PATH Traversal.md",
+                "file": "BBP/Ripio.com.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "📂 PATH Traversal"
+              "title": "Ripio.com"
+            }
+          },
+          {
+            "id": "ca9486c1a5ae2ed1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "BBP/brex.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "brex"
             }
           }
         ],
-        "currentTab": 9
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -308,19 +322,24 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "14a5dc7134d8192b",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "BBP/Ripio.com.md",
+    "BBP/brex.md",
+    "RFI.md",
+    "NAVAN.md",
+    "Bug bounty/📂 PATH Traversal.md",
+    "BBP",
     "Bug bounty/🕵️ Recon Roadmap.md",
-    "sandbox gouv.md",
-    "sophos.md",
+    "BBP/sandbox gouv.md",
+    "BBP/sophos.md",
     "Untitled.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/SSRF.md",
-    "Italki.md",
+    "BBP/Italki.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/🛡️  CRLF.md",
-    "KOMOJU.md",
-    "Bug bounty/📂 PATH Traversal.md",
+    "BBP/KOMOJU.md",
     "Bug bounty/💻 LFI.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/XPATH, LDAP,  PDF generation.md",
@@ -328,17 +347,12 @@
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🔍 XXE.md",
-    "navan.md",
-    "NAVAN.md",
+    "BBP/navan.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
-    "Bug bounty/NOSQLI.md",
-    "Bug bounty/JWT,OAUTH,SSO.md",
-    "Bug bounty/Graphql.md",
     "Bug bounty/diagram.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
-    "Untitled",
     "Screenshot from 2025-09-11 04-52-40.png",
     "home/hassan/Desktop/obsidian-vault",
     "home/hassan/Desktop",
