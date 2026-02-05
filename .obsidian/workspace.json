@@ -181,12 +181,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BBP/deskpro.md",
+                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "deskpro"
+              "title": "🛡️RCE Tips and Techniques"
             }
           }
         ],
@@ -350,10 +350,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "7a5d37af05400ea0",
   "lastOpenFiles": [
-    "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/deskpro.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "Untitled.base",
     "Untitled 1.md",
     "BBP/RDC-DGP.md",
