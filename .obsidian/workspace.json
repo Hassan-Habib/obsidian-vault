@@ -195,12 +195,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BBP/Upstart.md",
+                "file": "Bug bounty/🛡️ Authentication.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Upstart"
+              "title": "🛡️ Authentication"
             }
           }
         ],
@@ -364,15 +364,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "b9a1815ace63f78d",
   "lastOpenFiles": [
-    "Bug bounty/🕵️ Recon Roadmap.md",
-    "BBP/Upstart.md",
-    "Bug bounty/sqlmap.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/Template injection.md",
-    "Bug bounty/🔍 XXE.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/Graphql.md",
+    "BBP/Upstart.md",
+    "Bug bounty/sqlmap.md",
+    "Bug bounty/🔍 XXE.md",
     "Bug bounty/Google Dorking.md",
     "BBP/deskpro.md",
     "Untitled.base",

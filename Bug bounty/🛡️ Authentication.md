@@ -71,6 +71,7 @@
 ### ✅ **Bypass “Email Already Exists”**
 
 - Create same email but captial letter
+- %00
 - Edd %20 to bypass email already exist
 - SSO logins via okta or auth0
 
