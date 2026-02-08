@@ -236,7 +236,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "Host",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -257,7 +257,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -364,35 +365,35 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b9a1815ace63f78d",
+  "active": "bc1ac6c881241a45",
   "lastOpenFiles": [
+    "Bug bounty/Graphql.md",
+    "Bug bounty/Google Dorking.md",
+    "Bug bounty/File Uploads.md",
+    "Bug bounty/SQLI.md",
+    "Bug bounty/🛡️ XSS.md",
+    "Bug bounty/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/🛡️ CSRF Tips & Tricks.md",
+    "Bug bounty/🔍 XXE.md",
+    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
-    "Bug bounty/Graphql.md",
     "BBP/Upstart.md",
     "Bug bounty/sqlmap.md",
-    "Bug bounty/🔍 XXE.md",
-    "Bug bounty/Google Dorking.md",
     "BBP/deskpro.md",
     "Untitled.base",
     "Untitled 1.md",
     "BBP/RDC-DGP.md",
     "BBP/sophos.md",
     "BBP/sandbox gouv.md",
-    "Bug bounty/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/SSRF.md",
     "Bug bounty/NOSQLI.md",
     "Bug bounty/JWT,OAUTH,SSO.md",
-    "Bug bounty/File Uploads.md",
-    "Bug bounty/🛡️ XSS.md",
-    "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/💻 LFI.md",
-    "Bug bounty/🛡️ Authentication.md",
     "BBP/brex.md",
     "BBP/Ripio.com.md",
-    "RFI.md",
     "BBP",
     "Bug bounty/diagram.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
