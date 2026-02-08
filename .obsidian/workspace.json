@@ -195,12 +195,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
+                "file": "Bug bounty/SQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ Authentication"
+              "title": "SQLI"
             }
           }
         ],
@@ -236,7 +236,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "Host",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -257,8 +257,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -365,22 +364,22 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "bc1ac6c881241a45",
+  "active": "b9a1815ace63f78d",
   "lastOpenFiles": [
+    "Bug bounty/sqlmap.md",
+    "Bug bounty/SQLI.md",
+    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/File Uploads.md",
-    "Bug bounty/SQLI.md",
     "Bug bounty/🛡️ XSS.md",
     "Bug bounty/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🔍 XXE.md",
-    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/Upstart.md",
-    "Bug bounty/sqlmap.md",
     "BBP/deskpro.md",
     "Untitled.base",
     "Untitled 1.md",
