@@ -26,16 +26,16 @@ Remote Code Execution vulnerabilities allow attackers to execute arbitrary comma
 
 ### Injection Operators Reference
 
-|Operator|Character|URL-Encoded|Behavior|
-|---|---|---|---|
-|Semicolon|`;`|`%3b`|Both commands execute|
-|New Line|`\n`|`%0a`|Both commands execute|
-|Background|`&`|`%26`|Both execute (second output first)|
-|Pipe|`|`|`%7c`|
-|AND|`&&`|`%26%26`|Both (only if first succeeds)|
-|OR|`||`|
-|Sub-Shell|`` ` ` ``|`%60%60`|Both (Linux only)|
-|Sub-Shell|`$()`|`%24%28%29`|Both (Linux only)|
+| Operator   | Character | URL-Encoded | Behavior                           |
+| ---------- | --------- | ----------- | ---------------------------------- |
+| Semicolon  | `;`       | `%3b`       | Both commands execute              |
+| New Line   | `\n`      | `%0a`       | Both commands execute              |
+| Background | `&`       | `%26`       | Both execute (second output first) |
+| Pipe       | `         | `           | `%7c`                              |
+| AND        | `&&`      | `%26%26`    | Both (only if first succeeds)      |
+| OR         | `         |             | `                                  |
+| Sub-Shell  | `` ` ` `` | `%60%60`    | Both (Linux only)                  |
+| Sub-Shell  | `$()`     | `%24%28%29` | Both (Linux only)                  |
 
 ---
 
