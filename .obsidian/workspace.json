@@ -195,12 +195,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/SQLI.md",
+                "file": "Bug bounty/sqlmap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQLI"
+              "title": "sqlmap"
             }
           }
         ],
@@ -366,8 +366,8 @@
   },
   "active": "b9a1815ace63f78d",
   "lastOpenFiles": [
-    "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
+    "Bug bounty/sqlmap.md",
     "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/Google Dorking.md",
