@@ -195,12 +195,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
+                "file": "Untitled 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️RCE Tips and Techniques"
+              "title": "Untitled 1"
             }
           }
         ],
@@ -366,8 +366,9 @@
   },
   "active": "b9a1815ace63f78d",
   "lastOpenFiles": [
-    "Bug bounty/Template injection.md",
+    "Untitled.base",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/Template injection.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/🛡️ Authentication.md",
@@ -381,7 +382,6 @@
     "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/Upstart.md",
     "BBP/deskpro.md",
-    "Untitled.base",
     "Untitled 1.md",
     "BBP/RDC-DGP.md",
     "BBP/sophos.md",
@@ -392,7 +392,6 @@
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/💻 LFI.md",
     "BBP/brex.md",
-    "BBP/Ripio.com.md",
     "BBP",
     "Bug bounty/diagram.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
