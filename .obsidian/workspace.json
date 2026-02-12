@@ -209,12 +209,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🕵️ Recon Roadmap.md",
+                "file": "BBP/sophos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🕵️ Recon Roadmap"
+              "title": "sophos"
             }
           }
         ],
@@ -380,6 +380,7 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/sophos.md",
     "BBP/Upstart.md",
     "Untitled 2.md",
@@ -397,7 +398,6 @@
     "Bug bounty/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🔍 XXE.md",
-    "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/deskpro.md",
     "BBP/RDC-DGP.md",
     "BBP/sandbox gouv.md",
