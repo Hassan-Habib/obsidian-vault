@@ -5,3 +5,6 @@ Hh456456
 
 fragrant-butterfly-1934@bugcrowdninja.com
 Hh123123
+
+VALIDATION_REQUEST
+VERIFICATION_REQUEST
