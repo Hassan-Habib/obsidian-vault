@@ -380,8 +380,9 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
-    "Bug bounty/🕵️ Recon Roadmap.md",
+    "Bug bounty/🛡️ Authentication.md",
     "BBP/sophos.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/Upstart.md",
     "Untitled 2.md",
     "Untitled 1.md",
@@ -390,7 +391,6 @@
     "Bug bounty/Template injection.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/SQLI.md",
-    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/Google Dorking.md",
     "Bug bounty/File Uploads.md",
