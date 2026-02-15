@@ -209,12 +209,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/📂 PATH Traversal.md",
+                "file": "BBP/sophos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "📂 PATH Traversal"
+              "title": "sophos"
             }
           }
         ],
@@ -380,6 +380,7 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
+    "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/SSRF.md",
     "BBP/sophos.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
@@ -390,7 +391,6 @@
     "Bug bounty/File Uploads.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/JWT,OAUTH,SSO.md",
-    "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/🛡️ XSS.md",
     "Bug bounty/diagram.png",
     "Bug bounty/NOSQLI.md",
