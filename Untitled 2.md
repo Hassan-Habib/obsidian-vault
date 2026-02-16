@@ -1,34 +1,59 @@
-## **Vulnerability Report: Race Condition Bypasses API Credential Limit (10)**
+## **Vulnerability Report: Broken Access Control on Verified Domains Management**
 
 ### **Summary**
 
-A Race Condition in the `service-credentials` endpoint allows a Tenant to bypass the documented limit of 10 API credentials. By utilizing a "Single Packet Attack" (Parallelized POST requests), a user can exceed the administrative limit and create an arbitrary number of Service Principals (30+ verified).
+A **Broken Access Control (BAC)** vulnerability exists in the Sophos Central Admin dashboard. Users assigned the **Help Desk Admin** role—which is intended for low-level troubleshooting—are able to access, view, and potentially modify the **Verify Domains** configuration. According to Sophos's security policy and official documentation, this functionality must be restricted exclusively to **Super Admins**.
 
-### **Technical Details**
+### **Vulnerability Details**
 
-- **Vulnerability Type:** Race Condition / Business Logic Bypass
+- **Vulnerability Type:** CWE-285: Improper Authorization / Broken Access Control
     
-- **Endpoint:** `POST https://central.sophos.com/api/service-credentials/[TENANT-ID]/credentials`
+- **Access Level Required:** Help Desk Admin (Predefined Role)
     
-- **CWE:** CWE-367 (Time-of-Check to Time-of-Use) / CWE-770 (Allocation of Resources Without Limits)
+- **Impacted Area:** Global Settings > Administration > Verify Domains
     
+
+### **Supporting Evidence (Documentation Mismatch)**
+
+Sophos official documentation explicitly defines the security boundary that this vulnerability violates:
+
+- **Policy Link:** `https://docs.sophos.com/central/customer/help/en-us/ManageYourProducts/GlobalSettings/FederatedDomain/`
+    
+- **Documented Constraint:** _"Note: You must be a Super Admin."_
+    
+- **Role Definition:** The _Administration Roles Summary_ states that Help Desk Admins should have _"No access to Super Admin only options."_
+    
+
+---
 
 ### **Steps to Reproduce**
 
-1. Log in to **Sophos Central** as a Super Admin.
+1. Log in to **Sophos Central** using an account with the **Help Desk Admin** role.
     
-2. Navigate to **Global Settings > API Credentials Management**.
+2. Navigate to **Global Settings** (the gear icon or the left-hand menu).
     
-3. Capture the `POST` request sent when creating a new credential using a proxy (e.g., Burp Suite).
+3. Under the **Administration** section, click on **Verify Domains**.
     
-4. Send this request to **Burp Repeater**.
+4. **Observed Result:** The Help Desk user is granted full access to the page, displaying all currently verified Federated and Phish Threat domains.
     
-5. Create a **Request Group** containing 20–30 identical `POST` requests.
+5. **Test for Impact:** Observe the presence of the **"Add Domain"** button or the **"Delete"** (X) icons next to existing domains. (In a restricted environment, this page should return a `403 Forbidden` error or be hidden entirely).
     
-6. Configure the group to **"Send requests in parallel (single packet attack)"**.
+
+### **Impact Analysis**
+
+Unauthorized access to domain management by a low-privileged user presents a critical risk to the organization:
+
+- **Denial of Service (Authentication):** Verified domains are used to facilitate **Federated Sign-in (SSO)**. An attacker or rogue employee with Help Desk access could delete a verified domain, immediately locking out all users who rely on that domain for SSO.
     
-7. Execute the group.
+- **Email Communication Blackout:** For organizations using Sophos Email, deleting a verified domain can disrupt mail routing and security filtering, leading to a total loss of corporate email flow.
     
-8. Refresh the Sophos Central UI. Observe that the "Limit 10" note is ignored, and 30+ credentials have been successfully provisioned.
-**Impact**
-**Resource Exhaustion (Storage DoS):** Potential to flood the backend database with unauthorized objects via automated race-condition exploitation.
+- **Phish Threat Manipulation:** Unauthorized users can add or remove domains used for phishing simulations, allowing them to bypass security training protocols or set up unauthorized testing environm
+**Security Policy Violation:** This directly undermines the "Principle of Least Privilege," allowing users to modify the most sensitive identity-related settings in the tenant.
+- ents.
+    
+
+### **Recommended Remediation**
+
+- **Server-Side Authorization:** Implement a strict server-side check to ensure the requesting user's role is `Super Admin` before rendering the `Verify Domains` data or processing `POST/DELETE` requests on the domains API.
+    
+- **UI Masking:** Ensure the "Verify Domains" link is removed from the navigation menu for all roles except Super Admin to prevent unauthorized reconnaissance.
