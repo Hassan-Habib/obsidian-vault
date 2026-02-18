@@ -1,0 +1,296 @@
+#!/bin/bash
+
+# Display Endy header
+echo ""
+echo "   ______          __       "
+echo "  / ____/___  ____/ /_  __  "
+echo " / __/ / __ \/ __  / / / /  "
+echo "/ /___/ / / / /_/ / /_/ /   "
+echo "\____/_/ /_/\__,_/\_   /    "
+echo "                __  / /     "
+echo "               / /_/ /      "
+echo "               \____/      "
+echo "     Created By Hassan Habib."
+echo ""
+echo ""
+
+# Default values
+URL_FILE=""
+DOMAIN=""
+REMOVE_KEYWORDS=""
+THREADS=12
+OUTPUT_BASE_DIR=""
+
+# Optimized thread counts for Ryzen 5 3600 + 16GB RAM + RTX 2060
+GOSPIDER_THREADS=20
+KATANA_THREADS=20
+HTTPX_THREADS=30
+GOWITNESS_THREADS=15
+
+# Function to display help
+usage() {
+    echo "Usage: $0 -f <urls_file> -u <domain> [-o <output_dir>] [-r <keyword1,keyword2,...>] [-t threads]"
+    echo "  -f  File containing URLs (one per line)"
+    echo "  -u  Target domain (e.g., example.com)"
+    echo "  -o  Custom output base directory (default: /home/hassan/Desktop/Targets/DOMAIN)"
+    echo "  -r  Comma-separated keywords to remove from results (e.g., product,store,comment)"
+    echo "  -t  Number of threads (default: 12)"
+    exit 1
+}
+
+# Parse command line arguments
+while getopts "f:u:o:r:t:" opt; do
+    case ${opt} in
+        f ) URL_FILE="$OPTARG" ;;
+        u ) DOMAIN="$OPTARG" ;;
+        o ) OUTPUT_BASE_DIR="$OPTARG" ;;
+        r ) REMOVE_KEYWORDS="$OPTARG" ;;
+        t ) THREADS="$OPTARG" ;;
+        * ) usage ;;
+    esac
+done
+shift $((OPTIND -1))
+
+# Check mandatory arguments
+if [[ -z "$URL_FILE" || -z "$DOMAIN" ]]; then
+    echo "[-] Error: -f and -u flags are required!"
+    usage
+fi
+
+# Check if input file exists
+if [[ ! -f "$URL_FILE" ]]; then
+    echo "[-] Error: File $URL_FILE not found!"
+    exit 1
+fi
+
+# Set up output directory
+if [[ -z "$OUTPUT_BASE_DIR" ]]; then
+    # Default path if -o not specified
+    OUTPUT_DIR="/home/hassan/Desktop/Targets/$DOMAIN/endpoints"
+else
+    # Custom path specified with -o flag
+    # Remove trailing slash if present
+    OUTPUT_BASE_DIR="${OUTPUT_BASE_DIR%/}"
+    OUTPUT_DIR="$OUTPUT_BASE_DIR/endpoints"
+fi
+
+# Create directory if missing
+if [[ ! -d "$OUTPUT_DIR" ]]; then
+    echo "[+] Directory $OUTPUT_DIR does not exist. Creating..."
+    mkdir -p "$OUTPUT_DIR"
+else
+    echo "[+] Directory $OUTPUT_DIR exists. Proceeding..."
+fi
+
+echo "[+] Target Domain: $DOMAIN"
+echo "[+] Input File: $URL_FILE"
+echo "[+] Remove Keywords: ${REMOVE_KEYWORDS:-None}"
+echo "[+] Output Directory: $OUTPUT_DIR"
+echo ""
+
+
+# Create temporary directory for processing (will be cleaned up)
+TMP_DIR=$(mktemp -d)
+echo "[+] Using temp directory for processing: $TMP_DIR"
+
+# Define final output files (saved to OUTPUT_DIR)
+ALL_URLS="$OUTPUT_DIR/all_urls_raw.txt"
+FINAL_URLS="$OUTPUT_DIR/final_urls.txt"
+VALID_ENDPOINTS="$OUTPUT_DIR/valid_endpoints.txt"
+
+# Ultra-optimized parallel execution
+run_ultra_optimized_tools() {
+    local input_file=$1
+    local domain=$2
+    
+    # Phase 1: Archive tools - SIMPLIFIED
+    echo "[+] Phase 1: Gau, Waybackurls, UrlFinder"
+    
+    # Use main domain directly for archive tools
+    echo "$domain" | gau > "$TMP_DIR/gau_results.txt" 2>/dev/null &
+    echo "$domain" | waybackurls > "$TMP_DIR/wayback_results.txt" 2>/dev/null &
+    urlfinder -d "$domain" > "$TMP_DIR/urlfinder_results.txt" 2>/dev/null &
+    
+    wait
+    echo "[+] Phase 1 completed"
+    
+    # Phase 2: Heavy crawlers with DEPTH 3 and MAXIMUM THREADS
+    echo "[+] Phase 2: GoSpider, katana(DEPTH 3)..."
+    
+    # gospider with DEPTH 3 and MAX THREADS
+    echo "[+] Starting gospider with $GOSPIDER_THREADS threads (Depth 3)..."
+    gospider -S "$input_file" -t $GOSPIDER_THREADS -d 3 --js --sitemap --robots --other-source --subs false --quiet -o "$TMP_DIR/gospider" >/dev/null 2>&1 &
+    
+    # katana with DEPTH 3 and MAX THREADS
+    echo "[+] Starting katana with $KATANA_THREADS threads (Depth 3)..."
+    katana -list "$input_file" -silent -jc -aff -c $KATANA_THREADS -depth 3 > "$TMP_DIR/katana_results.txt" 2>/dev/null &
+    
+    wait
+    echo "[+] Phase 2 completed"
+    
+    # Process gospider output efficiently
+    echo "[+] Processing gospider output..."
+    if [[ -d "$TMP_DIR/gospider" ]]; then
+        find "$TMP_DIR/gospider" -type f -exec cat {} + | \
+            grep '^\[url\]' | \
+            sed 's/^\[url\] - \[[^]]*\] - //' | \
+            grep -Eo 'https?://[^ ]+' > "$TMP_DIR/gospider_results.txt" &
+    else
+        touch "$TMP_DIR/gospider_results.txt"
+    fi
+    
+    wait
+}
+
+# Fast filtering function (NO DEDUPLICATION)
+fast_filter_urls() {
+    local input_file=$1
+    local output_file=$2
+    local remove_keywords="$3"
+    
+    echo "[+] Applying fast filtering (NO DEDUPLICATION)..."
+    
+    # Start with original (no deduplication)
+    cp "$input_file" "$output_file"
+    
+    # Remove static extensions (single pass)
+    if [[ -n "$remove_keywords" ]]; then
+        IFS=',' read -ra KEYWORDS <<< "$remove_keywords"
+        for keyword in "${KEYWORDS[@]}"; do
+            grep -v -i "$keyword" "$output_file" > "$TMP_DIR/temp_filtered.txt"
+            mv "$TMP_DIR/temp_filtered.txt" "$output_file"
+        done
+    fi
+    
+    # Remove static file extensions in one pass
+    grep -v -E "\.(png|jpg|jpeg|gif|css|js|svg|ico|woff|ttf|pdf|webp|bmp|tiff|mp4|mp3|avi|mov|zip|rar|tar|gz)(\?|\$|#)" "$output_file" > "$TMP_DIR/filtered_ext.txt"
+    mv "$TMP_DIR/filtered_ext.txt" "$output_file"
+    
+    local final_count=$(wc -l < "$output_file")
+    echo "[+] After filtering: $final_count URLs remaining"
+}
+
+# Start main execution with timing
+echo "[+] Starting endpoint discovery at: $(date)"
+START_TIME=$(date +%s)
+
+# Run ultra optimized tools
+run_ultra_optimized_tools "$URL_FILE" "$DOMAIN"
+
+# Combine initial results (NO DEDUPLICATION - just aggregation)
+echo "[+] Combining initial results (no deduplication)..."
+find "$TMP_DIR" -maxdepth 1 -name "*_results.txt" -type f -exec cat {} + > "$ALL_URLS"
+
+initial_count=$(wc -l < "$ALL_URLS")
+echo "[+] Found $initial_count total URLs after initial discovery (no deduplication)"
+
+# ======== DIRECTORY ANALYSIS & INTERACTIVE FILTERING ========
+
+echo "[+] Analyzing most common directories in discovered URLs..."
+
+# Extract and count directory names between slashes
+cat "$ALL_URLS" | \
+    grep -oP "https?://[^/]+\K(/[^/?#]+)+" | \
+    sed 's/^\///; s/\/$//' | \
+    awk -F/ '{for(i=1;i<=NF;i++) if($i != "" && length($i) > 2) print $i}' | \
+    sort | uniq -c | sort -nr | head -10 > "$TMP_DIR/top_dirs.txt"
+
+echo "[+] Top 10 most common directory names found:"
+cat "$TMP_DIR/top_dirs.txt"
+
+# Prompt user for additional exclusions
+echo ""
+echo "[+] Enter comma-separated keywords to remove (e.g., article,post,image)"
+echo "[+] Or press Enter to skip:"
+read -r USER_EXCLUSIONS
+
+if [[ -n "$USER_EXCLUSIONS" ]]; then
+    echo "[+] Applying additional exclusions: $USER_EXCLUSIONS"
+    
+    # Convert comma-separated to grep-friendly pattern
+    IFS=',' read -ra EXCLUDE_ARRAY <<< "$USER_EXCLUSIONS"
+    for keyword in "${EXCLUDE_ARRAY[@]}"; do
+        grep -v -i "$keyword" "$ALL_URLS" > "$TMP_DIR/temp_filtered.txt"
+        mv "$TMP_DIR/temp_filtered.txt" "$ALL_URLS"
+    done
+    
+    echo "[+] After manual filtering: $(wc -l < "$ALL_URLS") URLs remaining"
+fi
+
+echo ""
+
+# ======== CONTINUE WITH MAIN FILTERING ========
+
+# Apply fast filtering
+fast_filter_urls "$ALL_URLS" "$FINAL_URLS" "$REMOVE_KEYWORDS"
+
+# ======== OPTIMIZED HTTPX ========
+
+if command -v httpx >/dev/null 2>&1; then
+    echo "[+] Running httpx with $HTTPX_THREADS threads..."
+    cat "$FINAL_URLS" | httpx -silent -threads $HTTPX_THREADS -timeout 5 -mc 200,201,202,204,206,301,302,307,308 > "$VALID_ENDPOINTS"
+    echo "[+] Live endpoints found: $(wc -l < "$VALID_ENDPOINTS")"
+else
+    echo "[-] httpx not found. Install it with: go install github.com/projectdiscovery/httpx/cmd/httpx@latest"
+fi
+
+# ======== OPTIMIZED GOWITNESS ========
+
+if command -v gowitness &> /dev/null && [[ -f "$VALID_ENDPOINTS" && -s "$VALID_ENDPOINTS" ]]; then
+    echo ""
+    echo "[+] Capturing screenshots with gowitness ($GOWITNESS_THREADS threads)..."
+    mkdir -p "$OUTPUT_DIR/gowitness_screenshots"
+    
+    # Sample screenshots if too many URLs
+    endpoint_count=$(wc -l < "$VALID_ENDPOINTS")
+    if [[ $endpoint_count -gt 100 ]]; then
+        echo "[+] Many endpoints found ($endpoint_count), sampling 50 for screenshots..."
+        head -50 "$VALID_ENDPOINTS" > "$TMP_DIR/sampled_endpoints.txt"
+        gowitness scan file -f "$TMP_DIR/sampled_endpoints.txt" \
+            --screenshot-path "$OUTPUT_DIR/gowitness_screenshots" \
+            --write-db \
+            --write-db-uri "sqlite://$OUTPUT_DIR/gowitness_screenshots/gowitness.sqlite3" \
+            --threads $GOWITNESS_THREADS \
+            --timeout 10 >/dev/null 2>&1
+    else
+        gowitness scan file -f "$VALID_ENDPOINTS" \
+            --screenshot-path "$OUTPUT_DIR/gowitness_screenshots" \
+            --write-db \
+            --write-db-uri "sqlite://$OUTPUT_DIR/gowitness_screenshots/gowitness.sqlite3" \
+            --threads $GOWITNESS_THREADS \
+            --timeout 10 >/dev/null 2>&1
+    fi
+    
+    # Generate report if database exists
+    if [[ -f "$OUTPUT_DIR/gowitness_screenshots/gowitness.sqlite3" ]]; then
+        gowitness report generate \
+            --db-uri "sqlite://$OUTPUT_DIR/gowitness_screenshots/gowitness.sqlite3" \
+            --screenshot-path "$OUTPUT_DIR/gowitness_screenshots" \
+            --zip-name "$OUTPUT_DIR/gowitness_report.zip" >/dev/null 2>&1
+        
+        if [[ -f "$OUTPUT_DIR/gowitness_report.zip" ]]; then
+            echo "[+] Screenshot report: $OUTPUT_DIR/gowitness_report.zip"
+        fi
+    fi
+else
+    echo "[-] gowitness skipped or not available"
+fi
+
+# Calculate total time
+END_TIME=$(date +%s)
+TOTAL_TIME=$((END_TIME - START_TIME))
+echo ""
+echo "[+] Process completed in $TOTAL_TIME seconds!"
+
+# Cleanup
+echo "[+] Cleaning up temporary files..."
+rm -rf "$TMP_DIR"
+
+echo ""
+echo "[+] All outputs saved to: $OUTPUT_DIR"
+echo "[+] Files created:"
+echo "    - all_urls_raw.txt    ($initial_count URLs - NO DEDUPLICATION)"
+echo "    - final_urls.txt      ($(wc -l < "$FINAL_URLS" 2>/dev/null || echo 0) after filtering)"
+echo "    - valid_endpoints.txt ($(wc -l < "$VALID_ENDPOINTS" 2>/dev/null || echo 0) live endpoints)"
+echo ""
+echo "Fetching Endpoints DONE!"

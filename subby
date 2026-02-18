@@ -1,0 +1,397 @@
+#!/bin/bash
+
+# Default wordlist path
+DEFAULT_WORDLIST="$HOME/Desktop/massdns/best-dns-wordlist.txt"
+
+# Function to display usage
+usage() {
+  echo "Usage: $0 [-l | -m | -s | -i] [-o <output_directory>] <domain>"
+  echo "  -l  Use $HOME/Desktop/massdns/best-dns-wordlist.txt"
+  echo "  -m  Use $HOME/Desktop/SecLists/Discovery/DNS/shubs-subdomains.txt"
+  echo "  -s  Use $HOME/Desktop/SecLists/Discovery/DNS/subdomains-top1million-110000.txt"
+  echo "  -i  Ignore puredns bruteforce (intelligence-only mode)"
+  echo "  -o  Specify output directory (required)"
+  echo "  If no wordlist flag is provided, the default wordlist (-l) will be used"
+  exit 1
+}
+
+# Initialize variables
+wordlist_path="$DEFAULT_WORDLIST"
+domain=""
+skip_puredns=true
+wordlist_provided=false
+output_dir=""
+
+# Parse command line options
+while getopts "lmsio:" opt; do
+  case $opt in
+    l)
+      wordlist_path="$HOME/Desktop/massdns/best-dns-wordlist.txt"
+      skip_puredns=false
+      wordlist_provided=true
+      ;;
+    m)
+      wordlist_path="$HOME/Desktop/SecLists/Discovery/DNS/shubs-subdomains.txt"
+      skip_puredns=false
+      wordlist_provided=true
+      ;;
+    s)
+      wordlist_path="$HOME/Desktop/SecLists/Discovery/DNS/subdomains-top1million-110000.txt"
+      skip_puredns=false
+      wordlist_provided=true
+      ;;
+    i)
+      skip_puredns=true
+      wordlist_provided=false
+      ;;
+    o)
+      output_dir="$OPTARG"
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+# Shift the options away, leaving the domain as the last argument
+shift $((OPTIND -1))
+
+# Get the domain from remaining arguments
+domain="$1"
+
+if [[ -z "$domain" ]]; then
+  echo "Error: Domain is required"
+  usage
+fi
+
+if [[ -z "$output_dir" ]]; then
+  echo "Error: Output directory is required (-o flag)"
+  usage
+fi
+
+# Check if the selected wordlist exists (only if using puredns)
+if [[ "$skip_puredns" != "true" && ! -f "$wordlist_path" ]]; then
+  echo "Error: Wordlist not found at $wordlist_path"
+  echo "Please check the path or use a different flag"
+  exit 1
+fi
+
+# Colored echo functions
+info() {
+  echo -e "\033[1;36m[*]\033[0m $1"
+}
+success() {
+  echo -e "\033[1;32m[+]\033[0m $1"
+}
+error() {
+  echo -e "\033[1;31m[!]\033[0m $1"
+}
+warning() {
+  echo -e "\033[1;33m[!]\033[0m $1"
+}
+
+if [[ "$skip_puredns" == "true" ]]; then
+  info "Running in intelligence-only mode (skipping puredns bruteforce)"
+else
+  if [[ "$wordlist_provided" == "true" ]]; then
+    info "Using wordlist: $wordlist_path"
+  else
+    info "Using default wordlist: $wordlist_path"
+  fi
+fi
+
+# Install missing dependencies first
+if ! command -v curl &> /dev/null; then
+    echo "[*] Installing curl..."
+    sudo apt update && sudo apt install -y curl
+fi
+
+if ! command -v jq &> /dev/null; then
+    echo "[*] Installing jq..."
+    sudo apt install -y jq
+fi
+
+# Install DNSgen if not present
+if ! command -v dnsgen &> /dev/null; then
+    info "Installing DNSgen..."
+    pip3 install dnsgen
+    if ! command -v dnsgen &> /dev/null; then
+        error "Failed to install DNSgen. Trying alternative method..."
+        pip3 install --user dnsgen
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
+fi
+
+# Install Amass if not present
+if ! command -v amass &> /dev/null; then
+    info "Installing Amass..."
+    go install -v github.com/owasp-amass/amass/v3/...@latest
+    export PATH="$HOME/go/bin:$PATH"
+fi
+
+# Create subdomains directory inside the provided output directory
+final_dir="$output_dir/subdomains"
+
+if [[ ! -d "$final_dir" ]]; then
+  info "Directory $final_dir does not exist. Creating..."
+  mkdir -p "$final_dir"
+else
+  info "Directory $final_dir exists. Proceeding..."
+fi
+
+# ============================
+# PHASE 1: PASSIVE OSINT
+# ============================
+info "=== PHASE 1: Passive OSINT Enumeration ==="
+
+info "Running Subfinder..."
+subfinder -d "$domain" -silent > "$final_dir/subfinder.txt"
+subfinder_count=$(wc -l < "$final_dir/subfinder.txt" 2>/dev/null || echo 0)
+success "Subfinder found $subfinder_count subdomains"
+
+info "Running crt.sh..."
+curl -s "https://crt.sh/?q=%25.$domain&output=json" | jq -r '.[] | .name_value | split("\n")[]' | sort -u > "$final_dir/crtsh.txt" 2>/dev/null
+crtsh_count=$(wc -l < "$final_dir/crtsh.txt" 2>/dev/null || echo 0)
+success "crt.sh found $crtsh_count subdomains"
+
+info "Running Wayback Machine..."
+curl -s "http://web.archive.org/cdx/search/cdx?url=*.$domain&output=text&fl=original&collapse=urlkey" | \
+    awk -F/ '{print $3}' | sort -u > "$final_dir/wayback.txt" 2>/dev/null
+wayback_count=$(wc -l < "$final_dir/wayback.txt" 2>/dev/null || echo 0)
+success "Wayback found $wayback_count historical subdomains"
+
+info "Fetching from Chaos dataset..."
+CHAOS_API_KEY="869498f3-77a5-4ef2-b217-fc5fb153589c"
+curl -s "https://dns.projectdiscovery.io/dns/$domain/subdomains" \
+    -H "Authorization: $CHAOS_API_KEY" \
+    | jq -r '.subdomains[]?' 2>/dev/null | \
+    sed "s/$/.$domain/" | \
+    grep -v "^\*\.$domain" | \
+    sort -u > "$final_dir/chaos.txt"
+chaos_count=$(wc -l < "$final_dir/chaos.txt" 2>/dev/null || echo 0)
+if [[ $chaos_count -gt 0 ]]; then
+    success "Chaos API found $chaos_count subdomains"
+else
+    info "No subdomains found via Chaos API"
+    rm -f "$final_dir/chaos.txt"
+fi
+
+# ============================
+# PHASE 2: ASN & INFRASTRUCTURE
+# ============================
+info "=== PHASE 2: ASN & Infrastructure Discovery ==="
+
+info "Discovering ASN information..."
+amass intel -asn -d "$domain" -o "$final_dir/asn_list.txt" 2>/dev/null
+asn_count=$(wc -l < "$final_dir/asn_list.txt" 2>/dev/null || echo 0)
+if [[ $asn_count -gt 0 ]]; then
+    success "Found $asn_count ASN numbers"
+else
+    info "No ASN information found"
+    rm -f "$final_dir/asn_list.txt"
+fi
+
+info "Finding IP ranges from ASN..."
+amass intel -asn -d "$domain" -ip -o "$final_dir/ip_ranges.txt" 2>/dev/null
+ip_range_count=$(wc -l < "$final_dir/ip_ranges.txt" 2>/dev/null || echo 0)
+if [[ $ip_range_count -gt 0 ]]; then
+    success "Found $ip_range_count IP ranges"
+    
+    info "Performing reverse DNS lookups..."
+    # Simple reverse DNS using dig
+    
+	while IFS= read -r cidr; do
+	    mapcidr -cidr "$cidr" -silent | while read -r ip; do
+		dig +short -x "$ip" 2>/dev/null | grep "$domain"
+	    done
+	done < "$final_dir/ip_ranges.txt" >> "$final_dir/reverse_dns.txt"
+    
+    reverse_dns_count=$(wc -l < "$final_dir/reverse_dns.txt" 2>/dev/null || echo 0)
+    if [[ $reverse_dns_count -gt 0 ]]; then
+        sort -u "$final_dir/reverse_dns.txt" -o "$final_dir/reverse_dns.txt"
+        success "Reverse DNS found $reverse_dns_count subdomains"
+    else
+        info "No reverse DNS subdomains found"
+        rm -f "$final_dir/reverse_dns.txt"
+    fi
+else
+    info "No IP ranges found for ASN"
+    rm -f "$final_dir/ip_ranges.txt"
+fi
+
+# ============================
+# PHASE 3: ACTIVE DNS
+# ============================
+info "=== PHASE 3: Active DNS Enumeration ==="
+
+info "Attempting DNS Zone Transfer..."
+for ns in $(dig +short ns "$domain"); do
+    info "Trying nameserver: $ns"
+    dig @"$ns" "$domain" axfr +nocookie | grep -E "^[a-zA-Z0-9._-]+\.$domain" | \
+    grep -v ";" | awk '{print $1}' | sed 's/\.$//' >> "$final_dir/zone_transfer_temp.txt"
+done
+
+zone_transfer_count=$(wc -l < "$final_dir/zone_transfer_temp.txt" 2>/dev/null || echo 0)
+if [[ $zone_transfer_count -gt 0 ]]; then
+    sort -u "$final_dir/zone_transfer_temp.txt" -o "$final_dir/zone_transfer.txt"
+    success "Zone transfer found $zone_transfer_count subdomains!"
+    rm -f "$final_dir/zone_transfer_temp.txt"
+else
+    info "Zone transfer not allowed (expected)"
+    rm -f "$final_dir/zone_transfer.txt" "$final_dir/zone_transfer_temp.txt"
+fi
+
+# ============================
+# PHASE 4: COMBINE & INITIAL VALIDATION
+# ============================
+info "=== PHASE 4: Combining Sources & Initial Validation ==="
+
+info "Normalizing and deduplicating all subdomains..."
+cat "$final_dir/"*.txt 2>/dev/null | \
+    sed -E 's|^https?://||; s|/.*$||' | \
+    sed 's/:[0-9]*$//' | \
+    grep -E '^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$' | \
+    grep "\.$domain$" | \
+    sort -u > "$final_dir/all_subs.txt"
+
+all_subs_count=$(wc -l < "$final_dir/all_subs.txt" 2>/dev/null || echo 0)
+success "Found $all_subs_count unique subdomains"
+
+info "Initial validation with httpx..."
+httpx -l "$final_dir/all_subs.txt" \
+  -status-code \
+  -threads 100 \
+  -stats \
+  -silent \
+  -mc 200,301,302 \
+  -no-color \
+  | awk '{print $1}' > "$final_dir/valid_subdomains.txt" 2>/dev/null
+
+valid_count=$(wc -l < "$final_dir/valid_subdomains.txt" 2>/dev/null || echo 0)
+success "Initial validation found $valid_count valid subdomains"
+
+# ============================
+# PHASE 5: SMART BRUTEFORCE & PERMUTATIONS
+# ============================
+info "=== PHASE 5: Smart Bruteforce & Permutations ==="
+
+# Run puredns if not skipped
+if [[ "$skip_puredns" != "true" ]]; then
+    info "Running puredns bruteforce..."
+    if command -v puredns &> /dev/null; then
+        puredns bruteforce "$wordlist_path" "$domain" > "$final_dir/puredns_new.txt" 2>/dev/null
+        
+        puredns_count=$(wc -l < "$final_dir/puredns_new.txt" 2>/dev/null || echo 0)
+        if [[ $puredns_count -gt 0 ]]; then
+            success "puredns found $puredns_count new subdomains"
+        else
+            info "puredns found 0 new subdomains"
+            rm -f "$final_dir/puredns_new.txt"
+        fi
+    else
+        error "puredns not found, skipping..."
+    fi
+else
+    info "Skipping puredns bruteforce (-i flag)"
+fi
+
+# Run DNSgen on validated subdomains
+info "Generating DNS permutations from valid subdomains..."
+if command -v dnsgen &> /dev/null && [[ -s "$final_dir/valid_subdomains.txt" ]]; then
+    # Extract just domain names from valid URLs
+    cat "$final_dir/valid_subdomains.txt" | sed -E 's|^https?://||; s|/.*$||; s/:[0-9]*$//' > "$final_dir/valid_domains_only.txt"
+    
+    # Create targeted wordlist for permutations
+    custom_wordlist="$final_dir/dnsgen_words.txt"
+    printf "api\ndev\ntest\nstaging\nadmin\napp\nweb\ncdn\nblog\nshop\nportal\nsecure\ndemo\nbeta\nold\nnew\nbackup\nftp\nmail\nwww\n" > "$custom_wordlist"
+    
+    # Generate permutations
+    dnsgen "$final_dir/valid_domains_only.txt" -w "$custom_wordlist" --max-depth 1 > "$final_dir/dnsgen_permutations.txt" 2>/dev/null
+    
+    dnsgen_count=$(wc -l < "$final_dir/dnsgen_permutations.txt" 2>/dev/null || echo 0)
+    if [[ $dnsgen_count -gt 0 ]]; then
+        success "DNSgen generated $dnsgen_count permutations"
+        
+        # Combine puredns and DNSgen results
+        cat "$final_dir/puredns_new.txt" "$final_dir/dnsgen_permutations.txt" 2>/dev/null | sort -u > "$final_dir/phase5_new.txt"
+        
+        # Validate new discoveries
+        phase5_new_count=$(wc -l < "$final_dir/phase5_new.txt" 2>/dev/null || echo 0)
+        if [[ $phase5_new_count -gt 0 ]]; then
+            info "Validating $phase5_new_count new discoveries..."
+            httpx -l "$final_dir/phase5_new.txt" \
+                -status-code \
+                -silent \
+                -mc 200,301,302,403 \
+                -no-color \
+                -threads 100 \
+                | awk '{print $1}' > "$final_dir/phase5_valid.txt" 2>/dev/null
+            
+            # Combine with original valid subdomains
+            cat "$final_dir/valid_subdomains.txt" "$final_dir/phase5_valid.txt" 2>/dev/null | sort -u > "$final_dir/all_valid_final.txt"
+            
+            phase5_valid_count=$(wc -l < "$final_dir/phase5_valid.txt" 2>/dev/null || echo 0)
+            final_count=$(wc -l < "$final_dir/all_valid_final.txt" 2>/dev/null || echo 0)
+            
+            success "Phase 5 found $phase5_valid_count new valid subdomains"
+            success "Total valid subdomains: $final_count"
+            
+            mv "$final_dir/all_valid_final.txt" "$final_dir/valid_subdomains.txt"
+        fi
+    else
+        warning "DNSgen generated 0 permutations"
+    fi
+    # Cleanup
+    rm -f "$custom_wordlist" "$final_dir/valid_domains_only.txt" "$final_dir/dnsgen_permutations.txt" \
+          "$final_dir/phase5_new.txt" "$final_dir/phase5_valid.txt" "$final_dir/puredns_new.txt" 2>/dev/null
+else
+    warning "No valid subdomains for DNSgen to process"
+fi
+
+# ============================
+# PHASE 6: FINAL PROCESSING
+# ============================
+info "=== PHASE 6: Final Processing ==="
+
+info "Capturing screenshots with gowitness..."
+if command -v gowitness &> /dev/null; then
+    mkdir -p "$final_dir/gowitness_screenshots"
+    
+    gowitness scan file -f "$final_dir/valid_subdomains.txt" \
+        --screenshot-path "$final_dir/gowitness_screenshots" \
+        --write-db \
+        --write-db-uri "sqlite://$final_dir/gowitness_screenshots/gowitness.sqlite3" \
+        --threads 10
+    
+    if [[ -f "$final_dir/gowitness_screenshots/gowitness.sqlite3" ]]; then
+        success "gowitness screenshot capture complete"
+        info "Starting gowitness web server..."
+        info "Run the following command to view the report:"
+        info "  gowitness report server --db-uri sqlite://$final_dir/gowitness_screenshots/gowitness.sqlite3 --screenshot-path $final_dir/gowitness_screenshots"
+    else
+        error "gowitness database not found"
+    fi
+else
+    error "gowitness not found, skipping..."
+fi
+
+# Run Amass in background
+info "Starting Amass active enumeration in background..."
+amass enum -active -d "$domain" -o "$final_dir/amass_active.txt" 2>/dev/null &
+AMASS_PID=$!
+success "Amass started in background (PID: $AMASS_PID)"
+
+# ============================
+# FINAL RESULTS
+# ============================
+success "=== Script Execution Completed ==="
+info "Final results:"
+info "  - Total subdomains discovered: $(wc -l < "$final_dir/all_subs.txt" 2>/dev/null || echo 0)"
+info "  - Valid subdomains: $(wc -l < "$final_dir/valid_subdomains.txt" 2>/dev/null || echo 0)"
+info "  - Screenshots: $final_dir/gowitness_screenshots/"
+info "  - Amass running in background (PID: $AMASS_PID)"
+info ""
+info "To view gowitness results, run:"
+info "  gowitness report server --db-uri sqlite://$final_dir/gowitness_screenshots/gowitness.sqlite3 --screenshot-path $final_dir/gowitness_screenshots"
+info ""
+info "Amass will continue running. Check results later with:"
+info "  cat $final_dir/amass_active.txt"
