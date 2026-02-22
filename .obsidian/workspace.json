@@ -250,7 +250,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "wake",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -271,7 +271,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -378,7 +379,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8f2093cd937501e9",
+  "active": "bc1ac6c881241a45",
   "lastOpenFiles": [
     "Bug bounty/🛡️ Authentication.md",
     "BBP/sophos.md",
