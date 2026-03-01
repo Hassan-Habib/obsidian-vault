@@ -380,8 +380,9 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
-    "Bug bounty/File Uploads.md",
+    "Bug bounty/Graphql.md",
     "BBP/sophos.md",
+    "Bug bounty/File Uploads.md",
     "Bug bounty/🛡️ Authentication.md",
     "Untitled 2.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
@@ -391,7 +392,6 @@
     "Bug bounty/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🔍 XXE.md",
     "Bug bounty/Google Dorking.md",
-    "Bug bounty/Graphql.md",
     "Bug bounty/SQLI.md",
     "Bug bounty/JWT,OAUTH,SSO.md",
     "Bug bounty/🛡️ XSS.md",

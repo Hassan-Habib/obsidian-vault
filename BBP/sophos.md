@@ -21,3 +21,31 @@ Hh147147
 
 VALIDATION_REQUEST
 VERIFICATION_REQUEST
+
+
+
+FETCH ALL AUDITS 
+```query {
+  allAudits(allAuditsInput: { 
+    offset: 0, 
+    limit: 1000
+  }) {
+    # FIXED: Use totalResults as per schema error
+    totalResults
+    offset
+    limit
+    audits {
+      id
+      timestamp
+      eventName
+      eventDesc
+      username
+      email
+      application
+      source
+      action
+      responseCode
+    }
+  }
+}```
+
