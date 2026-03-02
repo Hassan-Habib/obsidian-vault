@@ -1,59 +1,93 @@
-## **Vulnerability Report: Broken Access Control on Verified Domains Management**
+### **🛡️ Bug Bounty Triage Report: Unauthorized Sensitive Data Leak**
 
-### **Summary**
+**Vulnerability Type:** Broken Access Control (BAC) / Insecure Direct Object Reference (IDOR)
 
-A **Broken Access Control (BAC)** vulnerability exists in the Sophos Central Admin dashboard. Users assigned the **Help Desk Admin** role—which is intended for low-level troubleshooting—are able to access, view, and potentially modify the **Verify Domains** configuration. According to Sophos's security policy and official documentation, this functionality must be restricted exclusively to **Super Admins**.
+**User Role:** Read-only
 
-### **Vulnerability Details**
+**Impact:** Sensitive Information Disclosure (High)
 
-- **Vulnerability Type:** CWE-285: Improper Authorization / Broken Access Control
+**Target URL:** `https://central.sophos.com/api/graphql` (or similar GraphQL gateway)
+
+**Vulnerable Query:** `allAudits`
+
+---
+
+### **1. Executive Summary**
+
+A Read-only user can bypass the standard visibility restrictions of the Sophos Central web interface by using the GraphQL API to query audit logs. While the web interface correctly filters sensitive incident details, the `allAudits` GraphQL query returns the full state of security investigations—including incident summaries, key findings, and remediation recommendations—to users who are not authorized to view them.
+
+---
+
+### **2. The Gap: Website View vs. API Leak**
+
+The following table highlights the critical difference between what the system is **configured** to show and what it **actually** leaks through the API.
+
+|Data Point|Web UI (Allowed View)|GraphQL API (`leak.json`)|Status|
+|---|---|---|---|
+|**Audit Log Metadata**|Date, IP Address, Action Name|Full JSON Metadata, Trace IDs, Tokens|**Intended**|
+|**Action Description**|"get investigation:Read Case"|"Read Investigation"|**Intended**|
+|**Investigation ID**|Redacted or limited to UUID|`98912829-4a12-4e8d-87b2...`|**Low Risk**|
+|**`afterState` Content**|**Not Visible**|**FULL CASE DETAILS LEAKED**|❌ **CRITICAL LEAK**|
+
+Export to Sheets
+
+---
+
+### **3. Detailed Findings & Evidence**
+
+#### **The Leak in `afterState`**
+
+In the standard web interface (`allowed.txt`), a Read-only user sees only that an investigation was "read". However, the `leak.json` file confirms that the GraphQL response for the same action includes the `afterState` object, which contains:
+
++1
+
+- **Incident Summary:** Full description of the threat.
     
-- **Access Level Required:** Help Desk Admin (Predefined Role)
+- **Key Findings:** Specific evidence discovered during the investigation.
     
-- **Impacted Area:** Global Settings > Administration > Verify Domains
+- **Recommendations:** Security steps to mitigate the incident.
+    
+- **Status & Priority:** Internal classification levels (e.g., `priority: 2`, `status: OPEN`).
     
 
-### **Supporting Evidence (Documentation Mismatch)**
+#### **Proof of Authorization Bypass**
 
-Sophos official documentation explicitly defines the security boundary that this vulnerability violates:
+Official Sophos documentation restricts "Intelligence Reports" and "Investigations" to **Super Admin, Admin, or Help Desk** roles. Read-only users are intended to have "Visibility without Volatility," but this visibility should not extend to the internal details of active security incidents.
 
-- **Policy Link:** `https://docs.sophos.com/central/customer/help/en-us/ManageYourProducts/GlobalSettings/FederatedDomain/`
+---
+
+### **4. Reproducing the Vulnerability**
+
+1. **Authenticate** as a user with the **Read-only** role.
     
-- **Documented Constraint:** _"Note: You must be a Super Admin."_
+2. **Send a POST request** to the GraphQL endpoint with the following query:
     
-- **Role Definition:** The _Administration Roles Summary_ states that Help Desk Admins should have _"No access to Super Admin only options."_
+    GraphQL
+    
+    ```
+    query {
+      allAudits(allAuditsInput: { limit: 10 }) {
+        audits {
+          eventName
+          afterState # This is the vulnerable field
+        }
+      }
+    }
+    ```
+    
+3. **Observe the Response:** The `afterState` field will contain full investigation objects for `INCIDENT_RESPONSE` type events, even though the user cannot access the "Investigations" tab in the UI.
     
 
 ---
 
-### **Steps to Reproduce**
+### **5. Impact Assessment**
 
-1. Log in to **Sophos Central** using an account with the **Help Desk Admin** role.
-    
-2. Navigate to **Global Settings** (the gear icon or the left-hand menu).
-    
-3. Under the **Administration** section, click on **Verify Domains**.
-    
-4. **Observed Result:** The Help Desk user is granted full access to the page, displaying all currently verified Federated and Phish Threat domains.
-    
-5. **Test for Impact:** Observe the presence of the **"Add Domain"** button or the **"Delete"** (X) icons next to existing domains. (In a restricted environment, this page should return a `403 Forbidden` error or be hidden entirely).
-    
+This vulnerability allows an unauthorized observer (such as a junior auditor or a compromised read-only account) to view high-sensitivity details about a company's security posture, active breaches, and ongoing remediation efforts. This information could be used by an attacker to understand what security teams have discovered and what remains unprotected.
 
-### **Impact Analysis**
+---
 
-Unauthorized access to domain management by a low-privileged user presents a critical risk to the organization:
+### **6. Recommended Remediation**
 
-- **Denial of Service (Authentication):** Verified domains are used to facilitate **Federated Sign-in (SSO)**. An attacker or rogue employee with Help Desk access could delete a verified domain, immediately locking out all users who rely on that domain for SSO.
+- **Field-Level Filtering:** The `afterState` and `beforeState` fields in the `allAudits` query should be nullified or redacted for users without the `Admin` or `Help Desk` roles if the `application` is `investigations`.
     
-- **Email Communication Blackout:** For organizations using Sophos Email, deleting a verified domain can disrupt mail routing and security filtering, leading to a total loss of corporate email flow.
-    
-- **Phish Threat Manipulation:** Unauthorized users can add or remove domains used for phishing simulations, allowing them to bypass security training protocols or set up unauthorized testing environm
-**Security Policy Violation:** This directly undermines the "Principle of Least Privilege," allowing users to modify the most sensitive identity-related settings in the tenant.
-- ents.
-    
-
-### **Recommended Remediation**
-
-- **Server-Side Authorization:** Implement a strict server-side check to ensure the requesting user's role is `Super Admin` before rendering the `Verify Domains` data or processing `POST/DELETE` requests on the domains API.
-    
-- **UI Masking:** Ensure the "Verify Domains" link is removed from the navigation menu for all roles except Super Admin to prevent unauthorized reconnaissance.
+- **Role-Based Resolvers:** Implement stricter checks in the GraphQL resolver to ensure that users can only fetch detailed state changes for modules they are explicitly authorized to manage.
