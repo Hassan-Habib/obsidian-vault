@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Untitled 2.md",
+                "file": "BBP/sophos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled 2"
+              "title": "sophos"
             }
           }
         ]
@@ -183,6 +183,7 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
+    "Untitled 2.md",
     "Untitled 1.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/sophos.md",
@@ -190,7 +191,6 @@
     "Bug bounty/Template injection.md",
     "Bug bounty/💻 LFI.md",
     "HTB.md",
-    "Untitled 2.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/🛡️ Authentication.md",
