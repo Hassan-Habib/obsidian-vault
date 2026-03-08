@@ -56,6 +56,21 @@
 
 - Modify redirect parameters in requests to test for open redirection or authentication bypass.
 
+## ✅ **Type juggling**
+
+|Operand 1|Operand 2|Behavior|
+|---|---|---|
+|`string`|`string`|Numerical or lexical comparison|
+|`null`|`string`|Convert `null` to `""`|
+|`null`|anything but `string`|Convert both sides to `bool`|
+|`bool`|anything|Convert both sides to `bool`|
+|`int`|`string`|Convert `string` to `int`|
+|`float`|`string`|Convert `string` to `float`|
+you can send password as :
+1- "password":0 
+2- "password[]":blabla
+if the password is hashed in the DB , find a password that if hashed it will start with 0 and another hash with 1 etc and supply it 
+3- "password":"0e2412eaewqe123213qwewqewqeblablabla"
 ### ✅ **Skipping Steps in Multi-Step Login**
 
 - Try jumping to later authentication steps without completing previous ones.
@@ -125,7 +140,7 @@ Steps
 
 ### ✅ **Generated Password Patterns**
 
-- If the system generates passwords, request multiple and analyze for patterns.
+- If the system generates passwords, request multiple and analyze for patterns
 
 ---
 
