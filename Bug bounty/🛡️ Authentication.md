@@ -66,11 +66,8 @@
 |`bool`|anything|Convert both sides to `bool`|
 |`int`|`string`|Convert `string` to `int`|
 |`float`|`string`|Convert `string` to `float`|
-you can send password as :
-1- "password":0 
-2- "password[]":blabla
-if the password is hashed in the DB , find a password that if hashed it will start with 0 and another hash with 1 etc and supply it 
-3- "password":"0e2412eaewqe123213qwewqewqeblablabla"
+you can also try these 
+true/false/1/0/-1/"1"/"0"/"-1"/null/[]/"php"/""
 ### ✅ **Skipping Steps in Multi-Step Login**
 
 - Try jumping to later authentication steps without completing previous ones.
