@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
+                "file": "Prototype pollution.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ Authentication"
+              "title": "Prototype pollution"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "prototype",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -183,6 +184,8 @@
   },
   "active": "8f2093cd937501e9",
   "lastOpenFiles": [
+    "HTB.md",
+    "Bug bounty/🛡️ Authentication.md",
     "Prototype pollution.md",
     "BBP/sophos.md",
     "Untitled 1.md",
@@ -190,10 +193,8 @@
     "BBP/Ripio.com.md",
     "Bug bounty/Template injection.md",
     "Bug bounty/💻 LFI.md",
-    "HTB.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/File Uploads.md",
-    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/SSRF.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
