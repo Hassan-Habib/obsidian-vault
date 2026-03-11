@@ -146,7 +146,7 @@ awk -F'.js' 'NF<3' jsleak_results.txt > filtered_results.txt
 🔹 **Naabu (Port Scanning)**
 
 ```bash
-nmap -Sc-Pn -p --open ip_address
+nmap -Sc-Pn -p- --open ip_address
 ```
 
 ---
