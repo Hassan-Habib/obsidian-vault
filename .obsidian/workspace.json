@@ -41,16 +41,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/SQLI.md",
+                "file": "BBP/sophos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQLI"
+              "title": "sophos"
+            }
+          },
+          {
+            "id": "6a9b12126551ef13",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Mathlab.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Mathlab"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -210,17 +224,25 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "aaf32dc408d8f209",
+  "active": "6a9b12126551ef13",
   "lastOpenFiles": [
-    "BBP/Catawiki.md",
-    "Bug bounty/🕵️ Recon Roadmap.md",
+    "BBP/sophos.md",
+    "Mathlab.md",
+    "BBP/KOMOJU.md",
     "BBP/brex.md",
+    "BBP/RDC-DGP.md",
+    "BBP/deskpro.md",
+    "BBP/Upstart.md",
+    "BBP/Pokemon.md",
+    "BBP/Catawiki.md",
+    "BBP/app.clockify.me.md",
+    "BBP/Italki.md",
+    "Bug bounty/SQLI.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/🛡️ Authentication.md",
     "Ory.md",
-    "BBP/Pokemon.md",
     "Prototype pollution.md",
     "HTB.md",
-    "BBP/sophos.md",
     "Untitled 1.md",
     "BBP/Ripio.com.md",
     "Bug bounty/Template injection.md",
@@ -230,15 +252,7 @@
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/SSRF.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
-    "Bug bounty/🛡️ CSRF Tips & Tricks.md",
-    "Bug bounty/🔍 XXE.md",
-    "Bug bounty/Google Dorking.md",
-    "Bug bounty/SQLI.md",
-    "Bug bounty/JWT,OAUTH,SSO.md",
-    "Bug bounty/🛡️ XSS.md",
     "Bug bounty/diagram.png",
-    "Bug bounty/NOSQLI.md",
-    "Bug bounty/🛡️  CRLF.md",
     "Untitled.base",
     "BBP",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
