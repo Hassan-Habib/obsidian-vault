@@ -3,12 +3,12 @@
 
 CORS vulnerabilities allow you to bypass the **Same-Origin Policy (SOP)** to read sensitive data (API keys, PII, or CSRF tokens).
 
-|**Technique**|**Server-Side Flaw**|**Attacker Strategy**|
-|---|---|---|
-|**Null Origin**|Whitelists `null` origin|Use a sandboxed `<iframe>` to force `Origin: null`.|
-|**Suffix Bypass**|Matches `*test.com`|Register `attack-test.com`.|
-|**TLD/Subdomain**|Incomplete regex|Use `test.com.attacker.com` or `attacker.com/test.com`.|
-|**Reflection**|Echoes any `Origin`|Requires `Access-Control-Allow-Credentials: true`.|
+| **Technique**     | **Server-Side Flaw**     | **Attacker Strategy**                                   |
+| ----------------- | ------------------------ | ------------------------------------------------------- |
+| **Null Origin**   | Whitelists `null` origin | Use a sandboxed `<iframe>` to force `Origin: null`.     |
+| **Suffix Bypass** | Matches `*test.com`      | Register `attack-test.com`.                             |
+| **TLD/Subdomain** | Incomplete regex         | Use `test.com.attacker.com` or `attacker.com/test.com`. |
+| **Reflection**    | Echoes any `Origin`      | Requires `Access-Control-Allow-Credentials: true`.      |
 
 ### **The `null` Origin Payload**
 

@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️  CRLF.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️  CRLF"
+              "title": "Untitled"
             }
           }
         ],
@@ -240,13 +240,16 @@
   },
   "active": "dafe1d59f3ef5371",
   "lastOpenFiles": [
+    "Untitled.base",
+    "Mathlab.md",
+    "Bug bounty/🛡️ CSRF Tips & Tricks.md",
+    "Bug bounty/🛡️  CRLF.md",
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/Template injection.md",
     "BBP/vr fi.md",
-    "Mathlab.md",
     "BBP/sophos.md",
     "BBP/KOMOJU.md",
     "BBP/brex.md",
@@ -263,11 +266,7 @@
     "Ory.md",
     "Prototype pollution.md",
     "HTB.md",
-    "Untitled 1.md",
-    "BBP/Ripio.com.md",
-    "Bug bounty/💻 LFI.md",
     "Bug bounty/diagram.png",
-    "Untitled.base",
     "BBP",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Screenshot from 2025-09-11 04-52-40.png",
