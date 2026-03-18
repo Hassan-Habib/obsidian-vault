@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BBP/vr fi.md",
+                "file": "Bug bounty/🛡️  CRLF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "vr fi"
+              "title": "🛡️  CRLF"
             }
           }
         ],
@@ -240,8 +240,13 @@
   },
   "active": "dafe1d59f3ef5371",
   "lastOpenFiles": [
-    "Mathlab.md",
+    "Bug bounty/📂 PATH Traversal.md",
+    "Bug bounty/File Uploads.md",
+    "Bug bounty/Graphql.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/Template injection.md",
     "BBP/vr fi.md",
+    "Mathlab.md",
     "BBP/sophos.md",
     "BBP/KOMOJU.md",
     "BBP/brex.md",
@@ -260,12 +265,7 @@
     "HTB.md",
     "Untitled 1.md",
     "BBP/Ripio.com.md",
-    "Bug bounty/Template injection.md",
     "Bug bounty/💻 LFI.md",
-    "Bug bounty/Graphql.md",
-    "Bug bounty/File Uploads.md",
-    "Bug bounty/📂 PATH Traversal.md",
-    "Bug bounty/SSRF.md",
     "Bug bounty/diagram.png",
     "Untitled.base",
     "BBP",
