@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/📂 PATH Traversal.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "📂 PATH Traversal"
+              "title": "Untitled"
             }
           }
         ],
@@ -240,9 +240,10 @@
   },
   "active": "dafe1d59f3ef5371",
   "lastOpenFiles": [
+    "Untitled.base",
+    "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/💻 LFI.md",
     "Untitled.md",
-    "Untitled.base",
     "NAVAN.md",
     "Bug bounty/SSRF.md",
     "Bug bounty/JWT,OAUTH,SSO.md",
@@ -257,7 +258,6 @@
     "Bug bounty/🛡️ Authentication.md",
     "Mathlab.md",
     "Bug bounty/🛡️  CRLF.md",
-    "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/Graphql.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "BBP/vr fi.md",
