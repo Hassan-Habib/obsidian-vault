@@ -29,13 +29,13 @@ Exploits discrepancies between Frontend (FE) and Backend (BE) boundary detection
 
 ### **TE.TE Obfuscation Bypasses**
 
-|   |   |
-|---|---|
-|Substring match|`Transfer-Encoding: testchunked`|
-|Space in Header name|`Transfer-Encoding : chunked`|
-|Horizontal Tab Separator|`Transfer-Encoding:[\x09]chunked`|
-|Vertical Tab Separator|`Transfer-Encoding:[\x0b]chunked`|
-|Leading space|`Transfer-Encoding: chunked`|
+|                          |                                   |
+| ------------------------ | --------------------------------- |
+| Substring match          | `Transfer-Encoding: testchunked`  |
+| Space in Header name     | `Transfer-Encoding : chunked`     |
+| Horizontal Tab Separator | `Transfer-Encoding:[\x09]chunked` |
+| Vertical Tab Separator   | `Transfer-Encoding:[\x0b]chunked` |
+| Leading space            | `Transfer-Encoding: chunked`      |
 
 ---
 
