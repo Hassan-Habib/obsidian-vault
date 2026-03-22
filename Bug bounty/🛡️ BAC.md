@@ -111,3 +111,17 @@
 [site.com/secret.json](http://site.com/secret.json) –> HTTP 200 OK (ruby)
 
 ---
+
+## New Tricks
+
+### Trick 1
+- Scenario: IDOR exposed another tenant invoice by changing numeric ID.
+- Payload: `GET /api/invoices/10482`
+
+### Trick 2
+- Scenario: Role check missing on admin export endpoint for normal user.
+- Payload: `POST /admin/export/users {"format":"csv"}`
+
+### Trick 3
+- Scenario: Object ownership bypass in GraphQL mutation updated foreign profile.
+- Payload: `mutation{updateUser(id:"42",role:"admin"){id}}`

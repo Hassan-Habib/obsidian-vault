@@ -956,3 +956,17 @@ org:"xx" 200 http.favicon.hash:1428702434 # IDRAC servers try this credentials U
 * [ ] Exposed User's PII through IMGs
 
 {% embed url="https://x.com/GodfatherOrwa/status/1803430519582937170" %}
+
+## New Tricks
+
+### Trick 1
+- Scenario: Found exposed .env on staging via indexed backup path.
+- Payload: `site:target.com inurl:.env "APP_KEY="`
+
+### Trick 2
+- Scenario: Leaked JS source maps revealed hidden internal API routes.
+- Payload: `site:target.com filetype:map "sourcesContent"`
+
+### Trick 3
+- Scenario: Public Grafana login discovered from subdomain wildcard dork.
+- Payload: `site:*.target.com intitle:"Grafana"`

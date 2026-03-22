@@ -225,3 +225,17 @@ or dig axfr @{Nameserver} domain
 
 virtual host discovery
 ffuf -w SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "HOST:FUZZ.domain" -u domain
+
+## New Tricks
+
+### Trick 1
+- Scenario: New subdomain takeover found after weekly DNS diff check.
+- Payload: `subfinder -d target.com -all -silent | httpx -silent`
+
+### Trick 2
+- Scenario: JS endpoint mining exposed undocumented admin mutation route.
+- Payload: `katana -u https://target.com -jc -silent | rg "/api|graphql"`
+
+### Trick 3
+- Scenario: Leaked secrets discovered in historical JS from Wayback snapshots.
+- Payload: `waybackurls target.com | rg "\.js$" | httpx -silent`

