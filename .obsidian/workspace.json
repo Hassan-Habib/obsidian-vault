@@ -83,7 +83,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Hytale.md",
+                "file": "BBP/Hytale.md",
                 "mode": "source",
                 "source": false
               },
@@ -254,8 +254,9 @@
   },
   "active": "01f4d4f3e9942301",
   "lastOpenFiles": [
+    "Bug bounty/🛡️ Authentication.md",
+    "BBP/Hytale.md",
     "BBP/vr fi.md",
-    "Hytale.md",
     "BBP/Trello.md",
     "BBP/sophos.md",
     "BBP/KOMOJU.md",
@@ -276,7 +277,6 @@
     "Bug bounty/🛡️ XSS.md",
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/diagram.png",
-    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/🛡️  CRLF.md",
     "Bug bounty/Google Dorking.md",
