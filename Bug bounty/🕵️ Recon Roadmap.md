@@ -189,7 +189,6 @@ function unhideSequentially(delay = 200) {
 
 // Run it
 unhideSequentially(200); // 200ms between each
-
 ```
 ---
 
