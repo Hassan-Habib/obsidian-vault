@@ -84,7 +84,7 @@ true/false/1/0/-1/"1"/"0"/"-1"/null/[]/"php"/""
 
 - Create same email but captial letter
 - %00
-- Edd %20 to bypass email already exist
+- Add %20 to bypass email already exist
 - SSO logins via okta or auth0
 
 ---
