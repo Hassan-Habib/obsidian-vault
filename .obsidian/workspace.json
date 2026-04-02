@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
+                "file": "Bug bounty/NOSQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ Authentication"
+              "title": "NOSQLI"
             }
           }
         ],
@@ -254,6 +254,7 @@
   },
   "active": "01f4d4f3e9942301",
   "lastOpenFiles": [
+    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🛡️ BAC.md",
     "Bug bounty/🔍 XXE.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
@@ -261,7 +262,6 @@
     "REPORTS.md",
     "Untitled.md",
     "Untitled.base",
-    "Bug bounty/🛡️ Authentication.md",
     "BBP/vr fi.md",
     "BBP/Trello.md",
     "BBP/sophos.md",
