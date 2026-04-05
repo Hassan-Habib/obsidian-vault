@@ -1,3 +1,2 @@
-verifyToken
-updateUserDetails
-getUserSubscription
+skill-assessment
+make the price minus in subscription 
