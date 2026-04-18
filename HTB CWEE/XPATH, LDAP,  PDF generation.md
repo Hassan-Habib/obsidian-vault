@@ -1,5 +1,9 @@
 ## **XPath Injection**
 
+Tips:
+**- imagine the query in order to break it**
+
+
 #### XPath Syntax
 
 Nodes:
