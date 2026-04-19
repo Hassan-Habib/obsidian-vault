@@ -33,23 +33,24 @@ Predicates:
 
 Predicate Operands:
 
-|Operand|Explanation|
-|---|---|
-|`+`|Addition|
-|`-`|Subtraction|
-|`*`|Multiplication|
-|`div`|Division|
-|`=`|Equal|
-|`!=`|Not Equal|
-|`<`|Less than|
-|`<=`|Less than or Equal|
-|`>`|Greater than|
-|`>=`|Greater than or Equal|
-|`or`|Logical Or|
-|`and`|Logical And|
-|`mod`|Modulus|
-
+| Operand | Explanation           |
+| ------- | --------------------- |
+| `+`     | Addition              |
+| `-`     | Subtraction           |
+| `*`     | Multiplication        |
+| `div`   | Division              |
+| `=`     | Equal                 |
+| `!=`    | Not Equal             |
+| `<`     | Less than             |
+| `<=`    | Less than or Equal    |
+| `>`     | Greater than          |
+| `>=`    | Greater than or Equal |
+| `or`    | Logical Or            |
+| `and`   | Logical And           |
+| `mod`   | Modulus               |
+|         |                       |
 Wildcards:
+
 
 |Query|Explanation|
 |---|---|
