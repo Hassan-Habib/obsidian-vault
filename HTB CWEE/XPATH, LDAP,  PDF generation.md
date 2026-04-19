@@ -2,6 +2,7 @@
 
 Tips:
 **- imagine the query in order to break it**
+- Try using xcat in terminal `xcat --help`
 
 
 #### XPath Syntax
