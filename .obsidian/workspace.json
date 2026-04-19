@@ -8,118 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "59ee9d1a4477a825",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/🕵️ Recon Roadmap.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "🕵️ Recon Roadmap"
-            }
-          },
-          {
-            "id": "696381e82e3624b9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "BBP/brex.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "brex"
-            }
-          },
-          {
-            "id": "aaf32dc408d8f209",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "BBP/sophos.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "sophos"
-            }
-          },
-          {
-            "id": "6a9b12126551ef13",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Mathlab.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Mathlab"
-            }
-          },
-          {
-            "id": "dafe1d59f3ef5371",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "BBP/vr fi.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "vr fi"
-            }
-          },
-          {
-            "id": "01f4d4f3e9942301",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/NOSQLI.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "NOSQLI"
-            }
-          },
-          {
-            "id": "0127e544327aca5d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "🛡️ Authentication"
-            }
-          },
-          {
-            "id": "075413bc45ebb473",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "🛡️ Authentication"
-            }
-          },
-          {
             "id": "c3269c11ee00fdfd",
             "type": "leaf",
             "state": {
@@ -133,8 +21,7 @@
               "title": "XPATH, LDAP,  PDF generation"
             }
           }
-        ],
-        "currentTab": 8
+        ]
       }
     ],
     "direction": "vertical"
@@ -294,35 +181,36 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "Bug bounty/🛡️ Authentication.md",
+    "Bug bounty/NOSQLI.md",
+    "BBP/vr fi.md",
+    "Mathlab.md",
+    "BBP/sophos.md",
+    "BBP/brex.md",
+    "Bug bounty/🕵️ Recon Roadmap.md",
+    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE",
-    "Bug bounty/🛡️ Authentication.md",
     "moovit.md",
     "Bug bounty/🔍 XXE.md",
     "Bug bounty/SSRF.md",
     "HTB{{.md",
-    "Bug bounty/NOSQLI.md",
     "Bug bounty/🛡️ BAC.md",
-    "Bug bounty/🕵️ Recon Roadmap.md",
     "BBP/Hytale.md",
     "REPORTS.md",
     "Untitled.md",
     "Untitled.base",
-    "BBP/vr fi.md",
     "BBP/Trello.md",
-    "BBP/sophos.md",
     "BBP/KOMOJU.md",
     "BBP/sandbox gouv.md",
-    "BBP/brex.md",
     "Bug bounty/Template injection.md",
     "BBP/RDC-DGP.md",
     "BBP/deskpro.md",
     "BBP/Upstart.md",
     "BBP/Pokemon.md",
     "BBP/Catawiki.md",
-    "Bug bounty/SQLI.md",
     "Bug bounty/diagram.png",
     "BBP",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
