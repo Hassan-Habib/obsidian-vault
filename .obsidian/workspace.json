@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/XPATH, LDAP,  PDF generation.md",
+                "file": "HTB CWEE/NOSQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "XPATH, LDAP,  PDF generation"
+              "title": "NOSQLI"
             }
           }
         ]
@@ -181,16 +181,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️ Authentication.md",
-    "Bug bounty/NOSQLI.md",
+    "HTB CWEE/NOSQLI.md",
     "BBP/vr fi.md",
     "Mathlab.md",
     "BBP/sophos.md",
     "BBP/brex.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
-    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE",
     "moovit.md",
