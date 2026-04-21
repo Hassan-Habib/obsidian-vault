@@ -48,7 +48,7 @@
 - `{param: {$gte: ''}}`
 - `{param: {$lt: '~'}}`
 - `{param: {$lte: '~'}}`
-- `{param: {$regex: '.*'}}`
+- `{param: {"$regex": '.*'}}`
 - `{param: {$nin: []}}`
 
 ## Blind NoSQLi Payloads:

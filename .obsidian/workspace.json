@@ -181,11 +181,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "Bug bounty/SQLI.md",
+    "HTB CWEE/NOSQLI.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️ Authentication.md",
-    "HTB CWEE/NOSQLI.md",
     "BBP/vr fi.md",
     "Mathlab.md",
     "BBP/sophos.md",
@@ -210,7 +211,6 @@
     "BBP/deskpro.md",
     "BBP/Upstart.md",
     "BBP/Pokemon.md",
-    "BBP/Catawiki.md",
     "Bug bounty/diagram.png",
     "BBP",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
