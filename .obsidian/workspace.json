@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/NOSQLI.md",
+                "file": "Bug bounty/JWT,OAUTH,SSO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NOSQLI"
+              "title": "JWT,OAUTH,SSO"
             }
           }
         ]
@@ -183,8 +183,8 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "Bug bounty/SQLI.md",
     "HTB CWEE/NOSQLI.md",
+    "Bug bounty/SQLI.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "Bug bounty/🛡️ Authentication.md",
     "BBP/vr fi.md",

