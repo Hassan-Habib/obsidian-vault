@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/JWT,OAUTH,SSO.md",
+                "file": "HTB CWEE/JWT,OAUTH,SSO.md",
                 "mode": "source",
                 "source": false
               },
@@ -181,7 +181,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
     "HTB CWEE/NOSQLI.md",
     "Bug bounty/SQLI.md",
