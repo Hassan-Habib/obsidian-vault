@@ -16,46 +16,69 @@ echo ""
 
 # Default values
 URL_FILE=""
-DOMAIN=""
+DOMAINS=()
 REMOVE_KEYWORDS=""
 THREADS=12
 OUTPUT_BASE_DIR=""
+RUN_NUCLEI=false
 
-# Optimized thread counts for Ryzen 5 3600 + 16GB RAM + RTX 2060
-GOSPIDER_THREADS=20
-KATANA_THREADS=20
-HTTPX_THREADS=30
-GOWITNESS_THREADS=15
+# Optimized thread counts — use -t flag or auto-detect based on CPU cores
+AVAILABLE_CORES=$(nproc 2>/dev/null || echo 4)
+# These will be recalculated after parsing -t flag
+BASE_THREADS=0
 
 # Function to display help
 usage() {
-    echo "Usage: $0 -f <urls_file> -u <domain> [-o <output_dir>] [-r <keyword1,keyword2,...>] [-t threads]"
+    echo "Usage: $0 -f <urls_file> -u <domain1> [-u <domain2> ...] [-o <output_dir>] [-r <keyword1,keyword2,...>] [-t threads] [-n]"
     echo "  -f  File containing URLs (one per line)"
-    echo "  -u  Target domain (e.g., example.com)"
+    echo "  -u  Target domain(s) — repeat flag or use comma-separated list (e.g., -u example.com,sub.example.com)"
     echo "  -o  Custom output base directory (default: /home/hassan/Desktop/Targets/DOMAIN)"
     echo "  -r  Comma-separated keywords to remove from results (e.g., product,store,comment)"
     echo "  -t  Number of threads (default: 12)"
+    echo "  -n  Run nuclei quick scan on valid endpoints (exposures + technologies templates)"
     exit 1
 }
 
 # Parse command line arguments
-while getopts "f:u:o:r:t:" opt; do
+while getopts "f:u:o:r:t:n" opt; do
     case ${opt} in
         f ) URL_FILE="$OPTARG" ;;
-        u ) DOMAIN="$OPTARG" ;;
+        u )
+            # Support comma-separated domains in a single -u value
+            IFS=',' read -ra _SPLIT <<< "$OPTARG"
+            for _d in "${_SPLIT[@]}"; do
+                _d="${_d// /}"   # trim spaces
+                [[ -n "$_d" ]] && DOMAINS+=("$_d")
+            done
+            ;;
         o ) OUTPUT_BASE_DIR="$OPTARG" ;;
         r ) REMOVE_KEYWORDS="$OPTARG" ;;
         t ) THREADS="$OPTARG" ;;
+        n ) RUN_NUCLEI=true ;;
         * ) usage ;;
     esac
 done
 shift $((OPTIND -1))
 
 # Check mandatory arguments
-if [[ -z "$URL_FILE" || -z "$DOMAIN" ]]; then
-    echo "[-] Error: -f and -u flags are required!"
+if [[ -z "$URL_FILE" || ${#DOMAINS[@]} -eq 0 ]]; then
+    echo "[-] Error: -f and at least one -u flag are required!"
     usage
 fi
+
+# Calculate thread counts based on -t flag or CPU cores
+if [[ "$THREADS" -gt 0 ]]; then
+    BASE_THREADS=$THREADS
+else
+    BASE_THREADS=$AVAILABLE_CORES
+fi
+GOSPIDER_THREADS=$((BASE_THREADS * 3))
+KATANA_THREADS=$((BASE_THREADS * 3))
+HTTPX_THREADS=$((BASE_THREADS * 5))
+GOWITNESS_THREADS=$((BASE_THREADS * 2))
+
+# Use first domain as the primary label for output directories
+DOMAIN="${DOMAINS[0]}"
 
 # Check if input file exists
 if [[ ! -f "$URL_FILE" ]]; then
@@ -82,10 +105,20 @@ else
     echo "[+] Directory $OUTPUT_DIR exists. Proceeding..."
 fi
 
-echo "[+] Target Domain: $DOMAIN"
+# Update mode — if valid endpoints already exist, preserve and diff later
+ENDY_UPDATE_MODE=false
+if [[ -f "$VALID_ENDPOINTS_DIR/all_valid.txt" && -s "$VALID_ENDPOINTS_DIR/all_valid.txt" ]]; then
+    ENDY_UPDATE_MODE=true
+    cp "$VALID_ENDPOINTS_DIR/all_valid.txt" "$OUTPUT_DIR/.existing_endpoints_backup.txt"
+    existing_ep_count=$(grep -vc "^#" "$OUTPUT_DIR/.existing_endpoints_backup.txt" 2>/dev/null || echo 0)
+    echo "[+] Update mode: $existing_ep_count existing endpoints found — new ones will be appended"
+fi
+
+echo "[+] Target Domain(s): ${DOMAINS[*]}"
 echo "[+] Input File: $URL_FILE"
 echo "[+] Remove Keywords: ${REMOVE_KEYWORDS:-None}"
 echo "[+] Output Directory: $OUTPUT_DIR"
+echo "[+] Nuclei Quick Scan: $RUN_NUCLEI"
 echo ""
 
 
@@ -96,26 +129,37 @@ echo "[+] Using temp directory for processing: $TMP_DIR"
 # Define final output files (saved to OUTPUT_DIR)
 ALL_URLS="$OUTPUT_DIR/all_urls_raw.txt"
 FINAL_URLS="$OUTPUT_DIR/final_urls.txt"
-VALID_ENDPOINTS="$OUTPUT_DIR/valid_endpoints.txt"
+VALID_ENDPOINTS_DIR="$OUTPUT_DIR/Valid_endpoints"
+VALID_ENDPOINTS="$VALID_ENDPOINTS_DIR/all_valid.txt"
+SECRETS_OUTPUT="$OUTPUT_DIR/secrets_found.txt"
+PARAMS_OUTPUT="$OUTPUT_DIR/parameters"
+
+# Create Valid_endpoints directory
+mkdir -p "$VALID_ENDPOINTS_DIR"
+mkdir -p "$PARAMS_OUTPUT"
 
 # Ultra-optimized parallel execution
 run_ultra_optimized_tools() {
     local input_file=$1
-    local domain=$2
+    shift
+    local -a DOMAINS=("$@")
     
-    # Phase 1: Archive tools - SIMPLIFIED
-    echo "[+] Phase 1: Gau, Waybackurls, UrlFinder"
+    # Phase 1: Archive tools - run against ALL target domains in parallel
+    echo "[+] Phase 1: Gau, Waybackurls, UrlFinder (${#DOMAINS[@]} domain(s))"
     
-    # Use main domain directly for archive tools
-    echo "$domain" | gau > "$TMP_DIR/gau_results.txt" 2>/dev/null &
-    echo "$domain" | waybackurls > "$TMP_DIR/wayback_results.txt" 2>/dev/null &
-    urlfinder -d "$domain" > "$TMP_DIR/urlfinder_results.txt" 2>/dev/null &
+    for _domain in "${DOMAINS[@]}"; do
+        local _slug
+        _slug=$(echo "$_domain" | tr '.' '_')
+        echo "$_domain" | gau --subs  > "$TMP_DIR/gau_${_slug}.txt"        2>/dev/null &
+        echo "$_domain" | waybackurls > "$TMP_DIR/wayback_${_slug}.txt"    2>/dev/null &
+        urlfinder -d "$_domain"       > "$TMP_DIR/urlfinder_${_slug}.txt"  2>/dev/null &
+    done
     
     wait
     echo "[+] Phase 1 completed"
     
     # Phase 2: Heavy crawlers with DEPTH 3 and MAXIMUM THREADS
-    echo "[+] Phase 2: GoSpider, katana(DEPTH 3)..."
+    echo "[+] Phase 2: GoSpider, katana, hakrawler (DEPTH 3)..."
     
     # gospider with DEPTH 3 and MAX THREADS
     echo "[+] Starting gospider with $GOSPIDER_THREADS threads (Depth 3)..."
@@ -124,6 +168,12 @@ run_ultra_optimized_tools() {
     # katana with DEPTH 3 and MAX THREADS
     echo "[+] Starting katana with $KATANA_THREADS threads (Depth 3)..."
     katana -list "$input_file" -silent -jc -aff -c $KATANA_THREADS -depth 3 > "$TMP_DIR/katana_results.txt" 2>/dev/null &
+    
+    # hakrawler - unique value: faster, follows redirects differently, extracts forms/comments
+    if command -v hakrawler >/dev/null 2>&1; then
+        echo "[+] Starting hakrawler (Depth 3, form extraction)..."
+        cat "$input_file" | hakrawler -d 3 -t $KATANA_THREADS -insecure -subs false > "$TMP_DIR/hakrawler_results.txt" 2>/dev/null &
+    fi
     
     wait
     echo "[+] Phase 2 completed"
@@ -140,20 +190,92 @@ run_ultra_optimized_tools() {
     fi
     
     wait
+
+    # Phase 3: JS endpoint extraction via subjs + LinkFinder
+    echo "[+] Phase 3: Extracting endpoints from JS files (subjs + LinkFinder)..."
+
+    # Collect all discovered URLs so far for subjs input
+    find "$TMP_DIR" -maxdepth 1 -name "*_results.txt" -type f -exec cat {} + > "$TMP_DIR/phase3_input.txt"
+
+    if command -v subjs >/dev/null 2>&1; then
+        cat "$TMP_DIR/phase3_input.txt" | subjs 2>/dev/null | sort -u > "$TMP_DIR/js_files.txt"
+        echo "[+] subjs found $(wc -l < "$TMP_DIR/js_files.txt") JS files"
+
+        if command -v linkfinder >/dev/null 2>&1 && [[ -s "$TMP_DIR/js_files.txt" ]]; then
+            > "$TMP_DIR/linkfinder_results.txt"
+            while IFS= read -r jsurl; do
+                linkfinder -i "$jsurl" -o cli 2>/dev/null >> "$TMP_DIR/linkfinder_raw.txt" &
+                # Limit concurrency to avoid overwhelming system
+                running_jobs=$(jobs -rp | wc -l)
+                if (( running_jobs >= 15 )); then wait; fi
+            done < "$TMP_DIR/js_files.txt"
+            wait
+            # Extract only valid http/https endpoints from LinkFinder output
+            grep -Eo 'https?://[^ "]+' "$TMP_DIR/linkfinder_raw.txt" 2>/dev/null >> "$TMP_DIR/linkfinder_results.txt"
+            echo "[+] LinkFinder extracted $(wc -l < "$TMP_DIR/linkfinder_results.txt") endpoints from JS"
+        else
+            touch "$TMP_DIR/linkfinder_results.txt"
+        fi
+    else
+        echo "[-] subjs not found — skipping JS extraction"
+        touch "$TMP_DIR/js_files.txt" "$TMP_DIR/linkfinder_results.txt"
+    fi
+
+    echo "[+] Phase 3 completed"
+
+    # Phase 4: ParamSpider for parameter discovery
+    echo "[+] Phase 4: ParamSpider parameter extraction..."
+    if command -v paramspider >/dev/null 2>&1; then
+        for _domain in "${DOMAINS[@]}"; do
+            local _slug
+            _slug=$(echo "$_domain" | tr '.' '_')
+            paramspider -d "$_domain" --level high -o "$TMP_DIR/paramspider_${_slug}.txt" 2>/dev/null &
+        done
+        wait
+        # Combine all paramspider results
+        find "$TMP_DIR" -name "paramspider_*.txt" -exec cat {} + > "$TMP_DIR/paramspider_results.txt" 2>/dev/null
+        paramspider_count=$(wc -l < "$TMP_DIR/paramspider_results.txt" 2>/dev/null || echo 0)
+        echo "[+] ParamSpider found $paramspider_count URLs with parameters"
+    else
+        echo "[-] paramspider not found — skipping parameter extraction"
+        touch "$TMP_DIR/paramspider_results.txt"
+    fi
+    echo "[+] Phase 4 completed"
 }
 
-# Fast filtering function (NO DEDUPLICATION)
+# Filtering function with deduplication (URL + params aware)
 fast_filter_urls() {
     local input_file=$1
     local output_file=$2
     local remove_keywords="$3"
     
-    echo "[+] Applying fast filtering (NO DEDUPLICATION)..."
+    echo "[+] Applying filtering with smart deduplication (URL + params)..."
     
-    # Start with original (no deduplication)
+    # Normalize trailing slashes
+    sed -i 's|/\?$||' "$input_file"
+    
+    # Smart deduplication: normalize params order then dedupe
+    # Uses perl for speed on large files (falls back to simple sort if unavailable)
+    if command -v perl >/dev/null 2>&1; then
+        perl -ne '
+            chomp;
+            if (/^([^?]+)\?(.+)$/) {
+                my $base = $1;
+                my @params = sort split(/&/, $2);
+                print "$base?" . join("&", @params) . "\n";
+            } else {
+                print "$_\n";
+            }
+        ' "$input_file" | sort -u > "$TMP_DIR/smart_dedup.txt"
+    else
+        # Fallback: simple deduplication without param sorting
+        sort -u "$input_file" > "$TMP_DIR/smart_dedup.txt"
+    fi
+    
+    mv "$TMP_DIR/smart_dedup.txt" "$input_file"
     cp "$input_file" "$output_file"
     
-    # Remove static extensions (single pass)
+    # Apply user-specified keyword exclusions
     if [[ -n "$remove_keywords" ]]; then
         IFS=',' read -ra KEYWORDS <<< "$remove_keywords"
         for keyword in "${KEYWORDS[@]}"; do
@@ -167,7 +289,7 @@ fast_filter_urls() {
     mv "$TMP_DIR/filtered_ext.txt" "$output_file"
     
     local final_count=$(wc -l < "$output_file")
-    echo "[+] After filtering: $final_count URLs remaining"
+    echo "[+] After smart deduplication + filtering: $final_count URLs remaining"
 }
 
 # Start main execution with timing
@@ -175,14 +297,15 @@ echo "[+] Starting endpoint discovery at: $(date)"
 START_TIME=$(date +%s)
 
 # Run ultra optimized tools
-run_ultra_optimized_tools "$URL_FILE" "$DOMAIN"
+run_ultra_optimized_tools "$URL_FILE" "${DOMAINS[@]}"
 
-# Combine initial results (NO DEDUPLICATION - just aggregation)
-echo "[+] Combining initial results (no deduplication)..."
-find "$TMP_DIR" -maxdepth 1 -name "*_results.txt" -type f -exec cat {} + > "$ALL_URLS"
+# Combine initial results including LinkFinder JS endpoints and hakrawler, then deduplicate
+echo "[+] Combining all results (with smart deduplication)..."
+find "$TMP_DIR" -maxdepth 1 -name "*_results.txt" -type f -exec cat {} + | \
+    sed 's|/\?$||' | sort -u > "$ALL_URLS"
 
 initial_count=$(wc -l < "$ALL_URLS")
-echo "[+] Found $initial_count total URLs after initial discovery (no deduplication)"
+echo "[+] Found $initial_count unique URLs after initial discovery"
 
 # ======== DIRECTORY ANALYSIS & INTERACTIVE FILTERING ========
 
@@ -207,31 +330,83 @@ read -r USER_EXCLUSIONS
 if [[ -n "$USER_EXCLUSIONS" ]]; then
     echo "[+] Applying additional exclusions: $USER_EXCLUSIONS"
     
-    # Convert comma-separated to grep-friendly pattern
+    # Work on a copy so all_urls_raw.txt is preserved
+    cp "$ALL_URLS" "$TMP_DIR/user_filtered.txt"
     IFS=',' read -ra EXCLUDE_ARRAY <<< "$USER_EXCLUSIONS"
     for keyword in "${EXCLUDE_ARRAY[@]}"; do
-        grep -v -i "$keyword" "$ALL_URLS" > "$TMP_DIR/temp_filtered.txt"
-        mv "$TMP_DIR/temp_filtered.txt" "$ALL_URLS"
+        grep -v -i "$keyword" "$TMP_DIR/user_filtered.txt" > "$TMP_DIR/temp_filtered.txt"
+        mv "$TMP_DIR/temp_filtered.txt" "$TMP_DIR/user_filtered.txt"
     done
+    mv "$TMP_DIR/user_filtered.txt" "$ALL_URLS.filtered"
     
-    echo "[+] After manual filtering: $(wc -l < "$ALL_URLS") URLs remaining"
+    echo "[+] After manual filtering: $(wc -l < "$ALL_URLS.filtered") URLs remaining"
 fi
 
 echo ""
 
 # ======== CONTINUE WITH MAIN FILTERING ========
 
+# Use user-filtered version if interactive exclusions were applied
+FILTER_INPUT="$ALL_URLS"
+if [[ -f "$ALL_URLS.filtered" ]]; then
+    FILTER_INPUT="$ALL_URLS.filtered"
+fi
+
 # Apply fast filtering
-fast_filter_urls "$ALL_URLS" "$FINAL_URLS" "$REMOVE_KEYWORDS"
+fast_filter_urls "$FILTER_INPUT" "$FINAL_URLS" "$REMOVE_KEYWORDS"
+rm -f "$ALL_URLS.filtered"
 
 # ======== OPTIMIZED HTTPX ========
 
 if command -v httpx >/dev/null 2>&1; then
     echo "[+] Running httpx with $HTTPX_THREADS threads..."
-    cat "$FINAL_URLS" | httpx -silent -threads $HTTPX_THREADS -timeout 5 -mc 200,201,202,204,206,301,302,307,308 > "$VALID_ENDPOINTS"
+    cat "$FINAL_URLS" | httpx -silent -threads $HTTPX_THREADS -timeout 5 -mc 200,201,202,204,206,301,302,307,308,403 > "$VALID_ENDPOINTS"
     echo "[+] Live endpoints found: $(wc -l < "$VALID_ENDPOINTS")"
 else
     echo "[-] httpx not found. Install it with: go install github.com/projectdiscovery/httpx/cmd/httpx@latest"
+fi
+
+# ======== SECRETFINDER - JS Secret Detection ========
+
+if command -v secretfinder >/dev/null 2>&1 && [[ -s "$TMP_DIR/js_files.txt" ]]; then
+    echo ""
+    echo "[+] Running SecretFinder on discovered JS files..."
+    > "$SECRETS_OUTPUT"
+    
+    js_count=$(wc -l < "$TMP_DIR/js_files.txt" 2>/dev/null || echo 0)
+    echo "[+] Scanning $js_count JS files for secrets/API keys..."
+    
+    while IFS= read -r jsurl; do
+        secretfinder -i "$jsurl" -o cli 2>/dev/null >> "$TMP_DIR/secrets_raw.txt" &
+        # Limit concurrency
+        running_jobs=$(jobs -rp | wc -l)
+        if (( running_jobs >= 10 )); then wait -n; fi
+    done < "$TMP_DIR/js_files.txt"
+    wait
+    
+    if [[ -s "$TMP_DIR/secrets_raw.txt" ]]; then
+        # Clean and deduplicate secrets
+        sort -u "$TMP_DIR/secrets_raw.txt" > "$SECRETS_OUTPUT"
+        secrets_count=$(wc -l < "$SECRETS_OUTPUT")
+        echo "[+] SecretFinder found $secrets_count potential secrets → $SECRETS_OUTPUT"
+    else
+        echo "[+] No secrets found in JS files"
+        rm -f "$SECRETS_OUTPUT"
+    fi
+else
+    echo "[-] secretfinder not available or no JS files to scan"
+fi
+
+# ======== ARJUN PARAMETER DISCOVERY ========
+
+if command -v arjun >/dev/null 2>&1 && [[ -f "$VALID_ENDPOINTS" && -s "$VALID_ENDPOINTS" ]]; then
+    echo ""
+    echo "[+] Running arjun parameter discovery on live endpoints..."
+    ARJUN_OUTPUT="$OUTPUT_DIR/arjun_params.json"
+    arjun -i "$VALID_ENDPOINTS" -oJ "$ARJUN_OUTPUT" -t 10 -q 2>/dev/null
+    echo "[+] Arjun results saved to: $ARJUN_OUTPUT"
+else
+    echo "[-] arjun skipped (not found or no valid endpoints)"
 fi
 
 # ======== OPTIMIZED GOWITNESS ========
@@ -244,8 +419,8 @@ if command -v gowitness &> /dev/null && [[ -f "$VALID_ENDPOINTS" && -s "$VALID_E
     # Sample screenshots if too many URLs
     endpoint_count=$(wc -l < "$VALID_ENDPOINTS")
     if [[ $endpoint_count -gt 100 ]]; then
-        echo "[+] Many endpoints found ($endpoint_count), sampling 50 for screenshots..."
-        head -50 "$VALID_ENDPOINTS" > "$TMP_DIR/sampled_endpoints.txt"
+        echo "[+] Many endpoints found ($endpoint_count), sampling 50 random for screenshots..."
+        shuf -n 50 "$VALID_ENDPOINTS" > "$TMP_DIR/sampled_endpoints.txt"
         gowitness scan file -f "$TMP_DIR/sampled_endpoints.txt" \
             --screenshot-path "$OUTPUT_DIR/gowitness_screenshots" \
             --write-db \
@@ -269,11 +444,111 @@ if command -v gowitness &> /dev/null && [[ -f "$VALID_ENDPOINTS" && -s "$VALID_E
             --zip-name "$OUTPUT_DIR/gowitness_report.zip" >/dev/null 2>&1
         
         if [[ -f "$OUTPUT_DIR/gowitness_report.zip" ]]; then
-            echo "[+] Screenshot report: $OUTPUT_DIR/gowitness_report.zip"
+            echo "gowitness report server --db-uri sqlite://$OUTPUT_DIR/gowitness_screenshots/gowitness.sqlite3 --screenshot-path $OUTPUT_DIR/gowitness_screenshots" > "$OUTPUT_DIR/server.txt"
         fi
     fi
 else
     echo "[-] gowitness skipped or not available"
+fi
+
+# ======== NUCLEI QUICK SCAN (optional -n flag) ========
+
+if [[ "$RUN_NUCLEI" == true ]]; then
+    if command -v nuclei >/dev/null 2>&1 && [[ -f "$VALID_ENDPOINTS" && -s "$VALID_ENDPOINTS" ]]; then
+        echo ""
+        echo "[+] Running nuclei quick scan (exposures + technologies)..."
+        NUCLEI_OUTPUT="$OUTPUT_DIR/nuclei_results.txt"
+        nuclei -l "$VALID_ENDPOINTS" \
+               -t exposures/ -t technologies/ \
+               -severity low,medium,high,critical \
+               -silent -o "$NUCLEI_OUTPUT" 2>/dev/null
+        echo "[+] Nuclei found $(wc -l < "$NUCLEI_OUTPUT" 2>/dev/null || echo 0) findings → $NUCLEI_OUTPUT"
+    else
+        echo "[-] nuclei not found or no valid endpoints to scan"
+    fi
+fi
+
+# ======== UPDATE MODE: Append new endpoints ========
+
+if [[ "$ENDY_UPDATE_MODE" == "true" && -f "$VALID_ENDPOINTS" && -s "$VALID_ENDPOINTS" ]]; then
+    TIMESTAMP=$(date '+%Y-%m-%d %H:%M')
+
+    comm -23 \
+        <(grep -v "^#" "$VALID_ENDPOINTS" | sort -u) \
+        <(grep -v "^#" "$OUTPUT_DIR/.existing_endpoints_backup.txt" | sort -u) \
+        > "$OUTPUT_DIR/.new_endpoints_temp.txt"
+
+    new_ep_count=$(grep -c . "$OUTPUT_DIR/.new_endpoints_temp.txt" 2>/dev/null || echo 0)
+
+    if [[ $new_ep_count -gt 0 ]]; then
+        {
+            cat "$OUTPUT_DIR/.existing_endpoints_backup.txt"
+            echo ""
+            echo "# Updated: $TIMESTAMP"
+            cat "$OUTPUT_DIR/.new_endpoints_temp.txt"
+        } > "$VALID_ENDPOINTS"
+        echo "[+] Update mode: $new_ep_count new endpoints appended under '# Updated: $TIMESTAMP'"
+    else
+        cp "$OUTPUT_DIR/.existing_endpoints_backup.txt" "$VALID_ENDPOINTS"
+        echo "[+] Update mode: no new endpoints found since last run"
+    fi
+
+    rm -f "$OUTPUT_DIR/.existing_endpoints_backup.txt" "$OUTPUT_DIR/.new_endpoints_temp.txt"
+fi
+
+# ======== ORGANIZE: Sort endpoints by subdomain ========
+
+if [[ -f "$VALID_ENDPOINTS" && -s "$VALID_ENDPOINTS" ]]; then
+    echo ""
+    echo "[+] Organizing valid endpoints by subdomain..."
+    
+    # Extract unique subdomains from valid endpoints
+    cat "$VALID_ENDPOINTS" | sed -E 's|^https?://||' | sed 's|/.*$||' | sort -u > "$TMP_DIR/unique_subdomains.txt"
+    subdomain_count=$(wc -l < "$TMP_DIR/unique_subdomains.txt")
+    echo "[+] Found $subdomain_count unique subdomains in valid endpoints"
+    
+    # Create a file for each subdomain
+    while IFS= read -r subdomain; do
+        if [[ -n "$subdomain" ]]; then
+            # Create safe filename from subdomain
+            filename=$(echo "$subdomain" | tr '.' '_' | tr ':' '_').txt
+            filepath="$VALID_ENDPOINTS_DIR/$filename"
+            
+            # Filter endpoints belonging to this subdomain
+            grep -E "^https?://${subdomain}(/|$)" "$VALID_ENDPOINTS" > "$filepath" 2>/dev/null
+            
+            endpoint_count=$(wc -l < "$filepath" 2>/dev/null || echo 0)
+            if [[ $endpoint_count -gt 0 ]]; then
+                echo "    [+] $subdomain: $endpoint_count endpoints"
+            else
+                rm -f "$filepath"
+            fi
+        fi
+    done < "$TMP_DIR/unique_subdomains.txt"
+    
+    echo "[+] Endpoints organized into: $VALID_ENDPOINTS_DIR/"
+    
+    # Also organize parameters by subdomain
+    if [[ -s "$TMP_DIR/paramspider_results.txt" ]]; then
+        echo "[+] Organizing discovered parameters by subdomain..."
+        while IFS= read -r subdomain; do
+            if [[ -n "$subdomain" ]]; then
+                filename=$(echo "$subdomain" | tr '.' '_' | tr ':' '_')_params.txt
+                filepath="$PARAMS_OUTPUT/$filename"
+                
+                grep -E "^https?://${subdomain}(/|$)" "$TMP_DIR/paramspider_results.txt" > "$filepath" 2>/dev/null
+                
+                param_count=$(wc -l < "$filepath" 2>/dev/null || echo 0)
+                if [[ $param_count -eq 0 ]]; then
+                    rm -f "$filepath"
+                fi
+            fi
+        done < "$TMP_DIR/unique_subdomains.txt"
+        
+        # Also save combined params file
+        cp "$TMP_DIR/paramspider_results.txt" "$PARAMS_OUTPUT/all_params.txt"
+        echo "[+] Parameters organized into: $PARAMS_OUTPUT/"
+    fi
 fi
 
 # Calculate total time
@@ -288,9 +563,14 @@ rm -rf "$TMP_DIR"
 
 echo ""
 echo "[+] All outputs saved to: $OUTPUT_DIR"
-echo "[+] Files created:"
-echo "    - all_urls_raw.txt    ($initial_count URLs - NO DEDUPLICATION)"
-echo "    - final_urls.txt      ($(wc -l < "$FINAL_URLS" 2>/dev/null || echo 0) after filtering)"
-echo "    - valid_endpoints.txt ($(wc -l < "$VALID_ENDPOINTS" 2>/dev/null || echo 0) live endpoints)"
+echo "[+] Files/Directories created:"
+echo "    - all_urls_raw.txt         ($initial_count unique URLs)"
+echo "    - final_urls.txt           ($(wc -l < "$FINAL_URLS" 2>/dev/null || echo 0) after filtering)"
+echo "    - Valid_endpoints/         (organized by subdomain)"
+echo "      └─ all_valid.txt         ($(wc -l < "$VALID_ENDPOINTS" 2>/dev/null || echo 0) live endpoints)"
+[[ -d "$PARAMS_OUTPUT" && "$(ls -A "$PARAMS_OUTPUT" 2>/dev/null)" ]] && echo "    - parameters/              (params organized by subdomain)"
+[[ -f "$OUTPUT_DIR/arjun_params.json" ]] && echo "    - arjun_params.json        (parameter discovery results)"
+[[ -f "$SECRETS_OUTPUT" ]] && echo "    - secrets_found.txt        ($(wc -l < "$SECRETS_OUTPUT" 2>/dev/null || echo 0) potential secrets)"
+[[ -f "$OUTPUT_DIR/nuclei_results.txt" ]] && echo "    - nuclei_results.txt       ($(wc -l < "$OUTPUT_DIR/nuclei_results.txt") findings)"
 echo ""
 echo "Fetching Endpoints DONE!"
