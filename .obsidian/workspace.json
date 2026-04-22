@@ -166,8 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -181,8 +180,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "7c12f508d19af712",
   "lastOpenFiles": [
+    "subby",
+    "endy",
     "HTB CWEE/NOSQLI.md",
     "Bug bounty/SQLI.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
@@ -210,7 +211,6 @@
     "BBP/RDC-DGP.md",
     "BBP/deskpro.md",
     "BBP/Upstart.md",
-    "BBP/Pokemon.md",
     "Bug bounty/diagram.png",
     "BBP",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
