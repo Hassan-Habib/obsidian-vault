@@ -97,6 +97,7 @@
     4. Change request method
 
 
+DONT FORGET TO ENCODE URI IF THE BODY IS URL ENCODED
 fetch data via nc listener and ngrok listener 
 sudo nv -lvnp 4443
 ngrok http http://localhost:4443
