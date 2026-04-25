@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ XSS.md",
+                "file": "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ XSS"
+              "title": "🛡️ CSRF Tips & Tricks"
             }
           }
         ],
@@ -209,10 +209,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "ead79cb762de6473",
   "lastOpenFiles": [
-    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️ XSS.md",
+    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",

