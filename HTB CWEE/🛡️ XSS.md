@@ -2,7 +2,7 @@
 2. 4 ways to induce XSS:
     1. Script tags:
         1. <object data=”data:text/html,<script>alert(1)</script>”>
-        2. <object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==>
+        2. <object data=data:text/html;base64,PHNjcmlwdCBzcmM9Imh0dHBzOi8vdnVsbmVyYWJsZXNpdGUuaHRiL2Rpc3BsYXlfZmlsZS5waHA/ZmlsZV9pZD02Ij48L3NjcmlwdD4=>
         3. <a href=”data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==”> Click here</a>
     2. Event Handlers:
         1. On“event listeners”=alert(1)
