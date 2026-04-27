@@ -204,10 +204,10 @@ bash
 
 #### Variable reference
 
-|Variable|How to determine it|
-|---|---|
-|`<IP>:<PORT>`|Target address, given by the challenge/scope|
-|`<INTERFACE>`|Run `ip route get <IP>` → look at `dev` field|
-|`-cipher AES128-SHA`|Any `TLS_RSA_*` suite works — RSA key exchange is what matters, not the symmetric cipher|
-|`capture.pcap`|Output filename, your choice|
-|Java 11 path|Run `update-java-alternatives -l` if `/usr/lib/jvm/java-11-openjdk-amd64` doesn't exist|
+| Variable             | How to determine it                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| `<IP>:<PORT>`        | Target address, given by the challenge/scope                                             |
+| `<INTERFACE>`        | Run `ip route get <IP>` → look at `dev` field                                            |
+| `-cipher AES128-SHA` | Any `TLS_RSA_*` suite works — RSA key exchange is what matters, not the symmetric cipher |
+| `capture.pcap`       | Output filename, your choice                                                             |
+| Java 11 path         | Run `update-java-alternatives -l` if `/usr/lib/jvm/java-11-openjdk-amd64` doesn't exist  |
