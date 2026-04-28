@@ -2,6 +2,9 @@
 > [!IMPORTANT]
 > 
 > **REMINDER:** Always use **Java 11** for all TLS-Breaker tools to ensure compatibility.
+> use testssl to check if the server is vuln to any of them first by using `bash testssl.sh https://example.com`
+
+
 
 ## 1. Padding Oracles
 
