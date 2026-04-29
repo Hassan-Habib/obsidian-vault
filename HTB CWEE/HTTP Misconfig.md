@@ -46,3 +46,8 @@ Origin
 Referer
 X-Original-URL
 X-Rewrite-URL
+
+## **Session Puzzling**
+
+If the web app uses session not JWT ,.. etc 
+FINGER THE FKIN SITE in all auth routes , logging then midway jump to forget , to register  etc بعبص الموقع يعني
