@@ -7,7 +7,7 @@
 - Octal Representation: `0177.0000.0000.0001`
 - Hex Representation: `0x7f000001`
 - IPv6 loopback address: `0:0:0:0:0:0:0:1` (also `::1`)
-- IPv4-mapped IPv6 loopback address: `::ffff:127.0.0.1
+- IPv4-mapped IPv6 loopback address: `::ffff:127.0.0.1`
 - localtest.me
 
 for a in {1..255};do
