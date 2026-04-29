@@ -51,3 +51,6 @@ X-Rewrite-URL
 
 If the web app uses session not JWT ,.. etc 
 FINGER THE FKIN SITE in all auth routes , logging then midway jump to forget , to register  etc بعبص الموقع يعني
+mark the request that gives you the session of admin i.e first step of forget password 
+then gain access to normal user , then go to first step of reset password and submit the username of admin then go back to home page and check if u have admin
+
