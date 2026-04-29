@@ -9,6 +9,8 @@
 - IPv6 loopback address: `0:0:0:0:0:0:0:1` (also `::1`)
 - IPv4-mapped IPv6 loopback address: `::ffff:127.0.0.1`
 - localtest.me
+- 
+You can manipulate capital or small letters 
 
 for a in {1..255};do
     for b in {1..255};do

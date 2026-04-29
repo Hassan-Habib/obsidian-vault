@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
+                "file": "Bug bounty/SSRF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ Authentication"
+              "title": "SSRF"
             }
           },
           {
@@ -238,9 +238,9 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/SSRF.md",
     "HTB CWEE/HTTP Misconfig.md",
-    "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "moovit.md",
     "Ory.md",
