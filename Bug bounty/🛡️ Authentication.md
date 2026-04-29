@@ -165,6 +165,25 @@ Replace `<youremail>` with your real email address:
 
 ## 🌐 Host Header Injection
 
+these are the override Host Headers 
+
+|                      |
+| -------------------- |
+| Host                 |
+| X-Forwarded-Host     |
+| X-Forwarded-Server   |
+| X-Forwarded-For      |
+| X-Host               |
+| X-Original-Host      |
+| X-Remote-Host        |
+| X-Client-Host        |
+| X-HTTP-Host-Override |
+| Forwarded            |
+| Origin               |
+| Referer              |
+| X-Original-URL       |
+| X-Rewrite-URL        |
+
 ```bash
 Host: [evil.com](<http://evil.com/>)
 Host: [evil.com:8080](<http://evil.com:8080/>)

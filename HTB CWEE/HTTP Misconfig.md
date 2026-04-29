@@ -22,5 +22,27 @@ GET /admin?lang=en&a=blabla;lang=`<img src=0 onerror=alert(1)>`
 some times in server you can separate between params other than "&" so in Bottle Python you use ; 
 no again diff between server and cache so you give the cache lang=en and the server lang=`<img src=0 onerror=alert(1)>` which is add to response
 
+WCVS
+wcvs -u url  -sp language=en -gr
 # **HOST Header Attack**
 
+Scenarios:
+Login page , with cache poison
+Forgot password
+SSRF
+
+
+Host
+X-Forwarded-Host
+X-Forwarded-Server
+X-Forwarded-For
+X-Host
+X-Original-Host
+X-Remote-Host
+X-Client-Host
+X-HTTP-Host-Override
+Forwarded
+Origin
+Referer
+X-Original-URL
+X-Rewrite-URL

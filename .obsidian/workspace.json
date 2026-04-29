@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️ Authentication.md",
+                "file": "HTB CWEE/HTTP Misconfig.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ Authentication"
+              "title": "HTTP Misconfig"
             }
           },
           {
@@ -69,7 +69,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTTP Misconfig.md",
+                "file": "HTB CWEE/HTTP Misconfig.md",
                 "mode": "source",
                 "source": false
               },
@@ -238,20 +238,20 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "Bug bounty/🛡️ Authentication.md",
+    "HTB CWEE/HTTP Misconfig.md",
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "Bug bounty/SSRF.md",
-    "HTTP Misconfig.md",
     "moovit.md",
     "Ory.md",
     "HTB.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️ XSS.md",
-    "HTTP-TLS Attacks.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
-    "Bug bounty/🛡️ Authentication.md",
     "RFI.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "White pentest.md",
