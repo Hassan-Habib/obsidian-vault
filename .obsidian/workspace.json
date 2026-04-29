@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cache Poisoning.md",
+                "file": "Bug bounty/SSRF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cache Poisoning"
+              "title": "SSRF"
             }
           },
           {
@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cache Poisoning.md",
+                "file": "HTTP Misconfig.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cache Poisoning"
+              "title": "HTTP Misconfig"
             }
           }
         ]
@@ -238,13 +238,13 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "HTTP Misconfig.md",
     "moovit.md",
     "Ory.md",
     "HTB.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️ XSS.md",
-    "Cache Poisoning.md",
     "HTTP-TLS Attacks.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",

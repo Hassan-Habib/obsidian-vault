@@ -1,3 +1,4 @@
+# **Cache Poisoning**
 
 You have 2 types of param , 
 Keyed params => param where the responses are saved under its value , like lang=en , it shouldnt have any payloads since the victim wont send a payload to the victim
@@ -20,4 +21,6 @@ Cloak attack
 GET /admin?lang=en&a=blabla;lang=`<img src=0 onerror=alert(1)>`
 some times in server you can separate between params other than "&" so in Bottle Python you use ; 
 no again diff between server and cache so you give the cache lang=en and the server lang=`<img src=0 onerror=alert(1)>` which is add to response
+
+# **HOST Header Attack**
 
