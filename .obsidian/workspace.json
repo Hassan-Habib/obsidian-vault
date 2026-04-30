@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/SSRF.md",
+                "file": "Bug bounty/🛡️  CRLF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SSRF"
+              "title": "🛡️  CRLF"
             }
           },
           {
@@ -238,8 +238,10 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "HTB CWEE/HTTP Misconfig.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/🛡️  CRLF.md",
     "Bug bounty/SSRF.md",
+    "HTB CWEE/HTTP Misconfig.md",
     "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "moovit.md",
@@ -249,7 +251,6 @@
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "RFI.md",
@@ -267,7 +268,6 @@
     "HTB CWEE/NOSQLI.md",
     "Bug bounty/SQLI.md",
     "BBP/vr fi.md",
-    "BBP/sophos.md",
     "HTB CWEE",
     "Bug bounty/diagram.png",
     "BBP",

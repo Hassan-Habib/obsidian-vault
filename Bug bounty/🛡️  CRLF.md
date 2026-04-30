@@ -3,6 +3,8 @@
 ## 1. CRLF Injection & Response Splitting
 
 Exploits `\r\n` (CRLF) to break headers and manipulate the response.
+ADD headers text/html incase you will inject html
+B
 
 - **XSS via Response Splitting:** `%0d%0a%0d%0a<html><script>alert(1)</script></html>`
     
