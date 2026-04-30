@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️  CRLF.md",
+                "file": "HTB CWEE/🛡️  CRLF.md",
                 "mode": "source",
                 "source": false
               },
@@ -236,10 +236,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "Bug bounty/📂 PATH Traversal.md",
+    "HTB CWEE/🛡️  CRLF.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
-    "Bug bounty/🛡️  CRLF.md",
     "Bug bounty/SSRF.md",
     "HTB CWEE/HTTP Misconfig.md",
     "Bug bounty/🛡️ Authentication.md",
@@ -267,7 +268,6 @@
     "endy",
     "HTB CWEE/NOSQLI.md",
     "Bug bounty/SQLI.md",
-    "BBP/vr fi.md",
     "HTB CWEE",
     "Bug bounty/diagram.png",
     "BBP",
