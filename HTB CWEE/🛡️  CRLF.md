@@ -78,13 +78,13 @@ Host: tecl.htb
 
 > [!note] Goal: make one side parse `Transfer-Encoding: chunked`, make the other ignore it.
 
-|Technique|Payload|
-|---|---|
-|Substring match|`Transfer-Encoding: testchunked`|
-|Space in header name|`Transfer-Encoding : chunked`|
-|Horizontal Tab|`Transfer-Encoding:[\x09]chunked`|
-|Vertical Tab|`Transfer-Encoding:[\x0b]chunked`|
-|Leading space|`Transfer-Encoding: chunked`|
+| Technique            | Payload                         |
+| -------------------- | ------------------------------- |
+| Substring match      | Transfer-Encoding: testchunked  |
+| Space in header name | Transfer-Encoding : chunked     |
+| Horizontal Tab       | Transfer-Encoding:[\x09]chunked |
+| Vertical Tab         | Transfer-Encoding:[\x0b]chunked |
+| Leading space        | Transfer-Encoding: chunked      |
 
 ---
 
