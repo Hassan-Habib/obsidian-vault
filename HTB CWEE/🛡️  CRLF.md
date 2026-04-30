@@ -24,11 +24,11 @@ Exploits discrepancies between Frontend (FE) and Backend (BE) boundary detection
 
 ### **Core HRS Types**
 
-| **Type**  | **FE Logic**        | **BE Logic**        | **Exploit**                                   |
-| --------- | ------------------- | ------------------- | --------------------------------------------- |
-| **CL.TE** | `Content-Length`    | `Transfer-Encoding` | Server stops at `0` chunk; rest is smuggled.  |
-| **TE.CL** | `Transfer-Encoding` | `Content-Length`    | Server reads X bytes; rest is smuggled.       |
-| **TE.TE** | `Transfer-Encoding` | `Transfer-Encoding` | Obfuscate TE header so one server ignores it. |
+| **Type**  | **FE Logic**        | **BE Logic**        | **Exploit**                                   | example                                                                |
+| --------- | ------------------- | ------------------- | --------------------------------------------- | ---------------------------------------------------------------------- |
+| **CL.TE** | `Content-Length`    | `Transfer-Encoding` | chunk=0 and the content length is correct     | Content-Length: 49..<br><br>0<br>GET /admin.php?reveal_flag=1 HTTP/1.1 |
+| **TE.CL** | `Transfer-Encoding` | `Content-Length`    | Server reads X bytes; rest is smuggled.       |                                                                        |
+| **TE.TE** | `Transfer-Encoding` | `Transfer-Encoding` | Obfuscate TE header so one server ignores it. |                                                                        |
 
 ### **TE.TE Obfuscation Bypasses**
 
@@ -85,16 +85,3 @@ Exploits the downgrade process where FE (HTTP/2) rewrites requests to BE (HTTP/1
         
 - **Authentication:** Always include your own `Cookie` and `Host` headers inside the smuggled block to ensure the backend processes the request with your permissions.
 
-## New Tricks
-
-### Trick 1
-- Scenario: Header injection set arbitrary response cookie via redirect parameter.
-- Payload: `%0d%0aSet-Cookie:%20admin=true;Path=/;HttpOnly`
-
-### Trick 2
-- Scenario: Cache poisoning by injecting X-Forwarded-Host in reflected header.
-- Payload: `%0d%0aX-Forwarded-Host:%20attacker.tld`
-
-### Trick 3
-- Scenario: Response splitting created attacker-controlled body in victim cache.
-- Payload: `%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK`
