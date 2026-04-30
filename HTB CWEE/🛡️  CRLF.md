@@ -33,11 +33,11 @@ In the `Location:` header — use a **leading space or null data** before CRLF t
 
 ### Core Types
 
-|Type|FE Logic|BE Logic|Exploit Summary|
-|---|---|---|---|
-|**CL.TE**|`Content-Length`|`Transfer-Encoding`|chunk=`0`, CL is correct → BE processes smuggled suffix|
-|**TE.CL**|`Transfer-Encoding`|`Content-Length`|Server reads X bytes; remainder is smuggled|
-|**TE.TE**|`Transfer-Encoding`|`Transfer-Encoding`|Both use TE, but **obfuscate** TE so only one side parses it|
+| Type      | FE Logic            | BE Logic            | Exploit Summary                                              |
+| --------- | ------------------- | ------------------- | ------------------------------------------------------------ |
+| **CL.TE** | `Content-Length`    | `Transfer-Encoding` | chunk=`0`, CL is correct → BE processes smuggled suffix      |
+| **TE.CL** | `Transfer-Encoding` | `Content-Length`    | CL=4  TE is correct                                          |
+| **TE.TE** | `Transfer-Encoding` | `Transfer-Encoding` | Both use TE, but **obfuscate** TE so only one side parses it |
 
 ---
 
@@ -98,6 +98,8 @@ Sec-Websocket-Key1: x
 xxxxxxxxGET /admin HTTP/1.1
 Host:154.57.164.66:30368
 dummy:
+
+
 
 ---
 
