@@ -78,13 +78,13 @@ Host: tecl.htb
 
 > [!note] Goal: make one side parse `Transfer-Encoding: chunked`, make the other ignore it.
 
-| Technique            | Payload                         |
-| -------------------- | ------------------------------- |
-| Substring match      | Transfer-Encoding: testchunked  |
-| Space in header name | Transfer-Encoding : chunked     |
-| Horizontal Tab       | Transfer-Encoding:[\x09]chunked |
-| Vertical Tab         | Transfer-Encoding:[\x0b]chunked |
-| Leading space        | Transfer-Encoding: chunked      |
+| Technique            | Payload                        |
+| -------------------- | ------------------------------ |
+| Substring match      | Transfer-Encoding: testchunked |
+| Space in header name | Transfer-Encoding : chunked    |
+| Horizontal Tab       | Transfer-Encoding:	chunked     |
+| Vertical Tab         | Transfer-Encoding:chunked    |
+| Leading space        | Transfer-Encoding: chunked     |
 Try
 
 Sec-Websocket-Key1: x
@@ -107,6 +107,7 @@ dummy:
 
 > [!tip] Core Concept Exploits the **HTTP/2 → HTTP/1.1 downgrade**. CRLF is just _data_ in H2, but becomes a _separator_ in H1.1 — injecting CRLF in H2 fields creates new headers on the backend.
 
+the proxy read the content correct , so we only add CL or TE and give it the faulty length so 0 probalby
 ### Injection Points
 
 > [!example] Header Value Injection
