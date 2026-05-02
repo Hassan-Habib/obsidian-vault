@@ -58,6 +58,7 @@ Dummy:
 ---
 
 ### TE.CL — Example
+remember to add a new line between the last line of smuggled request and 0 and the length of chunked is measured from the \r\n in the same request (dont count the \r\n in the empty line)
 
 ```http
 GET /404 HTTP/1.1
