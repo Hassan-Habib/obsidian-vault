@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+                "file": "HTB CWEE/HTTP Misconfig.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️  CRLF & Request smuggling"
+              "title": "HTTP Misconfig"
             }
           },
           {
@@ -238,16 +238,16 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/HTTP Misconfig.md",
-    "Bug bounty/SSRF.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "Bug bounty/SSRF.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/File Uploads.md",
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/🛡️ Authentication.md",
-    "HTB CWEE/HTTP-TLS Attacks.md",
     "moovit.md",
     "Ory.md",
     "HTB.md",

