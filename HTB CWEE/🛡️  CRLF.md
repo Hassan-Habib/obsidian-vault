@@ -104,7 +104,7 @@ Host:154.57.164.66:30368
 dummy:
 
 
-
+![[Screenshot from 2026-05-02 14-30-50.png]]
 ---
 
 ## 3. HTTP/2 Smuggling (H2.TE / H2.CL)
