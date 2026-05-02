@@ -51,8 +51,12 @@ Transfer-Encoding: chunked
 
 0
 
-POST /admin.php?promote_uid=2 HTTP/1.1
-Dummy:
+POST /admin HTTP/1.1
+Host: 127.0.0.1
+X-Forwarded-For:127.0.0.1
+Content-Length: 16
+
+asd=x
 ```
 
 
