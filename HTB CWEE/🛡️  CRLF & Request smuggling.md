@@ -118,7 +118,7 @@ dummy:
 > [!tip] Core Concept Exploits the **HTTP/2 → HTTP/1.1 downgrade**. CRLF is just _data_ in H2, but becomes a _separator_ in H1.1 — injecting CRLF in H2 fields creates new headers on the backend.
 
 the proxy read the content correct with no need for header , so we only add CL or TE and give it the faulty length 0 , 
-remember to end the request body after the dummy: header to add newlines so the new request is appended to the header
+remember to end the request body after the dummy: header dont add newlines so the new request is appended to the header
 ### Injection Points
 
 > [!example] Header Value Injection
