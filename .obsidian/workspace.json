@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ XSS.md",
+                "file": "HTB CWEE/Cache&Host-Header&session-puzzling.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ XSS"
+              "title": "Cache&Host-Header&session-puzzling"
             }
           },
           {
@@ -96,7 +96,7 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "byModifiedTime",
+                "sortOrder": "alphabetical",
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
@@ -238,12 +238,12 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "HTB CWEE/HTTP Misconfig.md",
-    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
-    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "Bug bounty/SSRF.md",
+    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
+    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "Bug bounty/File Uploads.md",
     "Bug bounty/📂 PATH Traversal.md",
