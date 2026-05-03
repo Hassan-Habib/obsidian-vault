@@ -155,3 +155,6 @@ remember to end the request body after the dummy: header dont add newlines so th
 > [!danger] Data Exfiltration — "Dangling Header" Technique End your smuggled request with an open header like `X-Ignore:`. The victim's full request (including **cookies**) gets swallowed as its value and sent to your backend.
 
 > [!note] Authentication in Smuggled Blocks Always include your own `Cookie` and `Host` headers **inside the smuggled block** to ensure the backend processes the request with your permissions.
+
+Notes Outside CWEE
+you can try request queue poisoning => you send smuggled request , the victim sends their requests and they recieve the smuggled "request" response, and you recieve their response
