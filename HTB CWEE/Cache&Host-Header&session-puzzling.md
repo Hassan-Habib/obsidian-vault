@@ -29,7 +29,7 @@ wcvs -u url  -sp language=en -gr
 Scenarios:
 Login page , with cache poison
 Forgot password
-SSRF
+SSRF  => tip outside CWEE: try to send 2 request in sequence via repeater one to original host and one to the local one and check 
 
 
 Host
