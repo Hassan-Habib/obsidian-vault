@@ -15,12 +15,12 @@
 
 Extracts `length` characters from `string` starting at `offset` (1-based index).
 
-| DB | Syntax |
-|---|---|
-| Oracle | `SUBSTR('foobar', 4, 2)` |
-| Microsoft | `SUBSTRING('foobar', 4, 2)` |
+| DB         | Syntax                      |
+| ---------- | --------------------------- |
+| Oracle     | `SUBSTR('foobar', 4, 2)`    |
+| Microsoft  | `SUBSTRING('foobar', 4, 2)` |
 | PostgreSQL | `SUBSTRING('foobar', 4, 2)` |
-| MySQL | `SUBSTRING('foobar', 4, 2)` |
+| MySQL      | `SUBSTRING('foobar', 4, 2)` |
 
 ---
 
