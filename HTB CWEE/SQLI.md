@@ -243,7 +243,7 @@ declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp_dirtre
 
 ```sql
 -- Check if we are sysadmin
-SELECT IS_SRVROLEMEMBER('sysadmin');
+IS_SRVROLEMEMBER('sysadmin');
 
 -- Enable 'Advanced Options'
 EXEC sp_configure 'Show Advanced Options', '1';

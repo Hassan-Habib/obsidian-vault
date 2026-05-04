@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/SQLI.md",
+                "file": "HTB CWEE/SQLI.md",
                 "mode": "source",
                 "source": false
               },
@@ -109,7 +109,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "MSSQL",
+                "query": "shell",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -130,8 +130,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -237,8 +236,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "bc1ac6c881241a45",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/💻 LFI.md",
+    "Bug bounty/File Uploads.md",
+    "HTB CWEE/Deserialization.md",
+    "HTB CWEE/SQLI.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
@@ -246,16 +250,13 @@
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "Screenshot from 2026-05-02 14-30-50.png",
-    "Bug bounty/File Uploads.md",
     "Bug bounty/📂 PATH Traversal.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/🛡️ Authentication.md",
     "moovit.md",
     "Ory.md",
     "HTB.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "HTB CWEE/Deserialization.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "RFI.md",
     "Bug ReportInviting arbitrary emails exposes full.md",
@@ -266,7 +267,6 @@
     "Mathlab.md",
     "HTB{{.md",
     "BBP/navan.md",
-    "REPORTS.md",
     "subby",
     "endy",
     "HTB CWEE",
