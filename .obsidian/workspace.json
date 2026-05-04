@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Cache&Host-Header&session-puzzling.md",
+                "file": "Bug bounty/SQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cache&Host-Header&session-puzzling"
+              "title": "SQLI"
             }
           },
           {
@@ -109,7 +109,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "MSSQL",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -130,7 +130,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -236,12 +237,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "bc1ac6c881241a45",
   "lastOpenFiles": [
+    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/SSRF.md",
-    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "Screenshot from 2026-05-02 14-30-50.png",
