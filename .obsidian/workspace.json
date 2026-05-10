@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
+                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ CSRF Tips & Tricks"
+              "title": "🛡️RCE Tips and Techniques"
             }
           },
           {
@@ -236,15 +236,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "HTB CWEE/Deserialization.md",
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
+    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "RFI.md",
     "Ory.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "HTB CWEE/HTTP-TLS Attacks.md",
-    "HTB CWEE/Deserialization.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "White pentest.md",
     "Untitled.base",
@@ -253,7 +254,6 @@
     "Bug bounty/💻 LFI.md",
     "Bug bounty/File Uploads.md",
     "HTB CWEE/🛡️ XSS.md",
-    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/SSRF.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "Bug bounty/📂 PATH Traversal.md",
