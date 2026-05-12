@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Deserialization.md",
+                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Deserialization"
+              "title": "🛡️RCE Tips and Techniques"
             }
           },
           {
@@ -238,10 +238,10 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "HTB CWEE/SSRF.md",
+    "HTB CWEE/Deserialization.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/🛡️ BAC.md",
-    "HTB CWEE/Deserialization.md",
-    "HTB CWEE/SSRF.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
