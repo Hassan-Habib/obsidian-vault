@@ -508,6 +508,7 @@ SELECT @@version
 
 ```sql
 SELECT * FROM information_schema.tables   -- name column
+SELECT table_name FROM information_schema.tables
 ```
 
 **List columns:**
