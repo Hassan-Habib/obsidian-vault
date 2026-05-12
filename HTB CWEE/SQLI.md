@@ -47,6 +47,8 @@ SELECT|UPDATE|DELETE|INSERT|CREATE|ALTER|DROP (WHERE|VALUES).*?' (WHERE|VALUES).
 - Use `$$string$$` instead of `'string'`.
 
 ---
+---
+---
 
 ## Oracle
 
@@ -129,6 +131,8 @@ SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE roo
 
 > Oracle does **not** support stacked queries.
 
+---
+---
 ---
 
 ## Microsoft SQL Server (MSSQL)
@@ -295,7 +299,8 @@ SELECT BulkColumn FROM OPENROWSET(BULK '<path>', SINGLE_CLOB) AS x;
 ```
 
 ---
-
+---
+---
 ## PostgreSQL
 
 ### String Concatenation

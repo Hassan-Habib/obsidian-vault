@@ -238,8 +238,9 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/sqlmap.md",
     "HTB CWEE/SQLI.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/SSRF.md",
     "HTB CWEE/Deserialization.md",
     "Bug bounty/🛡️ BAC.md",
@@ -252,7 +253,6 @@
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "White pentest.md",
     "Untitled.base",
-    "Bug bounty/sqlmap.md",
     "Bug bounty/💻 LFI.md",
     "Bug bounty/File Uploads.md",
     "HTB CWEE/🛡️ XSS.md",
