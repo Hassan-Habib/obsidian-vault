@@ -63,3 +63,5 @@
 
 # Race Condition
 
+-check the timing of the responses
+-Try race condition: each request with diff session 
