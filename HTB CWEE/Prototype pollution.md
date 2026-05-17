@@ -2,11 +2,18 @@
 1- Manipulate Status code :
 	-provide bad json body and check the response code , lets say its 400
 	-send ""
-	{
+	
 	    "__proto__":{
 	        "status":555
 	    }
-	}
+	    OR
+	    "constructor": {
+		    "prototype": {
+			      "status":555 ,
+			      "statusCode": 555
+		    }
+		  }
+	
 	-send the bad json body again and check if the status code changed
 
 2-Parameter Limiting :
