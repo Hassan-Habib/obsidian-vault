@@ -109,7 +109,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "italki",
+                "query": "race",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -236,7 +236,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
