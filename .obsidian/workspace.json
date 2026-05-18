@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Prototype pollution.md",
+                "file": "Bug bounty/🛡️ Authentication.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Prototype pollution"
+              "title": "🛡️ Authentication"
             }
           },
           {
@@ -236,8 +236,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "HTB CWEE/Prototype pollution.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
@@ -266,7 +267,6 @@
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Bug ReportInviting arbitrary emails exposes full.md",
     "NAVAN.md",
-    "HTB CWEE/Prototype pollution.md",
     "subby",
     "endy",
     "HTB CWEE",

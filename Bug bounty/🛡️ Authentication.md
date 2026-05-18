@@ -67,7 +67,18 @@
 |`int`|`string`|Convert `string` to `int`|
 |`float`|`string`|Convert `string` to `float`|
 you can also try these 
-true/false/1/0/-1/"1"/"0"/"-1"/null/[]/"php"/""
+true
+false
+1
+0
+-1
+"1"
+"0"
+"1"
+null
+[]
+"php"
+""
 ### ✅ **Skipping Steps in Multi-Step Login**
 
 - Try jumping to later authentication steps without completing previous ones.
