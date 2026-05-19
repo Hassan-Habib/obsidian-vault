@@ -87,17 +87,17 @@ Any hash starting with `0e` followed by only digits equals `0` under loose compa
 
 ### Common Bypass Payloads
 
-|Payload|Type|Loose-equals|
-|---|---|---|
-|`0`|int|`"0e..."`, `""`, `null`, `false`|
-|`1`|int|`"1abc"`, `true`|
-|`-1`|int|`"-1abc"`|
-|`true`|bool|any non-empty string|
-|`false`|bool|`""`, `null`, `0`, `[]`|
-|`null`|null|`""`, `0`, `false`|
-|`""`|string|`null`, `false`|
-|`"php"`|string|`true`, any non-numeric string|
-|`[]`|array|`false`, `null`|
+| Payload | Type   | Loose-equals                     |
+| ------- | ------ | -------------------------------- |
+| `0`     | int    | `"0e..."`, `""`, `null`, `false` |
+| `1`     | int    | `"1abc"`, `true`                 |
+| `-1`    | int    | `"-1abc"`                        |
+| `true`  | bool   | any non-empty string             |
+| `false` | bool   | `""`, `null`, `0`, `[]`          |
+| `null`  | null   | `""`, `0`, `false`               |
+| `""`    | string | `null`, `false`                  |
+| `"php"` | string | `true`, any non-numeric string   |
+| `[]`    | array  | `false`, `null`                  |
 
 ### Quick Reference
 
