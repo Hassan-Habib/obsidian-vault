@@ -238,9 +238,9 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
-    "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/Prototype pollution.md",
+    "Bug bounty/🛡️ Authentication.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Deserialization.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
