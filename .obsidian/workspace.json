@@ -130,8 +130,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -237,7 +236,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c3269c11ee00fdfd",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
     "Bug bounty/sqlmap.md",
     "HTB CWEE/SQLI.md",
