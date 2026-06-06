@@ -13,11 +13,11 @@
 
 ### .NET
 
-|Signal|Value|
-|---|---|
-|Base64 prefix|`AAEAAAD/////`|
-|JSON key|`$type` / `__type`|
-|JSON key|`TypeObject`|
+| Signal        | Value              |
+| ------------- | ------------------ |
+| Base64 prefix | `AAEAAAD/////`     |
+| JSON key      | `$type` / `__type` |
+| JSON key      | `TypeObject`       |
 
 ## Look for cookie/parameter  `__viewstate`
 
