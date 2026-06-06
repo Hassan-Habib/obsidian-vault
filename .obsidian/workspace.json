@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Logic-Bugs.md",
+                "file": "HTB CWEE/Deserialization.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Logic-Bugs"
+              "title": "Deserialization"
             }
           },
           {
@@ -251,10 +251,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
-    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/Logic-Bugs.md",
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/SQLI.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/🛡️ Authentication.md",
