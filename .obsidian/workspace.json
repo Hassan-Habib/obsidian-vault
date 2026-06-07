@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Deserialization.md",
+                "file": "HTB CWEE/Deserialization Cheatsheet.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Deserialization"
+              "title": "Deserialization Cheatsheet"
             }
           },
           {
@@ -254,7 +254,7 @@
   "lastOpenFiles": [
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/SQLI.md",
-    "HTB CWEE/Deserialization.md",
+    "HTB CWEE/Deserialization Cheatsheet.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Logic-Bugs.md",
     "Bug bounty/sqlmap.md",
