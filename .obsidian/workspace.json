@@ -252,10 +252,10 @@
   },
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "HTB CWEE/Deserialization Cheatsheet.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/SQLI.md",
-    "HTB CWEE/Deserialization Cheatsheet.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Logic-Bugs.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/🛡️ Authentication.md",

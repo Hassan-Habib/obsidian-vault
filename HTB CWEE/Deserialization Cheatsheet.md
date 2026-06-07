@@ -149,6 +149,11 @@ sortedSet.Add("C:\\Windows\\System32\\cmd.exe");
 1. Remove the root tag wrapper
 2. Remove all newlines
 3. Move `ObjectInstance` to the top of the element
+4. Get the class of the object 
+```
+Console.WriteLine(new ExpandedWrapper<XamlReader, ObjectDataProvider>().GetType().AssemblyQualifiedName);
+```
+
 
 ```xml
 <?xml version="1.0"?>
