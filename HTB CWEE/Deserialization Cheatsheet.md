@@ -170,6 +170,13 @@ Console.WriteLine(new ExpandedWrapper<XamlReader, ObjectDataProvider>().GetType(
 </Tee>
 ```
 
+
+
+# Binary script location on VMware 
+
+C:\Users\Hassan Habib\Desktop\Ysoserial\Release
+
+
 ---
 
 ## Whitebox — .NET Serializer Sinks
