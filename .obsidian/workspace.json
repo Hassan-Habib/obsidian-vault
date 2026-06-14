@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "moovit.md",
+                "file": "Bug bounty/🔍 XXE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "moovit"
+              "title": "🔍 XXE"
             }
           },
           {
@@ -123,7 +123,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "http.server",
+                "query": "xxe",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -144,7 +144,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -253,6 +254,8 @@
   "active": "c3269c11ee00fdfd",
   "lastOpenFiles": [
     "HTB CWEE/Deserialization Cheatsheet.md",
+    "HTB CWEE/NOSQLI.md",
+    "moovit.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/SQLI.md",
@@ -277,10 +280,8 @@
     "HTB CWEE/🛡️ XSS.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "Bug bounty/📂 PATH Traversal.md",
-    "moovit.md",
     "HTB.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
-    "Bug ReportInviting arbitrary emails exposes full.md",
     "subby",
     "endy",
     "HTB CWEE",

