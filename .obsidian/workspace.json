@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/SQLI.md",
+                "file": "HTB CWEE/Cache&Host-Header&session-puzzling.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQLI"
+              "title": "Cache&Host-Header&session-puzzling"
             }
           },
           {
@@ -267,8 +267,10 @@
   },
   "active": "a805284c04f623a9",
   "lastOpenFiles": [
-    "Bug bounty/sqlmap.md",
+    "HTB CWEE/🛡️ XSS.md",
+    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/SQLI.md",
+    "Bug bounty/sqlmap.md",
     "Validation.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
@@ -289,11 +291,9 @@
     "RFI.md",
     "Ory.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "Untitled.base",
     "Bug bounty/💻 LFI.md",
     "Bug bounty/File Uploads.md",
-    "HTB CWEE/🛡️ XSS.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "subby",

