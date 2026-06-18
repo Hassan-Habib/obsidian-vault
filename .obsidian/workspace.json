@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ XSS.md",
+                "file": "Validation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ XSS"
+              "title": "Validation"
             }
           },
           {
@@ -267,8 +267,8 @@
   },
   "active": "a805284c04f623a9",
   "lastOpenFiles": [
-    "Validation.md",
     "HTB CWEE/🛡️ XSS.md",
+    "Validation.md",
     "Untitled.base",
     "HTB CWEE/NOSQLI.md",
     "Bug bounty/📂 PATH Traversal.md",
