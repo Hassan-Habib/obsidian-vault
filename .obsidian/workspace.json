@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/Cache&Host-Header&session-puzzling.md",
+                "file": "Validation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cache&Host-Header&session-puzzling"
+              "title": "Validation"
             }
           },
           {
@@ -138,7 +138,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "child_",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -267,8 +267,12 @@
   },
   "active": "a805284c04f623a9",
   "lastOpenFiles": [
-    "HTB CWEE/🛡️ XSS.md",
+    "Bug bounty/📂 PATH Traversal.md",
+    "Bug bounty/💻 LFI.md",
+    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
+    "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/SQLI.md",
     "Bug bounty/sqlmap.md",
     "Validation.md",
@@ -278,7 +282,6 @@
     "Bug bounty/🔍 XXE.md",
     "HTB CWEE/NOSQLI.md",
     "moovit.md",
-    "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/Logic-Bugs.md",
     "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/Prototype pollution.md",
@@ -287,13 +290,10 @@
     "HTB CWEE/SSRF.md",
     "Bug bounty/🛡️ BAC.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
-    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "RFI.md",
     "Ory.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "Untitled.base",
-    "Bug bounty/💻 LFI.md",
-    "Bug bounty/File Uploads.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "subby",
