@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
+                "file": "HTB CWEE/XPATH, LDAP,  PDF generation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️RCE Tips and Techniques"
+              "title": "XPATH, LDAP,  PDF generation"
             }
           },
           {
@@ -267,10 +267,12 @@
   },
   "active": "a805284c04f623a9",
   "lastOpenFiles": [
+    "HTB CWEE/NOSQLI.md",
+    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Validation.md",
     "Untitled.base",
     "Ory.md",
-    "HTB CWEE/NOSQLI.md",
     "HTB CWEE/SQLI.md",
     "HTB CWEE/🛡️ XSS.md",
     "Bug bounty/📂 PATH Traversal.md",
@@ -280,14 +282,12 @@
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "Bug bounty/sqlmap.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "White pentest.md",
     "Bug bounty/🔍 XXE.md",
     "moovit.md",
     "HTB CWEE/Logic-Bugs.md",
     "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/Prototype pollution.md",
-    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "BBP/Italki.md",
     "HTB CWEE/SSRF.md",
     "Bug bounty/🛡️ BAC.md",
