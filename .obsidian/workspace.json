@@ -8,34 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c3269c11ee00fdfd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB CWEE/SQLI.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "SQLI"
-            }
-          },
-          {
-            "id": "a805284c04f623a9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB CWEE/🛡️ XSS.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "🛡️ XSS"
-            }
-          },
-          {
             "id": "ca87f6121fa29a3e",
             "type": "leaf",
             "state": {
@@ -105,8 +77,7 @@
               "title": "HTTP Misconfig"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -265,35 +236,35 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a805284c04f623a9",
+  "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
+    "HTB CWEE/Deserialization Cheatsheet.md",
+    "HTB CWEE/SQLI.md",
+    "Bug bounty/sqlmap.md",
+    "Bug bounty/Template injection.md",
+    "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "HTB CWEE/SSRF.md",
-    "HTB CWEE/SQLI.md",
     "HTB CWEE/Prototype pollution.md",
     "HTB CWEE/NOSQLI.md",
     "HTB CWEE/Logic-Bugs.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "HTB CWEE/Deserialization Cheatsheet.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Validation.md",
     "Untitled.base",
     "Ory.md",
-    "HTB CWEE/🛡️ XSS.md",
     "Bug bounty/📂 PATH Traversal.md",
     "Bug bounty/💻 LFI.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
-    "Bug bounty/sqlmap.md",
     "White pentest.md",
     "Bug bounty/🔍 XXE.md",
     "moovit.md",
     "Bug bounty/🛡️ Authentication.md",
     "BBP/Italki.md",
     "Bug bounty/🛡️ BAC.md",
-    "RFI.md",
     "Screenshot from 2026-05-02 14-30-50.png",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "subby",
