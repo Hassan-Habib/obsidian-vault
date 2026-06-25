@@ -33,19 +33,21 @@ SSRF  => tip outside CWEE: try to send 2 request in sequence via repeater one to
 
 
 Host
-X-Forwarded-Host
-X-Forwarded-Server
-X-Forwarded-For
-X-Host
-X-Original-Host
-X-Remote-Host
-X-Client-Host
-X-HTTP-Host-Override
-Forwarded
-Origin
-Referer
-X-Original-URL
-X-Rewrite-URL
+X-HTTP-Host-Override: 
+X-Forwarded-Server: 
+X-Forwarded-Host: 
+X-Forwarded-For: 
+X-Original-Host:  
+X-Remote-Host: 
+X-Original-URL: 
+X-Rewrite-URL: 
+X-Client-Host: 
+Forwarded: 
+X-Host: 
+Referer: 
+Origin: 
+
+
 
 test all ips 
 
