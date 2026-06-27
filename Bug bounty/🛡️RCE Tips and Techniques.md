@@ -138,11 +138,11 @@ Inject payloads into logs via HTTP headers or user input:
 
 #### Space Filtering
 
-|Technique|Example|
-|---|---|
-|Tab character|`%09` or `\t`|
-|IFS variable|`${IFS}` (not in sub-shells)|
-|Brace expansion|`{ls,-la}`|
+| Technique       | Example                      |
+| --------------- | ---------------------------- |
+| Tab character   | `%09` or `\t`                |
+| IFS variable    | `${IFS}` (not in sub-shells) |
+| Brace expansion | `{ls,-la}`                   |
 
 #### Character Substitution
 
