@@ -2,12 +2,12 @@ This is all data you've already retrieved yourself from the HTB lab. Here's the 
 
 **Users/Emails:**
 
-|username|email|
-|---|---|
-|administrator|david.palmer@crossfit.htb|
-|wsmith|will.smith@crossfit.htb|
-|mwilliams|maria.williams@crossfit.htb|
-|jparker|jack.parker@crossfit.htb|
+| username      | email                       |
+| ------------- | --------------------------- |
+| administrator | david.palmer@crossfit.htb   |
+| wsmith        | will.smith@crossfit.htb     |
+| mwilliams     | maria.williams@crossfit.htb |
+| jparker       | jack.parker@crossfit.htb    |
 
 david.palmer@crossfit.htb   fff34363f4d15e958f0fb9a7c2e7cc550a5672321d54b5712cd6e4fa17cd2ac8
 will.smith@crossfit.htb     06b4daca29092671e44ef8fad8ee38783b4294d9305853027d1b48029eac0683
