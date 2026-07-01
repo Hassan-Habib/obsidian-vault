@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
+                "file": "HTB CWEE/JWT,OAUTH,SSO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ CSRF Tips & Tricks"
+              "title": "JWT,OAUTH,SSO"
             }
           },
           {
@@ -238,12 +238,12 @@
   },
   "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
+    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/SSRF.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
-    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
     "Validation.md",
     "Untitled.base",
