@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/JWT,OAUTH,SSO.md",
+                "file": "HTB CWEE/🛡️ XSS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "JWT,OAUTH,SSO"
+              "title": "🛡️ XSS"
             }
           },
           {
@@ -240,11 +240,16 @@
   "lastOpenFiles": [
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
+    "HTB CWEE/Prototype pollution.md",
+    "HTB CWEE/NOSQLI.md",
+    "HTB CWEE/Logic-Bugs.md",
+    "HTB CWEE/Deserialization Cheatsheet.md",
+    "HTB CWEE/JWT,OAUTH,SSO.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/SSRF.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
-    "HTB CWEE/Deserialization Cheatsheet.md",
     "Validation.md",
     "Untitled.base",
     "RFI.md",
@@ -252,17 +257,12 @@
     "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
     "HTB CWEE/SQLI.md",
-    "HTB CWEE/Prototype pollution.md",
-    "HTB CWEE/Logic-Bugs.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "Bug bounty/💻 LFI.md",
     "Bug bounty/🔍 XXE.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Bug bounty/sqlmap.md",
     "Bug bounty/Template injection.md",
-    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
-    "HTB CWEE/NOSQLI.md",
-    "HTB CWEE/JWT,OAUTH,SSO.md",
     "Ory.md",
     "Bug bounty/📂 PATH Traversal.md",
     "White pentest.md",
