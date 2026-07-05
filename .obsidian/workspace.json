@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ XSS.md",
+                "file": "HTB CWEE/XPATH, LDAP,  PDF generation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ XSS"
+              "title": "XPATH, LDAP,  PDF generation"
             }
           },
           {
@@ -238,8 +238,8 @@
   },
   "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
-    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ XSS.md",
+    "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/SSRF.md",

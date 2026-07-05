@@ -52,11 +52,11 @@ Predicate Operands:
 Wildcards:
 
 
-|Query|Explanation|
-|---|---|
-|`node()`|Matches any node|
-|`*`|Matches any `element` node|
-|`@*`|Matches any `attribute` node|
+| Query    | Explanation                  |
+| -------- | ---------------------------- |
+| `node()` | Matches any node             |
+| `*`      | Matches any `element` node   |
+| `@*`     | Matches any `attribute` node |
 
 Union:
 
