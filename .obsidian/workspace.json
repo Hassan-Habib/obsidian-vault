@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/XPATH, LDAP,  PDF generation.md",
+                "file": "Bug bounty/File Uploads.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "XPATH, LDAP,  PDF generation"
+              "title": "File Uploads"
             }
           },
           {
@@ -109,7 +109,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "xml",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -238,20 +238,21 @@
   },
   "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
+    "HTB CWEE/SQLI.md",
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
+    "Bug bounty/🔍 XXE.md",
+    "HTB CWEE/Deserialization Cheatsheet.md",
+    "HTB CWEE/NOSQLI.md",
+    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
     "HTB CWEE/🛡️ XSS.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/SSRF.md",
-    "HTB CWEE/SQLI.md",
     "HTB CWEE/Prototype pollution.md",
-    "HTB CWEE/NOSQLI.md",
     "HTB CWEE/Logic-Bugs.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
-    "HTB CWEE/XPATH, LDAP,  PDF generation.md",
-    "HTB CWEE/Deserialization Cheatsheet.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Validation.md",
     "Untitled.base",
     "RFI.md",
@@ -259,7 +260,6 @@
     "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
     "Bug bounty/💻 LFI.md",
-    "Bug bounty/🔍 XXE.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
     "Bug bounty/sqlmap.md",
     "Bug bounty/Template injection.md",
