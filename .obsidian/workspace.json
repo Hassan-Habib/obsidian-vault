@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bug bounty/🛡️RCE Tips and Techniques.md",
+                "file": "HTB CWEE/🛡️  CRLF & Request smuggling.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️RCE Tips and Techniques"
+              "title": "🛡️  CRLF & Request smuggling"
             }
           },
           {
@@ -238,10 +238,10 @@
   },
   "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
+    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "Bug bounty/File Uploads.md",
     "HTB CWEE/SQLI.md",
-    "Bug bounty/🛡️RCE Tips and Techniques.md",
     "Bug bounty/🔍 XXE.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
     "HTB CWEE/NOSQLI.md",
