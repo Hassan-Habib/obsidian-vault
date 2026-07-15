@@ -50,7 +50,7 @@ openssl rsa -pubout -in exploit_private.pem -out exploit_public.pem
 ### 4. Secret Key Brute-Forcing (HS256)
 
 ```bash
-hashcat -m 16500 jwt.txt /usr/share/wordlists/rockyou.txt --show
+hashcat -m 16500 jwt.txt ~/Desktop/SecLists/Passwords/Leaked-Databases/rockyou.txt
 ```
 
 ---
