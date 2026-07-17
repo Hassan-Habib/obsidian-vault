@@ -135,16 +135,16 @@ print((msg + b'.' + sig).decode())
 
 **Technique:** Intercept the `SAMLResponse`.
 
-**Action:** Delete the entire `<ds:Signature> ... </ds:Signature>` block.
+**Action:** Delete the entire `<ds:Signature> ... </ds:Signature>` block (can be 1 or more than 1 block).
 
-**Test:** Modify the `NameID` to a target user and see if the Service Provider accepts the unsigned assertion.
+**Test:** Modify the parameter you want i.e `NameID` to a target user and see if the Service Provider accepts the unsigned assertion.
 
 ---
 
 ### 2. XML Signature Wrapping (XSW)
 
 1. Capture a valid signed SAML response.
-2. Clone the `<saml:Assertion>` block.
+2. Clone the `<saml:Assertion>....</saml:Assertion>` block.
 3. Modify the first (cloned) assertion: delete the `<ds:Signature>` block and change the user ID.
 4. Wrap: paste the malicious assertion before the original signed one.
 
