@@ -156,5 +156,7 @@ HTML
 Tips
 simple requests  => GET/HEAD/POST with a `Content-Type` of either `application/x-www-form-urlencoded`, `multipart/form-data`, or `text/plain` and no custom headers 
 preflighted requests are all else
+if origin   test.com is allowed, then try hacker-test.com
+try if origin : null is accepted, iframe gives origin null
 CORS is for reading data , CSRF is for state-changing requests
 if SameSite is `Strict`  try to find a page that doesnt need the cookie and has clientside redirect , and you can control the redirect url
