@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
+                "file": "HTB CWEE/SQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "🛡️ CSRF Tips & Tricks"
+              "title": "SQLI"
             }
           },
           {
@@ -238,6 +238,7 @@
   },
   "active": "ca87f6121fa29a3e",
   "lastOpenFiles": [
+    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "Untitled/report.md",
     "HTB CWEE/NOSQLI.md",
@@ -264,7 +265,6 @@
     "Bug bounty/🔍 XXE.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
-    "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/SSRF.md",
     "HTB CWEE/Prototype pollution.md",
     "HTB CWEE/Logic-Bugs.md",
