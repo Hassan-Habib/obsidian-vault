@@ -154,4 +154,7 @@ HTML
 **Would you like me to create a specific proof-of-concept template for any of these individual techniques?**
 
 Tips
+simple requests  => GET/HEAD/POST with a `Content-Type` of either `application/x-www-form-urlencoded`, `multipart/form-data`, or `text/plain` and no custom headers 
+preflighted requests are all else
+CORS is for reading data , CSRF is for state-changing requests
 if SameSite is `Strict`  try to find a page that doesnt need the cookie and has clientside redirect , and you can control the redirect url
