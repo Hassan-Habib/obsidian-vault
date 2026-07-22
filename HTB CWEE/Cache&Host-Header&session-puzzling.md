@@ -27,6 +27,7 @@ wcvs -u url  -sp language=en -gr
 # **HOST Header Attack**
 
 Scenarios:
+can be used with cache poisoning, to make the victim send data to the host you set
 Login page , with cache poison
 Forgot password
 SSRF  => tip outside CWEE: try to send 2 request in sequence via repeater one to original host and one to the local one and check 
