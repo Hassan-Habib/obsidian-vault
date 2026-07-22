@@ -49,7 +49,7 @@ Run this to see what is hidden inside the encrypted string. _Note: If it was a P
 Bash
 
 ```
-padbuster [URL] "[EncryptedSample]" [BlockSize] -cookies "user=[EncryptedSample]"
+padbuster [URL] "[EncryptedSample]" [BlockSize] -cookies "user=[EncryptedSample]" -error "[error message]"
 ```
 
 #### B. Forging Data
