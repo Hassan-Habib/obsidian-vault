@@ -6,6 +6,7 @@
 
 > These work regardless of the database backend or require no DB-specific knowledge.
 
+IN url encoding payloads , try + and %20 , as one of em can work and other dont 
 ### Boolean-Based
 
 ```sql
