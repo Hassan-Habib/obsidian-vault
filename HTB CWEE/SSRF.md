@@ -34,3 +34,11 @@ php -S 0.0.0.0:80
 
 then direct the url to the server
 
+
+DNS rebind , go to **NETWORK Configuration** then => **Hostname and DNS Client** => then add you ip address to DNS servers 
+then run 
+
+`````
+sudo python3 dnsrebinder.py --domain <anyname.com> --rebind <target-IP> --ip 1.1.1.1 --counter 1 --tcp --udp
+```
+
