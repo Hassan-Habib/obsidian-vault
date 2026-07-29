@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/SQLI.md",
+                "file": "White pentest.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQLI"
+              "title": "White pentest"
             }
           },
           {
@@ -109,7 +109,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "rebind",
+                "query": "child_",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -236,15 +236,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ca87f6121fa29a3e",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "HTB CWEE/SQLI.md",
     "Bug bounty/sqlmap.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
-    "HTB CWEE/SQLI.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "Untitled/report.md",
     "HTB CWEE/NOSQLI.md",
