@@ -22,7 +22,7 @@
 	-send ""
 	
 	    "__proto__":{
-	        "THE PARA":555
+	        "THE PARAM YOU WANT TO MODIFY":"THE VALUE YOU WANT"
 	    }
 	    OR
 	    "constructor": {
