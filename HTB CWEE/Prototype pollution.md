@@ -65,3 +65,67 @@
 
 -check the timing of the responses
 -Try race condition: each request with diff session 
+
+
+## ✅ PHP Type Juggling Cheat Sheet
+
+### Comparison Rules (`==`)
+
+|Operand 1|Operand 2|Behavior|
+|---|---|---|
+|`string`|`string`|Numerical or lexical comparison|
+|`null`|`string`|Convert `null` to `""`|
+|`null`|anything but `string`|Convert both to `bool`|
+|`bool`|anything|Convert both to `bool`|
+|`int`|`string`|Convert `string` to `int`|
+|`float`|`string`|Convert `string` to `float`|
+
+### Magic Hashes
+
+Any hash starting with `0e` followed by only digits equals `0` under loose comparison:
+
+```
+"0e529201492" == "0e137951649" == 0  → TRUE
+```
+
+**Attack strategy:**
+
+1. Make the target hash start with `0e`
+2. Brute-force your input until your hash also starts with `0e`
+3. Both evaluate to `0` → bypass
+
+### Common Bypass Payloads
+
+| Payload | Type   | Loose-equals                     |
+| ------- | ------ | -------------------------------- |
+| `0`     | int    | `"0e..."`, `""`, `null`, `false` |
+| `1`     | int    | `"1abc"`, `true`                 |
+| `-1`    | int    | `"-1abc"`                        |
+| `true`  | bool   | any non-empty string             |
+| `false` | bool   | `""`, `null`, `0`, `[]`          |
+| `null`  | null   | `""`, `0`, `false`               |
+| `""`    | string | `null`, `false`                  |
+| `"php"` | string | `true`, any non-numeric string   |
+| `[]`    | array  | `false`, `null`                  |
+
+### Quick Reference
+
+```php
+"0e123"  == 0      → TRUE  (scientific notation)
+"1"      == true   → TRUE  (cast to bool)
+""       == false  → TRUE  (empty = false)
+"0"      == false  → TRUE  (zero = false)
+null     == false  → TRUE
+[]       == false  → TRUE
+"php"    == true   → TRUE  (non-empty string)
+```
+
+### The Fix
+
+```php
+// ❌ Vulnerable
+$mac == custom_hmac($dir, $nonce)
+
+// ✅ Safe
+$mac === custom_hmac($dir, $nonce)
+```
