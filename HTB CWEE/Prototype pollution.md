@@ -119,13 +119,3 @@ null     == false  → TRUE
 []       == false  → TRUE
 "php"    == true   → TRUE  (non-empty string)
 ```
-
-### The Fix
-
-```php
-// ❌ Vulnerable
-$mac == custom_hmac($dir, $nonce)
-
-// ✅ Safe
-$mac === custom_hmac($dir, $nonce)
-```
