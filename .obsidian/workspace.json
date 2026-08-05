@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/SQLI.md",
+                "file": "HTB CWEE/Deserialization Cheatsheet.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SQLI"
+              "title": "Deserialization Cheatsheet"
             }
           },
           {
@@ -126,7 +126,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "type jugg",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -253,10 +253,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e48d8760886bbf50",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
-    "Bug bounty/sqlmap.md",
     "HTB CWEE/SQLI.md",
+    "Bug bounty/sqlmap.md",
     "HTB CWEE/Prototype pollution.md",
     "Bug bounty/🛡️ Authentication.md",
     "HTB CWEE/Deserialization Cheatsheet.md",
