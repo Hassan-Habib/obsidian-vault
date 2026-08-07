@@ -4,6 +4,7 @@
 
 ## Black-Box Identification
 
+
 ### Java
 
 |Signal|Value|
@@ -59,6 +60,8 @@ python3 ~/Desktop/scripts/python-.../peas.py
 ---
 
 ## ysoserial.NET
+
+## Do payloads on VMware not ubuntu 
 
 ### Flags
 
