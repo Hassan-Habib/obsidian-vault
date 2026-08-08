@@ -1,5 +1,7 @@
 # ROYAL FLUSH
 
+### WWW.royalflush.htb.com
+
 ## SQLI AT https://www.royalflush.htb/forgot
 payload `asd%40me.c'||+(SELECT+pg_sleep(10)::text)||'`
 
@@ -39,12 +41,13 @@ SQLMAP command
 `
 
 
+### forum.royalflush.htb
+charles:charles
+
+![[Screenshot from 2026-08-08 15-06-48.png]]
 
 
-
-
-
-## vitamedix.htb
+# vitamedix.htb
 
 ## Gathered INFO 
 Emails: 
