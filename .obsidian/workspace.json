@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB CWEE/NOSQLI.md",
+                "file": "CWEE EXAM.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NOSQLI"
+              "title": "CWEE EXAM"
             }
           }
         ]
@@ -184,13 +184,16 @@
   },
   "active": "08827fb9e803ed54",
   "lastOpenFiles": [
-    "CWEE EXAM.md",
-    "HTB CWEE/Deserialization Cheatsheet.md",
+    "Screenshot from 2026-08-08 18-25-39.png",
     "HTB CWEE/NOSQLI.md",
-    "Screenshot from 2026-08-08 15-06-48.png",
-    "Bug bounty/sqlmap.md",
     "HTB CWEE/SQLI.md",
+    "CWEE EXAM.md",
+    "Bug bounty/sqlmap.md",
+    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
+    "HTB CWEE/SSRF.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",
+    "HTB CWEE/Deserialization Cheatsheet.md",
+    "Screenshot from 2026-08-08 15-06-48.png",
     "HTB CWEE/🛡️ CSRF Tips & Tricks.md",
     "HTB CWEE/JWT,OAUTH,SSO.md",
     "File_Inclusion_Module_Cheat_Sheet.pdf",
@@ -201,13 +204,11 @@
     "HTB{{.md",
     "HTB.md",
     "DNS REBIND.md",
-    "HTB CWEE/SSRF.md",
     "HTB CWEE/Logic-Bugs.md",
     "HTB CWEE/Prototype pollution.md",
     "Bug bounty/🛡️ Authentication.md",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
-    "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/HTTP-TLS Attacks.md",
     "Untitled/report.md",
     "Untitled/exploits/sqli-blind-XW9tKXTg.py",

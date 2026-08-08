@@ -11,6 +11,7 @@ tables:
 | forgot  |
 | roles  
 
+john :42zyTJ94BwdKjEw1XNmt
 
 ### Request 
 ```POST /forgot HTTP/1.1
@@ -45,6 +46,16 @@ SQLMAP command
 charles:charles
 
 ![[Screenshot from 2026-08-08 15-06-48.png]]
+
+### NOSQLI at verify-email endpoint
+
+
+![[Screenshot from 2026-08-08 18-25-39.png]]
+
+### Server doesnt prevent any domains in registeration leading to registering email with domain name
+
+
+
 
 
 # vitamedix.htb
