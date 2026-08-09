@@ -1,5 +1,10 @@
 # ROYAL FLUSH
 
+emails:
+admin@royalflush.htb
+security@royalflush.htb
+developer@royalflush.htb
+
 ### WWW.royalflush.htb.com
 
 ## SQLI AT https://www.royalflush.htb/forgot
