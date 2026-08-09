@@ -291,12 +291,6 @@ charles:charles
 
 ![[Screenshot from 2026-08-08 15-06-48.png]]
 
-### Passoword Leaked
-
-
-![[Screenshot from 2026-08-08 18-58-23.png]]
-john :42zyTJ94BwdKjEw1XNmt
-
 
 checking if user is staff based on the email
 ![[Screenshot from 2026-08-08 22-25-56.png]]
@@ -310,6 +304,26 @@ checking if user is staff based on the email
 ![[Screenshot from 2026-08-08 18-25-39.png]]
 
 ### Server doesnt prevent any domains in registeration leading to registering email with domain name
+
+### Passoword Leaked
+
+
+![[Screenshot from 2026-08-08 18-58-23.png]]
+john :42zyTJ94BwdKjEw1XNmt
+email leaked jdover@royalflush.htb
+
+![[Screenshot from 2026-08-09 08-34-45.png]]
+
+
+
+## Vault.royalflush.htb
+
+SQLI Time Based
+
+![[Screenshot from 2026-08-09 08-49-57.png]]
+
+
+
 
 
 
