@@ -309,8 +309,8 @@ checking if user is staff based on the email
 
 
 ![[Screenshot from 2026-08-08 18-58-23.png]]
-john :42zyTJ94BwdKjEw1XNmt
-email leaked jdover@royalflush.htb
+john :   42zyTJ94BwdKjEw1XNmt
+email leaked jdover66@royalflush.htb
 
 ![[Screenshot from 2026-08-09 08-34-45.png]]
 
