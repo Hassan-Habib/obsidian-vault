@@ -344,7 +344,7 @@ htb-stdnt
 
 
 username found via ldap in 
-`ldap.vitamedix.htb`
+## `ldap.vitamedix.htb`
 
 ```  
   
@@ -559,6 +559,7 @@ if __name__ == "__main__":
 
 
 ### Storage.vitamedix
+
 ![[Screenshot from 2026-08-09 15-42-46.png]]
 
 SMTP Creds Leaked via BOLA on file render.php
@@ -673,3 +674,34 @@ if __name__ == "__main__":
 
 result 
 ![[Screenshot from 2026-08-09 16-00-08.png]]
+
+
+
+### DNS.vitamedix
+
+passowrd leaked for DNS.vitamedix:8006
+
+```
+version: '3'
+services:
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8006:80/tcp"
+    environment:
+      WEBPASSWORD: "pihole"
+    volumes:
+      - "./etc-pihole:/etc/pihole"
+      - "./etc-dnsmasq.d:/etc/dnsmasq.d"
+    dns:
+      - 127.0.0.1
+    restart: always
+```
+
+![[Screenshot from 2026-08-09 16-23-03 1.png]]then we login in with password pihole 
+
+![[Screenshot from 2026-08-09 16-23-39.png]]
