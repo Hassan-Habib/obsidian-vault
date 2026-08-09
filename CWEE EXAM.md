@@ -556,11 +556,17 @@ if __name__ == "__main__":
 
 ```
 
+After trying emails in users.php
+on forgot password , we get a valid email   `michael@vitamedix.htb`
 
+![[Screenshot from 2026-08-09 17-19-23.png]]
 
 ### Storage.vitamedix
 
 ![[Screenshot from 2026-08-09 15-42-46.png]]
+
+Now we have access to Storage.vitamedix
+![[Screenshot from 2026-08-09 17-37-37.png]]
 
 SMTP Creds Leaked via BOLA on file render.php
 
@@ -673,8 +679,28 @@ if __name__ == "__main__":
 ```
 
 result 
+
 ![[Screenshot from 2026-08-09 16-00-08.png]]
 
+
+smtp-dev@vitamedix.htb
+Test Credentials for Dev:- smtp-dev:03264b1a5592d59923f482046b87f869
+
+
+![[Screenshot from 2026-08-09 17-19-56.png]]
+
+
+at the reset password above we identified `michael@vitamedix.htb`
+Now we send this payload 
+`michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+`
+
+and we get the victim password too
+![[Screenshot from 2026-08-09 17-39-19.png]]
+
+now we get access to vitamedix.htb with the creds michael:9ecf1ffe7c795099b8ad40d29aa37a83
+
+
+![[Screenshot from 2026-08-09 17-47-58.png]]
 
 
 ### DNS.vitamedix
