@@ -318,10 +318,10 @@ email leaked jdover66@royalflush.htb
 
 ## Vault.royalflush.htb
 
-SQLI Time Based
+SQLI 
 
-![[Screenshot from 2026-08-09 08-49-57.png]]
 
+![[Screenshot from 2026-08-09 11-02-03.png]]
 
 
 
