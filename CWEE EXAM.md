@@ -255,7 +255,8 @@ if __name__ == "__main__":
     main()
 ```
 
-```Email:    lbrown@hotmail.com
+```
+Email:    lbrown@hotmail.com
 Username: chandlerjoseph
 Cookie:   auth=mRrs0ml/xGSYtboCYb6paVx5eGs9r51O2jerqEC3j7BlbWFpbDogbGJyb3duQGhvdG1haWwuY29tCmV4cGlyZXNfYXQ6IDIxMDE1NjkzMjQKdXNlcm5hbWU6IGNoYW5kbGVyam9zZXBoCg==
 Saved to: cookie_lbrown_hotmail_com.txt
