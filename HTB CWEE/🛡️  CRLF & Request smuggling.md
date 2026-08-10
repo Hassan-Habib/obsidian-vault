@@ -82,6 +82,8 @@ Host: tecl.htb
 
 ```
 
+
+![[Screenshot from 2026-08-10 09-27-49.png]]
 ---
 
 ### TE.TE Obfuscation Bypasses
