@@ -760,3 +760,14 @@ TCP server loop running in thread: Thread-2 (serve_forever)
 leaked internal url in code 
 
 ![[Screenshot from 2026-08-09 18-10-21.png]]
+
+
+
+# Secure Data
+
+Xpath injection in q param at query.php![[Screenshot from 2026-08-10 20-02-33.png]]
+
+
+## Leaked Credenitial of testdeveloper
+
+![[Screenshot from 2026-08-10 20-00-52.png]]
