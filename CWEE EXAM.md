@@ -771,3 +771,8 @@ Xpath injection in q param at query.php![[Screenshot from 2026-08-10 20-02-33.pn
 ## Leaked Credenitial of testdeveloper
 
 ![[Screenshot from 2026-08-10 20-00-52.png]]
+
+### Race Condition
+
+by sending multiple requests to admin_panel.php and a logout request in a single packet attack , you will notice the admin panel returned to you 
+![[Screenshot from 2026-08-11 00-49-21.png]]
