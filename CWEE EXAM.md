@@ -909,6 +909,10 @@ TCP server loop running in thread: Thread-2 (serve_forever)
 
 
 
+now we use  michael:9ecf1ffe7c795099b8ad40d29aa37a83 creds to access newsletter and get the first flag 
+`d26a4b37437173ac7c4dc2c708b6323f`
+
+
 
 
 
