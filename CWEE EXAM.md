@@ -285,6 +285,9 @@ ROLE ADMIN
 
 ![[Screenshot from 2026-08-08 22-22-40.png]]
 
+Then we access /admin and we get the flag `da3d97b0bc320ac2197b3dd03b6f292a`
+![[Screenshot from 2026-08-11 08-51-35.png]]
+
 
 
 
@@ -846,9 +849,14 @@ now we get access to vitamedix.htb with the creds michael:9ecf1ffe7c795099b8ad40
 
 ![[Screenshot from 2026-08-09 17-47-58.png]]
 
+leaked internal url in code 
+
+![[Screenshot from 2026-08-09 18-10-21.png]]
 
 
-WE got to pdf generation  and point it to our domain in the DNSrebinder command `attacker.com`
+
+
+WE go to pdf generation  and point it to our domain in the DNSrebinder command `attacker.com`
 and we point it to 
 `http://admin:C0uchDB@attacker.com:5984/users/admin`
 
@@ -898,13 +906,6 @@ TCP server loop running in thread: Thread-2 (serve_forever)
 
 
 ```
-
-
-leaked internal url in code 
-
-![[Screenshot from 2026-08-09 18-10-21.png]]
-
-
 
 
 
