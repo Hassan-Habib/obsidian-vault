@@ -325,6 +325,9 @@ SQLI
 
 ![[Screenshot from 2026-08-09 11-02-03.png]]
 
+Path to Project leaked in error
+
+![[Screenshot from 2026-08-11 07-24-33.png]]
 
 
 
