@@ -1,3 +1,4 @@
+
 # ROYAL FLUSH
 
 emails:
@@ -763,7 +764,26 @@ leaked internal url in code
 
 
 
-# Secure Data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# **Secure Data**
 
 Xpath injection in q param at query.php![[Screenshot from 2026-08-10 20-02-33.png]]
 
