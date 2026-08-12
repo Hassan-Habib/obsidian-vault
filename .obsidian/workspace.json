@@ -224,8 +224,19 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0e79e61ad712a1b",
+  "active": "08827fb9e803ed54",
   "lastOpenFiles": [
+    "HTB CWEE/www.vitamedix.htb_XSS-redirect.php",
+    "HTB CWEE/www.vitamedix.htb_validate-token-NOSQLI.py",
+    "HTB CWEE/vault.royalflush.htb_SecondaryEmail-SQLI-Web-Config-dump.py",
+    "HTB CWEE/storage.vitamedix.htb-SMTP-Creds-LEAK.py",
+    "HTB CWEE/ldap.vitamedix.htb-usernames.py",
+    "HTB CWEE/vault.royalflush.htb-Deserialization-Payload.py",
+    "HTB CWEE/vault.royalflush.htb_SecondaryEmail-SQLI-Web-Config-dumb.py",
+    "HTB CWEE/www.royalflush.htb_SecondaryEmail-SQLI-Web-Config-dumb.py",
+    "HTB CWEE/www.royalflush.htb_JWT-Forgery.py",
+    "HTB CWEE/www.royalflush.htb_forgot-JWT-Forgery.py",
+    "HTB CWEE/www.royalflush.htb_forgot-SQLI.py~",
     "HTB CWEE/CWEE EXAM (Copy).md",
     "CWEE EXAM (Copy).md",
     "Screenshot from 2026-08-12 11-06-23.png",
@@ -258,19 +269,8 @@
     "HTB CWEE/Cache&Host-Header&session-puzzling.md",
     "Bug bounty/sqlmap.md",
     "Bug bounty/🛡️ Authentication.md",
-    "File_Inclusion_Module_Cheat_Sheet.pdf",
     "White pentest.md",
     "Validation.md",
-    "Mathlab.md",
-    "HTB{{.md",
-    "Untitled/exploits/sqli-blind-XW9tKXTg.py",
-    "Untitled/exploits",
-    "Untitled/assets",
-    "Untitled",
-    "Untitled.base",
-    "subby",
-    "endy",
-    "HTB CWEE",
-    "BBP"
+    "Mathlab.md"
   ]
 }

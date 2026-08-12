@@ -44,7 +44,9 @@ Result: Sleep 10 seconds
 
 ### dumbing users emails and usernames
 
-```#!/usr/bin/env python3  
+```python
+
+#!/usr/bin/env python3  
 """  
 Extract username + email for users with a given role_id from RoyalFlush /forgot SQLi.  
 Default role_id=1 (regular users). Change ROLE_ID below to extract other roles.  
