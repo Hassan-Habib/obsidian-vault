@@ -1,70 +1,36 @@
-### Primary Fix: Implementation of Parameterized Queries
+Here is the organized section formatted in clean, human-written Markdown for your report:
 
-The vulnerability stems from user input being directly concatenated into the SQL statement via Python string formatting:
+## Finding: Hardcoded Secrets Exposed via Git Repository History
 
-Python
+### Description
 
-```
-# Vulnerable Code:
-cursor.execute("SELECT user_id FROM users WHERE email = '%s'" % (email,))
-```
+During the repository analysis, the pentester discovered that the application’s full `.env` configuration file was committed in the initial Git commit. This file contained critical operational credentials, including database access passwords, keys used to sign Flask sessions, cookie authentication secrets, and administrative API keys.
 
-To fix this, the raw string formatting must be replaced with a parameterized query. Passing the `email` value as a separate argument ensures the database driver treats it strictly as data, preventing the engine from executing arbitrary SQL payload structures:
+Although the `.env` file was modified or removed in subsequent commits, the original secrets remain fully accessible within the repository’s commit history.
 
-Python
+Because these security-sensitive values were exposed together, an attacker with repository access can chain them to achieve complete application compromise. Most notably, extracting `AUTH_SECRET` and `API_SECRET` allows for unauthenticated account takeovers and complete administrative privilege escalation.
 
-```
-@app.route('/forgot', methods=['GET', 'POST'])
-def forgot():
-    ...
-    else:
-        email = request.form.get('email', '').strip()
-        
-        if email:
-            with db.connect() as conn:
-                cursor = conn.cursor()
-                # Correct Fix: Parameterized query using placeholders
-                cursor.execute(
-                    "SELECT user_id FROM users WHERE email = %s",
-                    (email,)
-                )
-                row = cursor.fetchone()
-                ...
-```
+### Root Causes
 
-### Additional Defensive Recommendations
+#### 1. Commit of Production Secrets to Source Control
 
-#### 1. Eliminate Blacklist-Based Filters
+The `.env` file was included in the initial codebase commit. Version control systems retain full historical file contents even after a file is deleted or modified in later commits, leaving the credentials permanently exposed unless the Git history is rewritten or purged.
 
-Remove reliance on custom decorators like `@anti_sqli`. Blacklist filters are easily bypassed because attackers can construct alternative SQL payloads. Parameterized queries should serve as the primary and only defense against SQL injection.
+#### 2. Reliance on Static, Unrotated Secrets
 
-#### 2. Apply Parameterization Universally across Codebase
+The application relies on static, long-lived secrets across its environment without runtime binding or regular rotation:
 
-Ensure prepared statements or an Object-Relational Mapper (ORM) are used consistently across all database operations—including login, account settings, admin panels, and API endpoints—to eliminate similar hidden vulnerabilities elsewhere in the application.
+- **`AUTH_SECRET`**: Signs and verifies all authentication cookies.
+    
+- **`API_SECRET`**: Controls access to administrative API endpoints.
+    
+- **`APP_SECRET`**: Secures Flask session state and CSRF tokens.
+    
+- **`DB_PASS`**: Authenticates directly to the backend PostgreSQL database.
+    
 
-#### 3. Implement Strict Input Validation
+None of these secrets are rotated, restricted by IP/client context, or backed by a server-side session store. Compromising a single secret provides persistent unauthorized access; exposing the entire `.env` file grants complete system control.
 
-Validate that incoming parameters conform to expected formats before submitting them to the database handler. In this case, ensure the string is a valid email format before processing:
+#### 3. Lack of Infrastructure and Code Separation
 
-Python
-
-```
-import re
-
-email_regex = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
-
-if not email_regex.match(email):
-    return redirect(url_for('forgot', e='Invalid email address'))
-```
-
-#### 4. Enforce the Principle of Least Privilege
-
-Restrict database user account permissions to only what is required for standard application function. The database user used by the Web app should not have elevated schema alteration, system command, or unnecessary write capabilities across unrelated tables.
-
-#### 5. Set Up Logging & Abnormal Delay Alerts
-
-Monitor application logs for suspicious characters or payload structures. Establish alerts for anomalous database response latencies (e.g., responses taking over 5–10 seconds), which typically signal active time-based blind SQL injection attempts.
-
-#### 6. Retesting & Verification
-
-Following implementation of the patch, the pentester should re-run the original time-based exploitation scripts to verify that response times remain consistent and data extraction is no longer possible.
+Sensitive environment configuration was stored alongside application source code rather than being injected dynamically at runtime via a dedicated secrets manager, environment-specific deployment pipeline, or secure vault.
