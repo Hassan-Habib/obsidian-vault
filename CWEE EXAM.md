@@ -14,7 +14,8 @@ Vulnerability
 
 
 ### Request 
-```POST /forgot HTTP/1.1
+```
+POST /forgot HTTP/1.1
 Host: www.royalflush.htb
 Cookie: session=eyJjc3JmX3Rva2VuIjoiOWM3NWFjZmMxNWMxZDgyNjAxNTk2Y2YxY2FjNDczODk3N2ExZDQ2YSJ9.anbeug.j36tmt5PANRFiIG2D62bEhlbUbo
 User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0
