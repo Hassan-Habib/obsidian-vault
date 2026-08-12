@@ -224,8 +224,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "08827fb9e803ed54",
+  "active": "c0e79e61ad712a1b",
   "lastOpenFiles": [
+    "HTB CWEE/CWEE EXAM (Copy).md",
+    "CWEE EXAM (Copy).md",
     "Screenshot from 2026-08-12 11-06-23.png",
     "Screenshot from 2026-08-12 11-05-00.png",
     "Screenshot from 2026-08-12 11-04-34.png",
@@ -239,7 +241,6 @@
     "Screenshot from 2026-08-12 10-28-16.png",
     "HTB CWEE/SSRF.md",
     "Screenshot from 2026-08-12 10-15-36.png",
-    "Screenshot from 2026-08-12 10-15-04.png",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "Bug bounty/🕵️ Recon Roadmap.md",
@@ -262,7 +263,6 @@
     "Validation.md",
     "Mathlab.md",
     "HTB{{.md",
-    "HTB.md",
     "Untitled/exploits/sqli-blind-XW9tKXTg.py",
     "Untitled/exploits",
     "Untitled/assets",
