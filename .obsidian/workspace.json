@@ -63,8 +63,7 @@
               "title": "CWEE EXAM"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -225,10 +224,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c0964597b6ff8ab7",
+  "active": "08827fb9e803ed54",
   "lastOpenFiles": [
-    "CWEE EXAM.md",
     "Vulns remaining.md",
+    "CWEE EXAM.md",
     "HTB CWEE/Prototype pollution.md",
     "HTB CWEE/www.vitamedix.htb_XSS-redirect.php",
     "HTB CWEE/www.vitamedix.htb_validate-token-NOSQLI.py",
