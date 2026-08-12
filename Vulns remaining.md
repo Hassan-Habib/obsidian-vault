@@ -1,36 +1,58 @@
-Here is the organized section formatted in clean, human-written Markdown for your report:
+### Discovery
 
-## Finding: Hardcoded Secrets Exposed via Git Repository History
+During a review of the application source code and version-control history, the complete `.env` configuration file was identified in the repository's initial commit. Although modified in subsequent commits, the initial commit remained accessible in Git history. This file contained operational secrets, including `AUTH_SECRET`, which is used by the application to sign user authentication cookies.
 
-### Description
+### Secret Extraction & Mechanism Analysis
 
-During the repository analysis, the pentester discovered that the application’s full `.env` configuration file was committed in the initial Git commit. This file contained critical operational credentials, including database access passwords, keys used to sign Flask sessions, cookie authentication secrets, and administrative API keys.
+The `AUTH_SECRET` key was recovered from the historical `.env` file. Analysis of `www/util/auth.py` indicated that this secret is used to generate HMAC-SHA256 signatures over a YAML payload containing:
 
-Although the `.env` file was modified or removed in subsequent commits, the original secrets remain fully accessible within the repository’s commit history.
-
-Because these security-sensitive values were exposed together, an attacker with repository access can chain them to achieve complete application compromise. Most notably, extracting `AUTH_SECRET` and `API_SECRET` allows for unauthenticated account takeovers and complete administrative privilege escalation.
-
-### Root Causes
-
-#### 1. Commit of Production Secrets to Source Control
-
-The `.env` file was included in the initial codebase commit. Version control systems retain full historical file contents even after a file is deleted or modified in later commits, leaving the credentials permanently exposed unless the Git history is rewritten or purged.
-
-#### 2. Reliance on Static, Unrotated Secrets
-
-The application relies on static, long-lived secrets across its environment without runtime binding or regular rotation:
-
-- **`AUTH_SECRET`**: Signs and verifies all authentication cookies.
+- `email`
     
-- **`API_SECRET`**: Controls access to administrative API endpoints.
+- `username`
     
-- **`APP_SECRET`**: Secures Flask session state and CSRF tokens.
-    
-- **`DB_PASS`**: Authenticates directly to the backend PostgreSQL database.
+- `expires_at`
     
 
-None of these secrets are rotated, restricted by IP/client context, or backed by a server-side session store. Compromising a single secret provides persistent unauthorized access; exposing the entire `.env` file grants complete system control.
+### Cookie Forgery
 
-#### 3. Lack of Infrastructure and Code Separation
+Using the recovered `AUTH_SECRET`, an authentication token was generated targeting a specific user account:
 
-Sensitive environment configuration was stored alongside application source code rather than being injected dynamically at runtime via a dedicated secrets manager, environment-specific deployment pipeline, or secure vault.
+- **Email:** `lbrown@hotmail.com`
+    
+- **Username:** `chandlerjoseph`
+    
+
+#### Construction Steps
+
+The manual cookie generation process mirrors the application's internal `gen_token()` implementation:
+
+1. **Build the YAML payload:**
+    
+    YAML
+    
+    ```
+    email: lbrown@hotmail.com
+    username: chandlerjoseph
+    expires_at: <future_timestamp>
+    ```
+    
+2. **Compute Signature:** Calculate the HMAC-SHA256 signature of the payload using the recovered `AUTH_SECRET`.
+    
+3. **Concatenate:** Append the 32-byte signature to the YAML payload.
+    
+4. **Encode:** Base64-encode the combined binary/text structure.
+    
+5. **Set Cookie:** Inject the encoded string into the browser's `auth` cookie field.
+    
+
+_(Automated via proof-of-concept script: `forge_both_admin_cookies.py`)_
+
+### Verification & Impact
+
+When the forged cookie was set in the browser and applied to subsequent application requests, the server accepted the token as legitimate:
+
+- The session successfully authenticated as `lbrown@hotmail.com` (`chandlerjoseph`).
+    
+- Full access was granted to user-restricted endpoints, including `/settings` and role-specific portal functionality.
+    
+- Because the `expires_at` field within the payload is attacker-controlled, forged sessions can be set to remain valid indefinitely.

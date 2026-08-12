@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -225,11 +225,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "93f99a8c61259568",
+  "active": "c0964597b6ff8ab7",
   "lastOpenFiles": [
+    "CWEE EXAM.md",
     "Vulns remaining.md",
     "HTB CWEE/Prototype pollution.md",
-    "CWEE EXAM.md",
     "HTB CWEE/www.vitamedix.htb_XSS-redirect.php",
     "HTB CWEE/www.vitamedix.htb_validate-token-NOSQLI.py",
     "HTB CWEE/vault.royalflush.htb_SecondaryEmail-SQLI-Web-Config-dump.py",
