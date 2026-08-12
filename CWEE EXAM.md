@@ -295,7 +295,7 @@ ROLE ADMIN
 
 ![[Screenshot from 2026-08-08 22-22-40.png]]
 
-Then we access /admin and we get the flag `da3d97b0bc320ac2197b3dd03b6f292a`
+Then we access /admin and we get the flag `the c`
 ![[Screenshot from 2026-08-11 08-51-35.png]]
 
 
