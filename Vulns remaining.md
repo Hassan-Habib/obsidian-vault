@@ -1,13 +1,35 @@
-The practical impact of this LDAP wildcard bypass is limited to unauthorized read access of user directory data:
+### Remediation / Patching
 
-  
-
-- **Confidentiality:** All user email addresses stored in the directory are exposed, including mic****@vitamedix.htb and any other accounts. This is PII that can be used for phishing, targeted attacks, or correlation with other breaches.
+1. **Use LDAP bind, not search filters, for authentication**
+    
+    Authenticate by binding with the user-supplied credentials directly. A failed bind means invalid credentials.
     
       
     
-- **Integrity:** No evidence of account modification, password changes, or directory writes. The exploited endpoint only returned search results.
+2. **Escape LDAP metacharacters**
+    
+    If you must build filters, escape *, (, ), , and NUL before inserting user input.
     
       
     
-- **Availability:** No service disruption observed.
+3. **Validate input**
+    
+    Enforce allowlists for usernames (e.g., alphanumeric/email format) and reject wildcard characters.
+    
+      
+    
+4. **Least-privilege service account**
+    
+    The application should bind with an account that can only read the minimum attributes required.
+    
+      
+    
+5. **Return only needed attributes**
+    
+    Restrict the LDAP query to return only the fields necessary for login.
+    
+      
+    
+6. **Monitor and alert**
+    
+    Log failed and unusual login patterns, especially wildcard submissions.
