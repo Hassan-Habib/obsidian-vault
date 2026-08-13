@@ -1,75 +1,64 @@
 
-### 1. Browsing Staff-Only Threads
-
-After gaining staff-level access to the forum, review the private staff threads. In `thread/2`, a password-reset conversation is exposed in plaintext:
+The Vault application's backup-email update feature is vulnerable to SQL injection. When a logged-in user submits a new secondary email address, the application checks whether the email is already in use by running a `SELECT` query. The user-supplied value is inserted directly into the SQL command string using `string.Format()`, and the preceding regex validation is weak enough to be bypassed. As a result, an attacker can inject arbitrary SQL into the query.
 
   
 
-Plaintext
-
-```
-john: Like the question says, how can I access the team slack? I got logged out and realized I don't remember the password lul
-admin: The password is in Vault.
-john: Ahhhh okay.. what if I don't remember my password for vault either?
-admin: Mmmm alright, I'll have will change your password
-will: Hi John! I just reset you password to `42zyTJ94BwdKjEw1XNmt`. Your email is still the same one as here. Make sure you change it once you log in.
-john: Thx, will do <3
-```
-
-### 2. Collecting Leaked Credentials
-
-From this thread, extract the exposed sensitive data:
+Because the backend uses Microsoft SQL Server and the connection is configured with database credentials, a successful injection can be escalated to dump arbitrary tables, extract sensitive records (such as stored passwords and user data), and read files from the underlying server using SQL Server primitives such as `OPENROWSET(BULK...)`, `xp_dirtree`, or error-based file reads.
 
   
 
-- **Username:** `john`
+## Root Cause
+
+The root cause is unsafe dynamic SQL construction combined with ineffective input validation:
+
+  
+
+1. **User input concatenated into SQL**
     
       
     
-- **Password:** `42zyTJ94BwdKjEw1XNmt`
+    In `MyController.SecondaryEmail()`, the secondary email value is embedded directly into the query string:
     
       
     
-- **Note:** Confirmation from `admin` that the user's email address matches the forum registration.
+    C#
+    
+    ```
+    cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
+    ```
+    
+    Because there are no query parameters, any single quote (`'`) in the input terminates the string literal and alters the query's syntax and semantics.
     
       
     
-
-### 3. Enumerating the Target Email Address
-
-Reviewing `thread/4` reveals another post where the same user shared his Discord handle while offering administrative support:
-
-  
-
-Plaintext
-
-```
-roverturbo: How can I change my email? I don't use this one for much anymore
-john: Hi, we have not implemented this functionality yet. But if you message me privately I can change it for you. Discord: jdover66#0066
-roverturbo: Ok I messaged you
-```
-
-From the Discord handle `jdover66#0066`, infer the username `jdover66` and construct the associated corporate email address:
-
-  
-
-Plaintext
-
-```
-jdover66@royalflush.htb
-```
-
-### 4. Credential Reuse Against Internal Vault
-
-Navigate to `[https://vault.royalflush.htb](https://vault.royalflush.htb)` and authenticate using the extracted credentials:
-
-  
-
-Plaintext
-
-```
-Email:    jdover66@royalflush.htb
-Password: 42zyTJ94BwdKjEw1XNmt
-```
-
-The application accepts the credentials, granting full access to the vault under John's account and confirming account takeover via information leaked in internal staff threads.
+2. **Bypassable regex validation**
+    
+      
+    
+    The validation pattern is configured as:
+    
+      
+    
+    C#
+    
+    ```
+    string emailPattern = @"\S+@[a-z\.]+";
+    ```
+    
+    Because it is not anchored with `^` and `$`, the `\S+` pattern permits quotes, comment markers, and SQL keywords as long as the payload ends with an `@domain.tld`-style substring. For example, `' OR 1=1--@x.com` successfully passes validation while executing injected SQL.
+    
+      
+    
+3. **Inconsistent parameterization**
+    
+      
+    
+    Although other methods within the same controller correctly utilize `SqlParameter`, this specific lookup relies on `string.Format()`, completely bypassing SQL Server's parameterization and escaping defenses.
+    
+      
+    
+4. **High-privilege database context**
+    
+      
+    
+    The connection string initialized in `DbService.GetConnectionString()` uses a dedicated SQL account with privileges sufficient to read database contents and access server files. This context elevates the impact from simple data disclosure to file-system traversal.
