@@ -1,97 +1,39 @@
-### 1. Eliminate the `$where` Operator
+# Vulnerability Analysis: Plaintext Credential Exposure via Insecure Support Workflow
 
-Do **not** use MongoDB's `$where` operator with any user-controlled input. `$where` executes arbitrary JavaScript inside the database engine and cannot be safely parameterized, making it highly vulnerable to NoSQL Injection (SSJI).
+Staff members share plaintext account credentials inside public forum threads because the application provides no secure channel for password reset delivery. When a user forgets a password, the intended reset flow fails to deliver the new credential securely (the email function is disabled), so support staff fall back to posting the password directly in a thread reply.
 
-Replace any raw `$where` evaluation with standard Eloquent query-builder lookups that use MongoDB's native comparison operators:
+Since those threads remain visible to regular forum users, any credential disclosed in this way is exposed to unauthorized actors. An attacker who reads the relevant threads can collect the leaked password together with other identity clues (such as a Discord handle) and reuse the credentials to access internal systems like `vault.royalflush.htb`.
 
-PHP
+## Root Cause
 
-```
-public function showVerifyEmail(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'token' => 'required|string|alpha_num|size:128',
-    ]);
+The root cause is not that the forum accepts text, but that sensitive operational data is being shared through an insecure, public channel:
 
-    $email = $request->input('email');
-    $token = $request->input('token');
-
-    $user = User::where('email', $email)->first();
-
-    if (!$user) {
-        return $this->invalidVerification();
-    }
-
-    $verificationToken = VerificationToken::where('userId', $user->id)
-        ->where('token', $token)
-        ->first();
-
-    if ($verificationToken) {
-        $user->update(['verified' => true]);
-        $verificationToken->delete(); // One-time use
-
-        session()->flash('status', 'Thank you, your email has been successfully verified');
-        session()->flash('statusType', 'success');
-        
-        return view('verify-email');
-    }
-
-    return $this->invalidVerification();
-}
-
-private function invalidVerification()
-{
-    session()->flash('status', 'Invalid or expired verification link');
-    session()->flash('statusType', 'danger');
+1. **Secure password delivery is non-functional**
     
-    return view('verify-email');
-}
-```
-
-### 2. Strict Input Validation
-
-Validate and sanitize both `email` and `token` prior to performing database execution.
-
-- Enforce strict typing (`string`, `alpha_num`).
+    `AuthController::handleLostPassword()` generates a random password, but the `mail()` call is commented out. As a result, the new password is never actually sent to the user via out-of-band email:
     
-- Require exact string lengths (`size:128`) to neutralize payload injection at the HTTP request layer before reaching MongoDB.
+    PHP
     
-
-### 3. One-Time Token Use
-
-Always invalidate or delete the `VerificationToken` document immediately after a successful status change. This prevents token replay attacks and limits exposure if tokens leak via web server access logs or browser history.
-
-### 4. Token Expiration (TTL Check)
-
-Ensure verification tokens are short-lived. Store a timestamp during token creation and check for expiration against a designated Time-To-Live (e.g., 24 hours):
-
-PHP
-
-```
-$verificationToken = VerificationToken::where('userId', $user->id)
-    ->where('token', $token)
-    ->where('created_at', '>=', now()->subHours(24))
-    ->first();
-```
-
-Alternatively, leverage MongoDB **TTL Indexes** on the `created_at` field to automatically purge expired documents at the database layer.
-
-### 5. Rate Limiting
-
-Apply Laravel's `throttle` middleware to the `/verify-email` endpoint to mitigate automated brute-force attacks and parameter tampering:
-
-PHP
-
-```
-Route::get('/verify-email', [AuthController::class, 'showVerifyEmail'])
-    ->middleware('throttle:5,1');
-```
-
-### 6. Use Signed URLs (Defense in Depth)
-
-Consider replacing custom manual token logic with Laravel's native signed URLs (`URL::signedRoute()`) or the built-in `Illuminate\Auth\Notifications\VerifyEmail` notification class. Signed URLs use HMAC SHA-256 validation, eliminating the requirement to manually query or manage persistent tokens.
-
-### 7. Audit Application-Wide Queries
-
-Audit the codebase for similar vulnerable patterns. For instance, endpoints like `SearchController` that accept user input to construct raw MongoDB `Regex` objects can lead to **ReDoS (Regular Expression Denial of Service)** or injection bypasses. Ensure search parameters are passed through `preg_quote()` prior to building regex queries or transition to MongoDB Native Text Search.
+    ```
+    try {
+        // mail(
+        //     $user['email'],
+        //     'RoyalFlush Forum Password Reset',
+        //     'Your password has been reset. It is now:\n' . $newPassword
+        // );
+    } catch (Exception $e) {}
+    ```
+    
+    Because the email never arrives, support staff are forced to manually communicate the password through alternative means.
+    
+2. **No private support channel exists**
+    
+    The application only supports public forum threads. There is no private message, ticket, or secure note feature, leaving staff with no safe space to share a temporary password with a user.
+    
+3. **No access control on support threads**
+    
+    Threads containing password-reset conversations are not restricted to the affected user and staff. `ThreadController::show()` returns every post in a thread to any visitor, allowing regular users reading the forum to view credentials intended for someone else.
+    
+4. **No post redaction or sensitive-data detection**
+    
+    Even after a password is posted, the application does not redact, expire, or flag high-entropy strings that look like passwords, leaving the credential exposed indefinitely.
