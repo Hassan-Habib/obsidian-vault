@@ -1,25 +1,75 @@
-1. Log in to `storage.vitamedix.htb` and request a file you own: `GET /reports.php?id=1`.
-    
-      
-    
-2. Intercept the response — server sets `$_SESSION['id'] = 1`, passes the access check, and redirects to `render.php`.
-    
-      
-    
-3. Request a file you do not own: `GET /reports.php?id=133`.
-    
-      
-    
-4. Server sets `$_SESSION['id'] = 133`, fails `check_access()`, and redirects to `error.php`.
-    
-      
-    
-5. Intercept the `error.php` redirect and change the location to `render.php`.
-    
-      
-    
-6. Browser follows `GET /render.php`; it reads `$_SESSION['id']` (still 133) and returns the file contents.
-    
-      
-    
-7. The response now leaks the unauthorized file, e.g., SMTP credentials.
+Here is the cleaned-up Markdown formatting for the provided source code snippets:
+
+## Source Code Overview
+
+### `reports.php`
+
+PHP
+
+```
+<?php
+session_start();
+require_once ('db.php');
+
+if(!$_SESSION['user']){
+  header("Location: index.php");
+  exit;
+}
+
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if($id > 0 && check_access($id, $_SESSION['user'])){
+  $_SESSION['id'] = $id;
+  header("Location: render.php");
+  exit;
+}
+
+header("Location: error.php");
+exit;
+?>
+```
+
+### `render.php`
+
+PHP
+
+```
+<?php
+session_start();
+require_once ('db.php');
+
+if(!$_SESSION['user']){
+  header("Location: index.php");
+  exit;
+}
+
+$id = isset($_SESSION['id']) ? intval($_SESSION['id']) : 0;
+
+if($id <= 0 || !check_access($id, $_SESSION['user'])){
+  header("Location: error.php");
+  exit;
+}
+
+$user_data = fetch_user_data($_SESSION['user']);
+$data = fetch_data($id);
+?>
+```
+
+### `config.php`
+
+PHP
+
+```
+<?php
+$servername = getenv('DB_HOST') ?: '127.0.0.1';
+$dbusername = getenv('DB_USER') ?: '';
+$password   = getenv('DB_PASS') ?: '';
+$dBName     = getenv('DB_NAME') ?: 'db';
+
+$conn = mysqli_connect($servername, $dbusername, $password, $dBName);
+
+if(!$conn){
+  die("Connection failed: " . mysqli_connect_error());
+}
+?>
+```
