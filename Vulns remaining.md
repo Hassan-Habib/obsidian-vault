@@ -1,39 +1,75 @@
-# Vulnerability Analysis: Plaintext Credential Exposure via Insecure Support Workflow
 
-Staff members share plaintext account credentials inside public forum threads because the application provides no secure channel for password reset delivery. When a user forgets a password, the intended reset flow fails to deliver the new credential securely (the email function is disabled), so support staff fall back to posting the password directly in a thread reply.
+### 1. Browsing Staff-Only Threads
 
-Since those threads remain visible to regular forum users, any credential disclosed in this way is exposed to unauthorized actors. An attacker who reads the relevant threads can collect the leaked password together with other identity clues (such as a Discord handle) and reuse the credentials to access internal systems like `vault.royalflush.htb`.
+After gaining staff-level access to the forum, review the private staff threads. In `thread/2`, a password-reset conversation is exposed in plaintext:
 
-## Root Cause
+  
 
-The root cause is not that the forum accepts text, but that sensitive operational data is being shared through an insecure, public channel:
+Plaintext
 
-1. **Secure password delivery is non-functional**
+```
+john: Like the question says, how can I access the team slack? I got logged out and realized I don't remember the password lul
+admin: The password is in Vault.
+john: Ahhhh okay.. what if I don't remember my password for vault either?
+admin: Mmmm alright, I'll have will change your password
+will: Hi John! I just reset you password to `42zyTJ94BwdKjEw1XNmt`. Your email is still the same one as here. Make sure you change it once you log in.
+john: Thx, will do <3
+```
+
+### 2. Collecting Leaked Credentials
+
+From this thread, extract the exposed sensitive data:
+
+  
+
+- **Username:** `john`
     
-    `AuthController::handleLostPassword()` generates a random password, but the `mail()` call is commented out. As a result, the new password is never actually sent to the user via out-of-band email:
+      
     
-    PHP
+- **Password:** `42zyTJ94BwdKjEw1XNmt`
     
-    ```
-    try {
-        // mail(
-        //     $user['email'],
-        //     'RoyalFlush Forum Password Reset',
-        //     'Your password has been reset. It is now:\n' . $newPassword
-        // );
-    } catch (Exception $e) {}
-    ```
+      
     
-    Because the email never arrives, support staff are forced to manually communicate the password through alternative means.
+- **Note:** Confirmation from `admin` that the user's email address matches the forum registration.
     
-2. **No private support channel exists**
+      
     
-    The application only supports public forum threads. There is no private message, ticket, or secure note feature, leaving staff with no safe space to share a temporary password with a user.
-    
-3. **No access control on support threads**
-    
-    Threads containing password-reset conversations are not restricted to the affected user and staff. `ThreadController::show()` returns every post in a thread to any visitor, allowing regular users reading the forum to view credentials intended for someone else.
-    
-4. **No post redaction or sensitive-data detection**
-    
-    Even after a password is posted, the application does not redact, expire, or flag high-entropy strings that look like passwords, leaving the credential exposed indefinitely.
+
+### 3. Enumerating the Target Email Address
+
+Reviewing `thread/4` reveals another post where the same user shared his Discord handle while offering administrative support:
+
+  
+
+Plaintext
+
+```
+roverturbo: How can I change my email? I don't use this one for much anymore
+john: Hi, we have not implemented this functionality yet. But if you message me privately I can change it for you. Discord: jdover66#0066
+roverturbo: Ok I messaged you
+```
+
+From the Discord handle `jdover66#0066`, infer the username `jdover66` and construct the associated corporate email address:
+
+  
+
+Plaintext
+
+```
+jdover66@royalflush.htb
+```
+
+### 4. Credential Reuse Against Internal Vault
+
+Navigate to `[https://vault.royalflush.htb](https://vault.royalflush.htb)` and authenticate using the extracted credentials:
+
+  
+
+Plaintext
+
+```
+Email:    jdover66@royalflush.htb
+Password: 42zyTJ94BwdKjEw1XNmt
+```
+
+The application accepts the credentials, granting full access to the vault under John's account and confirming account takeover via information leaked in internal staff threads.
