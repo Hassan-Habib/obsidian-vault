@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Vulns remaining.md",
+                "file": "HTB CWEE/NOSQLI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Vulns remaining"
+              "title": "NOSQLI"
             }
           },
           {
@@ -227,6 +227,7 @@
   },
   "active": "08827fb9e803ed54",
   "lastOpenFiles": [
+    "HTB CWEE/NOSQLI.md",
     "Vulns remaining.md",
     "CWEE EXAM.md",
     "HTB CWEE/Prototype pollution.md",
@@ -246,7 +247,6 @@
     "Screenshot from 2026-08-12 11-05-00.png",
     "Screenshot from 2026-08-12 11-04-34.png",
     "Screenshot from 2026-08-12 10-49-27.png",
-    "HTB CWEE/NOSQLI.md",
     "Screenshot from 2026-08-12 10-32-55.png",
     "Screenshot from 2026-08-12 10-32-27.png",
     "Screenshot from 2026-08-12 10-32-15.png",
