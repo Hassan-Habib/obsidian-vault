@@ -1,13 +1,17 @@
-1. Browse to [http://dns.vitamedix.htb:8006/admin/login.php](http://dns.vitamedix.htb:8006/admin/login.php).
+The final impact is full compromise of the bot’s session. Because the bot runs in an administrative/doctor context, stealing its cookie gives the attacker authenticated access to:
+
+  
+
+- the doctor dashboard and PDF-generation endpoints,
     
       
     
-2. Enter the default Pi-hole password: pihole.
+- patient documents submitted through /api/documentSubmit,
     
       
     
-3. Submit the form — the application logs you into the admin dashboard at /admin/.
+- internal SSRF primitives via /api/pdfGeneration,
     
       
     
-4. From the dashboard, you can view DNS query logs, modify blocklists/whitelists, and control DNS resolution.
+- and any other admin-only functionality.
