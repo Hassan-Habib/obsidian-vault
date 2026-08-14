@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -225,10 +225,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5da902576c9cdd85",
+  "active": "93f99a8c61259568",
   "lastOpenFiles": [
-    "Vulns remaining.md",
     "CWEE EXAM.md",
+    "Vulns remaining.md",
     "report_cwee/markdownexport/report.md",
     "HTB CWEE/NOSQLI.md",
     "report_cwee/markdownexport/exploits/www.vitamedix.htb-validate-token-NOSQLI.py",
