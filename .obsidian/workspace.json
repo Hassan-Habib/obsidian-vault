@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -225,9 +225,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "08827fb9e803ed54",
+  "active": "5da902576c9cdd85",
   "lastOpenFiles": [
+    "Vulns remaining.md",
     "CWEE EXAM.md",
+    "report_cwee/markdownexport/report.md",
+    "HTB CWEE/NOSQLI.md",
     "report_cwee/markdownexport/exploits/www.vitamedix.htb-validate-token-NOSQLI.py",
     "report_cwee/markdownexport/exploits/www.vitamedix.htb-XSS-redirect.php",
     "report_cwee/markdownexport/exploits/www.royalflush.htb-forgot-SQLI.py",
@@ -246,12 +249,9 @@
     "report_cwee/markdownexport/assets/edited-lUlRGkHi.png",
     "report_cwee/markdownexport/assets/edited-l0FKG6da.png",
     "report_cwee/markdownexport/assets/edited-exEtsTE7.png",
-    "report_cwee/markdownexport/report.md",
     "report_cwee/markdownexport/exploits",
     "report_cwee/markdownexport/assets",
     "BBP/markdownexport/report.md",
-    "Vulns remaining.md",
-    "HTB CWEE/NOSQLI.md",
     "HTB CWEE/Prototype pollution.md",
     "HTB CWEE/CWEE EXAM (Copy).md",
     "CWEE EXAM (Copy).md",
