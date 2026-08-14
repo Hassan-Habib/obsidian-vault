@@ -1,75 +1,23 @@
-Here is the cleaned-up Markdown formatting for the provided source code snippets:
+Here is the cleaned-up Markdown formatting for the remediation steps:
 
-## Source Code Overview
+  
 
-### `reports.php`
+## Remediation & Mitigation Strategies
 
-PHP
-
-```
-<?php
-session_start();
-require_once ('db.php');
-
-if(!$_SESSION['user']){
-  header("Location: index.php");
-  exit;
-}
-
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-if($id > 0 && check_access($id, $_SESSION['user'])){
-  $_SESSION['id'] = $id;
-  header("Location: render.php");
-  exit;
-}
-
-header("Location: error.php");
-exit;
-?>
-```
-
-### `render.php`
-
-PHP
-
-```
-<?php
-session_start();
-require_once ('db.php');
-
-if(!$_SESSION['user']){
-  header("Location: index.php");
-  exit;
-}
-
-$id = isset($_SESSION['id']) ? intval($_SESSION['id']) : 0;
-
-if($id <= 0 || !check_access($id, $_SESSION['user'])){
-  header("Location: error.php");
-  exit;
-}
-
-$user_data = fetch_user_data($_SESSION['user']);
-$data = fetch_data($id);
-?>
-```
-
-### `config.php`
-
-PHP
-
-```
-<?php
-$servername = getenv('DB_HOST') ?: '127.0.0.1';
-$dbusername = getenv('DB_USER') ?: '';
-$password   = getenv('DB_PASS') ?: '';
-$dBName     = getenv('DB_NAME') ?: 'db';
-
-$conn = mysqli_connect($servername, $dbusername, $password, $dBName);
-
-if(!$conn){
-  die("Connection failed: " . mysqli_connect_error());
-}
-?>
-```
+1. **Sanitize Email Input:** Strip `\r`, `\n`, and header injection characters (or strictly validate using `FILTER_VALIDATE_EMAIL`) before using the address in SMTP headers.
+    
+      
+    
+2. **Use a Hardened Mail Library:** Utilize robust libraries (such as PHPMailer or Symfony Mailer) that automatically sanitize header fields and handle encoding securely rather than concatenating raw strings.
+    
+      
+    
+3. **Token-Based Reset:** Implement secure password reset mechanics by sending a time-limited, cryptographically secure single-use reset token/link instead of emailing newly generated plaintext passwords.
+    
+      
+    
+4. **Log Reset Requests:** Maintain centralized logging for password-reset events to alert on potential abuse, rapid requests, or unexpected SMTP response behaviors.
+    
+      
+    
+5. **Implement Rate Limiting:** Enforce strict rate limits on the password reset endpoint per IP address and target account to mitigate automated or brute-force attempts.
