@@ -1,6 +1,6 @@
 - Localhost Address Block: `127.0.0.0 - 127.255.255.255`
 - Shortened IP Address: `127.1`
-- Prolonged IP Address: `127.000000000000000.1`
+- Prolonged IP Address: 127.000000000000000.1
 - All Zeroes: `0.0.0.0`
 - Shortened All Zeroes: `0`
 - Decimal Representation: 2130706433
