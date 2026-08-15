@@ -1,6 +1,6 @@
-# CWEE EXAM <a id="cwee-exam"></a>
+# CWEE EXAM {#cwee-exam}
 
-## Table of Contents <a id="table-of-contents"></a>
+## Table of Contents {#table-of-contents}
 
 * [CWEE EXAM](#cwee-exam)
     * [Table of Contents](#table-of-contents)
@@ -38,7 +38,7 @@
         * [Flags Discovered](#flags-discovered)
         * [Exploits](#exploits)
 
-## Meta <a id="meta"></a>
+## Meta {#meta}
 
 ### HTB Logo
 
@@ -90,7 +90,7 @@ The contents of this document do not constitute legal advice. Hack The Box's off
 
 
 
-## Executive Summary <a id="executive-summary"></a>
+## Executive Summary {#executive-summary}
 
 From 8 August 2026 to 17 August 2026, Royal Flush Ltd., Secure Data Ltd., and Vita Medix Ltd. engaged Alhassan Ahmed Habib to conduct a targeted Web Application Penetration Test of their public-facing web applications and supporting infrastructure. The objective was to identify security weaknesses that could allow unauthorized access, data theft, or disruption of business services, and to provide clear, actionable guidance on how to fix them.
 
@@ -143,7 +143,7 @@ The tester sought to demonstrate the full impact of every vulnerability, up to a
 
 
 
-## Scope <a id="scope"></a>
+## Scope {#scope}
 
 The scope of this assessment was as follows:
 
@@ -160,7 +160,7 @@ The scope of this assessment was as follows:
 
 
 
-## Web Application Security Assessment Summary <a id="web-application-security-assessment-summary"></a>
+## Web Application Security Assessment Summary {#web-application-security-assessment-summary}
 
 ### Summary of Findings
 
@@ -281,9 +281,9 @@ SecureData contained five findings, all rated High or lower.
 
 
 
-## Findings <a id="findings"></a>
+## Findings {#findings}
 
-### SQL Injection at https://www.royalflush.htb/forgot <a id="f7111d6e-f236-41a6-8604-e248aea5426c"></a>
+### SQL Injection at https://www.royalflush.htb/forgot {#f7111d6e-f236-41a6-8604-e248aea5426c}
 
 #### CWE
 
@@ -487,7 +487,7 @@ Following implementation of the patch, the tester should re-run the original tim
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Leaked AUTH_SECRET → cookie forgery <a id="2f5bc430-0879-431e-89a9-4e66141b48f2"></a>
+### Leaked AUTH_SECRET → cookie forgery {#2f5bc430-0879-431e-89a9-4e66141b48f2}
 
 #### CWE
 
@@ -749,7 +749,7 @@ git ls-files | grep .env
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Role-upgrade bypass via parameter logic flaw (fookey) <a id="ef542905-12d7-4c90-890a-b95396542be5"></a>
+### Role-upgrade bypass via parameter logic flaw (fookey) {#ef542905-12d7-4c90-890a-b95396542be5}
 
 #### CWE
 
@@ -1016,7 +1016,7 @@ def api_changeUsername():
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Leaked credentials charles:charles on forum.royalflush.htb <a id="28049f2f-465c-4337-ac38-1f4f6bdde7c0"></a>
+### Leaked credentials charles:charles on forum.royalflush.htb {#28049f2f-465c-4337-ac38-1f4f6bdde7c0}
 
 #### CWE
 
@@ -1185,7 +1185,7 @@ Post-patch verification must confirm the following operational controls:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### No domain restriction at registration <a id="009c6a45-40b2-44ee-8c6b-769c061549e0"></a>
+### No domain restriction at registration {#009c6a45-40b2-44ee-8c6b-769c061549e0}
 
 #### CWE
 
@@ -1377,7 +1377,7 @@ $request->validate([
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### NoSQL Injection at verify-email endpoint forum.royalflush.htb <a id="b5ce6c43-ed46-4f81-8e44-30a5e758daae"></a>
+### NoSQL Injection at verify-email endpoint forum.royalflush.htb {#b5ce6c43-ed46-4f81-8e44-30a5e758daae}
 
 #### CWE
 
@@ -1568,7 +1568,7 @@ Alternatively, leverage MongoDB **TTL Indexes** on the `created_at` field to aut
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Creds Leak at forum.royalflush.htb <a id="11975b2f-d6df-4f75-989c-19dd279e2467"></a>
+### Creds Leak at forum.royalflush.htb {#11975b2f-d6df-4f75-989c-19dd279e2467}
 
 #### CWE
 
@@ -1753,7 +1753,7 @@ The application accepts the credentials, granting full access to the vault under
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### SQL Injection at Vault.royalflush.htb <a id="3d54335f-b7d9-4631-b09e-78cdc0d306a8"></a>
+### SQL Injection at Vault.royalflush.htb {#3d54335f-b7d9-4631-b09e-78cdc0d306a8}
 
 #### CWE
 
@@ -2026,7 +2026,7 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### .NET BinaryFormatter deserialization <a id="0038712a-c54f-41b6-bad2-da0c98d68114"></a>
+### .NET BinaryFormatter deserialization {#0038712a-c54f-41b6-bad2-da0c98d68114}
 
 #### CWE
 
@@ -2288,7 +2288,7 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### LDAP injection at ldap.vitamedix.htb <a id="6bfa3977-88f0-4c2c-91d3-978ce8913206"></a>
+### LDAP injection at ldap.vitamedix.htb {#6bfa3977-88f0-4c2c-91d3-978ce8913206}
 
 #### CWE
 
@@ -2394,7 +2394,7 @@ The \* character is the LDAP wildcard, so the filter evaluates to true for any e
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Valid email enumeration via forgot-password self-service (michael@vitamedix.htb) <a id="5296e7d1-3552-4af2-8303-4f39f503ee54"></a>
+### Valid email enumeration via forgot-password self-service (michael@vitamedix.htb) {#5296e7d1-3552-4af2-8303-4f39f503ee54}
 
 #### CWE
 
@@ -2458,7 +2458,7 @@ This allows an attacker to determine which email addresses are registered by bru
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak <a id="a5772f07-ca79-4f30-9424-51762dbe1fc8"></a>
+### Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak {#a5772f07-ca79-4f30-9424-51762dbe1fc8}
 
 #### CWE
 
@@ -2610,7 +2610,7 @@ if(!$conn){
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Email header injection (CRLF) in password reset <a id="d344076c-001e-4d19-acab-ec9e495fab71"></a>
+### Email header injection (CRLF) in password reset {#d344076c-001e-4d19-acab-ec9e495fab71}
 
 #### CWE
 
@@ -2706,7 +2706,7 @@ email=michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pih***) <a id="0f92f352-828c-4b46-b853-6592beec8b3d"></a>
+### DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pih***) {#0f92f352-828c-4b46-b853-6592beec8b3d}
 
 #### CWE
 
@@ -2781,7 +2781,7 @@ Once authenticated to Pi-hole, the attacker can:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### NoSQL Injection in /api/validateToken www.vitamedix.htb <a id="aaa9d649-31b9-4592-992d-51182c427f73"></a>
+### NoSQL Injection in /api/validateToken www.vitamedix.htb {#aaa9d649-31b9-4592-992d-51182c427f73}
 
 #### CWE
 
@@ -3068,7 +3068,7 @@ async validateToken(token) {
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft <a id="edb020c8-9ce8-4b17-9b9e-5f074ae0f552"></a>
+### DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft {#edb020c8-9ce8-4b17-9b9e-5f074ae0f552}
 
 #### CWE
 
@@ -3496,7 +3496,7 @@ This prevents simple cross-origin text/plain fetch CSRF against JSON endpoints.
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### PDF generation SSRF via DNS rebinder → internal CouchDB access <a id="b7b812b2-8457-49f0-8f78-f9935efd02e2"></a>
+### PDF generation SSRF via DNS rebinder → internal CouchDB access {#b7b812b2-8457-49f0-8f78-f9935efd02e2}
 
 #### CWE
 
@@ -3848,7 +3848,7 @@ At container start, generate or inject a strong password and write it into the C
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### RCE via eval on newsletter.vitamedix.htb <a id="1f15992e-d5b7-4d4a-8b5c-598cdb328a95"></a>
+### RCE via eval on newsletter.vitamedix.htb {#1f15992e-d5b7-4d4a-8b5c-598cdb328a95}
 
 #### CWE
 
@@ -4323,7 +4323,7 @@ Successful exploitation gives the attacker arbitrary JavaScript execution inside
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### XPath injection in q parameter at query.php&home.php <a id="35596b72-d4e0-4ea3-ba1a-5c6dd5d924e0"></a>
+### XPath injection in q parameter at query.php&home.php {#35596b72-d4e0-4ea3-ba1a-5c6dd5d924e0}
 
 #### CWE
 
@@ -4766,7 +4766,7 @@ Successful exploitation allows an attacker to read the entire contents of /var/w
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Race condition on admin_panel.php <a id="2b749d43-75e4-4608-ba24-404b1cadbaae"></a>
+### Race condition on admin_panel.php {#2b749d43-75e4-4608-ba24-404b1cadbaae}
 
 #### CWE
 
@@ -5192,7 +5192,7 @@ The admin access controls in admin_panel.php and session_manager.php rely on two
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### request smuggling Attack at securedata.htb <a id="95cec507-bee6-491d-9043-837dbecdff63"></a>
+### request smuggling Attack at securedata.htb {#95cec507-bee6-491d-9043-837dbecdff63}
 
 #### CWE
 
@@ -5515,7 +5515,7 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (5.3 - Medium)
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning  <a id="9d9448f8-0a56-4e7d-ab86-82a1e6410844"></a>
+### XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning  {#9d9448f8-0a56-4e7d-ab86-82a1e6410844}
 
 #### CWE
 
@@ -5776,7 +5776,7 @@ Prerequisites
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Remote Code Execution in http://api.securedata.htb/service_status?service=nginx <a id="d80d28b1-7608-40ff-a635-4a64c7c47b08"></a>
+### Remote Code Execution in http://api.securedata.htb/service_status?service=nginx {#d80d28b1-7608-40ff-a635-4a64c7c47b08}
 
 #### CWE
 
@@ -6053,9 +6053,9 @@ The server returns the contents of `.txt`  files in the root directory, includin
 
 
 
-## Appendix <a id="appendix"></a>
+## Appendix {#appendix}
 
-### Finding Severities <a id="finding-severities"></a>
+### Finding Severities {#finding-severities}
 
 Each finding has been assigned a severity rating of critical, high, medium, low or info. The rating is based off of an assessment of the priority with which each finding should be viewed and the potential impact each has on the confidentiality, integrity, and availability of data.
 
@@ -6071,7 +6071,7 @@ Each finding has been assigned a severity rating of critical, high, medium, low 
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Testing Methodology <a id="testing-methodology"></a>
+### Testing Methodology {#testing-methodology}
 
 The assessment followed a structured web application penetration testing methodology aligned with industry standards, including the OWASP Testing Guide and OWASP Web Security Testing Guide (WSTG). Testing was performed both manually and with the aid of automated tools, with all findings manually verified and exploited to confirm impact.
 
@@ -6115,7 +6115,7 @@ The methodology included the following phases:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Flags Discovered <a id="flags-discovered"></a>
+### Flags Discovered {#flags-discovered}
 
 The following flags were captured during the assessment:
 
@@ -6132,7 +6132,7 @@ The following flags were captured during the assessment:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Exploits <a id="exploits"></a>
+### Exploits {#exploits}
 
 #### Royal Flush
 [www.royalflush.htb-forgot-SQLI.py](exploits/www.royalflush.htb-forgot-SQLI.py)

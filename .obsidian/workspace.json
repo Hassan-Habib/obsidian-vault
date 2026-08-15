@@ -227,6 +227,7 @@
   },
   "active": "08827fb9e803ed54",
   "lastOpenFiles": [
+    "report_cwee/markdownexport/report.md.bak2",
     "report_cwee/markdownexport/report.md.bak",
     "report_cwee/markdownexport/assets/edited-3z19onm8.png",
     "report_cwee/markdownexport/assets/edited-KniFiyTx.png",
@@ -241,7 +242,6 @@
     "report_cwee/test/markdownexport/exploits/storage.vitamedix.htb-SMTP-Creds-LEAK.py",
     "report_cwee/test/markdownexport/exploits/ldap.vitamedix.htb-usernames.py",
     "report_cwee/test/markdownexport/exploits/api-securedata-RCE.py",
-    "report_cwee/test/markdownexport/exploits",
     "report_cwee/test/markdownexport/assets/logo-banner.svg",
     "report_cwee/test/markdownexport/assets/edited.png",
     "report_cwee/test/markdownexport/assets/Screenshot-from-2026-08-08-22-22-12.png",
