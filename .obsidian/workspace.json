@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CWEE EXAM.md",
+                "file": "report_cwee/markdownexport/report.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CWEE EXAM"
+              "title": "report"
             }
           },
           {
@@ -227,6 +227,7 @@
   },
   "active": "08827fb9e803ed54",
   "lastOpenFiles": [
+    "CWEE EXAM.md",
     "report_cwee/markdownexport/report.md",
     "report_cwee/markdownexport/exploits/www.vitamedix.htb-validate-token-NOSQLI.py",
     "report_cwee/markdownexport/exploits/www.vitamedix.htb-XSS-redirect.php",
@@ -242,7 +243,6 @@
     "report_cwee/criteria.txt",
     "report_cwee/markdownexport/assets/edited-u7it1eUq.png",
     "Bug bounty/🛡️RCE Tips and Techniques.md",
-    "CWEE EXAM.md",
     "HTB CWEE/SSRF.md",
     "HTB CWEE/🛡️  CRLF & Request smuggling.md",
     "HTB CWEE/XPATH, LDAP,  PDF generation.md",

