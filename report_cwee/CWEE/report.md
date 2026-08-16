@@ -12,7 +12,7 @@
         * [SQL Injection at https://www.royalflush.htb/forgot](#f7111d6e-f236-41a6-8604-e248aea5426c)
         * [Leaked AUTH_SECRET → cookie forgery](#2f5bc430-0879-431e-89a9-4e66141b48f2)
         * [Role-upgrade bypass via parameter logic flaw (fookey)](#ef542905-12d7-4c90-890a-b95396542be5)
-        * [Leaked credentials charles:charles on forum.royalflush.htb](#28049f2f-465c-4337-ac38-1f4f6bdde7c0)
+        * [Leaked credentials char***:char*** on forum.royalflush.htb](#28049f2f-465c-4337-ac38-1f4f6bdde7c0)
         * [No domain restriction at registration](#009c6a45-40b2-44ee-8c6b-769c061549e0)
         * [NoSQL Injection at verify-email endpoint forum.royalflush.htb](#b5ce6c43-ed46-4f81-8e44-30a5e758daae)
         * [Creds Leak at forum.royalflush.htb](#11975b2f-d6df-4f75-989c-19dd279e2467)
@@ -182,7 +182,7 @@ Below is a high-level overview of each finding identified during the course of t
 | 1.    SQL Injection at https://www.royalflush.htb/forgot                                         | **Critical**   | SQL INJECTION              |
 | 2.    Leaked AUTH_SECRET → cookie forgery                                                        | **Critical**   | Leaked AUTH_SECRET         |
 | 3.    Role-upgrade bypass via parameter logic flaw (fookey)                                      | **High**       | Logic Flaw                 |
-| 4.    Leaked credentials charles:charles on forum.royalflush.htb                                 | **Medium**     | Leaked Credentials         |
+| 4.    Leaked credentials char***:char*** on forum.royalflush.htb                                 | **Medium**     | Leaked Credentials         |
 | 5.    No domain restriction at registration                                                      | **High**       | Logic Flaw                 |
 | 6.    NoSQL Injection at verify-email endpoint forum.royalflush.htb                              | **High**       | NoSQL Injection            |
 | 7.    Creds Leak at forum.royalflush.htb                                                         | **High**       | Information Disclosure     |
@@ -220,7 +220,7 @@ RoyalFlush exhibited multiple severe vulnerabilities that allow complete comprom
 * SQL Injection at /forgot (Finding #1, Critical): Enables unauthenticated extraction of usernames, email addresses, and password hashes from the database.
 * Leaked AUTH_SECRET → cookie forgery (Finding #2, Critical): Allows an attacker to forge authentication cookies for administrative users.
 * Role-upgrade logic flaw via fookey (Finding #3, High): Bypasses API key validation through parameter pollution.
-* Hardcoded credentials charles:charles (Finding #4, Medium): Default/weak credentials on the forum.
+* Hardcoded credentials char***:char*** (Finding #4, Medium): Default/weak credentials on the forum.
 * No domain restriction at registration (Finding #5, High): Permits registration using arbitrary domains.
 * NoSQL Injection at verify-email (Finding #6, High): Allows manipulation of email verification queries.
 * Credential exposure on the forum (Finding #7, High): Additional passwords and emails disclosed in forum responses.
@@ -556,13 +556,7 @@ With access to the leaked `.env` secrets, an attacker can exploit the applicatio
 
   Provides raw access to the backend PostgreSQL database, allowing an attacker to bypass application logic entirely to view, modify, or delete sensitive data across all tables.
 
-* **Flask Session & CSRF Manipulation (`APP_SECRET`)**
 
-  Enables the forgery of Flask session cookies and invalidates anti-CSRF protections, allowing attackers to perform actions on behalf of legitimate users.
-
-* **Mail Relay Abuse (`SMTP_SERVER` / `SMTP_PORT`)**
-
-  Exposes email relay infrastructure, allowing attackers to send unauthorized emails (e.g., phishing campaigns or spam) using the company's trusted domain.
 
 
 #### Detailed Walkthrough
@@ -1016,7 +1010,7 @@ def api_changeUsername():
 
 ────────────────────────────────────────────────────────────────────────────────
 
-### Leaked credentials charles:charles on forum.royalflush.htb <a id="28049f2f-465c-4337-ac38-1f4f6bdde7c0"></a>
+### Leaked credentials `char***`:`char***` on forum.royalflush.htb <a id="28049f2f-465c-4337-ac38-1f4f6bdde7c0"></a>
 
 #### CWE
 
@@ -1437,9 +1431,9 @@ Because `$where` executes the string as JavaScript inside MongoDB, any injected 
 
 The tester registered a new account with an email address under the `royalflush.htb` domain, for example:
 
-Plaintext
 
-```
+
+```Plaintext
 asd@royalflush.htb
 ```
 
@@ -1647,9 +1641,9 @@ The exposure of plaintext credentials within staff-only threads leads to the fol
 
 After gaining staff-level access to the forum, review the private staff threads. In `thread/2`, a password-reset conversation is exposed in plaintext:
 
-Plaintext
 
-```
+
+```Plaintext
 john: Like the question says, how can I access the team slack? I got logged out and realized I don't remember the password lul
 admin: The password is in Vault.
 john: Ahhhh okay.. what if I don't remember my password for vault either?
@@ -1675,9 +1669,9 @@ From this thread, extract the exposed sensitive data:
 
 Reviewing `thread/4` reveals another post where the same user shared his Discord handle while offering administrative support:
 
-Plaintext
 
-```
+
+```Plaintext
 roverturbo: How can I change my email? I don't use this one for much anymore
 john: Hi, we have not implemented this functionality yet. But if you message me privately I can change it for you. Discord: jdov****#0066
 roverturbo: Ok I messaged you
@@ -1688,9 +1682,9 @@ roverturbo: Ok I messaged you
 
 From the Discord handle `jdov****#0066`, infer the username `jdov****` and construct the associated corporate email address:
 
-Plaintext
 
-```
+
+```Plaintext
 jdov****@royalflush.htb
 ```
 
@@ -1698,9 +1692,9 @@ jdov****@royalflush.htb
 
 Navigate to `[https://vault.royalflush.htb](https://vault.royalflush.htb)` and authenticate using the extracted credentials:
 
-Plaintext
 
-```
+
+```Plaintext
 Email:    jdov****@royalflush.htb
 Password: 42zyTJ94BwdKjE******
 ```
@@ -1871,9 +1865,9 @@ The SQL injection in `/My/SecondaryEmail` runs in the context of Microsoft SQL S
 
    The error responses revealed the physical path of the application source file:
 
-   Plaintext
+   
 
-   ```
+   ```Plaintext
    C:\inetpub\wwwroot\vault.royalflush.htb\Controllers\MyController.cs:192
    ```
 
@@ -2324,9 +2318,9 @@ Code snippet
 
 When the attacker sends:
 
-Plaintext
 
-```
+
+```Plaintext
 USERNAME = *:*
 PASSWORD = *:*
 ```
@@ -5771,7 +5765,7 @@ Prerequisites
      X-Content-Type-Options: nosniff
      X-Frame-Options: DENY
      Referrer-Policy: strict-origin-when-cross-origin
-
+```
 
 
 ────────────────────────────────────────────────────────────────────────────────
